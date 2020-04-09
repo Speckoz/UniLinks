@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniLink.API", "UniLink.API\UniLink.API.csproj", "{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.API", "UniLink.API\UniLink.API.csproj", "{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniLink.Client.Site", "UniLink.Client.Site\UniLink.Client.Site.csproj", "{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.Client.Site", "UniLink.Client.Site\UniLink.Client.Site.csproj", "{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
