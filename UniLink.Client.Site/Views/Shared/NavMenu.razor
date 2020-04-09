@@ -1,25 +1,27 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">UniLink.Client.Site</a>
+﻿<div class="navbar" style="background-color: #FFFFFF;">
+    <a class="navbar-brand font-nav-title" href="">
+        <span style="color: #0932AC;">Uni</span><span style="color: darkorange;">Link</span>
+    </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
+        <span class="mdi mdi-menu" style="color: white;"></span>
     </button>
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link waves-effect" href="" Match="NavLinkMatch.All">
+                <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Inicio
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link waves-effect" href="">
+                <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link waves-effect" href="">
+                <span class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></span> Sobre
             </NavLink>
         </li>
     </ul>

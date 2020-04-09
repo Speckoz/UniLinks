@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using UniLink.Client.Site.Services;
-
 namespace UniLink.Client.Site
 {
     public class Startup
@@ -18,7 +16,6 @@ namespace UniLink.Client.Site
         {
             services.AddRazorPages(x => x.RootDirectory = "/");
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

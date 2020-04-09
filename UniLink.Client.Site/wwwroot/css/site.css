@@ -1,4 +1,15 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('materialdesignicons/materialdesignicons.min.css');
+
+.font-nav-title {
+    font-weight: bold !important;
+}
+
+.icon-margin-right {
+    padding-right: 10px;
+}
+.icon-margin-left {
+    padding-right: 10px;
+}
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -47,7 +58,7 @@ app {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(150deg, #052767 30%, #F16404 90%);
 }
 
     .sidebar .top-row {
@@ -102,7 +113,7 @@ app {
 }
 
 .navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0,0,0,0.4);
 }
 
 .valid.modified:not([type=checkbox]) {
