@@ -8,4 +8,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dependencies" Version="1.1.0" />
+    <PackageReference Include="RestSharp" Version="106.10.1" />
+  </ItemGroup>
+
 </Project>

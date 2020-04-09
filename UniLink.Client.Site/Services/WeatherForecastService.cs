@@ -1,26 +1,29 @@
-using System;
-using System.Linq;
+using Dependencies;
+using Dependencies.Services;
+
+using RestSharp;
+
+using System.Text.Json;
 using System.Threading.Tasks;
+
+using UniLink.Client.Site.Helper;
 using UniLink.Client.Site.Models;
 
 namespace UniLink.Client.Site.Services
 {
     public class WeatherForecastService
     {
-        private static readonly string[] Summaries = new[]
+        public async Task<WeatherForecastModel[]> GetForecastAsync()
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        public Task<WeatherForecastModel[]> GetForecastAsync(DateTime startDate)
-        {
-            var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecastModel
+            IRestResponse response = await new RequestService()
             {
-                Date = startDate.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            }).ToArray());
+                Protocol = Protocols.HTTP,
+                URL = DataHelper.URLBase,
+                URN = "WeatherForecast",
+                Method = Method.GET
+            }.ExecuteTaskAsync();
+
+            return JsonSerializer.Deserialize<WeatherForecastModel[]>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }
