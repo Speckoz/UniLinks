@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Syncfusion.Blazor;
 
 namespace UniLink.Client.Site
 {
@@ -16,6 +17,7 @@ namespace UniLink.Client.Site
         {
             services.AddRazorPages(x => x.RootDirectory = "/");
             services.AddServerSideBlazor();
+            services.AddSyncfusionBlazor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

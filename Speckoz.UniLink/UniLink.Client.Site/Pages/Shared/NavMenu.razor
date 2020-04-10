@@ -1,9 +1,12 @@
-﻿<div class="navbar">
+﻿@using UniLink.Client.Site.Helper
+@using Syncfusion.Blazor.Buttons
+
+<div class="navbar">
     <a class="navbar-brand font-nav-title" href="">
         <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="mdi mdi-menu mdi-36px" style="color: white;"></span>
+        <span class="mdi mdi-menu mdi-36px" style="color: white;" />
     </button>
 </div>
 
@@ -15,6 +18,17 @@
             </NavLink>
         </li>
         <li class="nav-item py-0">
+            @*<SfSwitch @bind-Checked="@darkMode" @onclick="ChangeTheme" />*@
+            @*<div class="custom-control custom-switch justify-content-center">
+                    <input type="checkbox" class="custom-control-input" @onclick="ChangeTheme" id="customSwitches">
+                    <label class="custom-control-label info-color" for="customSwitches">Modo escuro: </label>
+                </div>*@
+            <button class="btn bg-transparent btn-block shadow-none waves-effect" data-toggle="button" aria-pressed="false" autocomplete="off" @onclick="ChangeTheme" style="color: white;">
+                <span class="mdi mdi-palette mdi-18px icon-margin-right" aria-hidden="true"></span> Alterar Tema
+            </button>
+        </li>
+
+        <li class="nav-item py-0">
             <NavLink class="nav-link waves-effect" href="developers">
                 <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
             </NavLink>
@@ -25,7 +39,7 @@
             </NavLink>
         </li>
         <li class="nav-item py-0 admin-margin-top">
-            <NavLink class="nav-link waves-effect secondary-color-bg" href="login">
+            <NavLink class="nav-link waves-effect" href="login">
                 <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Administrador
             </NavLink>
         </li>
@@ -38,4 +52,10 @@
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+
+    private void ChangeTheme()
+    {
+        DataHelper.Theme = (DataHelper.Theme == DataHelper.DarkTheme) ? DataHelper.LightTheme : DataHelper.DarkTheme;
+        
+    }
 }

@@ -2,23 +2,23 @@
 
 @using UniLink.Client.Site.Helper
 
-<div class=" d-flex justify-content-center">
-    <div class="card form-login">
+<div class=" d-flex justify-content-center p-3">
+    <div class="card form-login" style="@DataHelper.Theme">
 
         <h4 class="card-header info-color white-text text-center py-3 primary-color-bg">
             <strong>Autenticaçao</strong>
         </h4>
 
         <!--Card content-->
-        <div class="card-body px-lg-5 pt-0 py-2">
+        <div class="card-body pt-0 py-2">
 
             <!-- Form -->
             <form class="text-center" action="#">
 
                 <!-- Email -->
                 <div class="md-form">
-                    <input type="email" id="email" class="form-control">
-                    <label for="email">E-mail</label>
+                    <input type="email" id="email" class="form-control validate">
+                    <label for="email" data-error="wrong" data-success="right">Email</label>
                 </div>
 
                 <!-- Password -->
@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Sign in button -->
-                <button class="btn peach-gradient btn-block my-4 waves-effect z-depth-0"  type="submit">
+                <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" type="submit">
                     <span class="mdi mdi-login mdi-18px" />
                     Entrar
                 </button>
@@ -36,7 +36,7 @@
                 <!-- Register -->
                 <p>
                     Esqueceu sua senha?
-                    <a href="#">Recuperar</a>
+                    <a href="">Recuperar</a>
                 </p>
             </form>
             <!-- Form -->

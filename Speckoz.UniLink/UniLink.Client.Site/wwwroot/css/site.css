@@ -1,105 +1,132 @@
 @import url('materialdesignicons/materialdesignicons.min.css');
 
-.primary-color-bg {
+.dark-theme
+{
+    background-color: #272727;
+    color: white;
+}
+
+.primary-color-bg
+{
     background-color: #052767 !important;
 }
 
-.secondary-color-bg {
+.secondary-color-bg
+{
     background-color: #F16404 !important;
 }
 
-.font-nav-title {
+.font-nav-title
+{
     font-weight: bold !important;
     font-size: 21px !important;
 }
 
-.icon-margin-right {
+.icon-margin-right
+{
     padding-right: 10px;
 }
 
-.icon-margin-left {
+.icon-margin-left
+{
     padding-right: 10px;
 }
 
-html, body {
+html, body
+{
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-a, .btn-link {
+a, .btn-link
+{
     color: #0366d6;
 }
 
-.btn-primary {
+.btn-primary
+{
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
 
-app {
+app
+{
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.top-row {
+.top-row
+{
     height: 3.5rem;
     display: flex;
     align-items: center;
 }
 
-.main {
+.main
+{
     flex: 1;
 }
 
-    .main .top-row {
+    .main .top-row
+    {
         background-color: #f7f7f7;
         border-bottom: 1px solid #d6d5d5;
         justify-content: flex-end;
     }
 
-        .main .top-row > a, .main .top-row .btn-link {
+        .main .top-row > a, .main .top-row .btn-link
+        {
             white-space: nowrap;
             margin-left: 1.5rem;
         }
 
-        .main .top-row a:first-child {
-            overflow: hidden;
+        .main .top-row a:first-child
+        {
             text-overflow: ellipsis;
         }
 
-.sidebar {
+.sidebar
+{
     background-image: linear-gradient(150deg, #052767 20%, #F16404 150%);
 }
 
-    .sidebar .top-row {
+    .sidebar .top-row
+    {
         background-color: rgba(0,0,0,0.4);
     }
 
-    .sidebar .navbar-brand {
+    .sidebar .navbar-brand
+    {
         font-size: 1.1rem;
     }
 
-    .sidebar .oi {
+    .sidebar .oi
+    {
         width: 2rem;
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
     }
 
-    .sidebar .nav-item {
+    .sidebar .nav-item
+    {
         font-size: 0.9rem;
         padding-bottom: 0.5rem;
     }
 
-        .sidebar .nav-item:first-of-type {
+        .sidebar .nav-item:first-of-type
+        {
             padding-top: 1rem;
         }
 
-        .sidebar .nav-item:last-of-type {
+        .sidebar .nav-item:last-of-type
+        {
             padding-bottom: 1rem;
         }
 
-        .sidebar .nav-item a {
+        .sidebar .nav-item a
+        {
             color: #d7d7d7;
             border-radius: 4px;
             height: 3rem;
@@ -108,33 +135,35 @@ app {
             line-height: 3rem;
         }
 
-            .sidebar .nav-item a.active {
+            .sidebar .nav-item a.active
+            {
                 background-color: rgba(255,255,255,0.25);
                 color: white;
             }
 
-            .sidebar .nav-item a:hover {
+            .sidebar .nav-item a:hover
+            {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
             }
 
-.content {
-    padding-top: 1.1rem;
-}
-
-.valid.modified:not([type=checkbox]) {
+.valid.modified:not([type=checkbox])
+{
     outline: 1px solid #26b050;
 }
 
-.invalid {
+.invalid
+{
     outline: 1px solid red;
 }
 
-.validation-message {
+.validation-message
+{
     color: red;
 }
 
-#blazor-error-ui {
+#blazor-error-ui
+{
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -146,71 +175,81 @@ app {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
+    #blazor-error-ui .dismiss
+    {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;
         top: 0.5rem;
     }
 
-@media (max-width: 767.98px) {
-    .main .top-row:not(.auth) {
+@media (max-width: 767.98px)
+{
+    .main .top-row:not(.auth)
+    {
         display: none;
     }
 
-    .main .top-row.auth {
+    .main .top-row.auth
+    {
         justify-content: space-between;
     }
 
-    .main .top-row a, .main .top-row .btn-link {
+    .main .top-row a, .main .top-row .btn-link
+    {
         margin-left: 0;
     }
 }
 
-@media (min-width: 768px) {
-    app {
+@media (min-width: 768px)
+{
+    app
+    {
         flex-direction: row-reverse;
     }
 
-    .sidebar {
+    .sidebar
+    {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
 
-    .main .top-row {
+    .main .top-row
+    {
         position: sticky;
         top: 0;
     }
 
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
-    .navbar-toggler {
+    .navbar-toggler
+    {
         display: none;
     }
 
-    .sidebar .collapse {
+    .sidebar .collapse
+    {
         display: block;
     }
 }
 
 /* Menu */
-.admin-margin-top{
+.admin-margin-top
+{
     margin-top: 30px;
 }
 
 /* LOGIN */
 
-.form-login {
+.form-login
+{
     width: 60%;
 }
 
-@media(max-width: 768px) {
-    .form-login {
+@media(max-width: 768px)
+{
+    .form-login
+    {
         width: 100%;
     }
 }

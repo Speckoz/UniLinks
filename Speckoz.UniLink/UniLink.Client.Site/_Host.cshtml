@@ -2,6 +2,8 @@
 @namespace UniLink.Client.Site
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@using UniLink.Client.Site.Helper
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +15,7 @@
     <link href="css/mdb.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
 </head>
-<body>
+<body style="@DataHelper.Theme">
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>

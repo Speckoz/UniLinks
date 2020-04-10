@@ -2313,7 +2313,7 @@ strong {
 .waves-button, .waves-circle {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-    -webkit-mask-image: -webkit-radial-gradient(circle, #fff 100%, #000 100%)
+    -webkit-mask-image: -webkit-gradient(circle, #fff 100%, #000 100%)
 }
 
     .waves-button, .waves-button:hover, .waves-button:visited, .waves-button-input {
