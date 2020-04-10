@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using UniLink.API.Models.Enums;
+using System.Diagnostics.CodeAnalysis;
 
-namespace UniLink.API.Models
+using UniLink.Dependencies.Enums;
+
+namespace UniLink.Dependencies.Models
 {
     public class UserModel
     {
@@ -12,13 +14,10 @@ namespace UniLink.API.Models
         [Required]
         public string Email { get; set; }
 
-        [Required]
+        [NotNull]
         public string Nome { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
+        [NotNull]
         public UserTypeEnum UserType { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using UniLink.API.Models;
 
 namespace UniLink.API.Data
 {
     public class DataContext : DbContext
     {
-        // Tables
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<UserLoginModel> Users { get; set; }
 
         protected DataContext()
         {
