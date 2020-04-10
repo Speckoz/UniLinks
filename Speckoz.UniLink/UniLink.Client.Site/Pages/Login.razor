@@ -1,17 +1,19 @@
 ﻿@page "/login"
 
+@using UniLink.Client.Site.Helper
+
 <div class=" d-flex justify-content-center">
     <div class="card form-login">
 
-        <h3 class="card-header info-color white-text text-center py-3 title-form-login">
-            <strong>Entrar</strong>
-        </h3>
+        <h4 class="card-header info-color white-text text-center py-3 primary-color-bg">
+            <strong>Autenticaçao</strong>
+        </h4>
 
         <!--Card content-->
-        <div class="card-body px-lg-5 pt-0">
+        <div class="card-body px-lg-5 pt-0 py-2">
 
             <!-- Form -->
-            <form class="text-center" style="color: #757575;" action="#">
+            <form class="text-center" action="#">
 
                 <!-- Email -->
                 <div class="md-form">
@@ -26,7 +28,10 @@
                 </div>
 
                 <!-- Sign in button -->
-                <button class="btn btn-amber btn-rounded btn-block my-4 waves-effect z-depth-0 btn-form-login" type="submit">Entrar</button>
+                <button class="btn peach-gradient btn-block my-4 waves-effect z-depth-0"  type="submit">
+                    <span class="mdi mdi-login mdi-18px" />
+                    Entrar
+                </button>
 
                 <!-- Register -->
                 <p>
