@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using UniLink.API.Data;
 
 namespace UniLink.API
 {
@@ -15,6 +17,13 @@ namespace UniLink.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // MySQL
+            services.AddDbContext<DataContext>
+            (
+                options => options.UseMySql(Configuration["ConnectionString"],
+                builder => builder.MigrationsAssembly("UniLink.API"))
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
