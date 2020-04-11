@@ -1,8 +1,5 @@
-﻿@using UniLink.Client.Site.Helper
-@using Syncfusion.Blazor.Buttons
-
-<div class="navbar">
-    <a class="navbar-brand font-nav-title" href="">
+﻿<div class="navbar shadow-sm">
+    <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower" href="">
         <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -11,8 +8,8 @@
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item py-0">
+    <ul class="nav flex-column animated bounceIn">
+        <li class="nav-item py-2">
             <NavLink class="nav-link waves-effect" href="" Match="NavLinkMatch.All">
                 <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Inicio
             </NavLink>
@@ -45,17 +42,3 @@
         </li>
     </ul>
 </div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
-
-    private void ChangeTheme()
-    {
-        DataHelper.Theme = (DataHelper.Theme == DataHelper.DarkTheme) ? DataHelper.LightTheme : DataHelper.DarkTheme;
-        
-    }
-}

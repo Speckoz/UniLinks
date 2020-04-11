@@ -8,6 +8,6 @@
 
         public const string LightTheme = "background-color: white; color: black;";
 
-        public static string Theme { get; set; } = DarkTheme;
+        public static string Theme { get; set; } = LightTheme;
     }
 }
