@@ -2,10 +2,10 @@
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(LayoutPage)" />
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
+        <LayoutView Layout="@typeof(LayoutPage)">
             <h3>Ops! 😅</h3>
             <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
             <p><a href="/">Ir para o Inicio</a></p>

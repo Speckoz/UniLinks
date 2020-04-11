@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
-    <Folder Include="Pages\Components\" />
   </ItemGroup>
 
   <ItemGroup>
