@@ -1,11 +1,11 @@
-﻿@using UniLink.Client.Site.Pages.Shared
+﻿@using UniLink.Client.Site.Shared
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(LayoutPage)" />
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout)" />
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(LayoutPage)">
+        <LayoutView Layout="@typeof(Layout)">
             <h3>Ops! 😅</h3>
             <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
             <p><a href="/">Ir para o Inicio</a></p>
