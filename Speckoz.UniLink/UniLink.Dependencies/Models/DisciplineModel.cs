@@ -9,9 +9,15 @@ namespace UniLink.Dependencies.Models
 		public Guid DisciplineId { get; set; }
 
 		[Required]
+		public string Name { get; set; }
+
+		[Required]
 		public string Teacher { get; set; }
 
 		[Required]
-		public string Period { get; set; }
+		public byte Period { get; set; }
+
+		[Required]
+		public string Course { get; set; }
 	}
 }

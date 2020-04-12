@@ -9,7 +9,7 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200412213031_InitialConfiguration")]
+    [Migration("20200412224908_InitialConfiguration")]
     partial class InitialConfiguration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,9 +78,16 @@ namespace UniLink.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Period")
+                    b.Property<string>("Course")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<byte>("Period")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<string>("Teacher")
                         .IsRequired()

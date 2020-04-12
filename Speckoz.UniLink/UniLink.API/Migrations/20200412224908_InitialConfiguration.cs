@@ -12,8 +12,10 @@ namespace UniLink.API.Migrations
                 columns: table => new
                 {
                     DisciplineId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Teacher = table.Column<string>(nullable: false),
-                    Period = table.Column<string>(nullable: false)
+                    Period = table.Column<byte>(nullable: false),
+                    Course = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -76,9 +76,16 @@ namespace UniLink.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Period")
+                    b.Property<string>("Course")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<byte>("Period")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<string>("Teacher")
                         .IsRequired()
