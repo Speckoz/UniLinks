@@ -1,52 +1,76 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+
+using System.Text;
 
 using UniLink.API.Data;
 
 namespace UniLink.API
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration) => Configuration = configuration;
+	public class Startup
+	{
+		public Startup(IConfiguration configuration) => Configuration = configuration;
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// JWT Authentication
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = true,
+					ValidIssuer = "UniLink",
 
-            // MySQL
-            services.AddDbContext<DataContext>
-            (
-                options => options.UseMySql(Configuration["ConnectionString"],
-                builder => builder.MigrationsAssembly("UniLink.API"))
-            );
-        }
+					ValidateAudience = true,
+					ValidAudience = "UniLink",
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-                dbContext.Database.Migrate();
-            }
+					ValidateLifetime = true,
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
+				});
 
-            //app.UseHttpsRedirection();
+			// MySQL Database
+			services.AddDbContext<DataContext>
+			(
+				options => options.UseMySql(Configuration["ConnectionString"],
+				builder => builder.MigrationsAssembly("UniLink.API"))
+			);
 
-            app.UseRouting();
+			services.AddControllers();
 
-            app.UseAuthorization();
+			// Business
+			// Code
 
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
-        }
-    }
+			// Repositories
+			// Code
+		}
+
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+			{
+				DataContext dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+				dbContext.Database.Migrate();
+			}
+
+			if (env.IsDevelopment())
+				app.UseDeveloperExceptionPage();
+
+			//app.UseHttpsRedirection();
+
+			app.UseRouting();
+
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints => endpoints.MapControllers());
+		}
+	}
 }
