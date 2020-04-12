@@ -12,7 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200410003743_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200410003743_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200412212628_InitialConfiguration.cs" />
+    <Compile Remove="Migrations\20200412212628_InitialConfiguration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Business\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 
   <ItemGroup>

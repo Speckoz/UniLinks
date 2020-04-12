@@ -2,12 +2,12 @@
 
 namespace UniLink.Dependencies.Enums
 {
-    public enum UserTypeEnum
-    {
-        [Description("Coordenador")]
-        Coordinator,
+	public enum UserTypeEnum
+	{
+		[Description("Aluno")]
+		Student,
 
-        [Description("Aluno")]
-        Student
-    }
+		[Description("Coordenador")]
+		Coordinator
+	}
 }
