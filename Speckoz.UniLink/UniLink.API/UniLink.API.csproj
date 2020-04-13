@@ -18,6 +18,8 @@
     <Compile Remove="Migrations\20200412212628_InitialConfiguration.Designer.cs" />
     <Compile Remove="Migrations\20200412213031_InitialConfiguration.cs" />
     <Compile Remove="Migrations\20200412213031_InitialConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20200412224908_InitialConfiguration.cs" />
+    <Compile Remove="Migrations\20200412224908_InitialConfiguration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,9 +21,10 @@ namespace UniLink.API.Business
 
 		public async Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login)
 		{
-			if (await _accountRepository.AuthAccountTaskAsync(login) is UserModel user)
+			if (await _accountRepository.AuthAccountTaskAsync(login) is UserBaseModel userBase)
 			{
-				user.Token = _tokenService.Generate(user);
+				var user = (UserModel) userBase;
+				user.Token = _tokenService.Generate(userBase);
 
 				return user;
 			}

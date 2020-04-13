@@ -7,6 +7,6 @@ namespace UniLink.API.Repository.Interfaces
 {
 	public interface IAccountRepository
 	{
-		Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login);
+		Task<UserBaseModel> AuthAccountTaskAsync(LoginRequestModel login);
 	}
 }
