@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 using UniLink.API.Data;
+using UniLink.API.Services;
 
 namespace UniLink.API
 {
@@ -26,15 +27,15 @@ namespace UniLink.API
 				.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
 				{
 					ValidateIssuer = true,
-					ValidIssuer = "UniLink",
+					ValidIssuer = Configuration["JWT:Issuer"],
 
 					ValidateAudience = true,
-					ValidAudience = "UniLink",
+					ValidAudience = Configuration["JWT:Audience"],
 
 					ValidateLifetime = true,
 
 					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecurityKey"]))
 				});
 
 			// MySQL Database
@@ -45,6 +46,9 @@ namespace UniLink.API
 			);
 
 			services.AddControllers();
+
+			// Services
+			services.AddScoped<GenerateTokenService>();
 
 			// Business
 			// Code

@@ -5,18 +5,18 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Data
 {
-    public class DataContext : DbContext
-    {
-        public DbSet<UserLoginModel> Users { get; set; }
-        public DbSet<DisciplineModel> Disciplines { get; set; }
-        public DbSet<ClassModel> Classes { get; set; }
+	public class DataContext : DbContext
+	{
+		public DbSet<UserLoginModel> Users { get; set; }
+		public DbSet<DisciplineModel> Disciplines { get; set; }
+		public DbSet<ClassModel> Classes { get; set; }
 
-        protected DataContext()
-        {
-        }
+		protected DataContext()
+		{
+		}
 
-        public DataContext(DbContextOptions options) : base(options)
-        {
-        }
-    }
+		public DataContext(DbContextOptions options) : base(options)
+		{
+		}
+	}
 }
