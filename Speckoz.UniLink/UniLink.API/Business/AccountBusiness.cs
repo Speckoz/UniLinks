@@ -21,15 +21,19 @@ namespace UniLink.API.Business
 
 		public async Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login)
 		{
-			if (await _accountRepository.AuthAccountTaskAsync(login) is UserBaseModel userBase)
-			{
-				var user = userBase.ToUserModel();
-				user.Token = _tokenService.Generate(userBase);
+			login.Password = SecurityService.EncryptToSHA256(login.Password);
 
-				return user;
-			}
+			return await _accountRepository.FindUserByLoginTaskAsync(login) is UserBaseModel userBase ? ReturnToken(userBase) : (default);
+		}
 
-			return default;
+		public async Task<UserModel> AuthUserTaskAsync(string email) =>
+			await _accountRepository.FindByEmailTaskAsync(email) is UserBaseModel userBase ? ReturnToken(userBase) : (default);
+
+		private UserModel ReturnToken(UserBaseModel userBase)
+		{
+			var user = userBase.ToUserModel();
+			user.Token = _tokenService.Generate(userBase);
+			return user;
 		}
 	}
 }

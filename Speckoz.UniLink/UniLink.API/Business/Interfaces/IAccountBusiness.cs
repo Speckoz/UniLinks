@@ -8,5 +8,7 @@ namespace UniLink.API.Business.Interfaces
 	public interface IAccountBusiness
 	{
 		Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login);
+
+		Task<UserModel> AuthUserTaskAsync(string email);
 	}
 }

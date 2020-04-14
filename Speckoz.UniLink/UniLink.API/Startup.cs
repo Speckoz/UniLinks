@@ -39,7 +39,7 @@ namespace UniLink.API
 					ValidateLifetime = true,
 
 					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecurityKey"]))
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
 				});
 
 			// MySQL Database
@@ -56,11 +56,9 @@ namespace UniLink.API
 
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();
-			services.AddScoped<IUserBusiness, UserBusiness>();
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
-			services.AddScoped<IUserRepository, UserRepository>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

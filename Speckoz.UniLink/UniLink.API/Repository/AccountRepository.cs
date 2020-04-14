@@ -16,7 +16,10 @@ namespace UniLink.API.Repository
 		{
 		}
 
-		public async Task<UserBaseModel> AuthAccountTaskAsync(LoginRequestModel login) =>
-			await _content.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == login.Email.ToLower() && x.Password == login.Password && x.UserType == UserTypeEnum.Coordinator);
+		public async Task<UserBaseModel> FindUserByLoginTaskAsync(LoginRequestModel login) =>
+			await _content.Users.SingleOrDefaultAsync(x => x.Email.ToLower() == login.Email.ToLower() && x.Password == login.Password && x.UserType == UserTypeEnum.Coordinator);
+
+		public async Task<UserBaseModel> FindByEmailTaskAsync(string email) =>
+			await _content.Users.SingleOrDefaultAsync(x => x.Email.ToLower() == email.ToLower() && x.UserType == UserTypeEnum.Student);
 	}
 }
