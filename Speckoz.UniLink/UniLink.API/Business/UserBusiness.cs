@@ -4,24 +4,23 @@ using UniLink.API.Business.Interfaces;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
 using UniLink.Dependencies.Models;
-using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Business
 {
-	public class AccountBusiness : IAccountBusiness
+	public class UserBusiness : IUserBusiness
 	{
-		private readonly IAccountRepository _accountRepository;
+		private readonly IUserRepository _userRepository;
 		private readonly GenerateTokenService _tokenService;
 
-		public AccountBusiness(IAccountRepository accountRepository, GenerateTokenService tokenService)
+		public UserBusiness(IUserRepository userRepository, GenerateTokenService tokenService)
 		{
-			_accountRepository = accountRepository;
+			_userRepository = userRepository;
 			_tokenService = tokenService;
 		}
 
-		public async Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login)
+		public async Task<UserModel> AuthUserTaskAsync(string email)
 		{
-			if (await _accountRepository.AuthAccountTaskAsync(login) is UserBaseModel userBase)
+			if (await _userRepository.FindByEmailTaskAsync(email) is UserBaseModel userBase)
 			{
 				var user = userBase.ToUserModel();
 				user.Token = _tokenService.Generate(userBase);

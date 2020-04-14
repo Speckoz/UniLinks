@@ -18,17 +18,24 @@ namespace UniLink.API.Controllers
 			_userBusiness = userBusiness;
 
 		[HttpPost]
-		public async Task<IActionResult> AuthUserTaskAsync([FromBody][Required]string email)
+		public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _userBusiness.AuthUserTaskAsync(email) is UserModel user)
+				if (await _userBusiness.AuthUserTaskAsync(email.Email) is UserModel user)
 					return Ok(user);
 
-				return BadRequest("Nao foi possivel encontrar ");
+				return BadRequest("Nao foi possivel encontrar um aluno com este email!");
 			}
 
 			return BadRequest();
 		}
+	}
+
+	// auxiliay model
+	public class EmailFromBody
+	{
+		[Required]
+		public string Email { get; set; }
 	}
 }

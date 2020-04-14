@@ -18,5 +18,13 @@ namespace UniLink.Dependencies.Models
 
 		[Required]
 		public UserTypeEnum UserType { get; set; }
+
+		public UserModel ToUserModel() => new UserModel
+		{
+			UserId = UserId,
+			Name = Name,
+			Email = Email,
+			UserType = UserType
+		};
 	}
 }

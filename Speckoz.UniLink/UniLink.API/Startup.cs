@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 using System.Text;
+
 using UniLink.API.Business;
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data;
@@ -55,9 +56,11 @@ namespace UniLink.API
 
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();
+			services.AddScoped<IUserBusiness, UserBusiness>();
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

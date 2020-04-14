@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class InitialConfiguration : Migration
+    public partial class PasswordNotRequired : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace UniLink.API.Migrations
                     Email = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     UserType = table.Column<int>(nullable: false),
-                    Password = table.Column<string>(nullable: false)
+                    Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

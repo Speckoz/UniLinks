@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200413052909_InitialConfiguration")]
-    partial class InitialConfiguration
+    [Migration("20200414050701_PasswordNotRequired")]
+    partial class PasswordNotRequired
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,6 @@ namespace UniLink.API.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("UserType")
