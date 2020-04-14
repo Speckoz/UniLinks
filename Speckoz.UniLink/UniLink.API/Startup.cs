@@ -49,6 +49,9 @@ namespace UniLink.API
 				builder => builder.MigrationsAssembly("UniLink.API"))
 			);
 
+			// Dev
+			services.AddScoped<DevData>();
+
 			services.AddControllers();
 
 			// Services
@@ -62,7 +65,7 @@ namespace UniLink.API
 			services.AddScoped<IAccountRepository, AccountRepository>();
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DevData devData)
 		{
 			using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
 			{
@@ -71,7 +74,10 @@ namespace UniLink.API
 			}
 
 			if (env.IsDevelopment())
+			{
 				app.UseDeveloperExceptionPage();
+				devData.Init();
+			}
 
 			//app.UseHttpsRedirection();
 
