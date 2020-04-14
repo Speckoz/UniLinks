@@ -2,7 +2,7 @@
 
 namespace UniLink.API.Repository
 {
-	public class Repository
+	public abstract class Repository
 	{
 		protected readonly DataContext _content;
 

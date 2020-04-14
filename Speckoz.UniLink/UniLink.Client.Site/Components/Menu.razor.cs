@@ -1,8 +1,8 @@
 ﻿using UniLink.Client.Site.Helper;
 
-namespace UniLink.Client.Site.Pages.Components
+namespace UniLink.Client.Site.Components
 {
-	public partial class MenuComponent
+	public partial class Menu
 	{
 		private bool collapseNavMenu = true;
 

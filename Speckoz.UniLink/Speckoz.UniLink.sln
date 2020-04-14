@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.API", "UniLink.API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.Client.Site", "UniLink.Client.Site\UniLink.Client.Site.csproj", "{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniLink.Dependencies", "UniLink.Dependencies\UniLink.Dependencies.csproj", "{C03798D4-8184-4E8F-904E-C79F00508C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.Dependencies", "UniLink.Dependencies\UniLink.Dependencies.csproj", "{C03798D4-8184-4E8F-904E-C79F00508C4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

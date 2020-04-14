@@ -233,6 +233,56 @@ app
     }
 }
 
+/* Try reconnect to server */
+.my-reconnect-modal > div
+{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 50px;
+}
+
+.components-reconnect-hide > div
+{
+    display: none;
+}
+
+.components-reconnect-show > div
+{
+    display: none;
+}
+
+.components-reconnect-show > .show
+{
+    display: block;
+}
+
+.components-reconnect-failed > div
+{
+    display: none;
+}
+
+.components-reconnect-failed > .failed
+{
+    display: block;
+}
+
+.components-reconnect-refused > div
+{
+    display: none;
+}
+
+.components-reconnect-refused > .refused
+{
+    display: block;
+}
+
 /* Menu */
 .admin-margin-top
 {
@@ -240,10 +290,9 @@ app
 }
 
 /* LOGIN */
-
 .form-login
 {
-    width: 60%;
+    width: 25em;
 }
 
 @media(max-width: 768px)
