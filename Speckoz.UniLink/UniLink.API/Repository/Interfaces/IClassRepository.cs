@@ -6,7 +6,7 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Repository.Interfaces
 {
-	internal interface IClassRepository
+	public interface IClassRepository
 	{
 		Task<ClassModel> FindByIdTaskAsync(Guid classId);
 

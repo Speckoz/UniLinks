@@ -5,7 +5,7 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Repository.Interfaces
 {
-	internal interface IDisciplineRepository
+	public interface IDisciplineRepository
 	{
 		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);
 
