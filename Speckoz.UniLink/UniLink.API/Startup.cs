@@ -53,6 +53,7 @@ namespace UniLink.API
 
 			// Services
 			services.AddScoped<GenerateTokenService>();
+			services.AddScoped<SecurityService>();
 
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();

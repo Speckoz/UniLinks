@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -11,11 +12,11 @@ namespace UniLink.API.Services
 {
 	public class SecurityService
 	{
-		private readonly IConfiguration _configutation;
+		private readonly IConfiguration _configuration;
 
 		public SecurityService(IConfiguration configuration)
 		{
-			_configutation = configuration;
+			_configuration = configuration;
 		}
 
 		/// <summary>
@@ -59,7 +60,7 @@ namespace UniLink.API.Services
 				byte[] aesKey = new byte[32];
 				Array.Copy(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(key)), 0, aesKey, 0, 32);
 				aes.Key = aesKey;
-				aes.IV = JsonSerializer.Deserialize<byte[]>(_configutation["InitVector"]);
+				aes.IV = InitVector();
 
 				using (var memoryStream = new MemoryStream())
 				{
@@ -93,7 +94,7 @@ namespace UniLink.API.Services
 					byte[] aesKey = new byte[32];
 					Array.Copy(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(key)), 0, aesKey, 0, 32);
 					aes.Key = aesKey;
-					aes.IV = JsonSerializer.Deserialize<byte[]>(_configutation["InitVector"]);
+					aes.IV = InitVector();
 
 					using (var memoryStream = new MemoryStream())
 					{
@@ -120,5 +121,7 @@ namespace UniLink.API.Services
 				return false;
 			}
 		}
+
+		private byte[] InitVector() => _configuration.GetSection("InitVector").Get<byte[]>();
 	}
 }
