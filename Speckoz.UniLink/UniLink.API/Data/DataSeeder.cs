@@ -5,13 +5,18 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Data
 {
-	public class DevData : Repository.Repository
+	public class DataSeeder : Repository.Repository
 	{
-		public DevData(DataContext context) : base(context)
+		public DataSeeder(DataContext context) : base(context)
 		{
 		}
 
 		public void Init()
+		{
+			SeedUsers();
+		}
+
+		private void SeedUsers()
 		{
 			if (!_context.Users.Any())
 			{

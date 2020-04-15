@@ -15,8 +15,7 @@ namespace UniLink.API.Controllers
 	{
 		private readonly IAccountBusiness _accountBusiness;
 
-		public AuthController(IAccountBusiness accountBusiness)
-			=> _accountBusiness = accountBusiness;
+		public AuthController(IAccountBusiness accountBusiness) => _accountBusiness = accountBusiness;
 
 		[HttpPost]
 		public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)

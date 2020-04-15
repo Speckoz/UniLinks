@@ -50,7 +50,7 @@ namespace UniLink.API
 			);
 
 			// Dev
-			services.AddScoped<DevData>();
+			services.AddScoped<DataSeeder>();
 
 			services.AddControllers();
 
@@ -65,7 +65,7 @@ namespace UniLink.API
 			services.AddScoped<IAccountRepository, AccountRepository>();
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DevData devData)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
 		{
 			using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
 			{
@@ -76,7 +76,7 @@ namespace UniLink.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				devData.Init();
+				dataSeeder.Init();
 			}
 
 			//app.UseHttpsRedirection();
