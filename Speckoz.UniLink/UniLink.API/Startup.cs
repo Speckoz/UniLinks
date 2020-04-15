@@ -60,6 +60,7 @@ namespace UniLink.API
 
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();
+			services.AddScoped<IClassBusiness, ClassBusiness>();
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
