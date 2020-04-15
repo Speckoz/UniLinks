@@ -25,7 +25,7 @@ namespace UniLink.API.Repository
 
         public async Task DeleteTaskAsync(Guid id)
         {
-            ClassModel @class = await _context.Classes.SingleOrDefaultAsync(c => c.ClassId == id);
+            ClassModel @class = await _context.Classes.Where(c => c.ClassId == id).FirstAsync();
             if (@class != null)
             {
                 _context.Classes.Remove(@class);
@@ -34,23 +34,29 @@ namespace UniLink.API.Repository
         }
 
         public async Task<ClassModel> FindByCourseTaskAsync(string course, byte period) =>
-            await _context.Classes.SingleOrDefaultAsync(c => c.Discipline.Course == course && c.Discipline.Period == period);
+            await _context.Classes
+            .Include(c => c.Discipline)
+            .Where(c => c.Discipline.Course == course && c.Discipline.Period == period).FirstAsync();
 
         public Task<ClassModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum classShift) =>
             throw new NotImplementedException();
 
         public async Task<ClassModel> FindByIdTaskAsync(Guid classId) =>
-            await _context.Classes.SingleOrDefaultAsync(c => c.ClassId == classId);
+            await _context.Classes
+            .Include(c => c.Discipline)
+            .Where(c => c.ClassId == classId).FirstAsync();
 
         public async Task<ClassModel> FindByURITaskAsync(string uri) =>
-            await _context.Classes.SingleOrDefaultAsync(c => c.URI == uri);
+            await _context.Classes
+            .Include(c => c.Discipline)
+            .Where(c => c.URI == uri).FirstAsync();
 
         public async Task<ClassModel> UpdateTaskAsync(ClassModel @class)
         {
             if (!await ExistsTaskAsync(@class.ClassId))
                 return null;
 
-            _context.Entry(await _context.Classes.SingleOrDefaultAsync(c => c.ClassId == @class.ClassId))
+            _context.Entry(await _context.Classes.Where(c => c.ClassId == @class.ClassId).FirstAsync())
                 .CurrentValues.SetValues(@class);
 
             await _context.SaveChangesAsync();
