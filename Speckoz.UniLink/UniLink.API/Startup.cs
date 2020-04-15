@@ -15,6 +15,7 @@ using UniLink.API.Data;
 using UniLink.API.Repository;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
+using UniLink.API.Utils;
 
 namespace UniLink.API
 {
@@ -52,7 +53,7 @@ namespace UniLink.API
 			// Seed
 			services.AddScoped<DataSeeder>();
 
-			services.AddControllers();
+			services.AddControllers(x => x.InputFormatters.Insert(x.InputFormatters.Count, new TextPlainInputFormatter()));
 
 			// Services
 			services.AddScoped<GenerateTokenService>();
@@ -60,11 +61,11 @@ namespace UniLink.API
 
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();
-			services.AddScoped<IClassBusiness, ClassBusiness>();
+			services.AddScoped<ILessonBusiness, LessonBusiness>();
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
-			services.AddScoped<IClassRepository, ClassRepository>();
+			services.AddScoped<ILessonRepository, LessonRepository>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)

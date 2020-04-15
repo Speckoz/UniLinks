@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class PasswordNotRequired : Migration
+    public partial class ChangeModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,10 +38,10 @@ namespace UniLink.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classes",
+                name: "Lessons",
                 columns: table => new
                 {
-                    ClassId = table.Column<Guid>(nullable: false),
+                    LessonId = table.Column<Guid>(nullable: false),
                     URI = table.Column<string>(nullable: false),
                     LessonSubject = table.Column<string>(nullable: false),
                     DisciplineId = table.Column<Guid>(nullable: false),
@@ -49,9 +49,9 @@ namespace UniLink.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Classes", x => x.ClassId);
+                    table.PrimaryKey("PK_Lessons", x => x.LessonId);
                     table.ForeignKey(
-                        name: "FK_Classes_Disciplines_DisciplineId",
+                        name: "FK_Lessons_Disciplines_DisciplineId",
                         column: x => x.DisciplineId,
                         principalTable: "Disciplines",
                         principalColumn: "DisciplineId",
@@ -59,15 +59,15 @@ namespace UniLink.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classes_DisciplineId",
-                table: "Classes",
+                name: "IX_Lessons_DisciplineId",
+                table: "Lessons",
                 column: "DisciplineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Classes");
+                name: "Lessons");
 
             migrationBuilder.DropTable(
                 name: "Users");

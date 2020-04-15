@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200414050701_PasswordNotRequired")]
-    partial class PasswordNotRequired
+    [Migration("20200415165444_ChangeModels")]
+    partial class ChangeModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,33 +44,6 @@ namespace UniLink.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UniLink.Dependencies.Models.ClassModel", b =>
-                {
-                    b.Property<Guid>("ClassId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("DisciplineId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("LessonSubject")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("URI")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("ClassId");
-
-                    b.HasIndex("DisciplineId");
-
-                    b.ToTable("Classes");
-                });
-
             modelBuilder.Entity("UniLink.Dependencies.Models.DisciplineModel", b =>
                 {
                     b.Property<Guid>("DisciplineId")
@@ -97,7 +70,34 @@ namespace UniLink.API.Migrations
                     b.ToTable("Disciplines");
                 });
 
-            modelBuilder.Entity("UniLink.Dependencies.Models.ClassModel", b =>
+            modelBuilder.Entity("UniLink.Dependencies.Models.LessonModel", b =>
+                {
+                    b.Property<Guid>("LessonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("DisciplineId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("LessonSubject")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("URI")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("LessonId");
+
+                    b.HasIndex("DisciplineId");
+
+                    b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("UniLink.Dependencies.Models.LessonModel", b =>
                 {
                     b.HasOne("UniLink.Dependencies.Models.DisciplineModel", "Discipline")
                         .WithMany()

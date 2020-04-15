@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UniLink.Dependencies.Models
 {
-	public class ClassModel
+	public class LessonModel
 	{
 		[Key]
-		public Guid ClassId { get; set; }
+		public Guid LessonId { get; set; }
 
 		[Required]
 		public string URI { get; set; }

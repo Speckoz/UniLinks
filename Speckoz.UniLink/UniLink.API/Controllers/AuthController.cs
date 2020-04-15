@@ -17,6 +17,7 @@ namespace UniLink.API.Controllers
 
 		public AuthController(IAccountBusiness accountBusiness) => _accountBusiness = accountBusiness;
 
+		// POST: /Auth
 		[HttpPost]
 		public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)
 		{
@@ -31,6 +32,7 @@ namespace UniLink.API.Controllers
 			return BadRequest();
 		}
 
+		// POST: /Auth/User
 		[HttpPost("User")]
 		public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
 		{

@@ -9,7 +9,7 @@ namespace UniLink.API.Data
 	{
 		public DbSet<UserLoginModel> Users { get; set; }
 		public DbSet<DisciplineModel> Disciplines { get; set; }
-		public DbSet<ClassModel> Classes { get; set; }
+		public DbSet<LessonModel> Lessons { get; set; }
 
 		protected DataContext()
 		{
