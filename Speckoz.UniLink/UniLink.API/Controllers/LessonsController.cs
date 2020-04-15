@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
+using UniLink.API.Attributes;
 using UniLink.API.Business.Interfaces;
+using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Controllers
@@ -18,23 +21,9 @@ namespace UniLink.API.Controllers
 		public LessonsController(ILessonBusiness lessonBusiness) =>
 			_lessonBusiness = lessonBusiness;
 
-		// GET: /Lessons/:id
-		[HttpGet("{id}")]
-		public async Task<IActionResult> FindByIdTaskAsync(Guid id)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonModel lesson)
-					return Ok(lesson);
-
-				return NotFound("A aula informada nao existe!");
-			}
-
-			return BadRequest();
-		}
-
 		// POST: /Lessons
 		[HttpPost]
+		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> AddClassTaskAsync([FromBody]LessonModel lesson)
 		{
 			if (ModelState.IsValid)
@@ -48,9 +37,26 @@ namespace UniLink.API.Controllers
 			return BadRequest();
 		}
 
+		// GET: /Lessons/:id
+		[HttpGet("{id}")]
+		[Authorize]
+		public async Task<IActionResult> FindByIdTaskAsync(Guid id)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonModel lesson)
+					return Ok(lesson);
+
+				return NotFound("A aula informada nao existe!");
+			}
+
+			return BadRequest();
+		}
+
 		// POST: /Lessons/uri
 		[HttpPost("uri")]
 		[Consumes("text/plain")]
+		[Authorize]
 		public async Task<IActionResult> FindByURITaskAsync([FromBody]string uri)
 		{
 			if (ModelState.IsValid)
@@ -66,9 +72,7 @@ namespace UniLink.API.Controllers
 
 		// POST: /Lessons/date
 		[HttpPost("date")]
-
-		// COM BUG
-
+		[Authorize]
 		public async Task<IActionResult> FindByDateTaskAsync([FromBody]DateTime date)
 		{
 			throw new NotImplementedException();
@@ -77,6 +81,7 @@ namespace UniLink.API.Controllers
 		// POST: /Lessons/course
 		[HttpPost("course")]
 		[Consumes("text/plain")]
+		[Authorize]
 		public async Task<IActionResult> FindByCourseTaskAsync([FromBody]string course)
 		{
 			throw new NotImplementedException();
@@ -84,6 +89,7 @@ namespace UniLink.API.Controllers
 
 		// PUT: /Lessons
 		[HttpPut]
+		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> UpdateTaskAsync([FromBody]LessonModel newLesson)
 		{
 			if (ModelState.IsValid)
@@ -99,6 +105,7 @@ namespace UniLink.API.Controllers
 
 		// DELETE: /Lessons/:id
 		[HttpDelete("{id}")]
+		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> DeleteTaskAsync([Required]Guid id)
 		{
 			if (ModelState.IsValid)
