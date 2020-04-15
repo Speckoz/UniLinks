@@ -2,10 +2,10 @@
 
 namespace UniLink.API.Repository
 {
-	public abstract class Repository
+	public abstract class BaseRepository
 	{
 		protected readonly DataContext _context;
 
-		protected Repository(DataContext context) => _context = context;
+		protected BaseRepository(DataContext context) => _context = context;
 	}
 }

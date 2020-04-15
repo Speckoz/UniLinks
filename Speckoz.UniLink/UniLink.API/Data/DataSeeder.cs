@@ -5,7 +5,7 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Data
 {
-	public class DataSeeder : Repository.Repository
+	public class DataSeeder : Repository.BaseRepository
 	{
 		public DataSeeder(DataContext context) : base(context)
 		{

@@ -11,7 +11,7 @@ using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Repository
 {
-	public class AccountRepository : Repository, IAccountRepository
+	public class AccountRepository : BaseRepository, IAccountRepository
 	{
 		public AccountRepository(DataContext context) : base(context)
 		{
