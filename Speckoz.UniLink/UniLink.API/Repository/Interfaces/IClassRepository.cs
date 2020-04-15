@@ -20,6 +20,6 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<ClassModel> UpdateTaskAsync(ClassModel @class);
 
-		Task<bool> DeleteTaskAsync(ClassModel @class);
+		Task DeleteTaskAsync(Guid classId);
 	}
 }

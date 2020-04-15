@@ -49,7 +49,7 @@ namespace UniLink.API
 				builder => builder.MigrationsAssembly("UniLink.API"))
 			);
 
-			// Dev
+			// Seed
 			services.AddScoped<DataSeeder>();
 
 			services.AddControllers();
@@ -63,6 +63,7 @@ namespace UniLink.API
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
+			services.AddScoped<IClassRepository, ClassRepository>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
