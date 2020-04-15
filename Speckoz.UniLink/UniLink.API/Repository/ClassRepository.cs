@@ -25,7 +25,7 @@ namespace UniLink.API.Repository
 
         public async Task DeleteTaskAsync(Guid id)
         {
-            ClassModel @class = await _context.Classes.Where(c => c.ClassId == id).FirstAsync();
+            ClassModel @class = await _context.Classes.Where(c => c.ClassId == id).FirstOrDefaultAsync();
             if (@class != null)
             {
                 _context.Classes.Remove(@class);
@@ -36,7 +36,7 @@ namespace UniLink.API.Repository
         public async Task<ClassModel> FindByCourseTaskAsync(string course, byte period) =>
             await _context.Classes
             .Include(c => c.Discipline)
-            .Where(c => c.Discipline.Course == course && c.Discipline.Period == period).FirstAsync();
+            .Where(c => c.Discipline.Course == course && c.Discipline.Period == period).FirstOrDefaultAsync();
 
         public Task<ClassModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum classShift) =>
             throw new NotImplementedException();
@@ -44,12 +44,12 @@ namespace UniLink.API.Repository
         public async Task<ClassModel> FindByIdTaskAsync(Guid classId) =>
             await _context.Classes
             .Include(c => c.Discipline)
-            .Where(c => c.ClassId == classId).FirstAsync();
+            .Where(c => c.ClassId == classId).FirstOrDefaultAsync();
 
         public async Task<ClassModel> FindByURITaskAsync(string uri) =>
             await _context.Classes
             .Include(c => c.Discipline)
-            .Where(c => c.URI == uri).FirstAsync();
+            .Where(c => c.URI == uri).FirstOrDefaultAsync();
 
         public async Task<ClassModel> UpdateTaskAsync(ClassModel @class)
         {
