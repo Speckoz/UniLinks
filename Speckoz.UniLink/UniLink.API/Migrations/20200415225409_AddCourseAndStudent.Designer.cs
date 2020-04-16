@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200415165444_ChangeModels")]
-    partial class ChangeModels
+    [Migration("20200415225409_AddCourseAndStudent")]
+    partial class AddCourseAndStudent
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,15 +44,35 @@ namespace UniLink.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("UniLink.Dependencies.Models.CourseModel", b =>
+                {
+                    b.Property<Guid>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CoordinatorId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<byte>("Periods")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.HasKey("CourseId");
+
+                    b.ToTable("Courses");
+                });
+
             modelBuilder.Entity("UniLink.Dependencies.Models.DisciplineModel", b =>
                 {
                     b.Property<Guid>("DisciplineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Course")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -66,6 +86,8 @@ namespace UniLink.API.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("DisciplineId");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Disciplines");
                 });
@@ -97,11 +119,48 @@ namespace UniLink.API.Migrations
                     b.ToTable("Lessons");
                 });
 
+            modelBuilder.Entity("UniLink.Dependencies.Models.StudentModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("UniLink.Dependencies.Models.DisciplineModel", b =>
+                {
+                    b.HasOne("UniLink.Dependencies.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("UniLink.Dependencies.Models.LessonModel", b =>
                 {
                     b.HasOne("UniLink.Dependencies.Models.DisciplineModel", "Discipline")
                         .WithMany()
                         .HasForeignKey("DisciplineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniLink.Dependencies.Models.StudentModel", b =>
+                {
+                    b.HasOne("UniLink.Dependencies.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 using UniLink.API.Data;
@@ -27,16 +28,10 @@ namespace UniLink.API.Repository
 			return default;
 		}
 
-		public async Task DeleteTaskAsync(LessonModel lesson)
-		{
-			_context.Lessons.Remove(lesson);
-			await _context.SaveChangesAsync();
-		}
-
-		public async Task<LessonModel> FindByCourseTaskAsync(string course, byte period) =>
+		public async Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period) =>
 			await _context.Lessons
 			.Include(c => c.Discipline)
-			.Where(c => c.Discipline.Course == course && c.Discipline.Period == period).FirstOrDefaultAsync();
+			.Where(c => c.Discipline.Course.CourseId == courseId && c.Discipline.Period == period).SingleOrDefaultAsync();
 
 		public Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
 			throw new NotImplementedException();
@@ -44,18 +39,22 @@ namespace UniLink.API.Repository
 		public async Task<LessonModel> FindByIdTaskAsync(Guid lessonId) =>
 			await _context.Lessons
 			.Include(c => c.Discipline)
-			.Where(c => c.LessonId == lessonId).FirstOrDefaultAsync();
+			.Where(c => c.LessonId == lessonId).SingleOrDefaultAsync();
 
 		public async Task<LessonModel> FindByURITaskAsync(string uri) =>
-			await _context.Lessons
-			.Include(c => c.Discipline)
-			.Where(c => c.URI == uri).FirstOrDefaultAsync();
+			await _context.Lessons.Include(c => c.Discipline).Where(c => c.URI == uri).SingleOrDefaultAsync();
 
 		public async Task<LessonModel> UpdateTaskAsync(LessonModel lesson, LessonModel newLesson)
 		{
 			_context.Entry(lesson).CurrentValues.SetValues(newLesson);
 			await _context.SaveChangesAsync();
 			return newLesson;
+		}
+
+		public async Task DeleteTaskAsync(LessonModel lesson)
+		{
+			_context.Lessons.Remove(lesson);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

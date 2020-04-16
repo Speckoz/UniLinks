@@ -24,6 +24,8 @@
     <Compile Remove="Migrations\20200413052909_InitialConfiguration.Designer.cs" />
     <Compile Remove="Migrations\20200414050701_PasswordNotRequired.cs" />
     <Compile Remove="Migrations\20200414050701_PasswordNotRequired.Designer.cs" />
+    <Compile Remove="Migrations\20200415165444_ChangeModels.cs" />
+    <Compile Remove="Migrations\20200415165444_ChangeModels.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

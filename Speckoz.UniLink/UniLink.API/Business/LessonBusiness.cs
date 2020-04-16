@@ -10,48 +10,48 @@ namespace UniLink.API.Business
 {
 	public class LessonBusiness : ILessonBusiness
 	{
-		private readonly ILessonRepository _classRepository;
+		private readonly ILessonRepository _lessonRepository;
 
-		public LessonBusiness(ILessonRepository classRepository)
+		public LessonBusiness(ILessonRepository lessonRepository)
 		{
-			_classRepository = classRepository;
+			_lessonRepository = lessonRepository;
 		}
 
 		public async Task<LessonModel> AddTaskAsync(LessonModel lesson)
 		{
-			if (await _classRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
+			if (await _lessonRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
 				return null;
 
-			return await _classRepository.AddTaskAsync(lesson);
+			return await _lessonRepository.AddTaskAsync(lesson);
 		}
 
-		public async Task<bool> DeleteTaskAsync(Guid classId)
+		public async Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period) =>
+			await _lessonRepository.FindByCourseTaskAsync(courseId, period);
+
+		public async Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
+			await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift);
+
+		public async Task<LessonModel> FindByIdTaskAsync(Guid lessonId) =>
+			await _lessonRepository.FindByIdTaskAsync(lessonId);
+
+		public async Task<LessonModel> FindByURITaskAsync(string uri) =>
+			await _lessonRepository.FindByURITaskAsync(uri);
+
+		public async Task<LessonModel> UpdateTaskAsync(LessonModel newLesson)
 		{
-			if (await _classRepository.FindByIdTaskAsync(classId) is LessonModel lesson)
-			{
-				await _classRepository.DeleteTaskAsync(lesson);
-				return true;
-			}
+			if (await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson)
+				return await _lessonRepository.UpdateTaskAsync(oldLesson, newLesson);
 
 			return default;
 		}
 
-		public async Task<LessonModel> FindByCourseTaskAsync(string course, byte period) =>
-			await _classRepository.FindByCourseTaskAsync(course, period);
-
-		public async Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum classShift) =>
-			await _classRepository.FindByDateTaskAsync(dateTime, classShift);
-
-		public async Task<LessonModel> FindByIdTaskAsync(Guid classId) =>
-			await _classRepository.FindByIdTaskAsync(classId);
-
-		public async Task<LessonModel> FindByURITaskAsync(string uri) =>
-			await _classRepository.FindByURITaskAsync(uri);
-
-		public async Task<LessonModel> UpdateTaskAsync(LessonModel newLesson)
+		public async Task<bool> DeleteTaskAsync(Guid lessonId)
 		{
-			if (await _classRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson)
-				return await _classRepository.UpdateTaskAsync(oldLesson, newLesson);
+			if (await _lessonRepository.FindByIdTaskAsync(lessonId) is LessonModel lesson)
+			{
+				await _lessonRepository.DeleteTaskAsync(lesson);
+				return true;
+			}
 
 			return default;
 		}

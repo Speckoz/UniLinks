@@ -14,7 +14,7 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift);
 
-		Task<LessonModel> FindByCourseTaskAsync(string course, byte period);
+		Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period);
 
 		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
 

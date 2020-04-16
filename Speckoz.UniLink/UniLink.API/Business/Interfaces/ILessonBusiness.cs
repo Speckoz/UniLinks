@@ -8,15 +8,15 @@ namespace UniLink.API.Business.Interfaces
 {
 	public interface ILessonBusiness
 	{
+		Task<LessonModel> AddTaskAsync(LessonModel lesson);
+
 		Task<LessonModel> FindByIdTaskAsync(Guid lessonId);
 
 		Task<LessonModel> FindByURITaskAsync(string uri);
 
 		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum LessonShift);
 
-		Task<LessonModel> FindByCourseTaskAsync(string course, byte period);
-
-		Task<LessonModel> AddTaskAsync(LessonModel lesson);
+		Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period);
 
 		Task<LessonModel> UpdateTaskAsync(LessonModel newLesson);
 
