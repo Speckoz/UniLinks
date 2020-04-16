@@ -1,4 +1,8 @@
-﻿<div class="navbar shadow-sm">
+﻿@using UniLink.Client.Site.Services
+
+@inject ThemeService ThemeService
+
+<div class="navbar shadow-sm">
     <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower" href="">
         <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
     </a>
@@ -20,7 +24,7 @@
                     <input type="checkbox" class="custom-control-input" @onclick="ChangeTheme" id="customSwitches">
                     <label class="custom-control-label info-color" for="customSwitches">Modo escuro: </label>
                 </div>*@
-            <button class="btn bg-transparent btn-block shadow-none waves-effect" data-toggle="button" aria-pressed="false" autocomplete="off" @onclick="ChangeTheme" style="color: white;">
+            <button class="btn bg-transparent btn-block shadow-none waves-effect" data-toggle="button" aria-pressed="false" autocomplete="off" @onclick="ThemeService.ChangeTheme" style="color: white;">
                 <span class="mdi mdi-palette mdi-18px icon-margin-right" aria-hidden="true"></span> Alterar Tema
             </button>
         </li>

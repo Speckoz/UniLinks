@@ -21,6 +21,7 @@ namespace UniLink.Client.Site
 
 			// Services
 			services.AddScoped<AccountService>();
+			services.AddScoped<ThemeService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
