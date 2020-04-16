@@ -15,9 +15,9 @@
     <link href="css/Themes.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="dark-mode" id="theme">
+    <div class="light-mode" id="theme">
         <app>
-            @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+            <component type="typeof(App)" render-mode="ServerPrerendered"/>
         </app>
     </div>
 

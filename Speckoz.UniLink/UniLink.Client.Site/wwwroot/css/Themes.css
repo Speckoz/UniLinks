@@ -1,11 +1,11 @@
-﻿div.dark-mode
-{
-    background-color: #333333;
-    color: white;
-}
-
-div.light-mode
+﻿div.light-mode
 {
     background-color: white;
     color: black;
+}
+
+div.dark-mode
+{
+    background-color: #333333;
+    color: white;
 }

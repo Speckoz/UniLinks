@@ -18,15 +18,35 @@
                 <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Inicio
             </NavLink>
         </li>
+
         <li class="nav-item py-0">
-            @*<SfSwitch @bind-Checked="@darkMode" @onclick="ChangeTheme" />*@
-            @*<div class="custom-control custom-switch justify-content-center">
-                    <input type="checkbox" class="custom-control-input" @onclick="ChangeTheme" id="customSwitches">
-                    <label class="custom-control-label info-color" for="customSwitches">Modo escuro: </label>
-                </div>*@
-            <button class="btn bg-transparent btn-block shadow-none waves-effect" data-toggle="button" aria-pressed="false" autocomplete="off" @onclick="ThemeService.ChangeTheme" style="color: white;">
-                <span class="mdi mdi-palette mdi-18px icon-margin-right" aria-hidden="true"></span> Alterar Tema
-            </button>
+            <NavLink class="nav-link waves-effect" href="/auth/user">
+                <span class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></span> Aluno
+            </NavLink>
+        </li>
+
+        <li class="nav-item py-0">
+            <NavLink class="nav-link waves-effect" href="/auth/admin">
+                <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Administrador
+            </NavLink>
+        </li>
+        <li class="nav-item py-0 admin-margin-top">
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-auto py-0">
+                        <span class="mdi mdi-theme-light-dark mdi-18px icon-margin-right white-text"></span>
+                        <span class="white-text">Modo escudo: </span>
+                    </div>
+                    <div class="col-auto">
+                        <label class="switch">
+                            <input type="checkbox" @onchange="@ThemeService.ChangeTheme">
+                            <span class="slider round">
+                                <span class="mdi mdi-weather-night mdi-18px icon-margin-right white-text" style="margin-left: 5px;"></span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item py-0">
@@ -34,19 +54,10 @@
                 <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
             </NavLink>
         </li>
+
         <li class="nav-item py-0">
             <NavLink class="nav-link waves-effect" href="about">
                 <span class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></span> Sobre
-            </NavLink>
-        </li>
-        <li class="nav-item py-0 admin-margin-top">
-            <NavLink class="nav-link waves-effect" href="auth/user">
-                <span class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></span> Aluno
-            </NavLink>
-        </li>
-        <li class="nav-item py-0">
-            <NavLink class="nav-link waves-effect" href="auth">
-                <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Administrador
             </NavLink>
         </li>
     </ul>
