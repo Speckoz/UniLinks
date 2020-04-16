@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Syncfusion.Blazor;
-
 using UniLink.Client.Site.Services;
 
 namespace UniLink.Client.Site
@@ -20,7 +18,6 @@ namespace UniLink.Client.Site
 		{
 			services.AddRazorPages(x => x.RootDirectory = "/");
 			services.AddServerSideBlazor();
-			services.AddSyncfusionBlazor();
 
 			// Services
 			services.AddScoped<AccountService>();

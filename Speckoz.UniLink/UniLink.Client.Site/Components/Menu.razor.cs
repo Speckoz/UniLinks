@@ -1,4 +1,6 @@
-﻿using UniLink.Client.Site.Helper;
+﻿using Microsoft.AspNetCore.Components;
+
+using UniLink.Client.Site.Helper;
 
 namespace UniLink.Client.Site.Components
 {
@@ -8,8 +10,15 @@ namespace UniLink.Client.Site.Components
 
 		private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+		[Inject]
+		public NavigationManager Navigation { get; private set; }
+
 		private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
 
-		private void ChangeTheme() => DataHelper.Theme = (DataHelper.Theme == DataHelper.DarkTheme) ? DataHelper.LightTheme : DataHelper.DarkTheme;
+		private void ChangeTheme()
+		{
+			DataHelper.Theme = (DataHelper.Theme == DataHelper.DarkTheme) ? DataHelper.LightTheme : DataHelper.DarkTheme;
+			Navigation.NavigateTo(Navigation.Uri, true);
+		}
 	}
 }

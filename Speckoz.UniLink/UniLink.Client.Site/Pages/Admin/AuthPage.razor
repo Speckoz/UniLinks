@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/auth"
 
 @using UniLink.Client.Site.Helper
 
@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Sign in button -->
-                <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" @onclick="AuthAccountTaskAsync">
+                <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" type="button" @onclick="AuthAccountTaskAsync">
                     <span class="mdi mdi-login mdi-18px" />
                     Entrar
                 </button>
@@ -40,8 +40,6 @@
                 </p>
             </form>
             <!-- Form -->
-
-            <p>Result: @result</p>
         </div>
     </div>
 </div>

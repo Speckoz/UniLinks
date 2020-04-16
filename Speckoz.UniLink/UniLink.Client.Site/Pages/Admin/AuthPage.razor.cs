@@ -6,26 +6,25 @@ using UniLink.Client.Site.Services;
 using UniLink.Dependencies.Models;
 using UniLink.Dependencies.Models.Auxiliary;
 
-namespace UniLink.Client.Site.Pages
+namespace UniLink.Client.Site.Pages.Admin
 {
-	public partial class LoginPage
+	public partial class AuthPage
 	{
 		private string email;
 		private string password;
-		private string result;
 
 		[Inject]
 		public AccountService AccountService { get; private set; }
 
+		[Inject]
+		public NavigationManager Navigation { get; private set; }
+
 		private async Task AuthAccountTaskAsync()
 		{
-			result = default;
 			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }) is UserModel user)
 			{
-				result = "blz";
+				Navigation.NavigateTo("/admin");
 			}
-
-			result = "nao deu";
 		}
 	}
 }
