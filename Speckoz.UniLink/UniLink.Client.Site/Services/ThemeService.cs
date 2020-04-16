@@ -4,19 +4,20 @@ namespace UniLink.Client.Site.Services
 {
 	public class ThemeService
 	{
-		public const string DarkTheme = "background-color: #272727; color: white;";
+		private readonly NavigationManager _navigation;
 
+		public const string DarkTheme = "background-color: #333333; color: white;";
 		public const string LightTheme = "background-color: white; color: black;";
 
-		[Inject]
-		public NavigationManager Navigation { get; private set; }
+		public string Theme { get; set; } = LightTheme;
 
-		public string Theme { get; set; } = DarkTheme;
+		public ThemeService(NavigationManager navigation) =>
+			_navigation = navigation;
 
 		public void ChangeTheme()
 		{
 			Theme = (Theme == DarkTheme) ? LightTheme : DarkTheme;
-			//Navigation.NavigateTo(Navigation.Uri, true);
+			_navigation.NavigateTo(_navigation.Uri, true);
 		}
 	}
 }
