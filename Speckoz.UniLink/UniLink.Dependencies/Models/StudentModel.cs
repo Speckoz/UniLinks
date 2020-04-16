@@ -13,5 +13,8 @@ namespace UniLink.Dependencies.Models
 
 		[Required]
 		public CourseModel Course { get; set; }
+
+		[Required]
+		public string Email { get; set; }
 	}
 }
