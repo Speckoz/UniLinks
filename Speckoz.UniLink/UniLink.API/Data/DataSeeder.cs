@@ -19,9 +19,9 @@ namespace UniLink.API.Data
 		{
 			SeedUsers();
 			SeedCourse();
-			//SeedDisciplines();
-			//SeedLeassons();
-			//SeedStudents();
+			SeedDisciplines();
+			SeedLeassons();
+			SeedStudents();
 		}
 
 		private void SeedUsers()

@@ -79,7 +79,7 @@ namespace UniLink.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				//dataSeeder.Init();
+				dataSeeder.Init();
 			}
 
 
