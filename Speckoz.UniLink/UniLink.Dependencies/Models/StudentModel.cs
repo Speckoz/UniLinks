@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniLink.Dependencies.Models
 {
@@ -14,7 +15,7 @@ namespace UniLink.Dependencies.Models
 		[Required]
 		public CourseModel Course { get; set; }
 
-		[Required]
-		public string Email { get; set; }
+		[NotMapped]
+		public UserBaseModel User { get; set; }
 	}
 }

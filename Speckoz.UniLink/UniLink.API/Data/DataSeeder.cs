@@ -17,11 +17,11 @@ namespace UniLink.API.Data
 
 		public void Init()
 		{
-			UserLoginModel u1 = null, u2 = null, u3 = null, u4 = null;
+			UserLoginModel u1 = null, u2 = null, u3 = null, u4 = null, u5 = null, u6 = null;
 			CourseModel c1 = null, c2 = null;
 			DisciplineModel d1 = null, d2 = null;
 			LessonModel l1 = null, l2 = null;
-			StudentModel s1 = null, s2 = null;
+			StudentModel s1 = null, s2 = null, s3 = null, s4 = null;
 
 			SeedUsers();
 			SeedCourse();
@@ -35,6 +35,7 @@ namespace UniLink.API.Data
 			{
 				if (!_context.Users.Any())
 				{
+					// Coords
 					u1 = new UserLoginModel
 					{
 						UserId = Guid.Parse("DA418561-E1B0-41C9-955D-2B41F35F0C4F"),
@@ -53,6 +54,7 @@ namespace UniLink.API.Data
 						UserType = UserTypeEnum.Coordinator
 					};
 
+					//Students
 					u3 = new UserLoginModel
 					{
 						UserId = Guid.Parse("74E8B9D9-310D-431B-B118-D386B85F8B8A"),
@@ -60,8 +62,23 @@ namespace UniLink.API.Data
 						Email = "logikoz@unilink.com",
 						UserType = UserTypeEnum.Student
 					};
-
 					u4 = new UserLoginModel
+					{
+						UserId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
+						Name = "Joao Figueredo",
+						Email = "joaof@unilink.com",
+						UserType = UserTypeEnum.Student
+					};
+
+					u5 = new UserLoginModel
+					{
+						UserId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
+						Name = "Carlos Eduardo",
+						Email = "carlose@unilink.com",
+						UserType = UserTypeEnum.Student
+					};
+
+					u6 = new UserLoginModel
 					{
 						UserId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
 						Name = "Marco Pandolfo",
@@ -69,7 +86,7 @@ namespace UniLink.API.Data
 						UserType = UserTypeEnum.Student
 					};
 
-					_context.Users.AddRange(u1, u2, u3, u4);
+					_context.Users.AddRange(u1, u2, u3, u4, u5, u6);
 				}
 			}
 
@@ -156,11 +173,21 @@ namespace UniLink.API.Data
 					};
 					s2 = new StudentModel
 					{
+						UserId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
+						Course = c1
+					};
+					s3 = new StudentModel
+					{
+						UserId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
+						Course = c2
+					};
+					s4 = new StudentModel
+					{
 						UserId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
 						Course = c2
 					};
 
-					_context.Students.AddRange(s1, s2);
+					_context.Students.AddRange(s1, s2, s3, s4);
 				}
 			}
 		}

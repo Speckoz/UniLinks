@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class Students : Migration
+    public partial class AdduserInStudents : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,8 +65,7 @@ namespace UniLink.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<Guid>(nullable: false),
-                    CourseId = table.Column<Guid>(nullable: false),
-                    Email = table.Column<string>(nullable: false)
+                    CourseId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

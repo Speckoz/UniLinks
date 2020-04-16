@@ -126,10 +126,6 @@ namespace UniLink.API.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 

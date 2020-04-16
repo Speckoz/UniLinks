@@ -5,7 +5,7 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.Dependencies.Models
 {
-	public abstract class UserBaseModel
+	public class UserBaseModel
 	{
 		[Key]
 		public Guid UserId { get; set; }
