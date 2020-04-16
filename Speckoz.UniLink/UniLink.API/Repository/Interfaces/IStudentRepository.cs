@@ -8,7 +8,8 @@ namespace UniLink.API.Repository.Interfaces
 {
     public interface IStudentRepository
     {
-        Task<StudentModel> FindTaskAsync(string email);
+        Task<StudentModel> FindByEmailTaskAsync(string email);
+        Task<StudentModel> FindByIdTaskAsync(int id);
         Task<StudentModel> AddTaskAsync(StudentModel student);
         Task DeleteTaskAsync(StudentModel student);
     }

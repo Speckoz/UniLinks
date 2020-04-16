@@ -30,7 +30,10 @@ namespace UniLink.API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<StudentModel> FindTaskAsync(string email) =>
+        public async Task<StudentModel> FindByEmailTaskAsync(string email) =>
             await _context.Students.Where(s => s.Email == email).FirstOrDefaultAsync();
+
+        public async Task<StudentModel> FindByIdTaskAsync(int id) =>
+            await _context.Students.Where(s => s.Id == id).FirstOrDefaultAsync();
     }
 }
