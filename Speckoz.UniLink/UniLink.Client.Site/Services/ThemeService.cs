@@ -1,23 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace UniLink.Client.Site.Services
 {
 	public class ThemeService
 	{
-		private readonly NavigationManager _navigation;
+		private readonly IJSRuntime _runtime;
 
-		public const string DarkTheme = "background-color: #333333; color: white;";
-		public const string LightTheme = "background-color: white; color: black;";
+		public ThemeService(IJSRuntime runtime) => 
+			_runtime = runtime;
 
-		public string Theme { get; set; } = LightTheme;
-
-		public ThemeService(NavigationManager navigation) =>
-			_navigation = navigation;
-
-		public void ChangeTheme()
-		{
-			Theme = (Theme == DarkTheme) ? LightTheme : DarkTheme;
-			_navigation.NavigateTo(_navigation.Uri, true);
-		}
+		public void ChangeTheme() => 
+			_runtime.InvokeVoidAsync("changeToDark.toggleDarkLight");
 	}
 }

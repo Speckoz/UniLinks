@@ -1,19 +1,15 @@
-﻿@using UniLink.Client.Site.Services
-
-@inject ThemeService ThemeService
-
-<div id="components-reconnect-modal" class="my-reconnect-modal components-reconnect-hide">
-    <div class="show" style="@ThemeService.Theme">
+﻿<div id="components-reconnect-modal" class="my-reconnect-modal components-reconnect-hide">
+    <div class="show dark-mode">
         <p>
             Tentando se conectar com o servidor, verifique sua conexao!
         </p>
     </div>
-    <div class="failed" style="@ThemeService.Theme">
+    <div class="failed dark-mode">
         <p>
             A conexao com o servidor falhou.
         </p>
     </div>
-    <div class="refused" style="@ThemeService.Theme">
+    <div class="refused dark-mode">
         <p>
             A conexao com o servidor foi recusada!
         </p>

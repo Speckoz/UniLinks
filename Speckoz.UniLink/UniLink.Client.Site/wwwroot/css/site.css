@@ -1,11 +1,5 @@
 @import url('materialdesignicons/materialdesignicons.min.css');
 
-.dark-theme
-{
-    background-color: #272727;
-    color: white;
-}
-
 .primary-color-bg
 {
     background-color: #052767 !important;
