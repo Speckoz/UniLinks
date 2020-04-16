@@ -10,6 +10,8 @@ namespace UniLink.API.Repository.Interfaces
 	{
 		Task<StudentModel> AddTaskAsync(StudentModel student);
 
+		Task<StudentModel> FindByIdTaskAsync(int id);
+
 		Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId);
 
 		Task DeleteTaskAsync(StudentModel student);

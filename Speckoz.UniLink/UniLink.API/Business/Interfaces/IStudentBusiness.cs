@@ -8,7 +8,9 @@ namespace UniLink.API.Business.Interfaces
 {
 	public interface IStudentBusiness
 	{
-		Task<IList<StudentModel>> FindAllByCourse(Guid coordId, Guid courseId);
+		Task<StudentModel> FindByIdTaskAsync(int id);
+
+		Task<IList<StudentModel>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId);
 
 		Task<StudentModel> AddTaskAsync(StudentModel student);
 

@@ -27,6 +27,9 @@ namespace UniLink.API.Repository
 			return default;
 		}
 
+		public async Task<StudentModel> FindByIdTaskAsync(int id) => 
+			await _context.Students.Include(x => x.Course).Where(x => x.Id == id).SingleOrDefaultAsync();
+
 		public async Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
 		{
 			List<StudentModel> students = await _context.Students
@@ -34,16 +37,10 @@ namespace UniLink.API.Repository
 				.Where(x => x.Course.CoordinatorId == coordId && x.Course.CourseId == courseId)
 				.ToListAsync();
 
-			students.ForEach(x =>
-			{
-				x.User = _context.Users.Where(u => u.UserId == x.UserId).Select(x => new UserBaseModel
-				{
-					UserId = x.UserId,
-					Name = x.Name,
-					Email = x.Email,
-					UserType = x.UserType
-				}).SingleOrDefault();
-			});
+			foreach (StudentModel student in students)
+				student.User = await _context.Users.Where(u => u.UserId == student.UserId)
+					.Select(x => x.ToUserBaseModel()).SingleOrDefaultAsync();
+
 			return students;
 		}
 

@@ -20,18 +20,16 @@ namespace UniLink.API.Business
 		public async Task<StudentModel> AddTaskAsync(StudentModel student) =>
 			await _studentRepository.AddTaskAsync(student);
 
-		public Task<IList<StudentModel>> FindAllByCourse(Guid coordId, Guid courseId)
-		{
-			return _studentRepository.FindAllByCourseTaskAsync(coordId, courseId);
-		}
+		public async Task<StudentModel> FindByIdTaskAsync(int id) =>
+			await _studentRepository.FindByIdTaskAsync(id);
+
+		public async Task<IList<StudentModel>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId) =>
+			await _studentRepository.FindAllByCourseTaskAsync(coordId, courseId);
 
 		public async Task DeleteTaskAsync(int id)
 		{
-			//StudentModel student = await _studentRepository.FindByIdTaskAsync(id);
-			//if (student != null)
-			//{
-			//	await _studentRepository.DeleteTaskAsync(student);
-			//}
+			if (await _studentRepository.FindByIdTaskAsync(id) is StudentModel student)
+				await _studentRepository.DeleteTaskAsync(student);
 		}
 	}
 }
