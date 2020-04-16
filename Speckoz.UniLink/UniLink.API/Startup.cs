@@ -62,10 +62,12 @@ namespace UniLink.API
 			// Business
 			services.AddScoped<IAccountBusiness, AccountBusiness>();
 			services.AddScoped<ILessonBusiness, LessonBusiness>();
+			services.AddScoped<IStudentBusiness, StudentBusiness>();
 
 			// Repositories
 			services.AddScoped<IAccountRepository, AccountRepository>();
 			services.AddScoped<ILessonRepository, LessonRepository>();
+			services.AddScoped<IStudentRepository, StudentRepository>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
@@ -79,7 +81,7 @@ namespace UniLink.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				dataSeeder.Init();
+				// dataSeeder.Init();
 			}
 
 

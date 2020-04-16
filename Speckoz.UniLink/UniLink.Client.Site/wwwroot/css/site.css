@@ -288,14 +288,15 @@ app
     display: inline-block;
     width: 50px;
     height: 25px;
+    margin-left: 6px;
 }
 
-    .switch input
-    {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+.switch input
+{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
 .slider
 {
