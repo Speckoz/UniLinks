@@ -30,7 +30,7 @@ namespace UniLink.API.Services
 				},
 				//120 minutos para o coordenador
 				//30 minutos para os estudantes
-				expires: DateTime.Now.AddMinutes(user.UserType == UserTypeEnum.Coordinator ? 120 : 30),
+				expires: DateTime.Now.AddMinutes(user.UserType == UserTypeEnum.Coordinator ? 3600 : 5),
 				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])), SecurityAlgorithms.HmacSha256
 				)));
 		}

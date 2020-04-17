@@ -11,7 +11,7 @@
         <div class="card-body pt-0 py-2">
 
             <!-- Form -->
-            <form class="text-center">
+            <form class="text-center" novalidate>
 
                 <!-- Email -->
                 <div class="md-form">
@@ -21,13 +21,13 @@
 
                 <!-- Password -->
                 <div class="md-form">
-                    <input type="password" id="password" class="form-control" @bind="password" @bind:event="onchange">
-                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control validate" @bind="password" @bind:event="onchange">
+                    <label for="password" data-error="wrong" data-success="right">Password</label>
                 </div>
 
                 <!-- Sign in button -->
                 <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" type="button" @onclick="AuthAccountTaskAsync">
-                    <span class="mdi mdi-login mdi-18px" />
+                    <i class="mdi mdi-login mdi-18px" />
                     Entrar
                 </button>
 

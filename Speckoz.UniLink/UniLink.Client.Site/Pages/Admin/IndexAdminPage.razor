@@ -1,3 +1,8 @@
 ﻿@page "/admin"
 
+@using UniLink.Client.Site.Attributes
+@using UniLink.Dependencies.Enums
+
+@attribute [Authorizes(UserTypeEnum.Coordinator)]
+
 <h3>IndexAdminPage</h3>
