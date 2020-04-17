@@ -371,3 +371,22 @@ input:checked + .slider:before
         max-width: 25em;
     }
 }
+
+/* STUDENTS ADMIN */
+.table-students tbody tr td {
+    font-size: 1.2em;
+}
+.table-students thead tr th {
+    font-weight: bold;
+}
+.icons-td button {
+    border: 0;
+    background-color: transparent;
+}
+.icons-td button span {
+    font-size: 1.3em;
+}
+.icons-td {
+    padding: 0!important;
+    vertical-align: middle!important;
+}
