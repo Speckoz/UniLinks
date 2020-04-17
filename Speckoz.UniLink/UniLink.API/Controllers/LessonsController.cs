@@ -69,24 +69,6 @@ namespace UniLink.API.Controllers
 
 			return BadRequest();
 		}
-
-		// POST: /Lessons/date
-		[HttpPost("date")]
-		[Authorize]
-		public async Task<IActionResult> FindByDateTaskAsync([FromBody]DateTime date)
-		{
-			throw new NotImplementedException();
-		}
-
-		// POST: /Lessons/course
-		[HttpPost("course")]
-		[Consumes("text/plain")]
-		[Authorize]
-		public async Task<IActionResult> FindByCourseTaskAsync([FromBody]string course)
-		{
-			throw new NotImplementedException();
-		}
-
 		// PUT: /Lessons
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
