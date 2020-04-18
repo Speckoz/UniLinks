@@ -1,7 +1,4 @@
 ﻿@using UniLink.Client.Site.Components.Shared
-@using Microsoft.AspNetCore.Components.Server
-
-@inject ServerAuthenticationStateProvider AuthenticationStateProvider
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
@@ -12,21 +9,10 @@
         </AuthorizeRouteView>
     </Found>
     <NotFound>
-        <CascadingAuthenticationState>
-            <LayoutView Layout="@typeof(Layout)">
-                <h3>Ops! 😅</h3>
-                <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
-                <p><a href="/">Ir para o Inicio</a></p>
-            </LayoutView>
-        </CascadingAuthenticationState>
+        <LayoutView Layout="@typeof(Layout)">
+            <h3>Ops! 😅</h3>
+            <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
+            <p><a href="/">Ir para o Inicio</a></p>
+        </LayoutView>
     </NotFound>
 </Router>
-
-@code{
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var provider = AuthenticationStateProvider as UniLink.Client.Site.Services.AuthenticationStateProviderService;
-
-        await provider.GetAuthenticationStateAsync();
-    }
-}

@@ -1,11 +1,13 @@
 ﻿@page "/admin/students"
+
 <div class="container">
     <h1 class="text-center mt-2">Gerenciar Alunos</h1>
     <hr />
     <!--Table-->
-    <button class="btn btn-primary rounded" data-toggle="modal" data-target="#modalNewStudent">Adicionar novo aluno</button>
+    <button class="btn btn-primary waves-effect rounded" data-toggle="modal" data-target="#modalNewStudent">Adicionar novo aluno</button>
+
     <!-- Modal -->
-    <div class="modal fade" id="modalNewStudent" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent"
+    <div class="modal fadeIn" id="modalNewStudent" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -35,6 +37,7 @@
         </div>
     </div>
     <!-- End Modal -->
+
     <div class="d-flex justify-content-lg-center">
         <table class="table table-striped table-students">
 
