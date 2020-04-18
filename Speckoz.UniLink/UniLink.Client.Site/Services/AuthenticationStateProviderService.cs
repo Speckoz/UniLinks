@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.SessionStorage;
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -8,22 +11,29 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+using UniLink.Dependencies.Models;
+
 namespace UniLink.Client.Site.Services
 {
 	public class AuthenticationStateProviderService : AuthenticationStateProvider
 	{
 		private readonly IConfiguration _configuration;
+		private readonly ISessionStorageService _sessionStorage;
+		private readonly NavigationManager _navigation;
 
-		public AuthenticationStateProviderService(IConfiguration configuration) =>
+		public AuthenticationStateProviderService(IConfiguration configuration, ISessionStorageService sessionStorage, NavigationManager navigation)
+		{
 			_configuration = configuration;
+			_sessionStorage = sessionStorage;
+			_navigation = navigation;
+		}
 
 		public override async Task<AuthenticationState> GetAuthenticationStateAsync()
 		{
 			ClaimsPrincipal user;
 			try
 			{
-				user = ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImRhNDE4NTYxLWUxYjAtNDFjOS05NTVkLTJiNDFmMzVmMGM0ZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNvb3JkaW5hdG9yIiwiZXhwIjoxNTg3NDQ5NTc4LCJpc3MiOiJVbmlMaW5rIiwiYXVkIjoiVW5pTGluayJ9.wLt6cJyRmsBalzr_4UNj_wALvpNcrRfiPhgNS5OW_lE");
-				//user = ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImRhNDE4NTYxLWUxYjAtNDFjOS05NTVkLTJiNDFmMzVmMGM0ZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNvb3JkaW5hdG9yIiwiZXhwIjoxNTg3NDQ5NTc4LCJpc3MiOiJVbmlMaW5rIiwiYXVkIjoiVW5pTGluayJ9.wLt6cJyRmsBalzr_4UNj_wALvpNcrRfiPhgNS5OW_lE");
+				user = ValidateToken(await _sessionStorage.GetItemAsync<string>("token"));
 			}
 			catch
 			{
@@ -47,6 +57,19 @@ namespace UniLink.Client.Site.Services
 			};
 
 			return new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out SecurityToken validatedToken);
+		}
+
+		public async Task MarkUserWithAuthenticatedAsync(UserModel user)
+		{
+			await _sessionStorage.SetItemAsync("token", user.Token);
+			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(user.Token))));
+		}
+
+		public async Task LogoutUserAsync()
+		{
+			await _sessionStorage.ClearAsync();
+			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
+			_navigation.NavigateTo("/");
 		}
 	}
 }

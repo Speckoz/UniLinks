@@ -1,3 +1,5 @@
+using Blazored.SessionStorage;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using UniLink.Client.Site.Services;
-using UniLink.Client.Site.Services.Interfaces;
 
 namespace UniLink.Client.Site
 {
@@ -21,10 +22,11 @@ namespace UniLink.Client.Site
 			services.AddRazorPages(x => x.RootDirectory = "/");
 			services.AddServerSideBlazor();
 
+			services.AddBlazoredSessionStorage();
+
 			services.AddScoped<AuthenticationStateProvider, AuthenticationStateProviderService>();
 
 			// Services
-			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<AccountService>();
 			services.AddScoped<ThemeService>();
 		}
