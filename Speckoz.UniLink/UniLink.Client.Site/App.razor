@@ -9,10 +9,12 @@
         </AuthorizeRouteView>
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(Layout)">
-            <h3>Ops! 😅</h3>
-            <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
-            <p><a href="/">Ir para o Inicio</a></p>
-        </LayoutView>
+        <CascadingAuthenticationState>
+            <LayoutView Layout="@typeof(Layout)">
+                <h3>Ops! 😅</h3>
+                <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
+                <p><a href="/">Ir para o Inicio</a></p>
+            </LayoutView>
+        </CascadingAuthenticationState>
     </NotFound>
 </Router>

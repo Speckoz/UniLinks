@@ -1,5 +1,21 @@
 ﻿@page "/"
 
+@using UniLink.Client.Site.Attributes
+@using UniLink.Dependencies.Enums
+@using System.Security.Claims
+
+@attribute [Authorizes(UserTypeEnum.Student, UserTypeEnum.Coordinator)]
+
+<AuthorizeView>
+    <Authorized>
+        <p>UserId: @context.User.FindFirst(ClaimTypes.NameIdentifier).Value</p>
+        <p>UserRole: @context.User.FindFirst(ClaimTypes.Role).Value</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Nao autorizado</p>
+    </NotAuthorized>
+</AuthorizeView>
+
 <h3>Bem-Vindo ao UniLink</h3>
 
 <p>Dignissim vulputate consetetur ea dolores eirmod kasd sed elitr eos diam amet dolore placerat invidunt eu amet duis ipsum diam</p>

@@ -17,7 +17,7 @@
 <body>
     <div class="light-mode" id="theme">
         <app>
-            <component type="typeof(App)" render-mode="ServerPrerendered"/>
+            @(await Html.RenderComponentAsync<App>(RenderMode.Server))
         </app>
     </div>
 
