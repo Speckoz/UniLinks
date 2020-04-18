@@ -11,6 +11,6 @@ namespace UniLink.Client.Site.Services
 			_runtime = runtime;
 
 		public void ChangeTheme() => 
-			_runtime.InvokeVoidAsync("changeToDark.toggleDarkLight");
+			_runtime.InvokeVoidAsync("toggleDarkLight");
 	}
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using UniLink.Client.Site.Attributes;
+using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.User
 {
+	[Authorizes(UserTypeEnum.Student)]
 	public partial class IndexUserPage
 	{
-
 	}
 }
