@@ -1,0 +1,10 @@
+﻿@inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Navigation.NavigateTo("/");
+        await JsRuntime.InvokeVoidAsync("SendAlert", "Voce ja está logado bobinho.");
+    }
+}

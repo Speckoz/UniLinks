@@ -1,5 +1,11 @@
 ﻿@page "/auth/user"
 
+<AuthorizeView>
+    <Authorized>
+        <UniLink.Client.Site.Components.LoggedRedirect />
+    </Authorized>
+</AuthorizeView>
+
 <div class=" d-flex justify-content-center p-3 bg-transparent">
     <div class="card form-login bg-transparent">
 
