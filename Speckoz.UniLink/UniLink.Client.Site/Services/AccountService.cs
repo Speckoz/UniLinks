@@ -19,7 +19,6 @@ namespace UniLink.Client.Site.Services
 		{
 			IRestResponse response = await new RequestService()
 			{
-				Protocol = Protocols.HTTP,
 				URL = DataHelper.URLBase,
 				URN = "Auth",
 				Method = Method.POST,
@@ -36,7 +35,6 @@ namespace UniLink.Client.Site.Services
 		{
 			IRestResponse response = await new RequestService()
 			{
-				Protocol = Protocols.HTTP,
 				URL = DataHelper.URLBase,
 				URN = "Auth/User",
 				Method = Method.POST,

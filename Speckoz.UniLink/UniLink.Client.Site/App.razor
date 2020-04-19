@@ -3,8 +3,13 @@
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout)">
+            <Authorizing>
+                <p class="text-center py-5">Autenticando..</p>
+            </Authorizing>
             <NotAuthorized>
-                <p>Sem Acesso</p>
+                <p class="text-center py-5">Sem Acesso</p>
+                <a href="/auth/admin">Entrar como Coordenador</a>
+                <a href="/auth/User">Entrar como Estudante</a>
             </NotAuthorized>
         </AuthorizeRouteView>
     </Found>

@@ -50,6 +50,7 @@ namespace UniLink.Client.Site.Services
 			var validationParameters = new TokenValidationParameters
 			{
 				ValidateLifetime = true,
+				RequireExpirationTime = true,
 
 				ValidAudience = _configuration["JWT:Audience"],
 				ValidIssuer = _configuration["JWT:Issuer"],

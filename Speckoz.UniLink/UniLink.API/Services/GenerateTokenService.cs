@@ -6,7 +6,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Services
@@ -28,9 +27,7 @@ namespace UniLink.API.Services
 					new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
 					new Claim(ClaimTypes.Role, user.UserType.ToString()),
 				},
-				//120 minutos para o coordenador
-				//30 minutos para os estudantes
-				expires: DateTime.Now.AddMinutes(user.UserType == UserTypeEnum.Coordinator ? 3600 : 5),
+				expires: DateTime.Now.AddHours(5),
 				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])), SecurityAlgorithms.HmacSha256
 				)));
 		}
