@@ -68,9 +68,9 @@ namespace UniLink.Client.Site.Services
 
 		public async Task LogoutUserAsync()
 		{
+			_navigation.NavigateTo("/");
 			await _sessionStorage.ClearAsync();
 			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
-			_navigation.NavigateTo("/");
 		}
 	}
 }

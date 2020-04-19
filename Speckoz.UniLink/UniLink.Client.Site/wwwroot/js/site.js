@@ -11,3 +11,19 @@ function SendAlert(msg)
 {
     alert(msg);
 }
+
+function ShowModal(modalId)
+{
+    $(document).ready(function ()
+    {
+        $('#' + modalId).modal('show');
+    });
+}
+
+function DisposeModal(modalId)
+{
+    $(document).ready(function ()
+    {
+        $('#' + modalId).modal('dispose');
+    });
+}

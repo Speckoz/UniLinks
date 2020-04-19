@@ -1,10 +1,34 @@
 ﻿@inject NavigationManager Navigation
 @inject IJSRuntime JsRuntime
 
+<div class="modal fade bg-dark" id="loggedRedirectModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content dark-mode text-white">
+            <div class="modal-header">
+                <h5 class="modal-title " id="exampleModalLongTitle">Ops! 😅</h5>
+            </div>
+            <div class="modal-body py-5">
+                Voce ja está logado bobinho!
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-blue" @onclick="Redirect">Inicio</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
+    [Parameter]
+    public bool IsUser { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        await JsRuntime.InvokeVoidAsync("ShowModal", "loggedRedirectModal");
+    }
+
+    private async Task Redirect()
+    {
         Navigation.NavigateTo("/");
-        await JsRuntime.InvokeVoidAsync("SendAlert", "Voce ja está logado bobinho.");
+        await JsRuntime.InvokeVoidAsync("DisposeModal", "loggedRedirectModal");
     }
 }
