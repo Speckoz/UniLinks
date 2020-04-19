@@ -15,6 +15,8 @@ using UniLink.API.Data;
 using UniLink.API.Repository;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
+using UniLink.API.Services.Email;
+using UniLink.API.Services.Email.Interfaces;
 using UniLink.API.Utils;
 
 namespace UniLink.API
@@ -49,6 +51,10 @@ namespace UniLink.API
 				options => options.UseMySql(Configuration["ConnectionString"],
 				builder => builder.MigrationsAssembly("UniLink.API"))
 			);
+
+			// Injecoes do smtp/email
+			services.Configure<ConfigEmailModel>(Configuration.GetSection("ConfigEmailModel"));
+			services.AddTransient<ISendEmailService, SendEmailService>();
 
 			// Seed
 			services.AddScoped<DataSeeder>();
