@@ -11,6 +11,7 @@ namespace UniLink.Client.Site.Pages.User
 	public partial class AuthUserPage
 	{
 		private string email;
+		private string show = "collapse";
 
 		[Inject]
 		public AccountService AccountService { get; private set; }
@@ -28,6 +29,15 @@ namespace UniLink.Client.Site.Pages.User
 				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user);
 				Navigation.NavigateTo("/user");
 			}
+			else
+			{
+				show = "show";
+			}
+		}
+
+		private void HideAlert()
+		{
+			show = "collapse";
 		}
 	}
 }

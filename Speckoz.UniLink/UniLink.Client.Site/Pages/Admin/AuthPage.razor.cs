@@ -13,6 +13,7 @@ namespace UniLink.Client.Site.Pages.Admin
 	{
 		private string email;
 		private string password;
+		private string show = "collapse";
 
 		[Inject]
 		public AccountService AccountService { get; private set; }
@@ -30,6 +31,15 @@ namespace UniLink.Client.Site.Pages.Admin
 				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user);
 				Navigation.NavigateTo("/admin");
 			}
+			else
+			{
+				show = "show";
+			}
+		}
+
+		private void HideAlert()
+		{
+			show = "collapse";
 		}
 	}
 }

@@ -2,9 +2,16 @@
 
 <AuthorizeView>
     <Authorized>
-        <UniLink.Client.Site.Components.LoggedRedirect IsUser="false"/>
+        <UniLink.Client.Site.Components.LoggedRedirect IsUser="false" />
     </Authorized>
 </AuthorizeView>
+
+<div class="alert alert-danger alert-dismissible animated heartBeat faster @show">
+    O email ou senha inválido!
+    <button type="button" class="close" aria-label="Close" @onclick="HideAlert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
 <div class=" d-flex justify-content-center p-3 bg-transparent">
     <div class="card form-login bg-transparent">
