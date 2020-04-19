@@ -6,3 +6,8 @@ function ChangeToDark()
 {
     document.getElementById("theme").className = "dark-mode";
 }
+
+function SendAlert(msg)
+{
+    alert(msg);
+}

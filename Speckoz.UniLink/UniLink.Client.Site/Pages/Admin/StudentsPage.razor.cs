@@ -1,6 +1,7 @@
 ﻿using Blazored.SessionStorage;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 using RestSharp;
 
@@ -24,6 +25,9 @@ namespace UniLink.Client.Site.Pages.Admin
 		[Inject]
 		private ISessionStorageService SessionStorage { get; set; }
 
+		[Inject]
+		private IJSRuntime JSRuntime { get; set; }
+
 		protected override async Task OnInitializedAsync()
 		{
 			string token = await SessionStorage.GetItemAsync<string>("token");
@@ -36,6 +40,16 @@ namespace UniLink.Client.Site.Pages.Admin
 				students = JsonSerializer.Deserialize<List<StudentModel>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 			else if (response.StatusCode == HttpStatusCode.NotFound)
 				students = new List<StudentModel>();
+		}
+
+		private async Task RemoveStudent(string nome)
+		{
+			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce removeu {nome}\n\nMintira");
+		}
+
+		private async Task EditStudent(string nome)
+		{
+			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
 		}
 	}
 }

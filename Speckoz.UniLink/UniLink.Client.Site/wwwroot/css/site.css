@@ -374,7 +374,7 @@ input:checked + .slider:before
 
 /* STUDENTS ADMIN */
 .table-students tbody tr td {
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 .table-students thead tr th {
     font-weight: bold;
