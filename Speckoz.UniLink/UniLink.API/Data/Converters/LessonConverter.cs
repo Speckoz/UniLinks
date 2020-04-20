@@ -16,7 +16,7 @@ namespace UniLink.API.Data.Converters
             return new LessonModel
             {
                 Date = origin.Date,
-                Discipline = origin.Discipline,
+                DisciplineId = origin.DisciplineId,
                 LessonId = origin.LessonId,
                 LessonSubject = origin.LessonSubject,
                 URI = origin.URI
@@ -29,7 +29,7 @@ namespace UniLink.API.Data.Converters
             return new LessonVO
             {
                 Date = origin.Date,
-                Discipline = origin.Discipline,
+                DisciplineId = origin.DisciplineId,
                 LessonId = origin.LessonId,
                 LessonSubject = origin.LessonSubject,
                 URI = origin.URI

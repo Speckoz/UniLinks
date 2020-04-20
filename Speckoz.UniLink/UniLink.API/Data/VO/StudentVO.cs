@@ -8,9 +8,8 @@ namespace UniLink.API.Data.VO
 {
     public class StudentVO
     {
-		public int Id { get; set; }
-		public Guid UserId { get; set; }
-		public CourseModel Course { get; set; }
-		public UserModel User { get; set; }
+		public Guid StudentId { get; set; }
+		public string Email { get; set; }
+		public Guid CourseId { get; set; }
 	}
 }

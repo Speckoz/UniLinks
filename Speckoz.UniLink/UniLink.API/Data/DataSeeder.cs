@@ -168,22 +168,22 @@ namespace UniLink.API.Data
 				{
 					s1 = new StudentModel
 					{
-						UserId = Guid.Parse("74E8B9D9-310D-431B-B118-D386B85F8B8A"),
+						StudentId = Guid.Parse("74E8B9D9-310D-431B-B118-D386B85F8B8A"),
 						Course = c1
 					};
 					s2 = new StudentModel
 					{
-						UserId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
+						StudentId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
 						Course = c1
 					};
 					s3 = new StudentModel
 					{
-						UserId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
+						StudentId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
 						Course = c2
 					};
 					s4 = new StudentModel
 					{
-						UserId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
+						StudentId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
 						Course = c2
 					};
 

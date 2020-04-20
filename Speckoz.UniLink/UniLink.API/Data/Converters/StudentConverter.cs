@@ -15,10 +15,9 @@ namespace UniLink.API.Data.Converters
             if (origin == null) return new StudentModel();
             return new StudentModel
             {
-                Course = origin.Course,
-                Id = origin.Id,
-                User = origin.User,
-                UserId = origin.UserId
+                StudentId = origin.StudentId,
+                Email = origin.Email,
+                CourseId = origin.CourseId
             };
         }
 
@@ -27,10 +26,9 @@ namespace UniLink.API.Data.Converters
             if (origin == null) return new StudentVO();
             return new StudentVO
             {
-                Course = origin.Course,
-                Id = origin.Id,
-                User = origin.User,
-                UserId = origin.UserId
+                StudentId = origin.StudentId,
+                Email = origin.Email,
+                CourseId = origin.CourseId
             };
         }
 

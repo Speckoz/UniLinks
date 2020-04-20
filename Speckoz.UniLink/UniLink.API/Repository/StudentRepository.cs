@@ -38,7 +38,7 @@ namespace UniLink.API.Repository
 				.ToListAsync();
 
 			foreach (StudentModel student in students)
-				student.User = await _context.Users.Where(u => u.UserId == student.UserId)
+				student.User = await _context.Users.Where(u => u.UserId == student.StudentId)
 					.Select(x => x.ToUserBaseModel()).SingleOrDefaultAsync();
 
 			return students;

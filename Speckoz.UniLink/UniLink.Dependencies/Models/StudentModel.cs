@@ -7,12 +7,12 @@ namespace UniLink.Dependencies.Models
 	public class StudentModel
 	{
 		[Key]
-		public Guid UserId { get; set; }
-
-		[Required]
-		public Guid CourseId { get; set; }
+		public Guid StudentId { get; set; }
 
 		[Required]
 		public string Email { get; set; }
+
+		[Required]
+		public Guid CourseId { get; set; }
 	}
 }

@@ -17,7 +17,7 @@ namespace UniLink.API.Data.Converters
             {
                 DisciplineId = origin.DisciplineId,
                 Name = origin.Name,
-                Course = origin.Course,
+                CourseId = origin.CourseId,
                 Period = origin.Period,
                 Teacher = origin.Teacher
             };
@@ -30,7 +30,7 @@ namespace UniLink.API.Data.Converters
             {
                 DisciplineId = origin.DisciplineId,
                 Name = origin.Name,
-                Course = origin.Course,
+                CourseId = origin.CourseId,
                 Period = origin.Period,
                 Teacher = origin.Teacher
             };
