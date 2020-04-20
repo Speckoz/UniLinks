@@ -12,6 +12,8 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<StudentModel> FindByIdTaskAsync(Guid id);
 
+		Task<StudentModel> FindByEmailTaskAsync(string email);
+
 		Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId);
 
 		Task DeleteTaskAsync(StudentModel student);

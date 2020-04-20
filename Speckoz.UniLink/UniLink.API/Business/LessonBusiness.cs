@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data.Converters;
-using UniLink.API.Data.VO;
 using UniLink.API.Repository.Interfaces;
+using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
@@ -26,7 +26,7 @@ namespace UniLink.API.Business
 			if (await _lessonRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
 				return null;
 
-			var lessonEntity = _converter.Parse(lesson);
+			LessonModel lessonEntity = _converter.Parse(lesson);
 			lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
 			return _converter.Parse(lessonEntity);
 		}

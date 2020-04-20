@@ -8,18 +8,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
-using UniLink.Dependencies.Models;
+using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.Client.Site.Services.Admin
 {
 	public class CourseService
 	{
-		public async Task<CourseModel> GetCourseByCoordIdTaskAsync(string token)
+		public async Task<CourseVO> GetCourseByCoordIdTaskAsync(string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
 			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CourseModel>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
 			return null;
 		}

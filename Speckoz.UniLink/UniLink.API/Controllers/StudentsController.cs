@@ -7,8 +7,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
-using UniLink.API.Data.VO;
 using UniLink.Dependencies.Attributes;
+using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
@@ -35,6 +35,7 @@ namespace UniLink.API.Controllers
 			if (ModelState.IsValid)
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
 				if (await _studentBusiness.FindAllByCoordIdAndCourseId(coordId, courseId) is IList<StudentVO> student)
 					return Ok(student);
 			}

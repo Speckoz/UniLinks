@@ -66,13 +66,13 @@ namespace UniLink.API
 			services.AddScoped<SecurityService>();
 
 			// Business
-			services.AddScoped<IAccountBusiness, AccountBusiness>();
+			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
 			services.AddScoped<ILessonBusiness, LessonBusiness>();
 			services.AddScoped<IStudentBusiness, StudentBusiness>();
 			services.AddScoped<ICourseBusiness, CourseBusiness>();
 
 			// Repositories
-			services.AddScoped<IAccountRepository, AccountRepository>();
+			services.AddScoped<ICoordinatorRepository, CoordinatorRepository>();
 			services.AddScoped<ILessonRepository, LessonRepository>();
 			services.AddScoped<IStudentRepository, StudentRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();

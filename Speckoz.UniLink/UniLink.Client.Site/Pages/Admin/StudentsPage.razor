@@ -3,7 +3,7 @@
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 <!--Table-->
-<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight"  
+<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight"
         data-toggle="modal" data-target="#modalNewStudent">
     <i class="mdi mdi-plus mdi-24px" />
 </button>
@@ -65,13 +65,13 @@ else
                 @foreach (var student in students)
                 {
                     <tr class="tr-hover" onmouseover="">
-                        <td class="text-wrap">@student.User.Name</td>
-                        <td class="text-wrap">@student.User.Email</td>
+                        <td class="text-wrap">@student.Name</td>
+                        <td class="text-wrap">@student.Email</td>
                         <td class="icons-td">
-                            <button @onclick="@(async () => await RemoveStudent(student.User.Name))">
+                            <button @onclick="@(async () => await RemoveStudent(student.Name))">
                                 <span class="mdi mdi-delete red-text"></span>
                             </button>
-                            <button @onclick="@(async () => await EditStudent(student.User.Name))">
+                            <button @onclick="@(async () => await EditStudent(student.Name))">
                                 <span class="mdi mdi-account-edit blue-text"></span>
                             </button>
                         </td>

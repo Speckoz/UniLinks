@@ -5,10 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
-using UniLink.API.Data.VO;
 using UniLink.Dependencies.Attributes;
+using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
-using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Controllers
 {

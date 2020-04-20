@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data.Converters;
-using UniLink.API.Data.VO;
 using UniLink.API.Repository.Interfaces;
-using UniLink.Dependencies.Models;
+using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.API.Business
 {

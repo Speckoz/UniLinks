@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services;
-using UniLink.Dependencies.Models;
+using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.Client.Site.Pages.User
 {
@@ -24,9 +24,9 @@ namespace UniLink.Client.Site.Pages.User
 
 		private async Task AuthAccountTaskAsync()
 		{
-			if (await AccountService.AuthAccountTaskAsync(email) is UserModel user)
+			if (await AccountService.AuthAccountTaskAsync(email) is StudentVO user)
 			{
-				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user);
+				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user.Token);
 				Navigation.NavigateTo("/user");
 			}
 			else

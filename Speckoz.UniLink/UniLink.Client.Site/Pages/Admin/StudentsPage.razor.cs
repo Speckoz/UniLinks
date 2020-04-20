@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services.Admin;
 using UniLink.Dependencies.Attributes;
+using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
-using UniLink.Dependencies.Models;
 
 namespace UniLink.Client.Site.Pages.Admin
 {
 	[Authorizes(UserTypeEnum.Coordinator)]
 	public partial class StudentsPage
 	{
-		private IList<StudentModel> students;
+		private IList<StudentVO> students;
 
 		[Inject]
 		private ISessionStorageService SessionStorage { get; set; }
@@ -28,7 +28,7 @@ namespace UniLink.Client.Site.Pages.Admin
 		{
 			string token = await SessionStorage.GetItemAsync<string>("token");
 
-			CourseModel course = await new CourseService().GetCourseByCoordIdTaskAsync(token);
+			CourseVO course = await new CourseService().GetCourseByCoordIdTaskAsync(token);
 
 			students = await new StudentService().GetStudentsTaskAsync(token, course.CourseId);
 		}

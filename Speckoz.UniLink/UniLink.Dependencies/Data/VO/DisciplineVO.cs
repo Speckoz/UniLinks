@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UniLink.Dependencies.Models;
 
-namespace UniLink.API.Data.VO
+namespace UniLink.Dependencies.Data.VO
 {
-    public class DisciplineVO
-    {
+	public class DisciplineVO
+	{
 		public Guid DisciplineId { get; set; }
 		public string Name { get; set; }
 		public string Teacher { get; set; }

@@ -11,8 +11,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-using UniLink.Dependencies.Models;
-
 namespace UniLink.Client.Site.Services
 {
 	public class AuthenticationStateProviderService : AuthenticationStateProvider
@@ -60,10 +58,10 @@ namespace UniLink.Client.Site.Services
 			return new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out SecurityToken validatedToken);
 		}
 
-		public async Task MarkUserWithAuthenticatedAsync(UserModel user)
+		public async Task MarkUserWithAuthenticatedAsync(string token)
 		{
-			await _sessionStorage.SetItemAsync("token", user.Token);
-			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(user.Token))));
+			await _sessionStorage.SetItemAsync("token", token);
+			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(token))));
 		}
 
 		public async Task LogoutUserAsync()

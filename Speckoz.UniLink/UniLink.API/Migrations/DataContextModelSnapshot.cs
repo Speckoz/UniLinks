@@ -17,9 +17,9 @@ namespace UniLink.API.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("UniLink.API.Models.UserLoginModel", b =>
+            modelBuilder.Entity("UniLink.API.Models.CoordinatorModel", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("CoordinatorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -32,14 +32,12 @@ namespace UniLink.API.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("UserType")
-                        .HasColumnType("int");
+                    b.HasKey("CoordinatorId");
 
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
+                    b.ToTable("Coordinators");
                 });
 
             modelBuilder.Entity("UniLink.Dependencies.Models.CourseModel", b =>
@@ -85,8 +83,6 @@ namespace UniLink.API.Migrations
 
                     b.HasKey("DisciplineId");
 
-                    b.HasIndex("CourseId");
-
                     b.ToTable("Disciplines");
                 });
 
@@ -112,55 +108,33 @@ namespace UniLink.API.Migrations
 
                     b.HasKey("LessonId");
 
-                    b.HasIndex("DisciplineId");
-
                     b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("UniLink.Dependencies.Models.StudentModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("StudentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Disciplines")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasIndex("CourseId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("StudentId");
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("UniLink.Dependencies.Models.DisciplineModel", b =>
-                {
-                    b.HasOne("UniLink.Dependencies.Models.CourseModel", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("UniLink.Dependencies.Models.LessonModel", b =>
-                {
-                    b.HasOne("UniLink.Dependencies.Models.DisciplineModel", "Discipline")
-                        .WithMany()
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("UniLink.Dependencies.Models.StudentModel", b =>
-                {
-                    b.HasOne("UniLink.Dependencies.Models.CourseModel", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

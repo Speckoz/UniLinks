@@ -10,20 +10,20 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
-using UniLink.Dependencies.Models;
+using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.Client.Site.Services.Admin
 {
 	public class StudentService
 	{
-		public async Task<IList<StudentModel>> GetStudentsTaskAsync(string token, Guid courseId)
+		public async Task<IList<StudentVO>> GetStudentsTaskAsync(string token, Guid courseId)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token, courseId);
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<StudentModel>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				return JsonSerializer.Deserialize<List<StudentVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 			else if (response.StatusCode == HttpStatusCode.NotFound)
-				return new List<StudentModel>();
+				return new List<StudentVO>();
 
 			return null;
 		}

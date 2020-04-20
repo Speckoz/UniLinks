@@ -27,8 +27,11 @@ namespace UniLink.API.Repository
 			return default;
 		}
 
-		public async Task<StudentModel> FindByIdTaskAsync(Guid id) => 
+		public async Task<StudentModel> FindByIdTaskAsync(Guid id) =>
 			await _context.Students.Where(x => x.StudentId == id).SingleOrDefaultAsync();
+
+		public async Task<StudentModel> FindByEmailTaskAsync(string email) =>
+			await _context.Students.SingleOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
 
 		public async Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
 		{

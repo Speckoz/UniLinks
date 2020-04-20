@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services;
-using UniLink.Dependencies.Models;
+using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.Client.Site.Pages.Admin
@@ -26,20 +26,15 @@ namespace UniLink.Client.Site.Pages.Admin
 
 		private async Task AuthAccountTaskAsync()
 		{
-			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }) is UserModel user)
+			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }) is CoordinatorVO coord)
 			{
-				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user);
+				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(coord.Token);
 				Navigation.NavigateTo("/admin");
 			}
 			else
-			{
-				show = "show";
-			}
+				show = nameof(show);
 		}
 
-		private void HideAlert()
-		{
-			show = "collapse";
-		}
+		private void HideAlert() => show = "collapse";
 	}
 }
