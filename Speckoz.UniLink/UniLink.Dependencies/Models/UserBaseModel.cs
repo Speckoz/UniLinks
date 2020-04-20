@@ -8,7 +8,7 @@ namespace UniLink.Dependencies.Models
 	public class UserBaseModel
 	{
 		[Key]
-		public Guid? UserId { get; set; }
+		public Guid UserId { get; set; }
 
 		[Required]
 		public string Email { get; set; }
@@ -17,7 +17,7 @@ namespace UniLink.Dependencies.Models
 		public string Name { get; set; }
 
 		[Required]
-		public UserTypeEnum? UserType { get; set; }
+		public UserTypeEnum UserType { get; set; }
 
 		public UserModel ToUserModel() => new UserModel
 		{
