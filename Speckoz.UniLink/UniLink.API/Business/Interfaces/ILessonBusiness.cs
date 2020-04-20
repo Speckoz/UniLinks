@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using UniLink.API.Data.VO;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
@@ -8,17 +8,17 @@ namespace UniLink.API.Business.Interfaces
 {
 	public interface ILessonBusiness
 	{
-		Task<LessonModel> AddTaskAsync(LessonModel lesson);
+		Task<LessonVO> AddTaskAsync(LessonVO lesson);
 
-		Task<LessonModel> FindByIdTaskAsync(Guid lessonId);
+		Task<LessonVO> FindByIdTaskAsync(Guid lessonId);
 
-		Task<LessonModel> FindByURITaskAsync(string uri);
+		Task<LessonVO> FindByURITaskAsync(string uri);
 
-		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum LessonShift);
+		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum LessonShift);
 
-		Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period);
+		Task<LessonVO> FindByCourseTaskAsync(Guid courseId, byte period);
 
-		Task<LessonModel> UpdateTaskAsync(LessonModel newLesson);
+		Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
 
 		Task<bool> DeleteTaskAsync(Guid lessonId);
 	}

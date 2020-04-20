@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
+using UniLink.API.Data.Converters;
+using UniLink.API.Data.VO;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
 using UniLink.Dependencies.Models;
@@ -12,28 +14,36 @@ namespace UniLink.API.Business
 	{
 		private readonly IAccountRepository _accountRepository;
 		private readonly GenerateTokenService _tokenService;
+		private readonly UserConverter _converter;
 
 		public AccountBusiness(IAccountRepository accountRepository, GenerateTokenService tokenService)
 		{
 			_accountRepository = accountRepository;
 			_tokenService = tokenService;
+			_converter = new UserConverter();
 		}
 
-		public async Task<UserModel> AuthAccountTaskAsync(LoginRequestModel login)
+		public async Task<UserVO> AuthAccountTaskAsync(LoginRequestModel login)
 		{
 			login.Password = SecurityService.EncryptToSHA256(login.Password);
 
-			return await _accountRepository.FindUserByLoginTaskAsync(login) is UserModel userBase ? ReturnToken(userBase) : (default);
+			var user = await _accountRepository.FindUserByLoginTaskAsync(login);
+			if (user is UserModel)
+			{
+				return _converter.Parse(user);
+			}
+			return default;
 		}
 
-		public async Task<UserModel> AuthUserTaskAsync(string email) =>
-			await _accountRepository.FindByEmailTaskAsync(email) is UserModel userBase ? ReturnToken(userBase) : (default);
-
-		private UserModel ReturnToken(UserModel userBase)
+		public async Task<UserVO> AuthUserTaskAsync(string email)
 		{
-			var user = userBase.ToUserModel();
-			user.Token = _tokenService.Generate(userBase);
-			return user;
+			var user = await _accountRepository.FindByEmailTaskAsync(email);
+			if (user is UserModel)
+			{
+				return _converter.Parse(user);
+			}
+
+			return default;
 		}
 	}
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using UniLink.API.Data.VO;
 using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Business.Interfaces
 {
 	public interface ICourseBusiness
 	{
-		Task<CourseModel> FindByCoordIdTaskAsync(Guid coordId);
+		Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId);
 	}
 }
