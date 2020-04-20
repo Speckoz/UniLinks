@@ -12,10 +12,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/mdb.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
-    <link href="css/Themes.css" rel="stylesheet" />
+    <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="light-mode" id="theme">
+    <div class="theme-bg theme-text">
         <app>
             @(await Html.RenderComponentAsync<App>(RenderMode.Server))
         </app>

@@ -46,7 +46,7 @@ else if (students.Count == 0)
 else
 {
     <div class="d-flex justify-content-lg-center">
-        <table class="table table-hover table-students">
+        <table class="table table-hover table-students theme-bg theme-text">
 
             <!--Table head-->
             <thead>
@@ -61,7 +61,7 @@ else
             <tbody>
                 @foreach (var student in students)
                 {
-                    <tr>
+                    <tr class="tr-hover" onmouseover="">
                         <td class="text-wrap">@student.User.Name</td>
                         <td class="text-wrap">@student.User.Email</td>
                         <td class="icons-td">

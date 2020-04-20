@@ -1,0 +1,15 @@
+﻿.theme-bg
+{
+    background-color: #333333;
+}
+
+.theme-text
+{
+    color: white;
+}
+
+tr.tr-hover:hover
+{
+    background-color: #444444 !important;
+    color: white !important;
+}
