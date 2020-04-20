@@ -8,12 +8,12 @@ namespace UniLink.API.Business.Interfaces
 {
 	public interface IStudentBusiness
 	{
-		Task<StudentVO> FindByIdTaskAsync(int id);
+		Task<StudentVO> FindByIdTaskAsync(Guid id);
 
 		Task<IList<StudentVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId);
 
 		Task<StudentVO> AddTaskAsync(StudentVO student);
 
-		Task DeleteTaskAsync(int id);
+		Task DeleteTaskAsync(Guid id);
 	}
 }

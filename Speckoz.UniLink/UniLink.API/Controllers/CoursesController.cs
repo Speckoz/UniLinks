@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
+using UniLink.API.Data.VO;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
@@ -28,7 +29,7 @@ namespace UniLink.API.Controllers
 		{
 			var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-			if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseModel course)
+			if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 				return Ok(course);
 
 			return NotFound("Nao existe nenhum curso com este coordenador");

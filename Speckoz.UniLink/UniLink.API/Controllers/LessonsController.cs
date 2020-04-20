@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
+using UniLink.API.Data.VO;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
@@ -24,11 +25,11 @@ namespace UniLink.API.Controllers
 		// POST: /Lessons
 		[HttpPost]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddClassTaskAsync([FromBody]LessonModel lesson)
+		public async Task<IActionResult> AddClassTaskAsync([FromBody]LessonVO lesson)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.AddTaskAsync(lesson) is LessonModel addedClass)
+				if (await _lessonBusiness.AddTaskAsync(lesson) is LessonVO addedClass)
 					return Created($"/classes/newLesson{addedClass.LessonId}", addedClass);
 
 				return BadRequest("A aula informada ja existe, informe uma URI diferente");
@@ -44,7 +45,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonModel lesson)
+				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonVO lesson)
 					return Ok(lesson);
 
 				return NotFound("A aula informada nao existe!");
@@ -61,7 +62,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.FindByURITaskAsync(uri) is LessonModel lesson)
+				if (await _lessonBusiness.FindByURITaskAsync(uri) is LessonVO lesson)
 					return Ok(lesson);
 
 				return NotFound("A aula informada nao existe!");
@@ -73,11 +74,11 @@ namespace UniLink.API.Controllers
 		// PUT: /Lessons
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> UpdateTaskAsync([FromBody]LessonModel newLesson)
+		public async Task<IActionResult> UpdateTaskAsync([FromBody]LessonVO newLesson)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonModel lesson)
+				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
 					return Ok(lesson);
 
 				return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
