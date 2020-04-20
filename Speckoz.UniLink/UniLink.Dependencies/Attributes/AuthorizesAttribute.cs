@@ -2,7 +2,7 @@
 
 using UniLink.Dependencies.Enums;
 
-namespace UniLink.Client.Site.Attributes
+namespace UniLink.Dependencies.Attributes
 {
 	public class AuthorizesAttribute : AuthorizeAttribute
 	{

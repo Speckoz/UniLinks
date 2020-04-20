@@ -14,13 +14,13 @@ namespace UniLink.Client.Site.Pages.User
 		private string show = "collapse";
 
 		[Inject]
-		public AccountService AccountService { get; private set; }
+		private AccountService AccountService { get; set; }
 
 		[Inject]
-		public AuthenticationStateProvider Authentication { get; private set; }
+		private AuthenticationStateProvider Authentication { get; set; }
 
 		[Inject]
-		public NavigationManager Navigation { get; private set; }
+		private NavigationManager Navigation { get; set; }
 
 		private async Task AuthAccountTaskAsync()
 		{
