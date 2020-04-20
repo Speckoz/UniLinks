@@ -5,8 +5,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-using UniLink.API.Attributes;
 using UniLink.API.Business.Interfaces;
+using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
@@ -69,6 +69,7 @@ namespace UniLink.API.Controllers
 
 			return BadRequest();
 		}
+
 		// PUT: /Lessons
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]

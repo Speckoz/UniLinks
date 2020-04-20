@@ -38,7 +38,6 @@ namespace UniLink.Client.Site.Components
 		private async void ChangeTheme()
 		{
 			await ThemeService.ChangeTheme(__isDark);
-			__isDark = !__isDark;
 		}
 
 		private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;

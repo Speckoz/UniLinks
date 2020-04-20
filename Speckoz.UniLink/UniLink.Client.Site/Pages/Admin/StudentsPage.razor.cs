@@ -10,8 +10,8 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using UniLink.Client.Site.Attributes;
 using UniLink.Client.Site.Services.Admin;
+using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
