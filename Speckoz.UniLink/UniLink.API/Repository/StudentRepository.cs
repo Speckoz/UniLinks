@@ -27,21 +27,18 @@ namespace UniLink.API.Repository
 			return default;
 		}
 
-		public async Task<StudentModel> FindByIdTaskAsync(int id) => 
-			await _context.Students.Include(x => x.Course).Where(x => x.Id == id).SingleOrDefaultAsync();
+		public async Task<StudentModel> FindByIdTaskAsync(Guid id) => 
+			await _context.Students.Where(x => x.StudentId == id).SingleOrDefaultAsync();
 
 		public async Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
 		{
-			List<StudentModel> students = await _context.Students
-				.Include(x => x.Course)
-				.Where(x => x.Course.CoordinatorId == coordId && x.Course.CourseId == courseId)
+			var course = await _context.Courses
+				.Where(c => c.CourseId == courseId && c.CoordinatorId == coordId)
+				.FirstOrDefaultAsync();
+
+			return await _context.Students
+				.Where(c => c.CourseId == course.CourseId)
 				.ToListAsync();
-
-			foreach (StudentModel student in students)
-				student.User = await _context.Users.Where(u => u.UserId == student.StudentId)
-					.Select(x => x.ToUserBaseModel()).SingleOrDefaultAsync();
-
-			return students;
 		}
 
 		public async Task DeleteTaskAsync(StudentModel student)
