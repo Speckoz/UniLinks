@@ -14,12 +14,10 @@
     <link href="css/site.css" rel="stylesheet" />
     <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
 </head>
-<body>
-    <div class="theme-bg theme-text">
-        <app>
-            @(await Html.RenderComponentAsync<App>(RenderMode.Server))
-        </app>
-    </div>
+<body class="theme-bg theme-text">
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.Server))
+    </app>
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
