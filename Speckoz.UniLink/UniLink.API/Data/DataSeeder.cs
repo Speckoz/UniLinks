@@ -123,7 +123,7 @@ namespace UniLink.API.Data
 						Name = "Principios de Eletronica",
 						Teacher = "Son Goku",
 						Period = 5,
-						Course = c1
+						CourseId = c1.CourseId
 					};
 					d2 = new DisciplineModel
 					{
@@ -131,7 +131,7 @@ namespace UniLink.API.Data
 						Name = "Fundamentos de programaçao",
 						Teacher = "Naruto Uzumaki",
 						Period = 2,
-						Course = c2
+						CourseId = c2.CourseId
 					};
 
 					_context.Disciplines.AddRange(d1, d2);
@@ -147,7 +147,7 @@ namespace UniLink.API.Data
 						Date = DateTime.Now,
 						LessonSubject = "Lição",
 						URI = "https://logikoz.net",
-						Discipline = d1
+						DisciplineId = d1.DisciplineId
 					};
 
 					l2 = new LessonModel
@@ -155,7 +155,7 @@ namespace UniLink.API.Data
 						Date = DateTime.Now,
 						LessonSubject = "Prova",
 						URI = "https://bit.ly/2RF0oFQ",
-						Discipline = d2
+						DisciplineId = d2.DisciplineId
 					};
 
 					_context.Lessons.AddRange(l1, l2);
@@ -169,22 +169,22 @@ namespace UniLink.API.Data
 					s1 = new StudentModel
 					{
 						StudentId = Guid.Parse("74E8B9D9-310D-431B-B118-D386B85F8B8A"),
-						Course = c1
+						CourseId = c1.CourseId
 					};
 					s2 = new StudentModel
 					{
 						StudentId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
-						Course = c1
+						CourseId = c1.CourseId
 					};
 					s3 = new StudentModel
 					{
 						StudentId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
-						Course = c2
+						CourseId = c2.CourseId
 					};
 					s4 = new StudentModel
 					{
 						StudentId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
-						Course = c2
+						CourseId = c2.CourseId
 					};
 
 					_context.Students.AddRange(s1, s2, s3, s4);
