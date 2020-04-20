@@ -11,6 +11,6 @@ namespace UniLink.API.Data.VO
 		public int Id { get; set; }
 		public Guid UserId { get; set; }
 		public CourseModel Course { get; set; }
-		public UserBaseModel User { get; set; }
+		public UserModel User { get; set; }
 	}
 }

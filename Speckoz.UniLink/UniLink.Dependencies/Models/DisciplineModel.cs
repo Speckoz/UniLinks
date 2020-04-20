@@ -18,6 +18,6 @@ namespace UniLink.Dependencies.Models
 		public byte Period { get; set; }
 
 		[Required]
-		public CourseModel Course { get; set; }
+		public Guid CourseId { get; set; }
 	}
 }

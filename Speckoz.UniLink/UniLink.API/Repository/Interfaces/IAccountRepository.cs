@@ -8,9 +8,9 @@ namespace UniLink.API.Repository.Interfaces
 {
 	public interface IAccountRepository
 	{
-		Task<UserBaseModel> FindUserByLoginTaskAsync(LoginRequestModel login);
+		Task<UserModel> FindUserByLoginTaskAsync(LoginRequestModel login);
 
-		Task<UserBaseModel> FindByEmailTaskAsync(string email);
+		Task<UserModel> FindByEmailTaskAsync(string email);
 
 		Task<bool> ExistsByEmailTaskAsync(string email);
 

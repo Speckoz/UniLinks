@@ -8,12 +8,12 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Data.Converters
 {
-    public class UserConverter : IParser<UserVO, UserBaseModel>, IParser<UserBaseModel, UserVO>
+    public class UserConverter : IParser<UserVO, UserModel>, IParser<UserModel, UserVO>
     {
-        public UserBaseModel Parse(UserVO origin)
+        public UserModel Parse(UserVO origin)
         {
-            if (origin == null) return new UserBaseModel();
-            return new UserBaseModel
+            if (origin == null) return new UserModel();
+            return new UserModel
             {
                 Email = origin.Email,
                 Name = origin.Name,
@@ -22,7 +22,7 @@ namespace UniLink.API.Data.Converters
             };
         }
 
-        public UserVO Parse(UserBaseModel origin)
+        public UserVO Parse(UserModel origin)
         {
             if (origin == null) return new UserVO();
             return new UserVO 
@@ -34,13 +34,13 @@ namespace UniLink.API.Data.Converters
             };
         }
 
-        public List<UserBaseModel> ParseList(List<UserVO> origin)
+        public List<UserModel> ParseList(List<UserVO> origin)
         {
-            if (origin == null) return new List<UserBaseModel>();
+            if (origin == null) return new List<UserModel>();
             return origin.Select(item => Parse(item)).ToList();
         }
 
-        public List<UserVO> ParseList(List<UserBaseModel> origin)
+        public List<UserVO> ParseList(List<UserModel> origin)
         {
             if (origin == null) return new List<UserVO>();
             return origin.Select(item => Parse(item)).ToList();

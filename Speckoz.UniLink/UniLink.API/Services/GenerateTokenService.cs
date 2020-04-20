@@ -17,7 +17,7 @@ namespace UniLink.API.Services
 		public GenerateTokenService(IConfiguration configuration) =>
 			_configuration = configuration;
 
-		public string Generate(UserBaseModel user)
+		public string Generate(UserModel user)
 		{
 			return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
 				issuer: _configuration["JWT:Issuer"],

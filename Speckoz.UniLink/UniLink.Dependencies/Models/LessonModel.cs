@@ -15,7 +15,7 @@ namespace UniLink.Dependencies.Models
 		public string LessonSubject { get; set; }
 
 		[Required]
-		public DisciplineModel Discipline { get; set; }
+		public Guid DisciplineId { get; set; }
 
 		[Required]
 		public DateTime Date { get; set; }

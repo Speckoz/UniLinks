@@ -23,13 +23,13 @@ namespace UniLink.API.Business
 		{
 			login.Password = SecurityService.EncryptToSHA256(login.Password);
 
-			return await _accountRepository.FindUserByLoginTaskAsync(login) is UserBaseModel userBase ? ReturnToken(userBase) : (default);
+			return await _accountRepository.FindUserByLoginTaskAsync(login) is UserModel userBase ? ReturnToken(userBase) : (default);
 		}
 
 		public async Task<UserModel> AuthUserTaskAsync(string email) =>
-			await _accountRepository.FindByEmailTaskAsync(email) is UserBaseModel userBase ? ReturnToken(userBase) : (default);
+			await _accountRepository.FindByEmailTaskAsync(email) is UserModel userBase ? ReturnToken(userBase) : (default);
 
-		private UserModel ReturnToken(UserBaseModel userBase)
+		private UserModel ReturnToken(UserModel userBase)
 		{
 			var user = userBase.ToUserModel();
 			user.Token = _tokenService.Generate(userBase);
