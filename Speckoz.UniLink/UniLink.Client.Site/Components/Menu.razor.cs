@@ -25,10 +25,10 @@ namespace UniLink.Client.Site.Components
 		}
 
 		[Inject]
-		public ThemeService ThemeService { get; private set; }
+		private ThemeService ThemeService { get; set; }
 
 		[Inject]
-		public AuthenticationStateProvider Authentication { get; private set; }
+		private AuthenticationStateProvider Authentication { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
