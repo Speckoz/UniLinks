@@ -8,6 +8,11 @@
     color: white;
 }
 
+    .theme-text:focus
+    {
+        color: var(--theme-text)
+    }
+
 tr.tr-hover:hover
 {
     background-color: #444444 !important;

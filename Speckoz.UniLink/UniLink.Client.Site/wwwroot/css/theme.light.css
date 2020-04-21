@@ -7,3 +7,8 @@
 {
     color: black;
 }
+
+    .theme-text:focus
+    {
+        color: var(--theme-text)
+    }
