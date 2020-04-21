@@ -13,6 +13,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new CoordinatorModel();
+
 			return new CoordinatorModel
 			{
 				CoordinatorId = origin.CoordinatorId,
@@ -26,6 +27,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new CoordinatorVO();
+
 			return new CoordinatorVO
 			{
 				CoordinatorId = origin.CoordinatorId,
@@ -35,17 +37,19 @@ namespace UniLink.API.Data.Converters
 			};
 		}
 
-		public List<CoordinatorModel> ParseList(List<CoordinatorVO> origin)
+		public IList<CoordinatorModel> ParseList(IList<CoordinatorVO> origin)
 		{
 			if (origin == null)
 				return new List<CoordinatorModel>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 
-		public List<CoordinatorVO> ParseList(List<CoordinatorModel> origin)
+		public IList<CoordinatorVO> ParseList(IList<CoordinatorModel> origin)
 		{
 			if (origin == null)
 				return new List<CoordinatorVO>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 	}

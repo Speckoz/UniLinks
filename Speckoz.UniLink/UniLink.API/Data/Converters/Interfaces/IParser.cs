@@ -6,6 +6,6 @@ namespace UniLink.API.Data.Converters.Interfaces
 	{
 		D Parse(O origin);
 
-		List<D> ParseList(List<O> origin);
+		IList<D> ParseList(IList<O> origin);
 	}
 }

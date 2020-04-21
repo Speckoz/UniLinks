@@ -32,7 +32,7 @@ namespace UniLink.Client.Site.Components
 
 		protected override async Task OnInitializedAsync()
 		{
-			__isDark = await ThemeService.ChangeSessionThemeAsync();
+			__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
 		}
 
 		private async void ChangeTheme()

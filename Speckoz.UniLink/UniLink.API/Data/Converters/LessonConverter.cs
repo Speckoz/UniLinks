@@ -13,6 +13,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new LessonModel();
+
 			return new LessonModel
 			{
 				Date = origin.Date,
@@ -27,6 +28,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new LessonVO();
+
 			return new LessonVO
 			{
 				Date = origin.Date,
@@ -37,17 +39,19 @@ namespace UniLink.API.Data.Converters
 			};
 		}
 
-		public List<LessonModel> ParseList(List<LessonVO> origin)
+		public IList<LessonModel> ParseList(IList<LessonVO> origin)
 		{
 			if (origin == null)
 				return new List<LessonModel>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 
-		public List<LessonVO> ParseList(List<LessonModel> origin)
+		public IList<LessonVO> ParseList(IList<LessonModel> origin)
 		{
 			if (origin == null)
 				return new List<LessonVO>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 	}

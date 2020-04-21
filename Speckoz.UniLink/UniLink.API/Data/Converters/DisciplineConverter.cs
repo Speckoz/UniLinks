@@ -13,6 +13,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new DisciplineModel();
+
 			return new DisciplineModel
 			{
 				DisciplineId = origin.DisciplineId,
@@ -27,6 +28,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new DisciplineVO();
+
 			return new DisciplineVO
 			{
 				DisciplineId = origin.DisciplineId,
@@ -37,17 +39,19 @@ namespace UniLink.API.Data.Converters
 			};
 		}
 
-		public List<DisciplineModel> ParseList(List<DisciplineVO> origin)
+		public IList<DisciplineModel> ParseList(IList<DisciplineVO> origin)
 		{
 			if (origin == null)
 				return new List<DisciplineModel>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 
-		public List<DisciplineVO> ParseList(List<DisciplineModel> origin)
+		public IList<DisciplineVO> ParseList(IList<DisciplineModel> origin)
 		{
 			if (origin == null)
 				return new List<DisciplineVO>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 	}

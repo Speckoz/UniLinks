@@ -1,5 +1,4 @@
 ﻿@page "/admin/students"
-
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 <!--Table-->
@@ -56,6 +55,7 @@ else
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Disciplinas</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
@@ -64,9 +64,14 @@ else
             <tbody>
                 @foreach (var student in students)
                 {
-                    <tr class="tr-hover" onmouseover="">
+                    <tr class="tr-hover">
                         <td class="text-wrap">@student.Name</td>
                         <td class="text-wrap">@student.Email</td>
+                        <td class="icons-td">
+                            <button @onclick="@(async () => await ViewDisciplines(student.Disciplines.Split(';')))">
+                                <span class="mdi mdi-view-agenda green-text" />
+                            </button>
+                        </td>
                         <td class="icons-td">
                             <button @onclick="@(async () => await RemoveStudent(student.Name))">
                                 <span class="mdi mdi-delete red-text"></span>

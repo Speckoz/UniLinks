@@ -65,17 +65,19 @@ namespace UniLink.API
 			services.AddScoped<GenerateTokenService>();
 			services.AddScoped<SecurityService>();
 
-			// Business
-			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
-			services.AddScoped<ILessonBusiness, LessonBusiness>();
-			services.AddScoped<IStudentBusiness, StudentBusiness>();
-			services.AddScoped<ICourseBusiness, CourseBusiness>();
-
 			// Repositories
 			services.AddScoped<ICoordinatorRepository, CoordinatorRepository>();
 			services.AddScoped<ILessonRepository, LessonRepository>();
 			services.AddScoped<IStudentRepository, StudentRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();
+			services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+
+			// Business
+			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
+			services.AddScoped<ILessonBusiness, LessonBusiness>();
+			services.AddScoped<IStudentBusiness, StudentBusiness>();
+			services.AddScoped<ICourseBusiness, CourseBusiness>();
+			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)

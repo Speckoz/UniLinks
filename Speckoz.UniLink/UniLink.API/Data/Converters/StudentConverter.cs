@@ -13,6 +13,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new StudentModel();
+
 			return new StudentModel
 			{
 				StudentId = origin.StudentId,
@@ -27,6 +28,7 @@ namespace UniLink.API.Data.Converters
 		{
 			if (origin == null)
 				return new StudentVO();
+
 			return new StudentVO
 			{
 				StudentId = origin.StudentId,
@@ -37,17 +39,19 @@ namespace UniLink.API.Data.Converters
 			};
 		}
 
-		public List<StudentModel> ParseList(List<StudentVO> origin)
+		public IList<StudentModel> ParseList(IList<StudentVO> origin)
 		{
 			if (origin == null)
 				return new List<StudentModel>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 
-		public List<StudentVO> ParseList(List<StudentModel> origin)
+		public IList<StudentVO> ParseList(IList<StudentModel> origin)
 		{
 			if (origin == null)
 				return new List<StudentVO>();
+
 			return origin.Select(item => Parse(item)).ToList();
 		}
 	}

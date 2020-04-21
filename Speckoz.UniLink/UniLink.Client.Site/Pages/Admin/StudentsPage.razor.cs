@@ -33,6 +33,15 @@ namespace UniLink.Client.Site.Pages.Admin
 			students = await new StudentService().GetStudentsTaskAsync(token, course.CourseId);
 		}
 
+		private async Task ViewDisciplines(string[] disciplines)
+		{
+			string msg = default;
+			foreach (string discipline in disciplines)
+				msg += $"{discipline}\n";
+
+			await JSRuntime.InvokeVoidAsync("SendAlert", msg);
+		}
+
 		private async Task RemoveStudent(string nome)
 		{
 			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce removeu {nome}\n\nMintira");

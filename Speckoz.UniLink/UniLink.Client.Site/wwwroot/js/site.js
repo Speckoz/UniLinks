@@ -11,14 +11,14 @@ function ChangeLinkTheme(cssFile)
 {
     const oldLink = document.getElementById("clientThemeLink");
 
+    if (cssFile === oldLink.getAttribute("href"))
+        return;
+
     const newLink = document.createElement("link");
     newLink.setAttribute("id", "clientThemeLink");
     newLink.setAttribute("rel", "stylesheet");
     newLink.setAttribute("href", cssFile);
-    newLink.onload = () =>
-    {
-        oldLink.parentElement.removeChild(oldLink);
-    };
+    newLink.onload = () => oldLink.parentElement.removeChild(oldLink);
 
     document.getElementsByTagName("head")[0].appendChild(newLink);
 }
