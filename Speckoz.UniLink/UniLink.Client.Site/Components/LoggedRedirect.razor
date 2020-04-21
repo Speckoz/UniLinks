@@ -19,7 +19,7 @@
 
 @code {
     [Parameter]
-    public bool IsUser { get; set; }
+    public bool IsStudent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,7 +28,7 @@
 
     private async Task Redirect()
     {
-        Navigation.NavigateTo("/");
+        Navigation.NavigateTo($"/{(IsStudent ? "user" : "admin")}");
         await JsRuntime.InvokeVoidAsync("DisposeModal", "loggedRedirectModal");
     }
 }

@@ -1,8 +1,13 @@
 ﻿@page "/Auth/Admin"
 
-<AuthorizeView>
+<AuthorizeView Roles="Coordinator">
     <Authorized>
-        <UniLink.Client.Site.Components.LoggedRedirect IsUser="false" />
+        <UniLink.Client.Site.Components.LoggedRedirect IsStudent="false" />
+    </Authorized>
+</AuthorizeView>
+<AuthorizeView Roles="Student">
+    <Authorized>
+        <UniLink.Client.Site.Components.LoggedRedirect IsStudent="true" />
     </Authorized>
 </AuthorizeView>
 

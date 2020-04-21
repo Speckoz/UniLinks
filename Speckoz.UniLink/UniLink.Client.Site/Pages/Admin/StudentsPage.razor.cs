@@ -31,13 +31,15 @@ namespace UniLink.Client.Site.Pages.Admin
 			CourseVO course = await new CourseService().GetCourseByCoordIdTaskAsync(token);
 
 			students = await new StudentService().GetStudentsTaskAsync(token, course.CourseId);
+			foreach (StudentVO student in students)
+				student.DisciplinesList = await new DisciplineService().GetDisciplinesByRangeTaskAsync(token, student.Disciplines);
 		}
 
-		private async Task ViewDisciplines(string[] disciplines)
+		private async Task ViewDisciplines(IList<DisciplineVO> disciplines)
 		{
 			string msg = default;
-			foreach (string discipline in disciplines)
-				msg += $"{discipline}\n";
+			foreach (DisciplineVO discipline in disciplines)
+				msg += $"{discipline.Name} | {discipline.Period} Semestre\n";
 
 			await JSRuntime.InvokeVoidAsync("SendAlert", msg);
 		}

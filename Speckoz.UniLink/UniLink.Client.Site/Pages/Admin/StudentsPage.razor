@@ -55,8 +55,8 @@ else
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Disciplinas</th>
-                    <th scope="col">Ações</th>
+                    <th class="text-center" scope="col">Disciplinas</th>
+                    <th class="text-center" scope="col">Ações</th>
                 </tr>
             </thead>
             <!--Table head-->
@@ -67,12 +67,10 @@ else
                     <tr class="tr-hover">
                         <td class="text-wrap">@student.Name</td>
                         <td class="text-wrap">@student.Email</td>
-                        <td class="icons-td">
-                            <button @onclick="@(async () => await ViewDisciplines(student.Disciplines.Split(';')))">
-                                <span class="mdi mdi-view-agenda green-text" />
-                            </button>
+                        <td class="icons-td text-center">
+                            <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplines(student.DisciplinesList))">Ver</span>
                         </td>
-                        <td class="icons-td">
+                        <td class="icons-td text-center">
                             <button @onclick="@(async () => await RemoveStudent(student.Name))">
                                 <span class="mdi mdi-delete red-text"></span>
                             </button>
