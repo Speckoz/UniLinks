@@ -1,4 +1,38 @@
 ﻿@page "/student"
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
 
-<h3 class="text-center">Aulas</h3>
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="#">Suas Aulas</a>
 
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="basicExampleNav">
+        <div>
+            <form class="form-inline">
+                <div class="md-form my-0">
+                    <input class="form-control mr-sm-2 input-search-lesson align-middle" type="text" placeholder="Pesquisar" aria-label="Search">
+                </div>
+            </form>
+        </div>
+
+        <!-- Links -->
+        <div>
+            <ul class="navbar-nav mr-auto">
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Filtros</a>
+
+                    <div class="dropdown-menu dropdown-primary dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->

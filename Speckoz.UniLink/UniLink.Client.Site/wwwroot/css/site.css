@@ -416,3 +416,8 @@ input:checked + .slider:before
     bottom: 10px;
     right: 10px;
 }
+
+/* Students Lessons  */
+.input-search-lesson {
+    width: 400px !important;
+}
