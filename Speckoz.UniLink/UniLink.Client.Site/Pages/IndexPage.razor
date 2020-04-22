@@ -3,3 +3,30 @@
 <h3>Bem-Vindo ao UniLink</h3>
 
 <p>Dignissim vulputate consetetur ea dolores eirmod kasd sed elitr eos diam amet dolore placerat invidunt eu amet duis ipsum diam</p>
+
+@inject IJSRuntime jSRuntime
+
+<video currentTime="20" id="video" width="320" controls>
+    <source src="https://mdn.github.io/dom-examples/canvas/chroma-keying/media/video.mp4" />
+</video>
+<br />
+<button @onclick="@(async () => await Capture(15))" style="width: 64px;border: solid 2px #ccc;">Capture</button>
+
+<br />
+<br />
+<span style="text-align: center;">Canvas: </span>
+<br />
+<canvas id="canvasid"></canvas>
+
+<br />
+<br />
+<span style="text-align: center; ">Image (com erro): </span>
+<br />
+<img id="canvasimg" />
+
+@code {
+    private async Task Capture(int time)
+    {
+        await jSRuntime.InvokeVoidAsync("shoot", time);
+    }
+}
