@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services.Coordinator;
@@ -37,11 +38,8 @@ namespace UniLink.Client.Site.Pages.Coordinator
 
 		private async Task ViewDisciplines(IList<DisciplineVO> disciplines)
 		{
-			string msg = default;
-			foreach (DisciplineVO discipline in disciplines)
-				msg += $"{discipline.Name} | {discipline.Period} Semestre\n";
-
-			await JSRuntime.InvokeVoidAsync("SendAlert", msg);
+			var disciplinesJson = JsonSerializer.Serialize(disciplines);
+			await JSRuntime.InvokeVoidAsync("ShowDisciplinesModal", disciplinesJson);
 		}
 
 		private async Task RemoveStudent(string nome)
