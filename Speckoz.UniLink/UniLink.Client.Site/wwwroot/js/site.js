@@ -46,8 +46,7 @@ function capture(video, scaleFactor)
     ctx.drawImage(video, 0, 0, w, h);
 
     const img = document.getElementById('canvasimg');
-    img.setAttribute('crossOrigin', 'anonymous');
-    //img.src = canvas.toDataURL('png', 0.8);
+    img.src = canvas.toDataURL('png', 0.8);
 }
 
 function shoot(time)
@@ -64,9 +63,10 @@ function ShowDisciplinesModal(disciplines)
     $('#modalStudentDisciplines').modal()
     const modalBody = $('#modal-disciplines-content');
     modalBody.empty();
-    discArray.forEach(d => {
+    discArray.forEach(d =>
+    {
         modalBody.append(
-        `<div>
+            `<div>
             <h5> > ${d.Name}</h5>
             <hr>
          </div>`

@@ -418,6 +418,119 @@ input:checked + .slider:before
 }
 
 /* Students Lessons  */
-.input-search-lesson {
-    width: 400px !important;
+.pd-10
+{
+    padding: 10px;
 }
+
+.nowrap-row
+{
+    flex-wrap: nowrap;
+}
+
+/* Developers */
+.devs
+{
+}
+
+    .devs p
+    {
+        color: #7d8285;
+    }
+
+    .devs h2
+    {
+        font-weight: bold;
+        padding-top: 20px;
+        color: inherit;
+    }
+
+@media (max-width:767px)
+{
+    .devs h2
+    {
+        margin-bottom: 25px;
+        padding-top: 25px;
+        font-size: 24px;
+    }
+}
+
+.devs .intro
+{
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+    .devs .intro p
+    {
+        margin-bottom: 0;
+    }
+
+.devs .people
+{
+    padding: 50px 0;
+}
+
+.devs .item
+{
+    text-align: center;
+    margin: 10px;
+}
+
+    .devs .item .box
+    {
+        text-align: center;
+        padding: 30px;
+    }
+
+    .devs .item .name
+    {
+        font-weight: bold;
+        margin-top: 28px;
+        margin-bottom: 8px;
+        color: inherit;
+    }
+
+    .devs .item .nick
+    {
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: 13px;
+    }
+
+    .devs .item .description
+    {
+        font-size: 15px;
+        margin-top: 15px;
+        margin-bottom: 20px;
+    }
+
+        .devs .item .description p
+        {
+        }
+
+    .devs .item img
+    {
+        max-width: 160px;
+    }
+
+.devs .social
+{
+    font-size: 18px;
+    color: #a2a8ae;
+}
+
+    .devs .social a
+    {
+        color: inherit;
+        margin: 0 10px;
+        display: inline-block;
+        opacity: 0.7;
+    }
+
+        .devs .social a:hover
+        {
+            opacity: 1;
+        }
