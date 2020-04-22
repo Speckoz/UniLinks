@@ -1,4 +1,4 @@
-﻿@page "/Auth/Admin"
+﻿@page "/auth/student"
 
 <AuthorizeView Roles="Coordinator">
     <Authorized>
@@ -12,7 +12,7 @@
 </AuthorizeView>
 
 <div class="alert alert-danger alert-dismissible animated bounceInDown fast @show">
-    O email ou senha inválido!
+    O email informado está nao está cadastrado!
     <button type="button" class="close" aria-label="Close" @onclick="HideAlert">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -29,7 +29,7 @@
         <div class="card-body pt-0 py-2 theme-bg theme-text">
 
             <!-- Form -->
-            <form class="text-center" novalidate>
+            <form class="text-center">
 
                 <!-- Email -->
                 <div class="md-form">
@@ -37,15 +37,9 @@
                     <label for="email" data-error="wrong" data-success="right">Email</label>
                 </div>
 
-                <!-- Password -->
-                <div class="md-form">
-                    <input type="password" id="password" class="form-control validate theme-text" @bind="password" @bind:event="onchange">
-                    <label for="password" data-error="wrong" data-success="right">Password</label>
-                </div>
-
                 <!-- Sign in button -->
                 <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" type="button" @onclick="AuthAccountTaskAsync">
-                    <i class="mdi mdi-login mdi-18px" />
+                    <span class="mdi mdi-login mdi-18px" />
                     Entrar
                 </button>
 

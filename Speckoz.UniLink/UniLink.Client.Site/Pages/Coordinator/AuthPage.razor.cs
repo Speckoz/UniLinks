@@ -7,7 +7,7 @@ using UniLink.Client.Site.Services;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Models.Auxiliary;
 
-namespace UniLink.Client.Site.Pages.Admin
+namespace UniLink.Client.Site.Pages.Coordinator
 {
 	public partial class AuthPage
 	{
@@ -29,7 +29,7 @@ namespace UniLink.Client.Site.Pages.Admin
 			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }) is CoordinatorVO coord)
 			{
 				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(coord.Token);
-				Navigation.NavigateTo("/admin");
+				Navigation.NavigateTo("/Coordinator");
 			}
 			else
 				show = nameof(show);

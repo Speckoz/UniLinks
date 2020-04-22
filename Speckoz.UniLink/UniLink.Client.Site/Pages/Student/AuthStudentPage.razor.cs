@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UniLink.Client.Site.Services;
 using UniLink.Dependencies.Data.VO;
 
-namespace UniLink.Client.Site.Pages.User
+namespace UniLink.Client.Site.Pages.Student
 {
-	public partial class AuthUserPage
+	public partial class AuthStudentPage
 	{
 		private string email;
 		private string show = "collapse";
@@ -27,12 +27,10 @@ namespace UniLink.Client.Site.Pages.User
 			if (await AccountService.AuthAccountTaskAsync(email) is StudentVO user)
 			{
 				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(user.Token);
-				Navigation.NavigateTo("/user");
+				Navigation.NavigateTo("/student");
 			}
 			else
-			{
 				show = "show";
-			}
 		}
 
 		private void HideAlert()

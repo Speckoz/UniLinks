@@ -53,7 +53,7 @@ function capture(video, scaleFactor)
 function shoot(time)
 {
     const video = document.getElementById('video');
-    video.currentTime = time;
+    video.currentTime += 0.25;
 
     capture(video, 0.25);
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using UniLink.Client.Site.Helper;
 using UniLink.Dependencies.Data.VO;
 
-namespace UniLink.Client.Site.Services.Admin
+namespace UniLink.Client.Site.Services.Coordinator
 {
 	public class CourseService
 	{

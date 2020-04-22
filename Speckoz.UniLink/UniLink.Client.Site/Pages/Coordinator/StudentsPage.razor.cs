@@ -6,12 +6,12 @@ using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using UniLink.Client.Site.Services.Admin;
+using UniLink.Client.Site.Services.Coordinator;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
 
-namespace UniLink.Client.Site.Pages.Admin
+namespace UniLink.Client.Site.Pages.Coordinator
 {
 	[Authorizes(UserTypeEnum.Coordinator)]
 	public partial class StudentsPage
