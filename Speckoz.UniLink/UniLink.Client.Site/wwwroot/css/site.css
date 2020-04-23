@@ -1,4 +1,4 @@
-@import url('materialdesignicons/materialdesignicons.min.css');
+@import url('materialdesignicons.min.css');
 
 .separator
 {
@@ -426,6 +426,34 @@ input:checked + .slider:before
 .nowrap-row
 {
     flex-wrap: nowrap;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+    .nowrap-row .col-3
+    {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .nowrap-row .col-7
+    {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .nowrap-row .col-2
+    {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+@media(max-width: 768px)
+{
+    .image-lesson
+    {
+        display: none
+    }
 }
 
 /* Developers */
