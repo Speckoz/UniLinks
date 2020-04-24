@@ -555,15 +555,20 @@ input:checked + .slider:before
     color: #a2a8ae;
 }
 
-    .devs .social a
-    {
-        color: inherit;
-        margin: 0 10px;
-        display: inline-block;
-        opacity: 0.7;
-    }
+.devs .social a
+{
+    color: inherit;
+    margin: 0 10px;
+    display: inline-block;
+    opacity: 0.7;
+}
 
-        .devs .social a:hover
-        {
-            opacity: 1;
-        }
+.devs .social a:hover
+{
+    opacity: 1;
+}
+
+.img-card-lesson {
+    width: 32%;
+    height: 100%;
+}
