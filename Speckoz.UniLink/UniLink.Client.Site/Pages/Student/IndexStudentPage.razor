@@ -13,7 +13,7 @@
                     </div>
 
                     <div class="col-7">
-                        <h6>@selected.LessonId</h6>
+                        <h6>@selected.Discipline.Name</h6>
                         <a class="card-text blue-text" data-target="#lessonSubjectModal" data-toggle="modal">
                             <u>Ver assuntos</u>
                         </a>
@@ -22,7 +22,7 @@
 
                     <div class="col-2 text-center">
                         <div class="animated pulse slower delay-2s infinite">
-                            <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.URI" target="_blank">
+                            <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.Lesson.URI" target="_blank">
                                 <i class="mdi mdi-open-in-new" style="font-size: 2em" />
                             </a>
                         </div>
@@ -72,8 +72,8 @@
                             @foreach (var lesson in lessons)
                             {
                                 <tr class="tr-hover" @onclick="@(() => SelectLesson(lesson))">
-                                    <td class="text-wrap col-12 unselectable">@lesson.DisciplineId</td>
-                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@lesson.Date.ToShortDateString()</td>
+                                    <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
+                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@lesson.Lesson.Date.ToShortDateString()</td>
                                 </tr>
                             }
                         </tbody>
@@ -97,7 +97,7 @@
                     </button>
                 </div>
                 <div class="modal-body mx-3">
-                    <span class="text-center">@selected.LessonSubject</span>
+                    <span class="text-center">@selected.Lesson.LessonSubject</span>
                 </div>
             </div>
         </div>

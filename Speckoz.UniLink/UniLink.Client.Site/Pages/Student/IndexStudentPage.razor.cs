@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services.Student;
 using UniLink.Dependencies.Attributes;
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Lesson;
 using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.Student
@@ -15,8 +15,8 @@ namespace UniLink.Client.Site.Pages.Student
 	[Authorizes(UserTypeEnum.Student)]
 	public partial class IndexStudentPage
 	{
-		private LessonVO selected;
-		private IList<LessonVO> lessons;
+		private LessonDisciplineVO selected;
+		private IList<LessonDisciplineVO> lessons;
 
 		[Inject]
 		private ISessionStorageService SessionStorage { get; set; }
@@ -27,6 +27,6 @@ namespace UniLink.Client.Site.Pages.Student
 			lessons = await new LessonService().GetAllLessonsTaskAync(token, "d02f5571-f056-4bff-a5e0-a927306ae77d;10e2babb-eb2a-4473-b9d9-499d9f595c43");
 		}
 
-		private void SelectLesson(LessonVO lesson) => selected = lesson;
+		private void SelectLesson(LessonDisciplineVO lesson) => selected = lesson;
 	}
 }

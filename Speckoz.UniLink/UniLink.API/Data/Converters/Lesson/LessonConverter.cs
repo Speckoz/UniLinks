@@ -5,7 +5,7 @@ using UniLink.API.Data.Converters.Interfaces;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Models;
 
-namespace UniLink.API.Data.Converters
+namespace UniLink.API.Data.Converters.Lesson
 {
 	public class LessonConverter : IParser<LessonVO, LessonModel>, IParser<LessonModel, LessonVO>
 	{

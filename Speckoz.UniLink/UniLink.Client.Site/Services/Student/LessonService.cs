@@ -9,18 +9,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Lesson;
 
 namespace UniLink.Client.Site.Services.Student
 {
 	public class LessonService
 	{
-		public async Task<IList<LessonVO>> GetAllLessonsTaskAync(string token, string disciplines)
+		public async Task<IList<LessonDisciplineVO>> GetAllLessonsTaskAync(string token, string disciplines)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<LessonVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
 			return default;
 		}

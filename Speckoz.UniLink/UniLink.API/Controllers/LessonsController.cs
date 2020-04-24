@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UniLink.API.Business.Interfaces;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Lesson;
 using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Controllers
@@ -60,7 +61,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonVO> lessons)
+				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonDisciplineVO> lessons)
 					return Ok(lessons);
 
 				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
