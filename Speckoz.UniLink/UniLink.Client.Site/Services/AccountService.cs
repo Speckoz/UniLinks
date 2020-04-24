@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.Client.Site.Services

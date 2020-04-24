@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Models.Auxiliary;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Controllers

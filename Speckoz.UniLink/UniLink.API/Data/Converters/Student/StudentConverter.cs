@@ -3,9 +3,10 @@ using System.Linq;
 
 using UniLink.API.Data.Converters.Interfaces;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Models;
 
-namespace UniLink.API.Data.Converters
+namespace UniLink.API.Data.Converters.Student
 {
 	public class StudentConverter : IParser<StudentVO, StudentModel>, IParser<StudentModel, StudentVO>
 	{

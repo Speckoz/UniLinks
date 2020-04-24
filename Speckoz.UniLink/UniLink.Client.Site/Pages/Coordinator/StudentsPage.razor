@@ -34,16 +34,16 @@ else
                 @foreach (var student in students)
                 {
                     <tr class="tr-hover">
-                        <td class="text-wrap">@student.Name</td>
-                        <td class="text-wrap">@student.Email</td>
+                        <td class="text-wrap">@student.Student.Name</td>
+                        <td class="text-wrap">@student.Student.Email</td>
                         <td class="icons-td text-center">
-                            <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplines(student.DisciplinesList))">Ver</span>
+                            <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplines(student.Disciplines))">Ver</span>
                         </td>
                         <td class="icons-td text-center">
-                            <button @onclick="@(async () => await RemoveStudent(student.Name))">
+                            <button @onclick="@(async () => await RemoveStudent(student.Student.Name))">
                                 <span class="mdi mdi-delete red-text"></span>
                             </button>
-                            <button @onclick="@(async () => await EditStudent(student.Name))">
+                            <button @onclick="@(async () => await EditStudent(student.Student.Name))">
                                 <span class="mdi mdi-account-edit blue-text"></span>
                             </button>
                         </td>
@@ -99,7 +99,7 @@ else
             <div class="modal-body mx-3">
                 @if (selectedStudent != -1)
                 {
-                    @foreach (var discipline in students[selectedStudent].DisciplinesList)
+                    @foreach (var discipline in students[selectedStudent].Disciplines)
                     {
                         <h5>@discipline.Name (@discipline.Period Período)</h5>
                         <hr class="separator" />

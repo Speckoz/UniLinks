@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UniLink.Client.Site.Services.Coordinator;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.Coordinator
@@ -19,7 +20,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 	public partial class StudentsPage
 	{
 		private int selectedStudent = -1;
-		private IList<StudentVO> students;
+		private IList<StudentDisciplineVO> students;
 
 		[Inject]
 		private ISessionStorageService SessionStorage { get; set; }
@@ -34,13 +35,11 @@ namespace UniLink.Client.Site.Pages.Coordinator
 			CourseVO course = await new CourseService().GetCourseByCoordIdTaskAsync(token);
 
 			students = await new StudentService().GetStudentsTaskAsync(token, course.CourseId);
-			foreach (StudentVO student in students)
-				student.DisciplinesList = await new DisciplineService().GetDisciplinesByRangeTaskAsync(token, student.Disciplines);
 		}
 
 		private async Task ViewDisciplines(IList<DisciplineVO> disciplines)
 		{
-			selectedStudent = students.IndexOf(students.Where(x => x.DisciplinesList.Equals(disciplines)).SingleOrDefault());
+			selectedStudent = students.IndexOf(students.Where(x => x.Disciplines.Equals(disciplines)).SingleOrDefault());
 			await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");
 		}
 

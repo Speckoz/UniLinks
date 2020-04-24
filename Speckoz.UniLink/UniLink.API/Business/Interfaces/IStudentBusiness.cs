@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 
 namespace UniLink.API.Business.Interfaces
 {
@@ -14,7 +15,7 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<StudentVO> FindByIdTaskAsync(Guid id);
 
-		Task<IList<StudentVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId);
+		Task<IList<StudentDisciplineVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId);
 
 		Task DeleteTaskAsync(Guid id);
 	}

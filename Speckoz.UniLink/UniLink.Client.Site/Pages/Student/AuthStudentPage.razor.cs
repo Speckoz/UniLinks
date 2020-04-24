@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 
 namespace UniLink.Client.Site.Pages.Student
 {

@@ -11,19 +11,20 @@ using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 
 namespace UniLink.Client.Site.Services.Coordinator
 {
 	public class StudentService
 	{
-		public async Task<IList<StudentVO>> GetStudentsTaskAsync(string token, Guid courseId)
+		public async Task<IList<StudentDisciplineVO>> GetStudentsTaskAsync(string token, Guid courseId)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token, courseId);
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<StudentVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				return JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 			else if (response.StatusCode == HttpStatusCode.NotFound)
-				return new List<StudentVO>();
+				return new List<StudentDisciplineVO>();
 
 			return null;
 		}

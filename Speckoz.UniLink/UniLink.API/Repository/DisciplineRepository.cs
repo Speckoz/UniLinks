@@ -16,6 +16,9 @@ namespace UniLink.API.Repository
 		{
 		}
 
+		public async Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId) =>
+			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
+
 		public async Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines)
 		{
 			IList<DisciplineModel> disciplinesAux = new List<DisciplineModel>();

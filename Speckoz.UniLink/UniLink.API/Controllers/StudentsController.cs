@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UniLink.API.Business.Interfaces;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
 
@@ -36,8 +37,8 @@ namespace UniLink.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (await _studentBusiness.FindAllByCoordIdAndCourseId(coordId, courseId) is IList<StudentVO> student)
-					return Ok(student);
+				if (await _studentBusiness.FindAllByCoordIdAndCourseId(coordId, courseId) is IList<StudentDisciplineVO> studentDiscpline)
+					return Ok(studentDiscpline);
 			}
 
 			return BadRequest("O Coordenador nao tem acesso a esse curso!");
