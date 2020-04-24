@@ -1,4 +1,6 @@
-﻿<div class="navbar shadow-sm">
+﻿@using UniLink.Dependencies.Enums
+
+<div class="navbar shadow-sm">
     <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower" href="">
         <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
     </a>
@@ -10,11 +12,11 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column animated bounceIn">
         <li class="nav-item py-0">
-            <NavLink class="nav-link waves-effect" href="" Match="NavLinkMatch.All">
-                <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Início
-            </NavLink>
+            <a class="nav-link waves-effect" href="/#home" target="_top" Match="NavLinkMatch.All">
+                <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Página Inicial
+            </a>
         </li>
-        <AuthorizeView Roles="Student">
+        <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
             <Authorized>
                 <li class="nav-item py-0">
                     <NavLink class="nav-link waves-effect" href="/student">
@@ -23,7 +25,7 @@
                 </li>
             </Authorized>
         </AuthorizeView>
-        <AuthorizeView Roles="Coordinator">
+        <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
             <Authorized>
                 <li class="nav-item py-0">
                     <NavLink class="nav-link waves-effect" href="/coordinator">
@@ -40,18 +42,6 @@
                     </NavLink>
                 </li>
             </Authorized>
-            <NotAuthorized>
-                <li class="nav-item py-0">
-                    <NavLink class="nav-link waves-effect" href="/auth/student">
-                        <span class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></span> Aluno
-                    </NavLink>
-                </li>
-                <li class="nav-item py-0">
-                    <NavLink class="nav-link waves-effect" href="/auth/coordinator">
-                        <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Administrador
-                    </NavLink>
-                </li>
-            </NotAuthorized>
         </AuthorizeView>
 
         <li class="nav-item py-0">
@@ -77,15 +67,15 @@
         </li>
 
         <li class="nav-item py-0">
-            <NavLink class="nav-link waves-effect" href="developers">
+            <a class="nav-link waves-effect" href="/#devs" target="_top">
                 <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
-            </NavLink>
+            </a>
         </li>
 
         <li class="nav-item py-0">
-            <NavLink class="nav-link waves-effect" href="about">
+            <a class="nav-link waves-effect" href="/#about" target="_top">
                 <span class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></span> Sobre
-            </NavLink>
+            </a>
         </li>
     </ul>
 </div>

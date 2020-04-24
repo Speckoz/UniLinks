@@ -1,4 +1,5 @@
-﻿@page "/student"
+﻿@layout Layout
+@page "/student"
 
 <h4 class="text-center p-3">Aulas</h4>
 
@@ -17,12 +18,12 @@
                         <a class="card-text blue-text" data-target="#lessonSubjectModal" data-toggle="modal">
                             <u>Ver assuntos</u>
                         </a>
-                        <span style="position: absolute;bottom: 0;left: 0">02/02/2020</span>
+                        <span style="position: absolute;bottom: 0;left: 0" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi adicionada">@selected.Lesson.Date.ToString(@"dd/MM/yyyy HH\hmm")</span>
                     </div>
 
                     <div class="col-2 text-center">
-                        <div class="animated pulse slower delay-2s infinite">
-                            <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.Lesson.URI" target="_blank">
+                        <div class="animated pulse slower delay-2s infinite" data-toggle="tooltip" data-placement="right" title="Abrir aula">
+                            <a class="blue-text" href="@selected.Lesson.URI" target="_blank">
                                 <i class="mdi mdi-open-in-new" style="font-size: 2em" />
                             </a>
                         </div>

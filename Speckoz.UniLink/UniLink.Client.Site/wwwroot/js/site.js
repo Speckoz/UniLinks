@@ -1,4 +1,9 @@
-﻿function ChangeToLight()
+﻿$(document).ready(function ()
+{
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+function ChangeToLight()
 {
     ChangeLinkTheme("css/theme.light.css");
 }

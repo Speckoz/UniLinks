@@ -2,7 +2,7 @@
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout)">
+        <AuthorizeRouteView RouteData="@routeData">
             <Authorizing>
                 <p class="text-center py-5">Autenticando..</p>
             </Authorizing>
@@ -17,10 +17,12 @@
     </Found>
     <NotFound>
         <CascadingAuthenticationState>
-            <LayoutView Layout="@typeof(Layout)">
-                <h3>Ops! 😅</h3>
-                <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
-                <p><a href="/">Ir para o Inicio</a></p>
+            <LayoutView>
+                <div class="container text-center">
+                    <h3>Ops! 😅</h3>
+                    <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
+                    <p><a href="/">Ir para o Inicio</a></p>
+                </div>
             </LayoutView>
         </CascadingAuthenticationState>
     </NotFound>
