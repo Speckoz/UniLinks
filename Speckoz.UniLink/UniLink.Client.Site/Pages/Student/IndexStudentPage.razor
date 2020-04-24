@@ -34,23 +34,21 @@
 
     <div class="row" style="display: grid; text-align: -webkit-center">
         <div class="card theme-bg theme-text" style="border-radius: 2em; margin: 20px; max-width: 800px">
-            <form>
-                <div class="form-row">
-                    <div class="col">
-                        <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
-                            <input type="text" style="margin: 0;" class="form-control" placeholder="Pesquisar">
-                        </div>
-                    </div>
-                    <div class="col" style="max-width: 110px; margin-right: 10px">
-                        <select style="border: 0; padding-top: 20%; padding-bottom: 15%">
-                            <option value="" disabled selected>Filtar por</option>
-                            <option value="1">Disciplina</option>
-                            <option value="2">Periodo</option>
-                            <option value="3">Data</option>
-                        </select>
+            <div class="row">
+                <div class="col">
+                    <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
+                        <input type="text" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
                     </div>
                 </div>
-            </form>
+                <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
+                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%">
+                        <option value="" disabled selected>Filtar por</option>
+                        <option value="1">Disciplina</option>
+                        <option value="2">Periodo</option>
+                        <option value="3">Data</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
