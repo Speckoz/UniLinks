@@ -1,5 +1,7 @@
 ﻿@page "/student"
 
+<h4 class="text-center p-3">Aulas</h4>
+
 <div class="container">
     @if (selected != null)
     {
@@ -19,35 +21,36 @@
                     </div>
 
                     <div class="col-2 text-center">
-                        <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.URI" target="_blank">
-                            <i class="mdi mdi-web" style="font-size: 2em" />
-                        </a>
+                        <div class="animated pulse slower delay-2s infinite">
+                            <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.URI" target="_blank">
+                                <i class="mdi mdi-open-in-new" style="font-size: 2em" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     }
-    <div class="row justify-content-center d-flex">
-        <div class="card col theme-bg theme-text" style="margin:30px">
-            <div class="row nowrap-row">
-                <div class="col-md-10">
-                    <div class="md-form">
-                        <input type="text" id="inputPrefilledEx" class="form-control" />
-                        <label for="inputPrefilledEx">Pesquisar</label>
+
+    <div class="row" style="display: grid; text-align: -webkit-center">
+        <div class="card theme-bg theme-text" style="border-radius: 2em; margin: 20px; max-width: 800px">
+            <form>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
+                            <input type="text" style="margin: 0;" class="form-control" placeholder="Pesquisar">
+                        </div>
+                    </div>
+                    <div class="col" style="max-width: 110px; margin-right: 10px">
+                        <select style="border: 0; padding-top: 20%; padding-bottom: 15%">
+                            <option value="" disabled selected>Filtar por</option>
+                            <option value="1">Disciplina</option>
+                            <option value="2">Periodo</option>
+                            <option value="3">Data</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-auto">
-                    <button class="btn shadow-none dropdown-toggle pd-10" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filtro
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                        <h6 class="dropdown-header text-center">Filtrar por</h6>
-                        <a class="dropdown-item">Disciplina</a>
-                        <a class="dropdown-item">Período</a>
-                        <a class="dropdown-item">Data</a>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -60,7 +63,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-lg-center">
-                    <table class="table table-hover table-students theme-bg theme-text">
+                    <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
                         <thead>
                             <tr class="collapse">
                                 <th scope="col">Disciplina</th>
@@ -72,7 +75,7 @@
                             {
                                 <tr class="tr-hover" @onclick="@(() => SelectLesson(lesson))">
                                     <td class="text-wrap col-12 unselectable">@lesson.DisciplineId</td>
-                                    <td class="text-wrap col unselectable">@lesson.Date.ToShortDateString()</td>
+                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@lesson.Date.ToShortDateString()</td>
                                 </tr>
                             }
                         </tbody>
