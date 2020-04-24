@@ -14,9 +14,9 @@
     <link href="css/site.css" rel="stylesheet" />
     <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
 </head>
-<body class="theme-bg theme-text">
+<body>
     <app>
-        @(await Html.RenderComponentAsync<App>(RenderMode.Server))
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
     </app>
 
     <div id="blazor-error-ui" class="black-text">
