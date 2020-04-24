@@ -1,31 +1,34 @@
 ﻿@page "/student"
 
 <div class="container">
-    <div class="row justify-content-center d-flex">
-        <div class="card" style="width: 22em; height: 8em">
-            <div class="row nowrap-row" style="height: 8em">
-                <div class="col-3 image-lesson">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" alt="Card image cap">
-                </div>
+    @if (selected != null)
+    {
+        <div class="row justify-content-center d-flex">
+            <div class="card theme-bg theme-text" style="width: 22em; height: 8em; border-radius: 2em">
+                <div class="row nowrap-row" style="height: 8em">
+                    <div class="col-3 image-lesson">
+                        <img class="card-img-top" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" alt="Card image cap">
+                    </div>
 
-                <div class="col-7">
-                    <h5>Calculo IV</h5>
-                    <a class="card-text blue-text">
-                        <u>Ver descriçao</u>
-                    </a>
-                    <span style="position: absolute;bottom: 0;left: 0">02/02/2020</span>
-                </div>
+                    <div class="col-7">
+                        <h6>@selected.LessonId</h6>
+                        <a class="card-text blue-text" data-target="#lessonSubjectModal" data-toggle="modal">
+                            <u>Ver assuntos</u>
+                        </a>
+                        <span style="position: absolute;bottom: 0;left: 0">02/02/2020</span>
+                    </div>
 
-                <div class="col-2 text-center">
-                    <a class="blue-text" data-toggle="tooltip" title="Abrir aula">
-                        <i class="mdi mdi-web"  style="font-size: 2em"/>
-                    </a>
+                    <div class="col-2 text-center">
+                        <a class="blue-text" data-toggle="tooltip" title="Abrir aula" href="@selected.URI" target="_blank">
+                            <i class="mdi mdi-web" style="font-size: 2em" />
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
     <div class="row justify-content-center d-flex">
-        <div class="card col" style="margin:30px">
+        <div class="card col theme-bg theme-text" style="margin:30px">
             <div class="row nowrap-row">
                 <div class="col-md-10">
                     <div class="md-form">
@@ -47,24 +50,55 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-lg-center">
-                <table class="table table-hover table-students theme-bg theme-text">
-                    <thead>
-                        <tr class="collapse">
-                            <th scope="col">Disciplina</th>
-                            <th scope="col">Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="tr-hover">
-                            <td class="text-wrap col-12">Calculo</td>
-                            <td class="text-wrap col">02/02/2020</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+    @if (lessons is null)
+    {
+        <span class="text-center">Carregando...</span>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-lg-center">
+                    <table class="table table-hover table-students theme-bg theme-text">
+                        <thead>
+                            <tr class="collapse">
+                                <th scope="col">Disciplina</th>
+                                <th scope="col">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var lesson in lessons)
+                            {
+                                <tr class="tr-hover" @onclick="@(() => SelectLesson(lesson))">
+                                    <td class="text-wrap col-12 unselectable">@lesson.DisciplineId</td>
+                                    <td class="text-wrap col unselectable">@lesson.Date.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (selected != null)
+{
+    <div class="modal animated bounceInDown" id="lessonSubjectModal" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content theme-bg theme-text">
+                <div class="modal-header border-0 text-center">
+                    <h4 class="modal-title w-100 font-weight-bold text-center ml-5">Assuntos</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="theme-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <span class="text-center">@selected.LessonSubject</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}

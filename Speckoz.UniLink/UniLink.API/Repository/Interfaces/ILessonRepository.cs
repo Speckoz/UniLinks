@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using UniLink.Dependencies.Enums;
@@ -12,9 +13,9 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<LessonModel> FindByURITaskAsync(string uri);
 
-		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift);
+		Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines);
 
-		Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period);
+		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift);
 
 		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
 

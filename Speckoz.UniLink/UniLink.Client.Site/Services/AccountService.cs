@@ -16,34 +16,33 @@ namespace UniLink.Client.Site.Services
 	{
 		public async Task<CoordinatorVO> AuthAccountTaskAsync(LoginRequestModel login)
 		{
-			IRestResponse response = await new RequestService()
-			{
-				URL = DataHelper.URLBase,
-				URN = "Auth",
-				Method = Method.POST,
-				Body = login
-			}.ExecuteTaskAsync();
+			IRestResponse response = await SendRequestTaskAsync(login, "Auth");
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return null;
+
+			return default;
 		}
 
 		public async Task<StudentVO> AuthAccountTaskAsync(string login)
 		{
-			IRestResponse response = await new RequestService()
-			{
-				URL = DataHelper.URLBase,
-				URN = "Auth/User",
-				Method = Method.POST,
-				Body = new { Email = login }
-			}.ExecuteTaskAsync();
+			IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/User");
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return null;
+
+			return default;
+		}
+
+		private async Task<IRestResponse> SendRequestTaskAsync(object body, string urn)
+		{
+			return await new RequestService()
+			{
+				URL = DataHelper.URLBase,
+				URN = urn,
+				Method = Method.POST,
+				Body = body
+			}.ExecuteTaskAsync();
 		}
 	}
 }

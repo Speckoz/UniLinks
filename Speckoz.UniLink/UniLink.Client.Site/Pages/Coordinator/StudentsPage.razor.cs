@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 	[Authorizes(UserTypeEnum.Coordinator)]
 	public partial class StudentsPage
 	{
+		private int selectedStudent = -1;
 		private IList<StudentVO> students;
 
 		[Inject]
@@ -38,8 +40,8 @@ namespace UniLink.Client.Site.Pages.Coordinator
 
 		private async Task ViewDisciplines(IList<DisciplineVO> disciplines)
 		{
-			var disciplinesJson = JsonSerializer.Serialize(disciplines);
-			await JSRuntime.InvokeVoidAsync("ShowDisciplinesModal", disciplinesJson);
+			selectedStudent = students.IndexOf(students.Where(x => x.DisciplinesList.Equals(disciplines)).SingleOrDefault());
+			await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");
 		}
 
 		private async Task RemoveStudent(string nome)

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
-using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Business.Interfaces
 {
@@ -16,7 +17,7 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum LessonShift);
 
-		Task<LessonVO> FindByCourseTaskAsync(Guid courseId, byte period);
+		Task<IList<LessonVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
 
 		Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
 

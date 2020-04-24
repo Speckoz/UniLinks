@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 using UniLink.API.Data;
@@ -12,54 +12,48 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Repository
 {
-    public class LessonRepository : BaseRepository, ILessonRepository
-    {
-        public LessonRepository(DataContext context) : base(context)
-        {
-        }
+	public class LessonRepository : BaseRepository, ILessonRepository
+	{
+		public LessonRepository(DataContext context) : base(context)
+		{
+		}
 
-        public async Task<LessonModel> AddTaskAsync(LessonModel lesson)
-        {
-            if ((await _context.AddAsync(lesson)).Entity is LessonModel addedLesson)
-            {
-                await _context.SaveChangesAsync();
-                return addedLesson;
-            }
-            return default;
-        }
+		public async Task<LessonModel> AddTaskAsync(LessonModel lesson)
+		{
+			LessonModel lessonAdded = (await _context.AddAsync(lesson)).Entity;
+			await _context.SaveChangesAsync();
+			return lessonAdded;
+		}
 
-        public async Task<LessonModel> FindByCourseTaskAsync(Guid courseId, byte period)
-        {
-            var discipline = await _context.Disciplines
-                .Where(d => d.CourseId == courseId && d.Period == period)
-                .FirstOrDefaultAsync();
+		public Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
+			throw new NotImplementedException();
 
-            return await _context.Lessons
-                .Where(l => l.DisciplineId == discipline.DisciplineId)
-                .FirstOrDefaultAsync();
-        }
+		public async Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines)
+		{
+			var lessons = new List<LessonModel>();
+			foreach (Guid discipline in disciplines)
+				lessons.AddRange(await _context.Lessons.Where(x => x.DisciplineId == discipline).ToListAsync());
 
-        public Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
-            throw new NotImplementedException();
+			return lessons;
+		}
 
-        public async Task<LessonModel> FindByIdTaskAsync(Guid lessonId) =>
-            await _context.Lessons.Where(c => c.LessonId == lessonId).FirstOrDefaultAsync();
+		public async Task<LessonModel> FindByIdTaskAsync(Guid lessonId) =>
+			await _context.Lessons.Where(c => c.LessonId == lessonId).FirstOrDefaultAsync();
 
+		public async Task<LessonModel> FindByURITaskAsync(string uri) =>
+			await _context.Lessons.Where(l => l.URI == uri).FirstOrDefaultAsync();
 
-        public async Task<LessonModel> FindByURITaskAsync(string uri) =>
-            await _context.Lessons.Where(l => l.URI == uri).FirstOrDefaultAsync();
+		public async Task<LessonModel> UpdateTaskAsync(LessonModel lesson, LessonModel newLesson)
+		{
+			_context.Entry(lesson).CurrentValues.SetValues(newLesson);
+			await _context.SaveChangesAsync();
+			return newLesson;
+		}
 
-        public async Task<LessonModel> UpdateTaskAsync(LessonModel lesson, LessonModel newLesson)
-        {
-            _context.Entry(lesson).CurrentValues.SetValues(newLesson);
-            await _context.SaveChangesAsync();
-            return newLesson;
-        }
-
-        public async Task DeleteTaskAsync(LessonModel lesson)
-        {
-            _context.Lessons.Remove(lesson);
-            await _context.SaveChangesAsync();
-        }
-    }
+		public async Task DeleteTaskAsync(LessonModel lesson)
+		{
+			_context.Lessons.Remove(lesson);
+			await _context.SaveChangesAsync();
+		}
+	}
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -9,7 +10,6 @@ using UniLink.API.Business.Interfaces;
 using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
-using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Controllers
 {
@@ -49,6 +49,21 @@ namespace UniLink.API.Controllers
 					return Ok(lesson);
 
 				return NotFound("A aula informada nao existe!");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("all/{disciplines}")]
+		[Authorizes(UserTypeEnum.Student)]
+		public async Task<IActionResult> FindAllByDisciplines([Required]string disciplines)
+		{
+			if (ModelState.IsValid)
+			{
+				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonVO> lessons)
+					return Ok(lessons);
+
+				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
 			}
 
 			return BadRequest();

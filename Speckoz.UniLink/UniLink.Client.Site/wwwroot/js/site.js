@@ -56,20 +56,3 @@ function shoot(time)
 
     capture(video, 0.25);
 }
-
-function ShowDisciplinesModal(disciplines)
-{
-    const discArray = JSON.parse(disciplines);
-    $('#modalStudentDisciplines').modal()
-    const modalBody = $('#modal-disciplines-content');
-    modalBody.empty();
-    discArray.forEach(d =>
-    {
-        modalBody.append(
-            `<div>
-            <h5> > ${d.Name}</h5>
-            <hr>
-         </div>`
-        );
-    });
-}

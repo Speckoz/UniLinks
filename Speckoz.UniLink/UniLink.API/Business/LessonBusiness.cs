@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data.Converters;
 using UniLink.API.Repository.Interfaces;
+using UniLink.API.Utils;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Enums;
 using UniLink.Dependencies.Models;
@@ -31,11 +33,17 @@ namespace UniLink.API.Business
 			return _converter.Parse(lessonEntity);
 		}
 
-		public async Task<LessonVO> FindByCourseTaskAsync(Guid courseId, byte period) =>
-			_converter.Parse(await _lessonRepository.FindByCourseTaskAsync(courseId, period));
-
 		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
 			_converter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
+
+		public async Task<IList<LessonVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
+		{
+			if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
+				if (await _lessonRepository.FindAllByDisciplinesIdTaskASync(result) is IList<LessonModel> lessons)
+					return _converter.ParseList(lessons);
+
+			return default;
+		}
 
 		public async Task<LessonVO> FindByIdTaskAsync(Guid lessonId) =>
 			_converter.Parse(await _lessonRepository.FindByIdTaskAsync(lessonId));

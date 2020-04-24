@@ -1,5 +1,10 @@
 @import url('materialdesignicons.min.css');
 
+.modal-dialog .modal-content
+{
+    border-radius: .7em
+}
+
 .separator
 {
     background-color: #A2A2A2;
