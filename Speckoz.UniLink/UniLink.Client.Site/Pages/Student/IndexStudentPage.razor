@@ -15,9 +15,12 @@
 
                     <div class="col-7">
                         <h6>@selected.Discipline.Name</h6>
-                        <a class="card-text blue-text" data-target="#lessonSubjectModal" data-toggle="modal">
-                            <u>Ver assuntos</u>
-                        </a>
+                        @if (!string.IsNullOrEmpty(selected.Lesson.LessonSubject))
+                        {
+                            <a class="card-text blue-text" data-target="#lessonSubjectModal" data-toggle="modal">
+                                <u>Ver assuntos</u>
+                            </a>
+                        }
                         <span style="position: absolute;bottom: 0;left: 0" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi adicionada">@selected.Lesson.Date.ToString(@"dd/MM/yyyy HH\hmm")</span>
                     </div>
 
@@ -43,7 +46,7 @@
                 </div>
                 <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
                     <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%" @bind="@FilterSelected" @bind:event="onchange">
-                        <option value="" disabled selected>Filtar por</option>
+                        <option disabled>Filtar por</option>
                         <option value="1">Disciplina</option>
                         <option value="2">Periodo</option>
                         <option value="3">Data</option>

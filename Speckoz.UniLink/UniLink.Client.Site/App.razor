@@ -1,14 +1,15 @@
-﻿@using UniLink.Client.Site.Components
-@using UniLink.Client.Site.Components.Shared
+﻿@using UniLink.Client.Site.Components.Shared
 
-<Router AppAssembly="@typeof(Program).Assembly">
+<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData">
             <Authorizing>
-                <p class="text-center py-5">Autenticando...</p>
+                <LayoutView Layout="typeof(EmptyLayout)">
+                    <p class="text-center py-5">Autenticando...</p>
+                </LayoutView>
             </Authorizing>
             <NotAuthorized>
-                <LayoutView Layout="@typeof(EmptyLayout)">
+                <LayoutView Layout="typeof(EmptyLayout)">
                     <div class="text-center">
                         <p class="py-5">Sem Permissao</p>
                         <ul class="list-group list-group-flush">
@@ -23,11 +24,11 @@
     </Found>
     <NotFound>
         <CascadingAuthenticationState>
-            <LayoutView Layout="@typeof(EmptyLayout)">
+            <LayoutView Layout="typeof(EmptyLayout)">
                 <div class="text-center">
                     <h3>Ops! 😅</h3>
                     <p>Não foi possível encontrar essa página, verifique se o link está correto!</p>
-                    <p><a href="/">Ir para o Inicio</a></p>
+                    <p><a href="/">Página Inicial</a></p>
                 </div>
             </LayoutView>
         </CascadingAuthenticationState>

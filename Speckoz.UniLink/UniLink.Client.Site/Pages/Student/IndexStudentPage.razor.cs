@@ -19,7 +19,7 @@ namespace UniLink.Client.Site.Pages.Student
 		private LessonDisciplineVO selected;
 		private IList<LessonDisciplineVO> lessons;
 		private IList<LessonDisciplineVO> lessonOrigin;
-		private byte filterSelected;
+		private byte filterSelected = 1;
 
 		private byte FilterSelected
 		{
