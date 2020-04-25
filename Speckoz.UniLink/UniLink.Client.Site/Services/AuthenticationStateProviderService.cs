@@ -11,6 +11,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Student;
+
 namespace UniLink.Client.Site.Services
 {
 	public class AuthenticationStateProviderService : AuthenticationStateProvider
@@ -58,10 +61,27 @@ namespace UniLink.Client.Site.Services
 			return new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out SecurityToken validatedToken);
 		}
 
-		public async Task MarkUserWithAuthenticatedAsync(string token)
+		public async Task MarkUserWithAuthenticatedAsync<T>(T user)
 		{
-			await _sessionStorage.SetItemAsync("token", token);
-			NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(token))));
+			if (user is CoordinatorVO coord)
+			{
+				await _sessionStorage.SetItemAsync("userId", coord.CoordinatorId);
+				await _sessionStorage.SetItemAsync("email", coord.Email);
+				await _sessionStorage.SetItemAsync("name", coord.Name);
+				//await _sessionStorage.SetItemAsync("courseId", coord.CourseID);
+				await _sessionStorage.SetItemAsync("token", coord.Token);
+				NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(coord.Token))));
+			}
+			else if (user is StudentVO student)
+			{
+				await _sessionStorage.SetItemAsync("userId", student.StudentId);
+				await _sessionStorage.SetItemAsync("email", student.Email);
+				await _sessionStorage.SetItemAsync("name", student.Name);
+				await _sessionStorage.SetItemAsync("courseId", student.CourseId);
+				await _sessionStorage.SetItemAsync("disciplines", student.Disciplines);
+				await _sessionStorage.SetItemAsync("token", student.Token);
+				NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(student.Token))));
+			}
 		}
 
 		public async Task LogoutUserAsync()

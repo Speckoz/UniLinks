@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.SessionStorage;
 
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using System;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services;
@@ -9,6 +11,7 @@ namespace UniLink.Client.Site.Components
 {
 	public partial class Menu
 	{
+		private string name;
 		private bool collapseNavMenu = true;
 		private bool __isDark;
 
@@ -30,9 +33,13 @@ namespace UniLink.Client.Site.Components
 		[Inject]
 		private AuthenticationStateProvider Authentication { get; set; }
 
+		[Inject]
+		private ISessionStorageService SessionStorage { get; set; }
+
 		protected override async Task OnInitializedAsync()
 		{
 			__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
+			name = await SessionStorage.GetItemAsync<string>("name");
 		}
 
 		private async void ChangeTheme()

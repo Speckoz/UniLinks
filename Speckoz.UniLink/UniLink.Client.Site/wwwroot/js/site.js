@@ -30,11 +30,11 @@ function ShowModal(modalId)
     });
 }
 
-function DisposeModal(modalId)
+function HideModal(modalId)
 {
     $(document).ready(function ()
     {
-        $('#' + modalId).modal('dispose');
+        $('#' + modalId).modal('hide');
     });
 }
 

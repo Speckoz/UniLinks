@@ -21,5 +21,8 @@ namespace UniLink.API.Business
 
 		public async Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId) =>
 			_converter.Parse(await _courseRepository.FindByCoordIdTaskAsync(coordId));
+
+		public async Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId) =>
+			await _courseRepository.ExistsCoordInCourseTaskAsync(coordId, courseId);
 	}
 }

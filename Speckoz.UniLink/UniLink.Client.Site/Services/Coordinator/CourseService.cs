@@ -1,4 +1,6 @@
-﻿using Dependencies.Services;
+﻿using Blazored.SessionStorage;
+
+using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
@@ -14,8 +16,17 @@ namespace UniLink.Client.Site.Services.Coordinator
 {
 	public class CourseService
 	{
-		public async Task<CourseVO> GetCourseByCoordIdTaskAsync(string token)
+		private readonly ISessionStorageService _sessionStorage;
+
+		public CourseService(ISessionStorageService sessionStorage)
 		{
+			_sessionStorage = sessionStorage;
+		}
+
+		public async Task<CourseVO> GetCourseByCoordIdTaskAsync()
+		{
+			string token = await _sessionStorage.GetItemAsync<string>("token");
+
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
 			if (resp.StatusCode == HttpStatusCode.OK)

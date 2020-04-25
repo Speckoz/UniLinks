@@ -1,5 +1,5 @@
 ﻿@layout Layout
-@page "/admin/students"
+@page "/coordinator/students"
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 
@@ -25,7 +25,6 @@ else
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
-                    <th scope="col">Email</th>
                     <th class="text-center" scope="col">Disciplinas</th>
                     <th class="text-center" scope="col">Ações</th>
                 </tr>
@@ -34,16 +33,18 @@ else
                 @foreach (var student in students)
                 {
                     <tr class="tr-hover">
-                        <td class="text-wrap">@student.Student.Name</td>
-                        <td class="text-wrap">@student.Student.Email</td>
-                        <td class="icons-td text-center">
-                            <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplines(student.Disciplines))">Ver</span>
+                        <td class="text-wrap">
+                            <span>@student.Student.Name</span><br />
+                            <span style="color: grey; font-size: 13px">@student.Student.Email</span>
                         </td>
                         <td class="icons-td text-center">
-                            <button @onclick="@(async () => await RemoveStudent(student.Student.Name))">
+                            <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplinesAsync(student.Disciplines))">Ver</span>
+                        </td>
+                        <td class="icons-td text-center">
+                            <button @onclick="@(async () => await RemoveStudentAsync(student.Student.Name))">
                                 <span class="mdi mdi-delete red-text"></span>
                             </button>
-                            <button @onclick="@(async () => await EditStudent(student.Student.Name))">
+                            <button @onclick="@(async () => await EditStudentAsync(student.Student.Name))">
                                 <span class="mdi mdi-account-edit blue-text"></span>
                             </button>
                         </td>
@@ -69,17 +70,27 @@ else
             <div class="modal-body mx-3">
                 <!-- Nome -->
                 <div class="md-form mb-5">
-                    <input type="text" id="defaultForm-email" class="form-control validate theme-text">
-                    <label data-error="wrong" data-success="right" for="defaultForm-email">Nome do Aluno</label>
+                    <input type="text" id="defaultForm-email" class="form-control validate theme-text" @bind="@newStudent.Name">
+                    <label data-error="wrong" data-success="right" for="defaultForm-email">Nome</label>
                 </div>
                 <!-- Email -->
                 <div class="md-form mb-4">
-                    <input type="email" id="defaultForm-pass" class="form-control validate theme-text">
-                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Email do Aluno</label>
+                    <input type="email" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Email">
+                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Email</label>
+                </div>
+                <!-- Disciplines -->
+                <div class="md-form mb-4">
+                    <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Disciplines">
+                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Disciplinas</label>
+                </div>
+                <!-- Email -->
+                <div class="md-form mb-4">
+                    <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.CourseId">
+                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Curso</label>
                 </div>
             </div>
             <div class="modal-footer border-0 d-flex justify-content-center">
-                <button class="btn btn-default">Cadastrar</button>
+                <button class="btn btn-default" @onclick="@(async () => await AddStudentAsync())">Cadastrar</button>
             </div>
         </div>
     </div>

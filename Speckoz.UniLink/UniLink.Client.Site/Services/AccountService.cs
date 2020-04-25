@@ -1,5 +1,7 @@
 ﻿using Dependencies.Services;
 
+using Microsoft.AspNetCore.Components.Authorization;
+
 using RestSharp;
 
 using System.Net;
@@ -15,24 +17,39 @@ namespace UniLink.Client.Site.Services
 {
 	public class AccountService
 	{
-		public async Task<CoordinatorVO> AuthAccountTaskAsync(LoginRequestModel login)
+		private readonly AuthenticationStateProvider _authentication;
+
+		public AccountService(AuthenticationStateProvider authentication)
+		{
+			_authentication = authentication;
+		}
+
+		public async Task<bool> AuthAccountTaskAsync(LoginRequestModel login)
 		{
 			IRestResponse response = await SendRequestTaskAsync(login, "Auth");
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			{
+				CoordinatorVO coord = JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				await ((AuthenticationStateProviderService) _authentication).MarkUserWithAuthenticatedAsync(coord);
+				return true;
+			}
 
-			return default;
+			return false;
 		}
 
-		public async Task<StudentVO> AuthAccountTaskAsync(string login)
+		public async Task<bool> AuthAccountTaskAsync(string login)
 		{
 			IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/User");
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			{
+				StudentVO student = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				await ((AuthenticationStateProviderService) _authentication).MarkUserWithAuthenticatedAsync(student);
+				return true;
+			}
 
-			return default;
+			return false;
 		}
 
 		private async Task<IRestResponse> SendRequestTaskAsync(object body, string urn)

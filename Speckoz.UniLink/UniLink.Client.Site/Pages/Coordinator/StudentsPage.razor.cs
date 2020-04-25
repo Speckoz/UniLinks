@@ -1,11 +1,8 @@
-﻿using Blazored.SessionStorage;
-
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services.Coordinator;
@@ -21,34 +18,44 @@ namespace UniLink.Client.Site.Pages.Coordinator
 	{
 		private int selectedStudent = -1;
 		private IList<StudentDisciplineVO> students;
+		private StudentVO newStudent = new StudentVO();
 
 		[Inject]
-		private ISessionStorageService SessionStorage { get; set; }
+		private StudentService StudentService { get; set; }
+
+		[Inject]
+		private CourseService CourseService { get; set; }
 
 		[Inject]
 		private IJSRuntime JSRuntime { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
-			string token = await SessionStorage.GetItemAsync<string>("token");
-
-			CourseVO course = await new CourseService().GetCourseByCoordIdTaskAsync(token);
-
-			students = await new StudentService().GetStudentsTaskAsync(token, course.CourseId);
+			students = await StudentService.GetStudentsTaskAsync((await CourseService.GetCourseByCoordIdTaskAsync()).CourseId);
 		}
 
-		private async Task ViewDisciplines(IList<DisciplineVO> disciplines)
+		private async Task AddStudentAsync()
+		{
+			if (await StudentService.AddStudentTaskAsync(newStudent) is StudentDisciplineVO student)
+			{
+				students.Add(student);
+				await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
+				newStudent = new StudentVO();
+			}
+		}
+
+		private async Task ViewDisciplinesAsync(IList<DisciplineVO> disciplines)
 		{
 			selectedStudent = students.IndexOf(students.Where(x => x.Disciplines.Equals(disciplines)).SingleOrDefault());
 			await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");
 		}
 
-		private async Task RemoveStudent(string nome)
+		private async Task RemoveStudentAsync(string nome)
 		{
 			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce removeu {nome}\n\nMintira");
 		}
 
-		private async Task EditStudent(string nome)
+		private async Task EditStudentAsync(string nome)
 		{
 			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
 		}

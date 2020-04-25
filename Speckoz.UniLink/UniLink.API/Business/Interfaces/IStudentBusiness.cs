@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Data.VO.Student;
 
 namespace UniLink.API.Business.Interfaces
@@ -11,7 +10,9 @@ namespace UniLink.API.Business.Interfaces
 	{
 		Task<StudentVO> AuthUserTaskAsync(string email);
 
-		Task<StudentVO> AddTaskAsync(StudentVO student);
+		Task<StudentDisciplineVO> AddTaskAsync(StudentVO student);
+
+		Task<bool> ExistsByEmailTaskAsync(string email);
 
 		Task<StudentVO> FindByIdTaskAsync(Guid id);
 

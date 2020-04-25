@@ -10,6 +10,8 @@ namespace UniLink.API.Repository.Interfaces
 	{
 		Task<StudentModel> AddTaskAsync(StudentModel student);
 
+		Task<bool> ExistsByEmailTaskAsync(string email);
+
 		Task<StudentModel> FindByIdTaskAsync(Guid id);
 
 		Task<StudentModel> FindByEmailTaskAsync(string email);

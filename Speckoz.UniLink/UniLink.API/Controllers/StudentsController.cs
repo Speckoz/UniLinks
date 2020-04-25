@@ -11,7 +11,6 @@ using UniLink.Dependencies.Attributes;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Enums;
-using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Controllers
 {
@@ -28,6 +27,33 @@ namespace UniLink.API.Controllers
 			_courseBusiness = courseBusiness;
 		}
 
+		// POST: /students
+		[HttpPost]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> AddStudentTaskAsync([FromBody]StudentVO student)
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					student.CourseId = course.CourseId;
+
+				//if (!await _courseBusiness.ExistsCoordInCourseTaskAsync(coordId, student.CourseId))
+				//	return BadRequest("Nao é possivel adicionar um estudante em um curso que nao é coordenador.");
+
+				if (await _studentBusiness.ExistsByEmailTaskAsync(student.Email))
+					return Conflict("Ja existe um aluno com esse email!");
+
+				if (await _studentBusiness.AddTaskAsync(student) is StudentDisciplineVO createdStudent)
+					return Created("/students", createdStudent);
+
+				return BadRequest("O formato das disciplinas do estudante nao está valida (guid;guid;guid)");
+			}
+
+			return BadRequest();
+		}
+
 		// GET: /students/:courseId
 		[HttpGet("{courseId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
@@ -39,23 +65,11 @@ namespace UniLink.API.Controllers
 
 				if (await _studentBusiness.FindAllByCoordIdAndCourseId(coordId, courseId) is IList<StudentDisciplineVO> studentDiscpline)
 					return Ok(studentDiscpline);
+
+				return BadRequest("Nao foi encontrado nenhum aluno no curso informado ou algum aluno nao possui as disciplinas no formato correto.");
 			}
 
 			return BadRequest("O Coordenador nao tem acesso a esse curso!");
-		}
-
-		// POST: /students
-		[HttpPost]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddStudentTaskAsync([FromBody]StudentVO student)
-		{
-			if (ModelState.IsValid)
-			{
-				StudentVO createdStudent = await _studentBusiness.AddTaskAsync(student);
-				return Created("/students", createdStudent);
-			}
-
-			return BadRequest();
 		}
 
 		// DELETE: /students/:studentId
@@ -65,7 +79,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _studentBusiness.FindByIdTaskAsync(studentId) is StudentVO student) 
+				if (await _studentBusiness.FindByIdTaskAsync(studentId) is StudentVO student)
 				{
 					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 					var course = await _courseBusiness.FindByCoordIdTaskAsync(studentId);

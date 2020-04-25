@@ -19,16 +19,12 @@ namespace UniLink.Client.Site.Pages.Coordinator
 		private AccountService AccountService { get; set; }
 
 		[Inject]
-		private AuthenticationStateProvider Authentication { get; set; }
-
-		[Inject]
 		private NavigationManager Navigation { get; set; }
 
 		private async Task AuthAccountTaskAsync()
 		{
-			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }) is CoordinatorVO coord)
+			if (await AccountService.AuthAccountTaskAsync(new LoginRequestModel { Email = email, Password = password }))
 			{
-				await ((AuthenticationStateProviderService) Authentication).MarkUserWithAuthenticatedAsync(coord.Token);
 				Navigation.NavigateTo("/Coordinator");
 			}
 			else

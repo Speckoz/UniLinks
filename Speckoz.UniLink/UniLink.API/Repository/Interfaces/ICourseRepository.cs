@@ -7,6 +7,8 @@ namespace UniLink.API.Repository.Interfaces
 {
 	public interface ICourseRepository
 	{
+		Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
+
 		Task<CourseModel> FindByCoordIdTaskAsync(Guid coordId);
 	}
 }

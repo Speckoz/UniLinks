@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using UniLink.Client.Site.Services;
+using UniLink.Client.Site.Services.Coordinator;
 
 namespace UniLink.Client.Site
 {
@@ -28,6 +29,8 @@ namespace UniLink.Client.Site
 
 			// Services
 			services.AddScoped<AccountService>();
+			services.AddScoped<CourseService>();
+			services.AddScoped<StudentService>();
 			services.AddScoped<ThemeService>();
 		}
 

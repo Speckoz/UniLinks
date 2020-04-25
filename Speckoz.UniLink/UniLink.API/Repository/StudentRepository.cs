@@ -19,13 +19,13 @@ namespace UniLink.API.Repository
 
 		public async Task<StudentModel> AddTaskAsync(StudentModel student)
 		{
-			if ((await _context.Students.AddAsync(student)).Entity is StudentModel addedStudent)
-			{
-				await _context.SaveChangesAsync();
-				return addedStudent;
-			}
-			return default;
+			StudentModel addedStudent = (await _context.Students.AddAsync(student)).Entity;
+			await _context.SaveChangesAsync();
+			return addedStudent;
 		}
+
+		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
+			await _context.Students.AnyAsync(x => x.Email == email);
 
 		public async Task<StudentModel> FindByIdTaskAsync(Guid id) =>
 			await _context.Students.Where(x => x.StudentId == id).SingleOrDefaultAsync();
@@ -35,13 +35,12 @@ namespace UniLink.API.Repository
 
 		public async Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
 		{
-			var course = await _context.Courses
-				.Where(c => c.CourseId == courseId && c.CoordinatorId == coordId)
-				.FirstOrDefaultAsync();
+			if (await _context.Courses.SingleOrDefaultAsync(c => c.CourseId == courseId && c.CoordinatorId == coordId) is CourseModel course)
+				return await _context.Students
+					.Where(c => c.CourseId == course.CourseId)
+					.ToListAsync();
 
-			return await _context.Students
-				.Where(c => c.CourseId == course.CourseId)
-				.ToListAsync();
+			return default;
 		}
 
 		public async Task DeleteTaskAsync(StudentModel student)
