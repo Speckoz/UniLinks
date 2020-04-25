@@ -38,11 +38,11 @@
             <div class="row">
                 <div class="col">
                     <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
-                        <input type="text" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
+                        <input type="text" @oninput="@((e) => FilterSearch(e))" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
                     </div>
                 </div>
                 <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
-                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%">
+                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%" @bind="@FilterSelected" @bind:event="onchange">
                         <option value="" disabled selected>Filtar por</option>
                         <option value="1">Disciplina</option>
                         <option value="2">Periodo</option>
@@ -55,10 +55,21 @@
 
     @if (lessons is null)
     {
-        <span class="text-center">Carregando...</span>
+        <div class="row justify-content-center d-flex">
+            <span class="text-center">Carregando...</span>
+        </div>
+    }
+    else if (lessons.Count == 0)
+    {
+        <div class="row justify-content-center d-flex">
+            <span class="text-center">Ops, nao tem nada aqui! 🥺</span>
+        </div>
     }
     else
     {
+        <div class="row justify-content-center d-flex">
+            <span style="padding-bottom: 20px">Encontradas: @lessons.Count</span>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-lg-center">
