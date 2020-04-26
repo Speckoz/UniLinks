@@ -82,7 +82,7 @@ namespace UniLink.API.Controllers
 				if (await _studentBusiness.FindByIdTaskAsync(studentId) is StudentVO student)
 				{
 					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-					var course = await _courseBusiness.FindByCoordIdTaskAsync(studentId);
+					CourseVO course = await _courseBusiness.FindByCoordIdTaskAsync(coordId);
 
 					if (course.CoordinatorId == coordId)
 					{

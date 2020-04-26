@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
+
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Services;
@@ -38,7 +38,11 @@ namespace UniLink.Client.Site.Components
 
 		protected override async Task OnInitializedAsync()
 		{
-			__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
+			try
+			{
+				__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
+			}
+			catch { }
 			name = await SessionStorage.GetItemAsync<string>("name");
 		}
 

@@ -1,5 +1,9 @@
 ﻿@layout Layout
 @page "/coordinator/students"
+
+@using Syncfusion.Blazor.DropDowns
+@using UniLink.Dependencies.Data.VO
+
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 
@@ -57,8 +61,7 @@ else
 }
 
 <!-- Modal Add Student -->
-<div class="modal animated bounceInDown" id="modalNewStudent" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent"
-     aria-hidden="true">
+<div class="modal animated bounceInDown" id="modalNewStudent" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content theme-bg theme-text">
             <div class="modal-header border-0 text-center">
@@ -78,19 +81,31 @@ else
                     <input type="email" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Email">
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Email</label>
                 </div>
-                <!-- Disciplines -->
+                <!-- Disciplinas -->
                 <div class="md-form mb-4">
                     <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Disciplines">
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Disciplinas</label>
                 </div>
-                <!-- Email -->
-                <div class="md-form mb-4">
-                    <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.CourseId">
-                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Curso</label>
-                </div>
+                <SfAutoComplete TValue="string" TItem="DisciplineVO" Placeholder="Disciplinas" DataSource="@disciplines">
+                    <AutoCompleteFieldSettings Value="Name" GroupBy="Period"></AutoCompleteFieldSettings>
+                    <AutoCompleteTemplates TItem="DisciplineVO" >
+                        <GroupTemplate>
+                            <span>@(context.Text)° Período</span>
+                        </GroupTemplate>
+                        <ItemTemplate>
+                            @{
+                                var discipline = (context as DisciplineVO);
+                            }
+                            <span @onclick="@(() => newStudent.Disciplines += $"{discipline.DisciplineId};")">@discipline.Name</span>
+                        </ItemTemplate>
+                        <NoRecordsTemplate>
+                            <span class='norecord'>Nao tem nada aqui!</span>
+                        </NoRecordsTemplate>
+                    </AutoCompleteTemplates>
+                </SfAutoComplete>
             </div>
             <div class="modal-footer border-0 d-flex justify-content-center">
-                <button class="btn btn-default" @onclick="@(async () => await AddStudentAsync())">Cadastrar</button>
+                <button class="btn btn-gradient waves-effect" @onclick="@(async () => await AddStudentAsync())">Cadastrar</button>
             </div>
         </div>
     </div>
@@ -118,7 +133,7 @@ else
                 }
             </div>
             <div class="modal-footer border-0 d-flex justify-content-center">
-                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Fechar</button>
+                <button class="btn btn-gradient waves-effect" data-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
         </div>
     </div>

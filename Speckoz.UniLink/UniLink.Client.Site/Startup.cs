@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Syncfusion.Blazor;
 using UniLink.Client.Site.Services;
 using UniLink.Client.Site.Services.Coordinator;
 
@@ -24,11 +24,13 @@ namespace UniLink.Client.Site
 			services.AddServerSideBlazor();
 
 			services.AddBlazoredSessionStorage();
+			services.AddSyncfusionBlazor();
 
 			services.AddScoped<AuthenticationStateProvider, AuthenticationStateProviderService>();
 
 			// Services
 			services.AddScoped<AccountService>();
+			services.AddScoped<DisciplineService>();
 			services.AddScoped<CourseService>();
 			services.AddScoped<StudentService>();
 			services.AddScoped<ThemeService>();

@@ -1,4 +1,6 @@
-﻿using Dependencies.Services;
+﻿using Blazored.SessionStorage;
+
+using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
@@ -15,6 +17,13 @@ namespace UniLink.Client.Site.Services.Coordinator
 {
 	public class DisciplineService
 	{
+		private readonly ISessionStorageService _sessionStorage;
+
+		public DisciplineService(ISessionStorageService sessionStorage)
+		{
+			_sessionStorage = sessionStorage;
+		}
+
 		public async Task<IList<DisciplineVO>> GetDisciplinesByRangeTaskAsync(string token, string disciplines)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
@@ -23,14 +32,40 @@ namespace UniLink.Client.Site.Services.Coordinator
 				return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 			else
 				return new List<DisciplineVO>();
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string token, string disciplines)
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = DataHelper.URLBase,
+					URN = $"Disciplines/{disciplines}",
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
 		}
 
-		private async Task<IRestResponse> SendRequestTaskAsync(string token, string disciplines) => await new RequestService()
+		public async Task<IList<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
 		{
-			Method = Method.GET,
-			URL = DataHelper.URLBase,
-			URN = $"Disciplines/{disciplines}",
-			Authenticator = new JwtAuthenticator(token)
-		}.ExecuteTaskAsync();
+			string token = await _sessionStorage.GetItemAsync<string>("token");
+
+			IRestResponse response = await SendRequestTaskAsync(token);
+
+			if (response.StatusCode == HttpStatusCode.OK)
+				return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			else
+				return new List<DisciplineVO>();
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string token)
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = DataHelper.URLBase,
+					URN = $"Disciplines",
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
 	}
 }

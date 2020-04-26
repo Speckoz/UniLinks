@@ -29,6 +29,6 @@
     private async Task Redirect()
     {
         Navigation.NavigateTo($"/{(IsStudent ? "Student" : "Coordinator")}");
-        await JsRuntime.InvokeVoidAsync("DisposeModal", "loggedRedirectModal");
+        await JsRuntime.InvokeVoidAsync("HideModal", "loggedRedirectModal");
     }
 }

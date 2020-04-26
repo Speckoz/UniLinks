@@ -18,6 +18,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 	{
 		private int selectedStudent = -1;
 		private IList<StudentDisciplineVO> students;
+		private IList<DisciplineVO> disciplines;
 		private StudentVO newStudent = new StudentVO();
 
 		[Inject]
@@ -27,11 +28,15 @@ namespace UniLink.Client.Site.Pages.Coordinator
 		private CourseService CourseService { get; set; }
 
 		[Inject]
+		private DisciplineService DisciplineService { get; set; }
+
+		[Inject]
 		private IJSRuntime JSRuntime { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
 			students = await StudentService.GetStudentsTaskAsync((await CourseService.GetCourseByCoordIdTaskAsync()).CourseId);
+			disciplines = await DisciplineService.GetDisciplinesByCoordIdTaskAsync();
 		}
 
 		private async Task AddStudentAsync()

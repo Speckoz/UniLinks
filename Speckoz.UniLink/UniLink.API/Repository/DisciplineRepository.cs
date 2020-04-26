@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using UniLink.API.Data;
@@ -27,5 +28,8 @@ namespace UniLink.API.Repository
 
 			return disciplinesAux;
 		}
+
+		public async Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Disciplines.Where(x => x.CourseId == courseId).ToListAsync();
 	}
 }

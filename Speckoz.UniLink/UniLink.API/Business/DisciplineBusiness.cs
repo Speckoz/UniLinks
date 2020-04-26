@@ -22,6 +22,9 @@ namespace UniLink.API.Business
 			_disciplineConverter = new DisciplineConverter();
 		}
 
+		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) => 
+			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
+
 		public async Task<IList<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines)
 		{
 			if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
