@@ -82,13 +82,27 @@ else
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Email</label>
                 </div>
                 <!-- Disciplinas -->
-                <div class="md-form mb-4">
-                    <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Disciplines">
-                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Disciplinas</label>
-                </div>
+                @*<div class="md-form mb-4">
+                        <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Disciplines">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Disciplinas</label>
+                    </div>*@
+                @if (!string.IsNullOrEmpty(newStudent.Disciplines))
+                {
+                    @foreach (var discipline in newStudent.Disciplines.Split(';'))
+                    {
+                        @if (Guid.TryParse(discipline, out Guid disciplineId))
+                        {
+                            <div class="chip">
+                                @(disciplines.SingleOrDefault(x => x.DisciplineId.Equals(disciplineId)).Name)
+                                <i class="close mdi mdi-close"></i>
+                            </div>
+                        }
+                    }
+                }
+
                 <SfAutoComplete TValue="string" TItem="DisciplineVO" Placeholder="Disciplinas" DataSource="@disciplines">
                     <AutoCompleteFieldSettings Value="Name" GroupBy="Period"></AutoCompleteFieldSettings>
-                    <AutoCompleteTemplates TItem="DisciplineVO" >
+                    <AutoCompleteTemplates TItem="DisciplineVO">
                         <GroupTemplate>
                             <span>@(context.Text)° Período</span>
                         </GroupTemplate>

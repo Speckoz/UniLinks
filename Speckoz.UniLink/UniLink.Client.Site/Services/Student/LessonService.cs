@@ -15,9 +15,16 @@ namespace UniLink.Client.Site.Services.Student
 {
 	public class LessonService
 	{
-		public async Task<IList<LessonDisciplineVO>> GetAllLessonsTaskAync(string token, string disciplines)
+		public LessonService(ISessionStorageService sessionStorage)
 		{
-			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
+			_sessionStorage = sessionStorage;
+		}
+
+		public async Task<IList<LessonDisciplineVO>> GetAllLessonsTaskAync()
+		{
+			IRestResponse response = await this.SendRequestTaskAsync(
+				await SessionStorage.GetItemAsync<string>("token"), 
+				await SessionStorage.GetItemAsync<string>("disciplines"));
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });

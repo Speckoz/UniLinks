@@ -33,6 +33,7 @@ namespace UniLink.Client.Site
 			services.AddScoped<DisciplineService>();
 			services.AddScoped<CourseService>();
 			services.AddScoped<StudentService>();
+			services.AddScoped<LessonService>();
 			services.AddScoped<ThemeService>();
 		}
 
