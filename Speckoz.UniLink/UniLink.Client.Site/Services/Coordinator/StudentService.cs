@@ -87,5 +87,28 @@ namespace UniLink.Client.Site.Services.Coordinator
 				}.ExecuteTaskAsync();
 			}
 		}
+
+		public async Task<StudentDisciplineVO> UpdateStudentTaskAsync(StudentVO student)
+		{
+			// Update do student
+			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), student);
+
+			if (response.StatusCode == HttpStatusCode.OK)
+				return JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+			return default;
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string token, StudentVO student)
+			{
+				return await new RequestService()
+				{
+					Method = Method.POST,
+					URL = DataHelper.URLBase,
+					URN = $"Students",
+					Body = student,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
 	}
 }

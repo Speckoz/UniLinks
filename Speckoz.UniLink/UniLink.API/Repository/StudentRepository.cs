@@ -48,5 +48,12 @@ namespace UniLink.API.Repository
 			_context.Students.Remove(student);
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<StudentModel> UpdateTaskAsync(StudentModel student, StudentModel newStudent)
+		{
+			_context.Entry(student).CurrentValues.SetValues(newStudent);
+			await _context.SaveChangesAsync();
+			return newStudent;
+		}
 	}
 }
