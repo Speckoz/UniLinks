@@ -30,7 +30,7 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <AuthorizeView>
                             <Authorized>
-                                <i class="mdi mdi-account icon-margin-right" />@name
+                                <i class="mdi mdi-account icon-margin-right"/>@name
                             </Authorized>
                             <NotAuthorized>
                                 <i class="mdi mdi-login icon-margin-right" /> Entrar como
@@ -48,14 +48,14 @@
                                 </a>
                             </NotAuthorized>
                         </AuthorizeView>
-                        <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
+                        <AuthorizeView Roles="@($"{@UserTypeEnum.Student}")">
                             <Authorized>
                                 <a class="dropdown-item" href="/student">
                                     <i class="mdi mdi-account icon-margin-right" />Minha Area
                                 </a>
                             </Authorized>
                         </AuthorizeView>
-                        <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
+                        <AuthorizeView Roles="@($"{@UserTypeEnum.Coordinator}")">
                             <Authorized>
                                 <a class="dropdown-item" href="/coordinator">
                                     <i class="mdi mdi-account-star icon-margin-right" />Painel

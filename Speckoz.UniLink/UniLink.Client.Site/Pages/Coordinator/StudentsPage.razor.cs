@@ -64,11 +64,11 @@ namespace UniLink.Client.Site.Pages.Coordinator
                 students.Remove(students.SingleOrDefault(x => x.Student.StudentId == studentId));
         }
 
-        private async Task EditStudentAsync(string nome)
-        {
-            await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
-        }
+		private async Task EditStudentAsync(string nome)
+		{
+			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
+		}
 
-        private void HideAlert() => show = "collapse";
+		private void HideAlert() => show = "collapse";
     }
 }

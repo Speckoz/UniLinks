@@ -34,7 +34,8 @@ namespace UniLink.Client.Site.Pages.Student
 
 		protected async override Task OnInitializedAsync()
 		{
-			lessons = lessonOrigin = await LessonService.GetAllLessonsTaskAync();
+			lessons = lessonOrigin = (await LessonService.GetAllLessonsTaskAync()).OrderBy(x => x.Lesson.Date).ToList();
+			selected = lessonOrigin[0];
 		}
 
 		private void SelectLesson(LessonDisciplineVO lesson) => selected = lesson;
