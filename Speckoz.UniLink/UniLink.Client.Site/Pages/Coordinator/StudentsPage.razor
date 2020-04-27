@@ -7,6 +7,13 @@
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 
+<div class="alert alert-success alert-dismissible animated bounceInDown fast @show" style="margin-top: -25px">
+    Estudante adicionado com sucesso!
+    <button type="button" class="close" aria-label="Close" @onclick="HideAlert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight"
         data-toggle="modal" data-target="#modalNewStudent">
     <i class="mdi mdi-plus mdi-24px" />

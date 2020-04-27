@@ -20,6 +20,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
         private IList<StudentDisciplineVO> students;
         private IList<DisciplineVO> disciplines;
         private StudentVO newStudent = new StudentVO();
+        private string show = "collapse";
 
         [Inject]
         private StudentService StudentService { get; set; }
@@ -47,6 +48,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
                 students.Add(student);
                 await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
                 newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
+                show = nameof(show);
             }
         }
 
@@ -66,5 +68,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
         {
             await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
         }
+
+        private void HideAlert() => show = "collapse";
     }
 }
