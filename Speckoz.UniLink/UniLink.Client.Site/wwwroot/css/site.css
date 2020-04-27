@@ -454,6 +454,36 @@ input:checked + .slider:before
 }
 
 /* Students Lessons  */
+.card-lesson
+{
+    width: 30em;
+    height: 6em;
+    border-radius: 2em;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.card-lesson-image
+{
+    position: absolute;
+    height: 6em;
+    width: 120px;
+    border-radius: 2em 0em 0em 2em;
+}
+
+@media(max-width: 500px)
+{
+    .card-lesson-image
+    {
+        position: absolute;
+        width: 80px;
+        height: 48px;
+        border-radius: 0;
+        bottom: 25%;
+        padding-left: 10px;
+    }
+}
+
 .pd-10
 {
     padding: 10px;
