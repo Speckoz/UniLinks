@@ -24,27 +24,6 @@ namespace UniLink.Client.Site.Services.Coordinator
 			_sessionStorage = sessionStorage;
 		}
 
-		public async Task<IList<DisciplineVO>> GetDisciplinesByRangeTaskAsync(string token, string disciplines)
-		{
-			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
-
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new List<DisciplineVO>();
-
-			static async Task<IRestResponse> SendRequestTaskAsync(string token, string disciplines)
-			{
-				return await new RequestService()
-				{
-					Method = Method.GET,
-					URL = DataHelper.URLBase,
-					URN = $"Disciplines/{disciplines}",
-					Authenticator = new JwtAuthenticator(token)
-				}.ExecuteTaskAsync();
-			}
-		}
-
 		public async Task<IList<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
 		{
 			string token = await _sessionStorage.GetItemAsync<string>("token");

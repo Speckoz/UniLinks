@@ -37,6 +37,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 		{
 			students = await StudentService.GetStudentsTaskAsync((await CourseService.GetCourseByCoordIdTaskAsync()).CourseId);
 			disciplines = await DisciplineService.GetDisciplinesByCoordIdTaskAsync();
+			newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
 		}
 
 		private async Task AddStudentAsync()
@@ -45,7 +46,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 			{
 				students.Add(student);
 				await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
-				newStudent = new StudentVO();
+				newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
 			}
 		}
 

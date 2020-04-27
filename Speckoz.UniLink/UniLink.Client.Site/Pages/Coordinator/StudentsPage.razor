@@ -82,24 +82,22 @@ else
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Email</label>
                 </div>
                 <!-- Disciplinas -->
-                @*<div class="md-form mb-4">
-                        <input type="text" id="defaultForm-pass" class="form-control validate theme-text" @bind="@newStudent.Disciplines">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Disciplinas</label>
-                    </div>*@
-                @if (!string.IsNullOrEmpty(newStudent.Disciplines))
-                {
-                    @foreach (var discipline in newStudent.Disciplines.Split(';'))
+                <div class="d-flex mb-4">
+                    @if (newStudent.Disciplines is null || (newStudent.Disciplines is IList<DisciplineVO> disc && disc.Count == 0))
                     {
-                        @if (Guid.TryParse(discipline, out Guid disciplineId))
+                        <span>Selecione as disciplinas abaixo.</span>
+                    }
+                    else
+                    {
+                        @foreach (var discipline in newStudent.Disciplines)
                         {
-                            <div class="chip">
-                                @(disciplines.SingleOrDefault(x => x.DisciplineId.Equals(disciplineId)).Name)
-                                <i class="close mdi mdi-close"></i>
+                            <div class="chip waves-effect">
+                                @(disciplines.SingleOrDefault(x => x.DisciplineId.Equals(discipline.DisciplineId)).Name)
+                                <i class="mdi mdi-close" style="background-color: lawngreen; border-radius: 1em" @onclick="@(() => newStudent.Disciplines.Remove(discipline))"></i>
                             </div>
                         }
                     }
-                }
-
+                </div>
                 <SfAutoComplete TValue="string" TItem="DisciplineVO" Placeholder="Disciplinas" DataSource="@disciplines">
                     <AutoCompleteFieldSettings Value="Name" GroupBy="Period"></AutoCompleteFieldSettings>
                     <AutoCompleteTemplates TItem="DisciplineVO">
@@ -109,8 +107,14 @@ else
                         <ItemTemplate>
                             @{
                                 var discipline = (context as DisciplineVO);
+
+                                void addNewDiscipline()
+                                {
+                                    if (!newStudent.Disciplines.Any(x => x.DisciplineId == discipline.DisciplineId))
+                                        newStudent.Disciplines.Add(new DisciplineVO { DisciplineId = discipline.DisciplineId });
+                                }
                             }
-                            <span @onclick="@(() => newStudent.Disciplines += $"{discipline.DisciplineId};")">@discipline.Name</span>
+                            <span @onclick="@(() => addNewDiscipline())">@discipline.Name</span>
                         </ItemTemplate>
                         <NoRecordsTemplate>
                             <span class='norecord'>Nao tem nada aqui!</span>

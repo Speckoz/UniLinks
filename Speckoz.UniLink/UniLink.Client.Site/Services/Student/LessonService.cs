@@ -1,4 +1,6 @@
-﻿using Dependencies.Services;
+﻿using Blazored.SessionStorage;
+
+using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
@@ -15,6 +17,8 @@ namespace UniLink.Client.Site.Services.Student
 {
 	public class LessonService
 	{
+		private readonly ISessionStorageService _sessionStorage;
+
 		public LessonService(ISessionStorageService sessionStorage)
 		{
 			_sessionStorage = sessionStorage;
@@ -22,9 +26,9 @@ namespace UniLink.Client.Site.Services.Student
 
 		public async Task<IList<LessonDisciplineVO>> GetAllLessonsTaskAync()
 		{
-			IRestResponse response = await this.SendRequestTaskAsync(
-				await SessionStorage.GetItemAsync<string>("token"), 
-				await SessionStorage.GetItemAsync<string>("disciplines"));
+			IRestResponse response = await SendRequestTaskAsync(
+				await _sessionStorage.GetItemAsync<string>("token"),
+				await _sessionStorage.GetItemAsync<string>("disciplines"));
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });

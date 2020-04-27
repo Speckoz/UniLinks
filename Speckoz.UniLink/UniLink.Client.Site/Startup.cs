@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Syncfusion.Blazor;
+
 using UniLink.Client.Site.Services;
 using UniLink.Client.Site.Services.Coordinator;
+using UniLink.Client.Site.Services.Student;
 
 namespace UniLink.Client.Site
 {

@@ -1,4 +1,13 @@
-﻿using UniLink.Client.Site.Services.Student;
+﻿using Microsoft.AspNetCore.Components;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using UniLink.Client.Site.Services.Student;
+using UniLink.Dependencies.Attributes;
+using UniLink.Dependencies.Data.VO.Lesson;
+using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.Student
 {

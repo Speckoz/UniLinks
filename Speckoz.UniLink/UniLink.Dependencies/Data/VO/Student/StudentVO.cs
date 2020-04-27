@@ -9,7 +9,7 @@ namespace UniLink.Dependencies.Data.VO.Student
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public Guid CourseId { get; set; }
-		public string Disciplines { get; set; }
+		public IList<DisciplineVO> Disciplines { get; set; }
 		public string Token { get; set; }
 	}
 }

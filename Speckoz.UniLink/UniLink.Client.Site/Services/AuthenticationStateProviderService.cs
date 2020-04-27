@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,7 +79,7 @@ namespace UniLink.Client.Site.Services
 				await _sessionStorage.SetItemAsync("email", student.Email);
 				await _sessionStorage.SetItemAsync("name", student.Name);
 				await _sessionStorage.SetItemAsync("courseId", student.CourseId);
-				await _sessionStorage.SetItemAsync("disciplines", student.Disciplines);
+				await _sessionStorage.SetItemAsync("disciplines", string.Join(';', student.Disciplines.Select(x => x.DisciplineId.ToString()).ToArray()));
 				await _sessionStorage.SetItemAsync("token", student.Token);
 				NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ValidateToken(student.Token))));
 			}

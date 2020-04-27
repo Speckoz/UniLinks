@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using UniLink.API.Data.Converters.Interfaces;
@@ -21,7 +22,7 @@ namespace UniLink.API.Data.Converters.Student
 				Name = origin.Name,
 				Email = origin.Email,
 				CourseId = origin.CourseId,
-				Disciplines = origin.Disciplines
+				Disciplines = string.Join(";", origin.Disciplines.Select(x => x.DisciplineId.ToString()).ToArray())
 			};
 		}
 
@@ -30,13 +31,16 @@ namespace UniLink.API.Data.Converters.Student
 			if (origin == null)
 				return new StudentVO();
 
+			IList<DisciplineVO> disciplines = new List<DisciplineVO>();
+			origin.Disciplines.Split(';').ToList().ForEach(x => disciplines.Add(new DisciplineVO { DisciplineId = Guid.Parse(x) }));
+
 			return new StudentVO
 			{
 				StudentId = origin.StudentId,
 				Name = origin.Name,
 				Email = origin.Email,
 				CourseId = origin.CourseId,
-				Disciplines = origin.Disciplines
+				Disciplines = disciplines
 			};
 		}
 
