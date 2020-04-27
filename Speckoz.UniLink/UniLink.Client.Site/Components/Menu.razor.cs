@@ -38,11 +38,7 @@ namespace UniLink.Client.Site.Components
 
 		protected override async Task OnInitializedAsync()
 		{
-			try
-			{
-				__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
-			}
-			catch { }
+			__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
 			name = await SessionStorage.GetItemAsync<string>("name");
 		}
 

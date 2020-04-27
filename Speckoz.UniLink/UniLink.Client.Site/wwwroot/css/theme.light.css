@@ -20,5 +20,5 @@
 
     .theme-text:focus
     {
-        color: var(--theme-text)
+        color: black;
     }

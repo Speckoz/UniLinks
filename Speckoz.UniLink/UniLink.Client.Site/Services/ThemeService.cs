@@ -25,9 +25,13 @@ namespace UniLink.Client.Site.Services
 
 		public async Task<bool> ChangeSessionThemeTaskAsync()
 		{
-			bool isDark = await _sessionStorage.GetItemAsync<bool>("theme");
-			await ChangeTheme(isDark);
-			return isDark;
+			if(await _sessionStorage.GetItemAsync<bool?>("theme") is bool theme)
+			{
+				await ChangeTheme(theme);
+				return theme;
+			}
+
+			return false;
 		}
 	}
 }
