@@ -1,45 +1,31 @@
-﻿$(document).ready(function ()
-{
+﻿$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-function ChangeToLight()
-{
+function ChangeToLight() {
     ChangeLinkTheme("css/theme.light.css");
 }
-function ChangeToDark()
-{
+function ChangeToDark() {
     ChangeLinkTheme("css/theme.dark.css");
 }
 
-function ChangeLinkTheme(cssFile)
-{
+function ChangeLinkTheme(cssFile) {
     document.getElementById("clientThemeLink").setAttribute("href", cssFile);
 }
 
-function SendAlert(msg)
-{
+function SendAlert(msg) {
     alert(msg);
 }
 
-function ShowModal(modalId)
-{
-    $(document).ready(function ()
-    {
-        $('#' + modalId).modal('show');
-    });
+function ShowModal(modalId) {
+    $(document).ready(() => $('#' + modalId).modal('show'));
 }
 
-function HideModal(modalId)
-{
-    $(document).ready(function ()
-    {
-        $('#' + modalId).modal('hide');
-    });
+function HideModal(modalId) {
+    $(document).ready(() => $('#' + modalId).modal('hide'));
 }
 
-function capture(video, scaleFactor)
-{
+function capture(video, scaleFactor) {
     const w = video.videoWidth * scaleFactor;
     const h = video.videoHeight * scaleFactor;
 
@@ -54,8 +40,7 @@ function capture(video, scaleFactor)
     img.src = canvas.toDataURL('png', 0.8);
 }
 
-function shoot(time)
-{
+function shoot(time) {
     const video = document.getElementById('video');
     video.currentTime += 0.25;
 
