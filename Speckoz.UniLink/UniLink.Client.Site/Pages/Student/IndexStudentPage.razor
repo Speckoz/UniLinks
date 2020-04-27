@@ -6,11 +6,11 @@
 <div class="container">
     @if (selected != null)
     {
-        <div class="row justify-content-center d-flex">
+        <article class="row justify-content-center d-flex">
             <div class="card card-lesson theme-bg theme-text">
                 <div class="row nowrap-row" style="height: 6em">
                     <div class="col-3 image-lesson">
-                        <img class="card-lesson-image" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" alt="Card image cap">
+                        <img class="card-lesson-image" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" alt="Thumbnail da aula">
                     </div>
 
                     <div class="col-7" style="padding-left: 10px;padding-top: 10px;">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     }
 
     <div class="row" style="display: grid; text-align: -webkit-center">
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
                     <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%" @bind="@FilterSelected" @bind:event="onchange">
-                        <option disabled>Filtar por</option>
+                        <option disabled aria-disabled="true">Filtar por</option>
                         <option value="1">Disciplina</option>
                         <option value="2">Periodo</option>
                         <option value="3">Data</option>
@@ -73,7 +73,7 @@
         <div class="row justify-content-center d-flex">
             <span style="padding-bottom: 20px">Encontradas: @lessons.Count</span>
         </div>
-        <div class="row">
+        <section id="lessons-list-table" class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-lg-center">
                     <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
@@ -95,7 +95,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </section>
     }
 </div>
 

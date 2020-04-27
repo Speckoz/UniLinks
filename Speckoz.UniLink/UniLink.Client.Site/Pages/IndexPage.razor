@@ -5,81 +5,83 @@
 
 @inject IJSRuntime jSRuntime
 <!--Navbar -->
-<nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color-bg">
-    <a class="navbar-brand" href="/#home" target="_top">UniLink</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
-            aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#devs" target="_top">
-                    <i class="mdi mdi-xml icon-margin-right" />Desenvolvedores
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#about" target="_top">
-                    <i class="mdi mdi-information-variant icon-margin-right" />Sobre
-                </a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <AuthorizeView>
-                        <Authorized>
-                            <i class="mdi mdi-account icon-margin-right" />Conta
-                        </Authorized>
-                        <NotAuthorized>
-                            <i class="mdi mdi-login icon-margin-right" /> Entrar como
-                        </NotAuthorized>
-                    </AuthorizeView>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
-                    <AuthorizeView>
-                        <NotAuthorized>
-                            <a class="dropdown-item" href="/auth/student">
-                                <i class="mdi mdi-account-group icon-margin-right" />Aluno
-                            </a>
-                            <a class="dropdown-item" href="/auth/coordinator">
-                                <i class="mdi mdi-card-account-details-star icon-margin-right" />Coordenador
-                            </a>
-                        </NotAuthorized>
-                    </AuthorizeView>
-                    <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
-                        <Authorized>
-                            <a class="dropdown-item" href="/student">
-                                <i class="mdi mdi-account icon-margin-right" />Minha Area
-                            </a>
-                        </Authorized>
-                    </AuthorizeView>
-                    <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
-                        <Authorized>
-                            <a class="dropdown-item" href="/coordinator">
-                                <i class="mdi mdi-account-star icon-margin-right" />Painel
-                            </a>
-                        </Authorized>
-                    </AuthorizeView>
-                    <AuthorizeView>
-                        <Authorized>
-                            <hr class="separator" />
-                            <a class="dropdown-item" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
-                                <i class="mdi mdi-logout icon-margin-right" />Deslogar
-                            </a>
-                        </Authorized>
-                    </AuthorizeView>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
+<header>
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color-bg">
+        <a class="navbar-brand" href="/#home" target="_top">UniLink</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+                aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#devs" target="_top">
+                        <i class="mdi mdi-xml icon-margin-right" />Desenvolvedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about" target="_top">
+                        <i class="mdi mdi-information-variant icon-margin-right" />Sobre
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <AuthorizeView>
+                            <Authorized>
+                                <i class="mdi mdi-account icon-margin-right" />Conta
+                            </Authorized>
+                            <NotAuthorized>
+                                <i class="mdi mdi-login icon-margin-right" /> Entrar como
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <a class="dropdown-item" href="/auth/student">
+                                    <i class="mdi mdi-account-group icon-margin-right" />Aluno
+                                </a>
+                                <a class="dropdown-item" href="/auth/coordinator">
+                                    <i class="mdi mdi-card-account-details-star icon-margin-right" />Coordenador
+                                </a>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
+                            <Authorized>
+                                <a class="dropdown-item" href="/student">
+                                    <i class="mdi mdi-account icon-margin-right" />Minha Area
+                                </a>
+                            </Authorized>
+                        </AuthorizeView>
+                        <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
+                            <Authorized>
+                                <a class="dropdown-item" href="/coordinator">
+                                    <i class="mdi mdi-account-star icon-margin-right" />Painel
+                                </a>
+                            </Authorized>
+                        </AuthorizeView>
+                        <AuthorizeView>
+                            <Authorized>
+                                <hr class="separator" />
+                                <a class="dropdown-item" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
+                                    <i class="mdi mdi-logout icon-margin-right" />Deslogar
+                                </a>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-<div id="home">
+<section id="home">
     <h3>Bem-Vindo ao UniLink</h3>
 
     <p>Dignissim vulputate consetetur ea dolores eirmod kasd sed elitr eos diam amet dolore placerat invidunt eu amet duis ipsum diam</p>
-</div>
+</section>
 
 <video id="video" width="320" controls>
     <source src="https://mdn.github.io/dom-examples/canvas/chroma-keying/media/video.mp4" />
@@ -99,13 +101,13 @@
 <br />
 <img id="canvasimg" />
 
-<div id="devs">
+<section id="devs">
     <DevelopersPage />
-</div>
+</section>
 
-<div id="about">
+<section id="about">
     <AboutPage />
-</div>
+</section>
 
 @code {
     private async Task Capture(int time)
