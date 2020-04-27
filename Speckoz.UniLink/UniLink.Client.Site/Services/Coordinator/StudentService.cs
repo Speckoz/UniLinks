@@ -88,13 +88,13 @@ namespace UniLink.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<StudentDisciplineVO> UpdateStudentTaskAsync(StudentVO student)
+		public async Task<StudentVO> UpdateStudentTaskAsync(StudentVO student)
 		{
 			// Update do student
 			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), student);
 
 			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				return JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
 			return default;
 
@@ -102,7 +102,7 @@ namespace UniLink.Client.Site.Services.Coordinator
 			{
 				return await new RequestService()
 				{
-					Method = Method.POST,
+					Method = Method.PUT,
 					URL = DataHelper.URLBase,
 					URN = $"Students",
 					Body = student,
