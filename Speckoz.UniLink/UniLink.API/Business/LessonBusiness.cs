@@ -39,7 +39,7 @@ namespace UniLink.API.Business
 			return _lessonConverter.Parse(lessonEntity);
 		}
 
-		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift) =>
+		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
 			_lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
 
 		public async Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)

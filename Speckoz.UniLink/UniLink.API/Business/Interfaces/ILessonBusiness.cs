@@ -16,7 +16,7 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<LessonVO> FindByURITaskAsync(string uri);
 
-		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum LessonShift);
+		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum LessonShift);
 
 		Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
 

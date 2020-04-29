@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class AddVOPattern : Migration
+    public partial class AddClass : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    ClassId = table.Column<Guid>(nullable: false),
+                    CourseId = table.Column<Guid>(nullable: false),
+                    URI = table.Column<string>(nullable: false),
+                    Period = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.ClassId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Coordinators",
                 columns: table => new
@@ -43,7 +57,8 @@ namespace UniLink.API.Migrations
                     Name = table.Column<string>(nullable: false),
                     Teacher = table.Column<string>(nullable: false),
                     Period = table.Column<byte>(nullable: false),
-                    CourseId = table.Column<Guid>(nullable: false)
+                    CourseId = table.Column<Guid>(nullable: false),
+                    ClassId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,6 +98,9 @@ namespace UniLink.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Classes");
+
             migrationBuilder.DropTable(
                 name: "Coordinators");
 

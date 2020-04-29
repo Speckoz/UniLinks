@@ -15,7 +15,7 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines);
 
-		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, LessonShiftEnum lessonShift);
+		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift);
 
 		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
 

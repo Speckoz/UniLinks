@@ -2,7 +2,7 @@
 
 namespace UniLink.Dependencies.Enums
 {
-	public enum LessonShiftEnum
+	public enum ClassShiftEnum
 	{
 		[Description("Matutino")]
 		Morning,

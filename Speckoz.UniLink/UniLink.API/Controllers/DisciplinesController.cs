@@ -26,9 +26,23 @@ namespace UniLink.API.Controllers
 			_courseBusiness = courseBusiness;
 		}
 
+		[HttpPost]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO discipline)
+		{
+			if (ModelState.IsValid)
+			{
+				//verificar se ja existe
+
+				//adiciona
+			}
+
+			return BadRequest();
+		}
+
 		[HttpGet("{disciplines}")]
 		[Authorizes]
-		public async Task<IActionResult> GetDisciplinesTaskAsync([Required]string disciplines)
+		public async Task<IActionResult> GetDisciplinesTaskAsync([Required] string disciplines)
 		{
 			if (ModelState.IsValid)
 			{

@@ -19,5 +19,8 @@ namespace UniLink.Dependencies.Models
 
 		[Required]
 		public Guid CourseId { get; set; }
+
+		[Required]
+		public Guid ClassId { get; set; }
 	}
 }

@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200420200505_AddVOPattern")]
-    partial class AddVOPattern
+    [Migration("20200429061732_AddClass")]
+    partial class AddClass
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,27 @@ namespace UniLink.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("UniLink.API.Models.ClassModel", b =>
+                {
+                    b.Property<Guid>("ClassId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte>("Period")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<string>("URI")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("ClassId");
+
+                    b.ToTable("Classes");
+                });
 
             modelBuilder.Entity("UniLink.API.Models.CoordinatorModel", b =>
                 {
@@ -67,6 +88,9 @@ namespace UniLink.API.Migrations
                 {
                     b.Property<Guid>("DisciplineId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ClassId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("CourseId")

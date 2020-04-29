@@ -21,9 +21,11 @@ namespace UniLink.API.Data
 			CourseModel c1 = null, c2 = null;
 			DisciplineModel d1 = null, d2 = null;
 			LessonModel l1 = null, l2 = null;
+			ClassModel cs1 = null, cs2 = null;
 
 			SeedCoords();
 			SeedCourse();
+			SeedClasses();
 			SeedDisciplines();
 			SeedStudents();
 			SeedLeassons();
@@ -121,6 +123,28 @@ namespace UniLink.API.Data
 				}
 			}
 
+			void SeedClasses()
+			{
+				if (!_context.Classes.Any())
+				{
+					cs1 = new ClassModel
+					{
+						ClassId = Guid.Parse("F0399CDA-FE59-45A3-8440-27EE01A33CFB"),
+						CourseId = c1.CourseId,
+						URI = "https://logikoz.net",
+						Period = 5
+					};
+					cs2 = new ClassModel
+					{
+						ClassId = Guid.Parse("17233026-2E4F-4216-B79A-3DF5A7572DBB"),
+						CourseId = c2.CourseId,
+						URI = "https://logikoz.net",
+						Period = 2
+					};
+
+					_context.AddRange(cs1, cs2);
+				}
+			}
 			void SeedDisciplines()
 			{
 				if (!_context.Disciplines.Any())
@@ -131,7 +155,8 @@ namespace UniLink.API.Data
 						Name = "Principios de Eletronica",
 						Teacher = "Son Goku",
 						Period = 5,
-						CourseId = c1.CourseId
+						CourseId = c1.CourseId,
+						ClassId = cs1.ClassId
 					};
 					d2 = new DisciplineModel
 					{
@@ -139,7 +164,8 @@ namespace UniLink.API.Data
 						Name = "Fundamentos de programaçao",
 						Teacher = "Naruto Uzumaki",
 						Period = 2,
-						CourseId = c2.CourseId
+						CourseId = c2.CourseId,
+						ClassId = cs2.ClassId
 					};
 
 					_context.Disciplines.AddRange(d1, d2);
