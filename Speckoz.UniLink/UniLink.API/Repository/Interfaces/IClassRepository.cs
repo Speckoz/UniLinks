@@ -10,5 +10,7 @@ namespace UniLink.API.Repository.Interfaces
 		Task<ClassModel> AddTasAsync(ClassModel @class);
 
 		Task<ClassModel> FindByClassIdTaskAsync(Guid classId);
+
+		Task RemoveAsync(ClassModel @class);
 	}
 }
