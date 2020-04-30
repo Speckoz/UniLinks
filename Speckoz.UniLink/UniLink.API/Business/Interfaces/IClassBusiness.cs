@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using UniLink.API.Models;
+using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.API.Business.Interfaces
 {
 	public interface IClassBusiness
 	{
-		Task<ClassModel> AddTasAsync(ClassModel @class);
+		Task<ClassVO> AddTasAsync(ClassVO @class);
 
-		Task<ClassModel> FindByClassIdTaskAsync(Guid classId);
+		Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
 
-		Task RemoveAsync(ClassModel @class);
+		Task<ClassVO> FindByURITaskAsync(string uri);
+
+		Task RemoveAsync(ClassVO @class);
 	}
 }
