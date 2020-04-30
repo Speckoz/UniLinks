@@ -21,7 +21,7 @@ namespace UniLink.API.Data.Converters.Lesson
 		public LessonDisciplineVO Parse((LessonModel lesson, DisciplineModel discipline) origin)
 		{
 			if (origin.lesson is null || origin.discipline is null)
-				return new LessonDisciplineVO();
+				return null;
 
 			return new LessonDisciplineVO
 			{
@@ -32,10 +32,11 @@ namespace UniLink.API.Data.Converters.Lesson
 
 		public IList<LessonDisciplineVO> ParseList(IList<(LessonModel, DisciplineModel)> origin)
 		{
-			if (origin == null)
-				return new List<LessonDisciplineVO>();
-
-			return origin.Select(item => Parse(item)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(item => Parse(item)).ToList()
+			};
 		}
 	}
 }

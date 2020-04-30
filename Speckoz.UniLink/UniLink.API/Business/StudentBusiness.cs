@@ -42,15 +42,19 @@ namespace UniLink.API.Business
 
 			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out IList<Guid> result))
 			{
-				StudentModel addedstudent = await _studentRepository.AddTaskAsync(studentEntity);
 				IList<DisciplineModel> disciplines = await _disciplineRepository.FindByRangeIdTaskAsync(result);
 
-				//await _emailSender.SendEmailTaskAsync(addedstudent.Email);
+				if (!disciplines.Contains(null))
+				{
+					StudentModel addedstudent = await _studentRepository.AddTaskAsync(studentEntity);
 
-				return _studentDisciplineConverter.Parse((addedstudent, disciplines));
+					//await _emailSender.SendEmailTaskAsync(addedstudent.Email);
+
+					return _studentDisciplineConverter.Parse((addedstudent, disciplines));
+				}
 			}
 
-			return default;
+			return null;
 		}
 
 		public async Task<StudentVO> AuthUserTaskAsync(string email)
@@ -78,9 +82,12 @@ namespace UniLink.API.Business
 				foreach (StudentModel student in students)
 				{
 					if (!GuidFormat.TryParseList(student.Disciplines, ';', out IList<Guid> result))
-						return default;
+						return null;
 
-					studentDisciplines.Add((student, await _disciplineRepository.FindByRangeIdTaskAsync(result)));
+					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is IList<DisciplineModel> dsiciplines)
+						studentDisciplines.Add((student, dsiciplines));
+					else
+						return null;
 				}
 
 				return _studentDisciplineConverter.ParseList(studentDisciplines);
@@ -98,11 +105,9 @@ namespace UniLink.API.Business
 		public async Task<StudentVO> UpdateTaskAsync(StudentVO newStudent)
 		{
 			if (await _studentRepository.FindByIdTaskAsync(newStudent.StudentId) is StudentModel oldStudent)
-			{
-				var studentEntity = await _studentRepository.UpdateTaskAsync(oldStudent, _converter.Parse(newStudent));
-				return _converter.Parse(studentEntity);
-			}
-			return default;
+				return _converter.Parse(await _studentRepository.UpdateTaskAsync(oldStudent, _converter.Parse(newStudent)));
+
+			return null;
 		}
 	}
 }

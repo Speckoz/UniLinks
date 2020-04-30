@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class AddClass : Migration
+    public partial class AddClasses : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

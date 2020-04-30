@@ -40,7 +40,7 @@ namespace UniLink.API.Repository
 					.Where(c => c.CourseId == course.CourseId)
 					.ToListAsync();
 
-			return default;
+			return null;
 		}
 
 		public async Task DeleteTaskAsync(StudentModel student)

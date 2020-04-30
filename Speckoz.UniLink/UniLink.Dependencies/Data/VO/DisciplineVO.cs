@@ -9,5 +9,6 @@ namespace UniLink.Dependencies.Data.VO
 		public string Teacher { get; set; }
 		public byte Period { get; set; }
 		public Guid CourseId { get; set; }
+		public Guid ClassId { get; set; }
 	}
 }

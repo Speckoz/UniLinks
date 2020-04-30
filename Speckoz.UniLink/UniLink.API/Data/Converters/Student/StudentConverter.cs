@@ -13,8 +13,8 @@ namespace UniLink.API.Data.Converters.Student
 	{
 		public StudentModel Parse(StudentVO origin)
 		{
-			if (origin == null)
-				return new StudentModel();
+			if (origin is null)
+				return null;
 
 			return new StudentModel
 			{
@@ -28,8 +28,8 @@ namespace UniLink.API.Data.Converters.Student
 
 		public StudentVO Parse(StudentModel origin)
 		{
-			if (origin == null)
-				return new StudentVO();
+			if (origin is null)
+				return null;
 
 			IList<DisciplineVO> disciplines = new List<DisciplineVO>();
 			origin.Disciplines.Split(';').ToList().ForEach(x => disciplines.Add(new DisciplineVO { DisciplineId = Guid.Parse(x) }));
@@ -46,18 +46,20 @@ namespace UniLink.API.Data.Converters.Student
 
 		public IList<StudentModel> ParseList(IList<StudentVO> origin)
 		{
-			if (origin == null)
-				return new List<StudentModel>();
-
-			return origin.Select(item => Parse(item)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(item => Parse(item)).ToList()
+			};
 		}
 
 		public IList<StudentVO> ParseList(IList<StudentModel> origin)
 		{
-			if (origin == null)
-				return new List<StudentVO>();
-
-			return origin.Select(item => Parse(item)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(item => Parse(item)).ToList()
+			};
 		}
 	}
 }

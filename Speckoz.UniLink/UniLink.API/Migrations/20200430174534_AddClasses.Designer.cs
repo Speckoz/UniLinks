@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200429061732_AddClass")]
-    partial class AddClass
+    [Migration("20200430174534_AddClasses")]
+    partial class AddClasses
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

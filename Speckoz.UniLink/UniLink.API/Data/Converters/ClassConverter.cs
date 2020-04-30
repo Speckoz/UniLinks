@@ -12,7 +12,7 @@ namespace UniLink.API.Data.Converters
 		public ClassModel Parse(ClassVO origin)
 		{
 			if (origin is null)
-				return new ClassModel();
+				return null;
 
 			return new ClassModel
 			{
@@ -26,7 +26,7 @@ namespace UniLink.API.Data.Converters
 		public ClassVO Parse(ClassModel origin)
 		{
 			if (origin is null)
-				return new ClassVO();
+				return null;
 
 			return new ClassVO
 			{
@@ -39,18 +39,20 @@ namespace UniLink.API.Data.Converters
 
 		public IList<ClassModel> ParseList(IList<ClassVO> origin)
 		{
-			if (origin is null)
-				return new List<ClassModel>();
-
-			return origin.Select(x => Parse(x)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(x => Parse(x)).ToList()
+			};
 		}
 
 		public IList<ClassVO> ParseList(IList<ClassModel> origin)
 		{
-			if (origin is null)
-				return new List<ClassVO>();
-
-			return origin.Select(x => Parse(x)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(x => Parse(x)).ToList()
+			};
 		}
 	}
 }

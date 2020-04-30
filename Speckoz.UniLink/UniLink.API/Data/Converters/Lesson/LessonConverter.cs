@@ -11,8 +11,8 @@ namespace UniLink.API.Data.Converters.Lesson
 	{
 		public LessonModel Parse(LessonVO origin)
 		{
-			if (origin == null)
-				return new LessonModel();
+			if (origin is null)
+				return null;
 
 			return new LessonModel
 			{
@@ -26,8 +26,8 @@ namespace UniLink.API.Data.Converters.Lesson
 
 		public LessonVO Parse(LessonModel origin)
 		{
-			if (origin == null)
-				return new LessonVO();
+			if (origin is null)
+				return null;
 
 			return new LessonVO
 			{
@@ -41,18 +41,20 @@ namespace UniLink.API.Data.Converters.Lesson
 
 		public IList<LessonModel> ParseList(IList<LessonVO> origin)
 		{
-			if (origin == null)
-				return new List<LessonModel>();
-
-			return origin.Select(item => Parse(item)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(item => Parse(item)).ToList()
+			};
 		}
 
 		public IList<LessonVO> ParseList(IList<LessonModel> origin)
 		{
-			if (origin == null)
-				return new List<LessonVO>();
-
-			return origin.Select(item => Parse(item)).ToList();
+			return origin switch
+			{
+				null => null,
+				_ => origin.Select(item => Parse(item)).ToList()
+			};
 		}
 	}
 }
