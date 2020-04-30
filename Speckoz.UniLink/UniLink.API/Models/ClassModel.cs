@@ -16,5 +16,5 @@ namespace UniLink.API.Models
 
 		[Required]
 		public byte Period { get; set; }
-	}
+	}d
 }
