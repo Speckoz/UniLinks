@@ -25,6 +25,9 @@ namespace UniLink.API.Repository
 		public async Task<ClassModel> FindByClassIdTaskAsync(Guid classId) =>
 			await _context.Classes.SingleOrDefaultAsync(x => x.ClassId == classId);
 
+		public async Task<ClassModel> FindByURITaskAsync(string uri) => 
+			await _context.Classes.SingleOrDefaultAsync(x => x.URI == uri);
+
 		public async Task RemoveAsync(ClassModel @class)
 		{
 			_context.Classes.Remove(@class);
