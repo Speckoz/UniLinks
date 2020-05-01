@@ -62,7 +62,8 @@ namespace UniLink.Client.Site.Pages.Coordinator
 		private async Task RemoveStudentAsync(Guid studentId)
 		{
 			if (await StudentService.RemoveStudentTaskAsync(studentId))
-				students.Remove(students.SingleOrDefault(x => x.StudentId == studentId));
+				if (students.SingleOrDefault(x => x.StudentId == studentId) is StudentDisciplineVO student)
+					students.Remove(student);
 		}
 
 		private async Task EditStudentAsync(string nome)
