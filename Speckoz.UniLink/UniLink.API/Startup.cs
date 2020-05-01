@@ -12,6 +12,7 @@ using System.Text;
 using UniLink.API.Business;
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data;
+using UniLink.API.Filters;
 using UniLink.API.Repository;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
@@ -78,6 +79,12 @@ namespace UniLink.API
 			services.AddScoped<IStudentBusiness, StudentBusiness>();
 			services.AddScoped<ICourseBusiness, CourseBusiness>();
 			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
+
+			// Filter
+			services.AddMvc(options => 
+			{
+				options.Filters.Add(typeof(ErrorResponseFilter));
+			});
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
