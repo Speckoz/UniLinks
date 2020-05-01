@@ -15,52 +15,52 @@ using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.Client.Site.Services
 {
-	public class AccountService
-	{
-		private readonly AuthenticationStateProvider _authentication;
+    public class AccountService
+    {
+        private readonly AuthenticationStateProvider _authentication;
 
-		public AccountService(AuthenticationStateProvider authentication)
-		{
-			_authentication = authentication;
-		}
+        public AccountService(AuthenticationStateProvider authentication)
+        {
+            _authentication = authentication;
+        }
 
-		public async Task<bool> AuthAccountTaskAsync(LoginRequestModel login)
-		{
-			IRestResponse response = await SendRequestTaskAsync(login, "Auth");
+        public async Task<bool> AuthAccountTaskAsync(LoginRequestModel login)
+        {
+            IRestResponse response = await SendRequestTaskAsync(login, "Auth");
 
-			if (response.StatusCode == HttpStatusCode.OK)
-			{
-				CoordinatorVO coord = JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-				await ((AuthenticationStateProviderService) _authentication).MarkUserWithAuthenticatedAsync(coord);
-				return true;
-			}
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                CoordinatorVO coord = JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                await ((AuthenticationStateProviderService)_authentication).MarkUserWithAuthenticatedAsync(coord);
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		public async Task<bool> AuthAccountTaskAsync(string login)
-		{
-			IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/User");
+        public async Task<bool> AuthAccountTaskAsync(string login)
+        {
+            IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/User");
 
-			if (response.StatusCode == HttpStatusCode.OK)
-			{
-				StudentVO student = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-				await ((AuthenticationStateProviderService) _authentication).MarkUserWithAuthenticatedAsync(student);
-				return true;
-			}
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                StudentVO student = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                await ((AuthenticationStateProviderService)_authentication).MarkUserWithAuthenticatedAsync(student);
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		private async Task<IRestResponse> SendRequestTaskAsync(object body, string urn)
-		{
-			return await new RequestService()
-			{
-				URL = DataHelper.URLBase,
-				URN = urn,
-				Method = Method.POST,
-				Body = body
-			}.ExecuteTaskAsync();
-		}
-	}
+        private async Task<IRestResponse> SendRequestTaskAsync(object body, string urn)
+        {
+            return await new RequestService()
+            {
+                URL = DataHelper.URLBase,
+                URN = urn,
+                Method = Method.POST,
+                Body = body
+            }.ExecuteTaskAsync();
+        }
+    }
 }

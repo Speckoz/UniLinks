@@ -21,13 +21,13 @@ namespace UniLink.Client.Site.Pages
         protected override async Task OnInitializedAsync()
         {
             string fullName = await SessionStorage.GetItemAsync<string>("name");
-			if(fullName is string)
-			{
-				if (fullName.Contains(' '))
-					name = new string(fullName.Take(fullName.IndexOf(' ')).ToArray());
-				else
-					name = fullName;
-			}
+            if (fullName is string)
+            {
+                if (fullName.Contains(' '))
+                    name = new string(fullName.Take(fullName.IndexOf(' ')).ToArray());
+                else
+                    name = fullName;
+            }
         }
     }
 }

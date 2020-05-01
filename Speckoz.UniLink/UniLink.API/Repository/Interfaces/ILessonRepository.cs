@@ -7,20 +7,20 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Repository.Interfaces
 {
-	public interface ILessonRepository
-	{
-		Task<LessonModel> FindByIdTaskAsync(Guid lessonId);
+    public interface ILessonRepository
+    {
+        Task<LessonModel> FindByIdTaskAsync(Guid lessonId);
 
-		Task<LessonModel> FindByURITaskAsync(string uri);
+        Task<LessonModel> FindByURITaskAsync(string uri);
 
-		Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines);
+        Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines);
 
-		Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift);
+        Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift);
 
-		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
+        Task<LessonModel> AddTaskAsync(LessonModel Lesson);
 
-		Task<LessonModel> UpdateTaskAsync(LessonModel oldLesson, LessonModel newLesson);
+        Task<LessonModel> UpdateTaskAsync(LessonModel oldLesson, LessonModel newLesson);
 
-		Task DeleteTaskAsync(LessonModel lesson);
-	}
+        Task DeleteTaskAsync(LessonModel lesson);
+    }
 }

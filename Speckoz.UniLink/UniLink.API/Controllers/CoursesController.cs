@@ -11,27 +11,27 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class CoursesController : ControllerBase
-	{
-		private readonly ICourseBusiness _courseBusiness;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CoursesController : ControllerBase
+    {
+        private readonly ICourseBusiness _courseBusiness;
 
-		public CoursesController(ICourseBusiness courseBusiness)
-		{
-			_courseBusiness = courseBusiness;
-		}
+        public CoursesController(ICourseBusiness courseBusiness)
+        {
+            _courseBusiness = courseBusiness;
+        }
 
-		[HttpGet]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> CourseByCoordIdTaskAsync()
-		{
-			var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        [HttpGet]
+        [Authorizes(UserTypeEnum.Coordinator)]
+        public async Task<IActionResult> CourseByCoordIdTaskAsync()
+        {
+            var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-			if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-				return Ok(course);
+            if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+                return Ok(course);
 
-			return NotFound("Nao existe nenhum curso com este coordenador");
-		}
-	}
+            return NotFound("Nao existe nenhum curso com este coordenador");
+        }
+    }
 }

@@ -6,20 +6,20 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Repository.Interfaces
 {
-	public interface IStudentRepository
-	{
-		Task<StudentModel> AddTaskAsync(StudentModel student);
+    public interface IStudentRepository
+    {
+        Task<StudentModel> AddTaskAsync(StudentModel student);
 
-		Task<bool> ExistsByEmailTaskAsync(string email);
+        Task<bool> ExistsByEmailTaskAsync(string email);
 
-		Task<StudentModel> FindByIdTaskAsync(Guid id);
+        Task<StudentModel> FindByIdTaskAsync(Guid id);
 
-		Task<StudentModel> FindByEmailTaskAsync(string email);
+        Task<StudentModel> FindByEmailTaskAsync(string email);
 
-		Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId);
+        Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId);
 
-		Task DeleteTaskAsync(StudentModel student);
+        Task DeleteTaskAsync(StudentModel student);
 
-		Task<StudentModel> UpdateTaskAsync(StudentModel student, StudentModel newStudent);
-	}
+        Task<StudentModel> UpdateTaskAsync(StudentModel student, StudentModel newStudent);
+    }
 }

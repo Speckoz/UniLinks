@@ -15,56 +15,56 @@ using UniLink.Client.Site.Services.Student;
 
 namespace UniLink.Client.Site
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration) => Configuration = configuration;
+    public class Startup
+    {
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddRazorPages(x => x.RootDirectory = "/");
-			services.AddServerSideBlazor();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddRazorPages(x => x.RootDirectory = "/");
+            services.AddServerSideBlazor();
 
-			services.AddBlazoredSessionStorage();
-			services.AddSyncfusionBlazor();
+            services.AddBlazoredSessionStorage();
+            services.AddSyncfusionBlazor();
 
-			services.AddScoped<AuthenticationStateProvider, AuthenticationStateProviderService>();
+            services.AddScoped<AuthenticationStateProvider, AuthenticationStateProviderService>();
 
-			// Services
-			services.AddScoped<AccountService>();
-			services.AddScoped<DisciplineService>();
-			services.AddScoped<CourseService>();
-			services.AddScoped<StudentService>();
-			services.AddScoped<LessonService>();
-			services.AddScoped<ThemeService>();
-		}
+            // Services
+            services.AddScoped<AccountService>();
+            services.AddScoped<DisciplineService>();
+            services.AddScoped<CourseService>();
+            services.AddScoped<StudentService>();
+            services.AddScoped<LessonService>();
+            services.AddScoped<ThemeService>();
+        }
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Error");
-				app.UseHsts();
-			}
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
-			//app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            //app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-			app.UseRouting();
+            app.UseRouting();
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapBlazorHub();
-				endpoints.MapFallbackToPage("/_Host");
-			});
-		}
-	}
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
+            });
+        }
+    }
 }

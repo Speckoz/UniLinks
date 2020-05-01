@@ -15,36 +15,36 @@ using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.Client.Site.Services.Coordinator
 {
-	public class DisciplineService
-	{
-		private readonly ISessionStorageService _sessionStorage;
+    public class DisciplineService
+    {
+        private readonly ISessionStorageService _sessionStorage;
 
-		public DisciplineService(ISessionStorageService sessionStorage)
-		{
-			_sessionStorage = sessionStorage;
-		}
+        public DisciplineService(ISessionStorageService sessionStorage)
+        {
+            _sessionStorage = sessionStorage;
+        }
 
-		public async Task<IList<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
-		{
-			string token = await _sessionStorage.GetItemAsync<string>("token");
+        public async Task<IList<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
+        {
+            string token = await _sessionStorage.GetItemAsync<string>("token");
 
-			IRestResponse response = await SendRequestTaskAsync(token);
+            IRestResponse response = await SendRequestTaskAsync(token);
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new List<DisciplineVO>();
+            if (response.StatusCode == HttpStatusCode.OK)
+                return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            else
+                return new List<DisciplineVO>();
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string token)
-			{
-				return await new RequestService()
-				{
-					Method = Method.GET,
-					URL = DataHelper.URLBase,
-					URN = $"Disciplines",
-					Authenticator = new JwtAuthenticator(token)
-				}.ExecuteTaskAsync();
-			}
-		}
-	}
+            static async Task<IRestResponse> SendRequestTaskAsync(string token)
+            {
+                return await new RequestService()
+                {
+                    Method = Method.GET,
+                    URL = DataHelper.URLBase,
+                    URN = $"Disciplines",
+                    Authenticator = new JwtAuthenticator(token)
+                }.ExecuteTaskAsync();
+            }
+        }
+    }
 }

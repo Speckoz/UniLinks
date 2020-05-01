@@ -3,8 +3,8 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.Admin
 {
-	[Authorizes(UserTypeEnum.Coordinator)]
-	public partial class IndexCoordPage
-	{
-	}
+    [Authorizes(UserTypeEnum.Coordinator)]
+    public partial class IndexCoordPage
+    {
+    }
 }

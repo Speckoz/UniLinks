@@ -10,47 +10,47 @@ using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class AuthController : ControllerBase
-	{
-		private readonly ICoordinatorBusiness _coordinatorBusiness;
-		private readonly IStudentBusiness _studentBusiness;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly ICoordinatorBusiness _coordinatorBusiness;
+        private readonly IStudentBusiness _studentBusiness;
 
-		public AuthController(ICoordinatorBusiness accountBusiness, IStudentBusiness studentBusiness)
-		{
-			_coordinatorBusiness = accountBusiness;
-			_studentBusiness = studentBusiness;
-		}
+        public AuthController(ICoordinatorBusiness accountBusiness, IStudentBusiness studentBusiness)
+        {
+            _coordinatorBusiness = accountBusiness;
+            _studentBusiness = studentBusiness;
+        }
 
-		// POST: /Auth
-		[HttpPost]
-		public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _coordinatorBusiness.AuthAccountTaskAsync(userLogin) is CoordinatorVO user)
-					return Ok(user);
+        // POST: /Auth
+        [HttpPost]
+        public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _coordinatorBusiness.AuthAccountTaskAsync(userLogin) is CoordinatorVO user)
+                    return Ok(user);
 
-				return BadRequest("As credenciais informadas estao incorretas!");
-			}
+                return BadRequest("As credenciais informadas estao incorretas!");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		// POST: /Auth/User
-		[HttpPost("User")]
-		public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _studentBusiness.AuthUserTaskAsync(email.Email) is StudentVO user)
-					return Ok(user);
+        // POST: /Auth/User
+        [HttpPost("User")]
+        public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _studentBusiness.AuthUserTaskAsync(email.Email) is StudentVO user)
+                    return Ok(user);
 
-				return BadRequest("Nao foi possivel encontrar um aluno com este email!");
-			}
+                return BadRequest("Nao foi possivel encontrar um aluno com este email!");
+            }
 
-			return BadRequest();
-		}
-	}
+            return BadRequest();
+        }
+    }
 }

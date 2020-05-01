@@ -14,109 +14,109 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class LessonsController : ControllerBase
-	{
-		private readonly ILessonBusiness _lessonBusiness;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LessonsController : ControllerBase
+    {
+        private readonly ILessonBusiness _lessonBusiness;
 
-		public LessonsController(ILessonBusiness lessonBusiness) =>
-			_lessonBusiness = lessonBusiness;
+        public LessonsController(ILessonBusiness lessonBusiness) =>
+            _lessonBusiness = lessonBusiness;
 
-		// POST: /Lessons
-		[HttpPost]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddClassTaskAsync([FromBody]LessonVO lesson)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.AddTaskAsync(lesson) is LessonVO addedClass)
-					return Created($"/classes/newLesson{addedClass.LessonId}", addedClass);
+        // POST: /Lessons
+        [HttpPost]
+        [Authorizes(UserTypeEnum.Coordinator)]
+        public async Task<IActionResult> AddClassTaskAsync([FromBody]LessonVO lesson)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _lessonBusiness.AddTaskAsync(lesson) is LessonVO addedClass)
+                    return Created($"/classes/newLesson{addedClass.LessonId}", addedClass);
 
-				return BadRequest("A aula informada ja existe, informe uma URI diferente");
-			}
+                return BadRequest("A aula informada ja existe, informe uma URI diferente");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		// GET: /Lessons/:id
-		[HttpGet("{id}")]
-		[Authorize]
-		public async Task<IActionResult> FindByIdTaskAsync(Guid id)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonVO lesson)
-					return Ok(lesson);
+        // GET: /Lessons/:id
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> FindByIdTaskAsync(Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonVO lesson)
+                    return Ok(lesson);
 
-				return NotFound("A aula informada nao existe!");
-			}
+                return NotFound("A aula informada nao existe!");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		[HttpGet("all/{disciplines}")]
-		[Authorizes(UserTypeEnum.Student)]
-		public async Task<IActionResult> FindAllByDisciplines([Required]string disciplines)
-		{
-			if (ModelState.IsValid)
-			{
-				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonDisciplineVO> lessons)
-					return Ok(lessons);
+        [HttpGet("all/{disciplines}")]
+        [Authorizes(UserTypeEnum.Student)]
+        public async Task<IActionResult> FindAllByDisciplines([Required]string disciplines)
+        {
+            if (ModelState.IsValid)
+            {
+                if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonDisciplineVO> lessons)
+                    return Ok(lessons);
 
-				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
-			}
+                return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		// POST: /Lessons/uri
-		[HttpPost("uri")]
-		[Consumes("text/plain")]
-		[Authorize]
-		public async Task<IActionResult> FindByURITaskAsync([FromBody]string uri)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.FindByURITaskAsync(uri) is LessonVO lesson)
-					return Ok(lesson);
+        // POST: /Lessons/uri
+        [HttpPost("uri")]
+        [Consumes("text/plain")]
+        [Authorize]
+        public async Task<IActionResult> FindByURITaskAsync([FromBody]string uri)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _lessonBusiness.FindByURITaskAsync(uri) is LessonVO lesson)
+                    return Ok(lesson);
 
-				return NotFound("A aula informada nao existe!");
-			}
+                return NotFound("A aula informada nao existe!");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		// PUT: /Lessons
-		[HttpPut]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> UpdateTaskAsync([FromBody]LessonVO newLesson)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
-					return Ok(lesson);
+        // PUT: /Lessons
+        [HttpPut]
+        [Authorizes(UserTypeEnum.Coordinator)]
+        public async Task<IActionResult> UpdateTaskAsync([FromBody]LessonVO newLesson)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
+                    return Ok(lesson);
 
-				return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
-			}
+                return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
+            }
 
-			return BadRequest();
-		}
+            return BadRequest();
+        }
 
-		// DELETE: /Lessons/:id
-		[HttpDelete("{id}")]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> DeleteTaskAsync([Required]Guid id)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.DeleteTaskAsync(id))
-					return NoContent();
+        // DELETE: /Lessons/:id
+        [HttpDelete("{id}")]
+        [Authorizes(UserTypeEnum.Coordinator)]
+        public async Task<IActionResult> DeleteTaskAsync([Required]Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _lessonBusiness.DeleteTaskAsync(id))
+                    return NoContent();
 
-				return BadRequest("Turma informada nao existe");
-			}
+                return BadRequest("Turma informada nao existe");
+            }
 
-			return BadRequest();
-		}
-	}
+            return BadRequest();
+        }
+    }
 }

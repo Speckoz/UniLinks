@@ -1,7 +1,6 @@
 @import url('materialdesignicons.min.css');
 
-.chip
-{
+.chip {
     display: inline-block;
     height: 32px;
     padding: 0 12px;
@@ -18,47 +17,39 @@
     transition: all .3s linear;
 }
 
-.modal-dialog .modal-content
-{
+.modal-dialog .modal-content {
     border-radius: .7em
 }
 
-.btn-gradient
-{
+.btn-gradient {
     background-image: linear-gradient(90deg, #052767 20%, #F16404 150%);
     border-radius: 2em;
     color: white;
 }
 
-    .btn-gradient:hover
-    {
+    .btn-gradient:hover {
         color: white;
         font-size: 14px;
     }
 
-.separator
-{
+.separator {
     background-color: #A2A2A2;
 }
 
-.primary-color-bg
-{
+.primary-color-bg {
     background-color: #052767 !important;
 }
 
-.secondary-color-bg
-{
+.secondary-color-bg {
     background-color: #F16404 !important;
 }
 
-.font-nav-title
-{
+.font-nav-title {
     font-weight: bold !important;
     font-size: 21px !important;
 }
 
-.unselectable
-{
+.unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -67,111 +58,92 @@
     user-select: none;
 }
 
-.icon-margin-right
-{
+.icon-margin-right {
     padding-right: 10px;
 }
 
-.icon-margin-left
-{
+.icon-margin-left {
     padding-right: 10px;
 }
 
-html, body
-{
+html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-a, .btn-link
-{
+a, .btn-link {
     color: #0366d6;
 }
 
-.btn-primary
-{
+.btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
 
-app
-{
+app {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.top-row
-{
+.top-row {
     height: 3.5rem;
     display: flex;
     align-items: center;
 }
 
-.main
-{
+.main {
     flex: 1;
 }
 
-    .main .top-row
-    {
+    .main .top-row {
         background-color: #f7f7f7;
         border-bottom: 100px solid #d6d5d5;
         justify-content: flex-end;
     }
 
-        .main .top-row > a, .main .top-row .btn-link
-        {
+        .main .top-row > a, .main .top-row .btn-link {
             white-space: nowrap;
             margin-left: 1.5rem;
         }
 
-        .main .top-row a:first-child
-        {
+        .main .top-row a:first-child {
             text-overflow: ellipsis;
         }
 
-.sidebar
-{
+.sidebar {
     background-image: linear-gradient(150deg, #052767 20%, #F16404 150%);
 }
 
-    .sidebar .top-row
-    {
+    .sidebar .top-row {
         background-color: rgba(0,0,0,0.4);
     }
 
-    .sidebar .navbar-brand
-    {
+    .sidebar .navbar-brand {
         font-size: 1.1rem;
     }
 
-    .sidebar .oi
-    {
+    .sidebar .oi {
         width: 2rem;
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
     }
 
-    .sidebar .nav-item
-    {
+    .sidebar .nav-item {
         font-size: 0.9rem;
         padding-bottom: 0.5rem;
     }
 
-        .sidebar .nav-item:first-of-type
-        {
+        .sidebar .nav-item:first-of-type {
             padding-top: 1rem;
         }
 
-        .sidebar .nav-item:last-of-type
-        {
+        .sidebar .nav-item:last-of-type {
             padding-bottom: 1rem;
         }
 
-        .sidebar .nav-item a
-        {
+        .sidebar .nav-item a {
             color: #d7d7d7;
             border-radius: 4px;
             height: 3rem;
@@ -180,35 +152,29 @@ app
             line-height: 3rem;
         }
 
-            .sidebar .nav-item a.active
-            {
+            .sidebar .nav-item a.active {
                 background-color: rgba(255,255,255,0.25);
                 color: white;
             }
 
-            .sidebar .nav-item a:hover
-            {
+            .sidebar .nav-item a:hover {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
             }
 
-.valid.modified:not([type=checkbox])
-{
+.valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
 
-.invalid
-{
+.invalid {
     outline: 1px solid red;
 }
 
-.validation-message
-{
+.validation-message {
     color: red;
 }
 
-#blazor-error-ui
-{
+#blazor-error-ui {
     background-color: white;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -220,67 +186,55 @@ app
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss
-    {
+    #blazor-error-ui .dismiss {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;
         top: 0.5rem;
     }
 
-@media (max-width: 767.98px)
-{
-    .main .top-row:not(.auth)
-    {
+@media (max-width: 767.98px) {
+    .main .top-row:not(.auth) {
         display: none;
     }
 
-    .main .top-row.auth
-    {
+    .main .top-row.auth {
         justify-content: space-between;
     }
 
-    .main .top-row a, .main .top-row .btn-link
-    {
+    .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
 }
 
-@media (min-width: 768px)
-{
-    app
-    {
+@media (min-width: 768px) {
+    app {
         flex-direction: row;
     }
 
-    .sidebar
-    {
+    .sidebar {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
 
-    .main .top-row
-    {
+    .main .top-row {
         position: sticky;
         top: 0;
     }
 
-    .navbar-toggler
-    {
+    .navbar-toggler {
         display: none;
     }
 
-    .sidebar .collapse
-    {
+    .sidebar .collapse {
         display: block;
     }
 }
 
 /* Try reconnect to server */
-.my-reconnect-modal > div
-{
+.my-reconnect-modal > div {
     position: fixed;
     top: 0;
     right: 0;
@@ -293,43 +247,35 @@ app
     padding-top: 50px;
 }
 
-.components-reconnect-hide > div
-{
+.components-reconnect-hide > div {
     display: none;
 }
 
-.components-reconnect-show > div
-{
+.components-reconnect-show > div {
     display: none;
 }
 
-.components-reconnect-show > .show
-{
+.components-reconnect-show > .show {
     display: block;
 }
 
-.components-reconnect-failed > div
-{
+.components-reconnect-failed > div {
     display: none;
 }
 
-.components-reconnect-failed > .failed
-{
+.components-reconnect-failed > .failed {
     display: block;
 }
 
-.components-reconnect-refused > div
-{
+.components-reconnect-refused > div {
     display: none;
 }
 
-.components-reconnect-refused > .refused
-{
+.components-reconnect-refused > .refused {
     display: block;
 }
 
-.switch
-{
+.switch {
     position: relative;
     display: inline-block;
     width: 50px;
@@ -337,15 +283,13 @@ app
     margin-left: 6px;
 }
 
-    .switch input
-    {
+    .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
 
-.slider
-{
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -357,8 +301,7 @@ app
     transition: .4s;
 }
 
-    .slider:before
-    {
+    .slider:before {
         position: absolute;
         content: "";
         height: 20px;
@@ -371,91 +314,75 @@ app
         transition: .4s;
     }
 
-input:checked + .slider
-{
+input:checked + .slider {
     background-color: #2d2d2d;
 }
 
-input:focus + .slider
-{
+input:focus + .slider {
     box-shadow: 0 0 1px #2d2d2d;
 }
 
-input:checked + .slider:before
-{
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
 
-.slider.round
-{
+.slider.round {
     border-radius: 34px;
 }
 
-    .slider.round:before
-    {
+    .slider.round:before {
         border-radius: 50%;
     }
 
 /* Menu */
-.admin-margin-top
-{
+.admin-margin-top {
     margin-top: 30px;
 }
 
 /* LOGIN */
-.form-login
-{
+.form-login {
     width: 25em;
 }
 
-@media(max-width: 768px)
-{
-    .form-login
-    {
+@media(max-width: 768px) {
+    .form-login {
         max-width: 25em;
     }
 }
 
 /* STUDENTS ADMIN */
-.table-students tbody tr td
-{
+.table-students tbody tr td {
     font-size: 1.1em;
 }
 
-.table-students thead tr th
-{
+.table-students thead tr th {
     font-weight: bold;
 }
 
-.icons-td button
-{
+.icons-td button {
     border: 0;
     background-color: transparent;
 }
 
-    .icons-td button span
-    {
+    .icons-td button span {
         font-size: 1.3em;
     }
 
-.icons-td
-{
+.icons-td {
     padding: 0 !important;
     vertical-align: middle !important;
 }
 
-.button-circle-bottom
-{
+.button-circle-bottom {
     position: fixed;
     bottom: 10px;
     right: 10px;
 }
 
 /* Students Lessons  */
-.card-lesson
-{
+.card-lesson {
     width: 30em;
     height: 6em;
     border-radius: 2em;
@@ -463,18 +390,15 @@ input:checked + .slider:before
     margin-right: 15px;
 }
 
-.card-lesson-image
-{
+.card-lesson-image {
     position: absolute;
     height: 6em;
     width: 120px;
     border-radius: 2em 0em 0em 2em;
 }
 
-@media(max-width: 500px)
-{
-    .card-lesson-image
-    {
+@media(max-width: 500px) {
+    .card-lesson-image {
         position: absolute;
         width: 80px;
         height: 48px;
@@ -484,153 +408,127 @@ input:checked + .slider:before
     }
 }
 
-.pd-10
-{
+.pd-10 {
     padding: 10px;
 }
 
-.nowrap-row
-{
+.nowrap-row {
     flex-wrap: nowrap;
     margin-left: 0;
     margin-right: 0;
 }
 
-    .nowrap-row .col-3
-    {
+    .nowrap-row .col-3 {
         padding-right: 0;
         padding-left: 0;
     }
 
-    .nowrap-row .col-7
-    {
+    .nowrap-row .col-7 {
         padding-right: 0;
         padding-left: 0;
     }
 
-    .nowrap-row .col-2
-    {
+    .nowrap-row .col-2 {
         padding-right: 0;
         padding-left: 0;
     }
 
-@media(max-width: 768px)
-{
-    .image-lesson
-    {
+@media(max-width: 768px) {
+    .image-lesson {
         /*display: none*/
     }
 }
 
 /* Developers */
-.devs
-{
+.devs {
 }
 
-    .devs p
-    {
+    .devs p {
         color: #7d8285;
     }
 
-    .devs h2
-    {
+    .devs h2 {
         font-weight: bold;
         padding-top: 20px;
         color: inherit;
     }
 
-@media (max-width:767px)
-{
-    .devs h2
-    {
+@media (max-width:767px) {
+    .devs h2 {
         margin-bottom: 25px;
         padding-top: 25px;
         font-size: 24px;
     }
 }
 
-.devs .intro
-{
+.devs .intro {
     font-size: 16px;
     max-width: 500px;
     margin: 0 auto;
 }
 
-    .devs .intro p
-    {
+    .devs .intro p {
         margin-bottom: 0;
     }
 
-.devs .people
-{
+.devs .people {
     padding: 50px 0;
 }
 
-.devs .item
-{
+.devs .item {
     text-align: center;
     margin: 10px;
 }
 
-    .devs .item .box
-    {
+    .devs .item .box {
         text-align: center;
         padding: 30px;
     }
 
-    .devs .item .name
-    {
+    .devs .item .name {
         font-weight: bold;
         margin-top: 28px;
         margin-bottom: 8px;
         color: inherit;
     }
 
-    .devs .item .nick
-    {
+    .devs .item .nick {
         text-transform: uppercase;
         font-weight: bold;
         letter-spacing: 2px;
         font-size: 13px;
     }
 
-    .devs .item .description
-    {
+    .devs .item .description {
         font-size: 15px;
         margin-top: 15px;
         margin-bottom: 20px;
     }
 
-        .devs .item .description p
-        {
+        .devs .item .description p {
         }
 
-    .devs .item img
-    {
+    .devs .item img {
         max-width: 160px;
     }
 
-.devs .social
-{
+.devs .social {
     font-size: 18px;
     color: #a2a8ae;
 }
 
-    .devs .social a
-    {
+    .devs .social a {
         color: inherit;
         margin: 0 10px;
         display: inline-block;
         opacity: 0.7;
     }
 
-        .devs .social a:hover
-        {
+        .devs .social a:hover {
             opacity: 1;
         }
 
-.img-card-lesson
-{
+.img-card-lesson {
     width: 32%;
     height: 100%;
 }
