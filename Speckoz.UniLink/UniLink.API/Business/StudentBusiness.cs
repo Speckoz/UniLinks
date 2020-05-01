@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
@@ -42,6 +43,11 @@ namespace UniLink.API.Business
 
 			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out IList<Guid> result))
 			{
+				//checando se nao existe nenhuma disciplina repetida.
+				foreach (Guid disc in result)
+					if (result.Count(x => x.Equals(disc)) > 1)
+						return null;
+
 				IList<DisciplineModel> disciplines = await _disciplineRepository.FindByRangeIdTaskAsync(result);
 
 				if (!disciplines.Contains(null))
@@ -84,8 +90,8 @@ namespace UniLink.API.Business
 					if (!GuidFormat.TryParseList(student.Disciplines, ';', out IList<Guid> result))
 						return null;
 
-					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is IList<DisciplineModel> dsiciplines)
-						studentDisciplines.Add((student, dsiciplines));
+					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is IList<DisciplineModel> disciplines)
+						studentDisciplines.Add((student, disciplines));
 					else
 						return null;
 				}
@@ -93,7 +99,7 @@ namespace UniLink.API.Business
 				return _studentDisciplineConverter.ParseList(studentDisciplines);
 			}
 
-			return default;
+			return null;
 		}
 
 		public async Task DeleteTaskAsync(Guid id)

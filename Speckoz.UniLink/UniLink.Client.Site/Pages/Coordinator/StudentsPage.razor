@@ -45,17 +45,17 @@ else
                 {
                     <tr class="tr-hover">
                         <td class="text-wrap">
-                            <span>@student.Student.Name</span><br />
-                            <span style="color: grey; font-size: 13px">@student.Student.Email</span>
+                            <span>@student.Name</span><br />
+                            <span style="color: grey; font-size: 13px">@student.Email</span>
                         </td>
                         <td class="icons-td text-center">
                             <span style="cursor: pointer" class="blue-text unselectable" @onclick="@(async () => await ViewDisciplinesAsync(student.Disciplines))">Ver</span>
                         </td>
                         <td class="icons-td text-center">
-                            <button @onclick="@(async () => await RemoveStudentAsync(student.Student.StudentId))">
+                            <button @onclick="@(async () => await RemoveStudentAsync(student.StudentId))">
                                 <span class="mdi mdi-delete red-text"></span>
                             </button>
-                            <button @onclick="@(async () => await EditStudentAsync(student.Student.Name))">
+                            <button @onclick="@(async () => await EditStudentAsync(student.Name))">
                                 <span class="mdi mdi-account-edit blue-text"></span>
                             </button>
                         </td>
