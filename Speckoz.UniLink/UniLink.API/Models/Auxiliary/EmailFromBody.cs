@@ -2,9 +2,9 @@
 
 namespace UniLink.API.Models.Auxiliary
 {
-	public class EmailFromBody
-	{
-		[Required]
-		public string Email { get; set; }
-	}
+    public class EmailFromBody
+    {
+        [Required]
+        public string Email { get; set; }
+    }
 }

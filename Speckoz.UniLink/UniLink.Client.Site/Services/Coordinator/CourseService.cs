@@ -14,33 +14,33 @@ using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.Client.Site.Services.Coordinator
 {
-	public class CourseService
-	{
-		private readonly ISessionStorageService _sessionStorage;
+    public class CourseService
+    {
+        private readonly ISessionStorageService _sessionStorage;
 
-		public CourseService(ISessionStorageService sessionStorage)
-		{
-			_sessionStorage = sessionStorage;
-		}
+        public CourseService(ISessionStorageService sessionStorage)
+        {
+            _sessionStorage = sessionStorage;
+        }
 
-		public async Task<CourseVO> GetCourseByCoordIdTaskAsync()
-		{
-			string token = await _sessionStorage.GetItemAsync<string>("token");
+        public async Task<CourseVO> GetCourseByCoordIdTaskAsync()
+        {
+            string token = await _sessionStorage.GetItemAsync<string>("token");
 
-			IRestResponse resp = await SendRequestTaskAsync(token);
+            IRestResponse resp = await SendRequestTaskAsync(token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (resp.StatusCode == HttpStatusCode.OK)
+                return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-			return null;
-		}
+            return null;
+        }
 
-		private async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
-		{
-			Method = Method.GET,
-			URL = DataHelper.URLBase,
-			URN = $"Courses",
-			Authenticator = new JwtAuthenticator(token)
-		}.ExecuteTaskAsync();
-	}
+        private async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
+        {
+            Method = Method.GET,
+            URL = DataHelper.URLBase,
+            URN = $"Courses",
+            Authenticator = new JwtAuthenticator(token)
+        }.ExecuteTaskAsync();
+    }
 }

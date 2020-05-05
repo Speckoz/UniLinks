@@ -9,44 +9,44 @@ using UniLink.Client.Site.Services;
 
 namespace UniLink.Client.Site.Components
 {
-	public partial class Menu
-	{
-		private string name;
-		private bool collapseNavMenu = true;
-		private bool __isDark;
+    public partial class Menu
+    {
+        private string name;
+        private bool collapseNavMenu = true;
+        private bool __isDark;
 
-		private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-		private bool IsDark
-		{
-			get => __isDark;
-			set
-			{
-				__isDark = value;
-				ChangeTheme();
-			}
-		}
+        private bool IsDark
+        {
+            get => __isDark;
+            set
+            {
+                __isDark = value;
+                ChangeTheme();
+            }
+        }
 
-		[Inject]
-		private ThemeService ThemeService { get; set; }
+        [Inject]
+        private ThemeService ThemeService { get; set; }
 
-		[Inject]
-		private AuthenticationStateProvider Authentication { get; set; }
+        [Inject]
+        private AuthenticationStateProvider Authentication { get; set; }
 
-		[Inject]
-		private ISessionStorageService SessionStorage { get; set; }
+        [Inject]
+        private ISessionStorageService SessionStorage { get; set; }
 
-		protected override async Task OnInitializedAsync()
-		{
-			__isDark = await ThemeService.ChangeSessionThemeTaskAsync();
-			name = await SessionStorage.GetItemAsync<string>("name");
-		}
+        protected override async Task OnInitializedAsync()
+        {
+            __isDark = await ThemeService.ChangeSessionThemeTaskAsync();
+            name = await SessionStorage.GetItemAsync<string>("name");
+        }
 
-		private async void ChangeTheme()
-		{
-			await ThemeService.ChangeTheme(__isDark);
-		}
+        private async void ChangeTheme()
+        {
+            await ThemeService.ChangeTheme(__isDark);
+        }
 
-		private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
-	}
+        private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+    }
 }

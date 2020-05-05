@@ -5,14 +5,14 @@ using UniLink.API.Models;
 
 namespace UniLink.API.Repository.Interfaces
 {
-	public interface IClassRepository
-	{
-		Task<ClassModel> AddTasAsync(ClassModel @class);
+    public interface IClassRepository
+    {
+        Task<ClassModel> AddTasAsync(ClassModel @class);
 
-		Task<ClassModel> FindByClassIdTaskAsync(Guid classId);
+        Task<ClassModel> FindByClassIdTaskAsync(Guid classId);
 
-		Task<ClassModel> FindByURITaskAsync(string uri);
+        Task<ClassModel> FindByURITaskAsync(string uri);
 
-		Task RemoveAsync(ClassModel @class);
-	}
+        Task RemoveAsync(ClassModel @class);
+    }
 }

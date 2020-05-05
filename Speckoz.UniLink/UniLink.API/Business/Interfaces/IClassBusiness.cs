@@ -5,14 +5,14 @@ using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.API.Business.Interfaces
 {
-	public interface IClassBusiness
-	{
-		Task<ClassVO> AddTasAsync(ClassVO @class);
+    public interface IClassBusiness
+    {
+        Task<ClassVO> AddTasAsync(ClassVO @class);
 
-		Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
+        Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
 
-		Task<ClassVO> FindByURITaskAsync(string uri);
+        Task<ClassVO> FindByURITaskAsync(string uri);
 
-		Task RemoveAsync(ClassVO @class);
-	}
+        Task RemoveAsync(ClassVO @class);
+    }
 }

@@ -14,77 +14,77 @@ using UniLink.Dependencies.Models;
 
 namespace UniLink.API.Business
 {
-	public class LessonBusiness : ILessonBusiness
-	{
-		private readonly ILessonRepository _lessonRepository;
-		private readonly IDisciplineRepository _disciplineRepository;
-		private readonly LessonConverter _lessonConverter;
-		private readonly LessonDisciplineConverter _lessonDisciplineConverter;
+    public class LessonBusiness : ILessonBusiness
+    {
+        private readonly ILessonRepository _lessonRepository;
+        private readonly IDisciplineRepository _disciplineRepository;
+        private readonly LessonConverter _lessonConverter;
+        private readonly LessonDisciplineConverter _lessonDisciplineConverter;
 
-		public LessonBusiness(ILessonRepository lessonRepository, IDisciplineRepository disciplineRepository)
-		{
-			_lessonRepository = lessonRepository;
-			_disciplineRepository = disciplineRepository;
-			_lessonConverter = new LessonConverter();
-			_lessonDisciplineConverter = new LessonDisciplineConverter();
-		}
+        public LessonBusiness(ILessonRepository lessonRepository, IDisciplineRepository disciplineRepository)
+        {
+            _lessonRepository = lessonRepository;
+            _disciplineRepository = disciplineRepository;
+            _lessonConverter = new LessonConverter();
+            _lessonDisciplineConverter = new LessonDisciplineConverter();
+        }
 
-		public async Task<LessonVO> AddTaskAsync(LessonVO lesson)
-		{
-			if (await _lessonRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
-				return null;
+        public async Task<LessonVO> AddTaskAsync(LessonVO lesson)
+        {
+            if (await _lessonRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
+                return null;
 
-			LessonModel lessonEntity = _lessonConverter.Parse(lesson);
-			lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
-			return _lessonConverter.Parse(lessonEntity);
-		}
+            LessonModel lessonEntity = _lessonConverter.Parse(lesson);
+            lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
+            return _lessonConverter.Parse(lessonEntity);
+        }
 
-		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
-			_lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
+        public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
+            _lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
 
-		public async Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
-		{
-			if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
-			{
-				IList<DisciplineModel> discipline = await _disciplineRepository.FindByRangeIdTaskAsync(result);
-				IList<LessonModel> lesson = await _lessonRepository.FindAllByDisciplinesIdTaskASync(result);
+        public async Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
+        {
+            if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
+            {
+                IList<DisciplineModel> discipline = await _disciplineRepository.FindByRangeIdTaskAsync(result);
+                IList<LessonModel> lesson = await _lessonRepository.FindAllByDisciplinesIdTaskASync(result);
 
-				var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
+                var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
 
-				foreach (LessonModel l in lesson)
-					lessonDisciplines.Add((l, discipline.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
+                foreach (LessonModel l in lesson)
+                    lessonDisciplines.Add((l, discipline.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
 
-				return _lessonDisciplineConverter.ParseList(lessonDisciplines);
-			}
+                return _lessonDisciplineConverter.ParseList(lessonDisciplines);
+            }
 
-			return default;
-		}
+            return default;
+        }
 
-		public async Task<LessonVO> FindByIdTaskAsync(Guid lessonId) =>
-			_lessonConverter.Parse(await _lessonRepository.FindByIdTaskAsync(lessonId));
+        public async Task<LessonVO> FindByIdTaskAsync(Guid lessonId) =>
+            _lessonConverter.Parse(await _lessonRepository.FindByIdTaskAsync(lessonId));
 
-		public async Task<LessonVO> FindByURITaskAsync(string uri) =>
-			_lessonConverter.Parse(await _lessonRepository.FindByURITaskAsync(uri));
+        public async Task<LessonVO> FindByURITaskAsync(string uri) =>
+            _lessonConverter.Parse(await _lessonRepository.FindByURITaskAsync(uri));
 
-		public async Task<LessonVO> UpdateTaskAsync(LessonVO newLesson)
-		{
-			if (await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson)
-			{
-				var lessonEntity = await _lessonRepository.UpdateTaskAsync(oldLesson, _lessonConverter.Parse(newLesson));
-				return _lessonConverter.Parse(lessonEntity);
-			}
-			return default;
-		}
+        public async Task<LessonVO> UpdateTaskAsync(LessonVO newLesson)
+        {
+            if (await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson)
+            {
+                var lessonEntity = await _lessonRepository.UpdateTaskAsync(oldLesson, _lessonConverter.Parse(newLesson));
+                return _lessonConverter.Parse(lessonEntity);
+            }
+            return default;
+        }
 
-		public async Task<bool> DeleteTaskAsync(Guid lessonId)
-		{
-			if (await _lessonRepository.FindByIdTaskAsync(lessonId) is LessonModel lesson)
-			{
-				await _lessonRepository.DeleteTaskAsync(lesson);
-				return true;
-			}
+        public async Task<bool> DeleteTaskAsync(Guid lessonId)
+        {
+            if (await _lessonRepository.FindByIdTaskAsync(lessonId) is LessonModel lesson)
+            {
+                await _lessonRepository.DeleteTaskAsync(lesson);
+                return true;
+            }
 
-			return default;
-		}
-	}
+            return default;
+        }
+    }
 }

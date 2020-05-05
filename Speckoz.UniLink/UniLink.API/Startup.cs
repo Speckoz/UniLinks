@@ -12,6 +12,7 @@ using System.Text;
 using UniLink.API.Business;
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data;
+using UniLink.API.Filters;
 using UniLink.API.Repository;
 using UniLink.API.Repository.Interfaces;
 using UniLink.API.Services;
@@ -21,87 +22,93 @@ using UniLink.API.Utils;
 
 namespace UniLink.API
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration) => Configuration = configuration;
+    public class Startup
+    {
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// JWT Authentication
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = true,
-					ValidIssuer = Configuration["JWT:Issuer"],
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // JWT Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration["JWT:Issuer"],
 
-					ValidateAudience = true,
-					ValidAudience = Configuration["JWT:Audience"],
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["JWT:Audience"],
 
-					ValidateLifetime = true,
+                    ValidateLifetime = true,
 
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
-				});
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
+                });
 
-			// MySQL Database
-			services.AddDbContext<DataContext>
-			(
-				options => options.UseMySql(Configuration["ConnectionString"],
-				builder => builder.MigrationsAssembly("UniLink.API"))
-			);
+            // MySQL Database
+            services.AddDbContext<DataContext>
+            (
+                options => options.UseMySql(Configuration["ConnectionString"],
+                builder => builder.MigrationsAssembly("UniLink.API"))
+            );
 
-			// Injecoes do smtp/email
-			services.Configure<ConfigEmailModel>(Configuration.GetSection("ConfigEmailModel"));
-			services.AddTransient<ISendEmailService, SendEmailService>();
+            // Injecoes do smtp/email
+            services.Configure<ConfigEmailModel>(Configuration.GetSection("ConfigEmailModel"));
+            services.AddTransient<ISendEmailService, SendEmailService>();
 
-			// Seed
-			services.AddScoped<DataSeeder>();
+            // Seed
+            services.AddScoped<DataSeeder>();
 
-			services.AddControllers(x => x.InputFormatters.Insert(x.InputFormatters.Count, new TextPlainInputFormatter()));
+            services.AddControllers(x => x.InputFormatters.Insert(x.InputFormatters.Count, new TextPlainInputFormatter()));
 
-			// Services
-			services.AddScoped<GenerateTokenService>();
-			services.AddScoped<SecurityService>();
+            // Services
+            services.AddScoped<GenerateTokenService>();
+            services.AddScoped<SecurityService>();
 
-			// Repositories
-			services.AddScoped<ICoordinatorRepository, CoordinatorRepository>();
-			services.AddScoped<ILessonRepository, LessonRepository>();
-			services.AddScoped<IStudentRepository, StudentRepository>();
-			services.AddScoped<ICourseRepository, CourseRepository>();
-			services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+            // Repositories
+            services.AddScoped<ICoordinatorRepository, CoordinatorRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IDisciplineRepository, DisciplineRepository>();
 
-			// Business
-			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
-			services.AddScoped<ILessonBusiness, LessonBusiness>();
-			services.AddScoped<IStudentBusiness, StudentBusiness>();
-			services.AddScoped<ICourseBusiness, CourseBusiness>();
-			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
-		}
+            // Business
+            services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
+            services.AddScoped<ILessonBusiness, LessonBusiness>();
+            services.AddScoped<IStudentBusiness, StudentBusiness>();
+            services.AddScoped<ICourseBusiness, CourseBusiness>();
+            services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
-		{
-			using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-			{
-				DataContext dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-				dbContext.Database.Migrate();
-			}
+            // Filter
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ErrorResponseFilter));
+            });
+        }
 
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				dataSeeder.Init();
-			}
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
+        {
+            using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                DataContext dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.Migrate();
+            }
 
-			//app.UseHttpsRedirection();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                dataSeeder.Init();
+            }
 
-			app.UseRouting();
+            //app.UseHttpsRedirection();
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseRouting();
 
-			app.UseEndpoints(endpoints => endpoints.MapControllers());
-		}
-	}
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
+    }
 }

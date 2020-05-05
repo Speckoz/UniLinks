@@ -8,20 +8,20 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Business.Interfaces
 {
-	public interface ILessonBusiness
-	{
-		Task<LessonVO> AddTaskAsync(LessonVO lesson);
+    public interface ILessonBusiness
+    {
+        Task<LessonVO> AddTaskAsync(LessonVO lesson);
 
-		Task<LessonVO> FindByIdTaskAsync(Guid lessonId);
+        Task<LessonVO> FindByIdTaskAsync(Guid lessonId);
 
-		Task<LessonVO> FindByURITaskAsync(string uri);
+        Task<LessonVO> FindByURITaskAsync(string uri);
 
-		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum LessonShift);
+        Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum LessonShift);
 
-		Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
+        Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
 
-		Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
+        Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
 
-		Task<bool> DeleteTaskAsync(Guid lessonId);
-	}
+        Task<bool> DeleteTaskAsync(Guid lessonId);
+    }
 }

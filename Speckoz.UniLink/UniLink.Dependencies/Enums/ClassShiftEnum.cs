@@ -2,15 +2,15 @@
 
 namespace UniLink.Dependencies.Enums
 {
-	public enum ClassShiftEnum
-	{
-		[Description("Matutino")]
-		Morning,
+    public enum ClassShiftEnum
+    {
+        [Description("Matutino")]
+        Morning,
 
-		[Description("Vespertino")]
-		Evening,
+        [Description("Vespertino")]
+        Evening,
 
-		[Description("Noturno")]
-		Night
-	}
+        [Description("Noturno")]
+        Night
+    }
 }

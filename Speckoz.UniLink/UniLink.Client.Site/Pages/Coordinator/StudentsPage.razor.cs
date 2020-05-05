@@ -14,63 +14,63 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.Client.Site.Pages.Coordinator
 {
-	[Authorizes(UserTypeEnum.Coordinator)]
-	public partial class StudentsPage
-	{
-		private int selectedStudent = -1;
-		private IList<StudentDisciplineVO> students;
-		private IList<DisciplineVO> disciplines;
-		private StudentVO newStudent = new StudentVO();
-		private string show = "collapse";
+    [Authorizes(UserTypeEnum.Coordinator)]
+    public partial class StudentsPage
+    {
+        private int selectedStudent = -1;
+        private IList<StudentDisciplineVO> students;
+        private IList<DisciplineVO> disciplines;
+        private StudentVO newStudent = new StudentVO();
+        private string show = "collapse";
 
-		[Inject]
-		private StudentService StudentService { get; set; }
+        [Inject]
+        private StudentService StudentService { get; set; }
 
-		[Inject]
-		private CourseService CourseService { get; set; }
+        [Inject]
+        private CourseService CourseService { get; set; }
 
-		[Inject]
-		private DisciplineService DisciplineService { get; set; }
+        [Inject]
+        private DisciplineService DisciplineService { get; set; }
 
-		[Inject]
-		private IJSRuntime JSRuntime { get; set; }
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
 
-		protected override async Task OnInitializedAsync()
-		{
-			students = await StudentService.GetStudentsTaskAsync((await CourseService.GetCourseByCoordIdTaskAsync()).CourseId);
-			disciplines = await DisciplineService.GetDisciplinesByCoordIdTaskAsync();
-			newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
-		}
+        protected override async Task OnInitializedAsync()
+        {
+            students = await StudentService.GetStudentsTaskAsync((await CourseService.GetCourseByCoordIdTaskAsync()).CourseId);
+            disciplines = await DisciplineService.GetDisciplinesByCoordIdTaskAsync();
+            newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
+        }
 
-		private async Task AddStudentAsync()
-		{
-			if (await StudentService.AddStudentTaskAsync(newStudent) is StudentDisciplineVO student)
-			{
-				students.Add(student);
-				await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
-				newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
-				show = nameof(show);
-			}
-		}
+        private async Task AddStudentAsync()
+        {
+            if (await StudentService.AddStudentTaskAsync(newStudent) is StudentDisciplineVO student)
+            {
+                students.Add(student);
+                await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
+                newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
+                show = nameof(show);
+            }
+        }
 
-		private async Task ViewDisciplinesAsync(IList<DisciplineVO> disciplines)
-		{
-			selectedStudent = students.IndexOf(students.Where(x => x.Disciplines.Equals(disciplines)).SingleOrDefault());
-			await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");
-		}
+        private async Task ViewDisciplinesAsync(IList<DisciplineVO> disciplines)
+        {
+            selectedStudent = students.IndexOf(students.Where(x => x.Disciplines.Equals(disciplines)).SingleOrDefault());
+            await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");
+        }
 
-		private async Task RemoveStudentAsync(Guid studentId)
-		{
-			if (await StudentService.RemoveStudentTaskAsync(studentId))
-				if (students.SingleOrDefault(x => x.StudentId == studentId) is StudentDisciplineVO student)
-					students.Remove(student);
-		}
+        private async Task RemoveStudentAsync(Guid studentId)
+        {
+            if (await StudentService.RemoveStudentTaskAsync(studentId))
+                if (students.SingleOrDefault(x => x.StudentId == studentId) is StudentDisciplineVO student)
+                    students.Remove(student);
+        }
 
-		private async Task EditStudentAsync(string nome)
-		{
-			await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
-		}
+        private async Task EditStudentAsync(string nome)
+        {
+            await JSRuntime.InvokeVoidAsync("SendAlert", $"Voce editou {nome}\n\nMintira");
+        }
 
-		private void HideAlert() => show = "collapse";
-	}
+        private void HideAlert() => show = "collapse";
+    }
 }

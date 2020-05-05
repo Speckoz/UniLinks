@@ -1,24 +1,19 @@
-﻿.theme-bg
-{
+﻿.theme-bg {
     background-color: white;
 }
 
-.theme-card
-{
+.theme-card {
     background-color: #f7f7f7
 }
 
-.card
-{
+.card {
     background-color: #f7f7f7
 }
 
-.theme-text
-{
+.theme-text {
     color: black;
 }
 
-    .theme-text:focus
-    {
+    .theme-text:focus {
         color: black;
     }

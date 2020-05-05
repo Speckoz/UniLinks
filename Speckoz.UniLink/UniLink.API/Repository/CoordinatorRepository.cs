@@ -9,13 +9,13 @@ using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Repository
 {
-	public class CoordinatorRepository : BaseRepository, ICoordinatorRepository
-	{
-		public CoordinatorRepository(DataContext context) : base(context)
-		{
-		}
+    public class CoordinatorRepository : BaseRepository, ICoordinatorRepository
+    {
+        public CoordinatorRepository(DataContext context) : base(context)
+        {
+        }
 
-		public async Task<CoordinatorModel> FindUserByLoginTaskAsync(LoginRequestModel login) =>
-			await _context.Coordinators.SingleOrDefaultAsync(x => x.Email.ToLower() == login.Email.ToLower() && x.Password == login.Password);
-	}
+        public async Task<CoordinatorModel> FindUserByLoginTaskAsync(LoginRequestModel login) =>
+            await _context.Coordinators.SingleOrDefaultAsync(x => x.Email.ToLower() == login.Email.ToLower() && x.Password == login.Password);
+    }
 }
