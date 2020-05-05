@@ -17,6 +17,13 @@ namespace UniLink.API.Repository
 		{
 		}
 
+		public async Task<DisciplineModel> AddTaskAsync(DisciplineModel discipline)
+		{
+			DisciplineModel addedDiscipline = (await _context.AddAsync(discipline)).Entity;
+			await _context.SaveChangesAsync();
+			return addedDiscipline;
+		}
+
 		public async Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
 

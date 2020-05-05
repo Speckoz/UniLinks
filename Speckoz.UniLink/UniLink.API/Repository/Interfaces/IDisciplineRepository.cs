@@ -8,6 +8,8 @@ namespace UniLink.API.Repository.Interfaces
 {
 	public interface IDisciplineRepository
 	{
+		Task<DisciplineModel> AddTaskAsync(DisciplineModel disciplines);
+
 		Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines);
 
 		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);
