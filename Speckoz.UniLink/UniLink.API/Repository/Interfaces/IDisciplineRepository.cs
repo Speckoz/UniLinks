@@ -15,5 +15,9 @@ namespace UniLink.API.Repository.Interfaces
 		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);
 
 		Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId);
+
+		Task<DisciplineModel> UpdateTaskAsync(DisciplineModel newDiscipline);
+
+		Task DeleteTaskAsync(Guid disciplineId);
 	}
 }

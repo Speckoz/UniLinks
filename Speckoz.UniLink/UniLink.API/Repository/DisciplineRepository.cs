@@ -38,5 +38,16 @@ namespace UniLink.API.Repository
 
 		public async Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId) =>
 			await _context.Disciplines.Where(x => x.CourseId == courseId).ToListAsync();
+
+		public async Task<DisciplineModel> UpdateTaskAsync(DisciplineModel newDiscipline)
+		{
+			DisciplineModel entity = await _context.Disciplines.SingleOrDefaultAsync(x => x.DisciplineId == newDiscipline.DisciplineId);
+			_context.Entry(entity).CurrentValues.SetValues(newDiscipline);
+			await _context.SaveChangesAsync();
+			return newDiscipline;
+		}
+
+		public async Task DeleteTaskAsync(Guid disciplineId) =>
+			_context.Remove(await _context.Disciplines.SingleOrDefaultAsync(x => x.DisciplineId == disciplineId));
 	}
 }
