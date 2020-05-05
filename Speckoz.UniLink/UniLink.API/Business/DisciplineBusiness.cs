@@ -22,7 +22,13 @@ namespace UniLink.API.Business
 			_disciplineConverter = new DisciplineConverter();
 		}
 
-		public Task<DisciplineVO> AddTaskAsync(DisciplineVO discipline) => throw new NotImplementedException();
+		public async Task<DisciplineVO> AddTaskAsync(DisciplineVO discipline)
+		{
+			if (await _disciplineRepository.AddTaskAsync(_disciplineConverter.Parse(discipline)) is DisciplineModel addedDisci)
+				return _disciplineConverter.Parse(addedDisci);
+
+			return null;
+		}
 
 		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
