@@ -13,66 +13,70 @@ using UniLink.Dependencies.Enums;
 
 namespace UniLink.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DisciplinesController : ControllerBase
-    {
-        private readonly IDisciplineBusiness _disciplineBusiness;
-        private readonly ICourseBusiness _courseBusiness;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class DisciplinesController : ControllerBase
+	{
+		private readonly IDisciplineBusiness _disciplineBusiness;
+		private readonly ICourseBusiness _courseBusiness;
 
-        public DisciplinesController(IDisciplineBusiness disciplineBusiness, ICourseBusiness courseBusiness)
-        {
-            _disciplineBusiness = disciplineBusiness;
-            _courseBusiness = courseBusiness;
-        }
+		public DisciplinesController(IDisciplineBusiness disciplineBusiness, ICourseBusiness courseBusiness)
+		{
+			_disciplineBusiness = disciplineBusiness;
+			_courseBusiness = courseBusiness;
+		}
 
-        [HttpPost]
-        [Authorizes(UserTypeEnum.Coordinator)]
-        public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO discipline)
-        {
-            if (ModelState.IsValid)
-            {
-                //verificar se ja existe
+		[HttpPost]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO discipline)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _disciplineBusiness.ExistsByNameTaskAsync(discipline.Name))
+					return Conflict("Ja existe uma disciplina com esse nome");
 
-                //adiciona
-            }
+				if (await _disciplineBusiness.AddTaskAsync(discipline) is DisciplineVO addedDiscipline)
+					return Created("/disciplines", addedDiscipline);
 
-            return BadRequest();
-        }
+				return BadRequest("Algo deu errado, verifique os valores e tente novamente");
+			}
 
-        [HttpGet("{disciplines}")]
-        [Authorizes]
-        public async Task<IActionResult> GetDisciplinesTaskAsync([Required] string disciplines)
-        {
-            if (ModelState.IsValid)
-            {
-                if (await _disciplineBusiness.FindDisciplinesTaskAsync(disciplines) is IList<DisciplineVO> discs)
-                    return Ok(discs);
+			return BadRequest();
+		}
 
-                return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
-            }
+		[HttpGet("{disciplines}")]
+		[Authorizes]
+		public async Task<IActionResult> GetDisciplinesTaskAsync([Required] string disciplines)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _disciplineBusiness.FindDisciplinesTaskAsync(disciplines) is IList<DisciplineVO> discs)
+					return Ok(discs);
 
-            return BadRequest();
-        }
+				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
+			}
 
-        [HttpGet]
-        [Authorizes(UserTypeEnum.Coordinator)]
-        public async Task<IActionResult> GetDisciplinesByCoordIdTaskAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			return BadRequest();
+		}
 
-                if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-                {
-                    if (await _disciplineBusiness.FindByCourseIdTaskAsync(course.CourseId) is IList<DisciplineVO> discs)
-                        return Ok(discs);
-                }
+		[HttpGet]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> GetDisciplinesByCoordIdTaskAsync()
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
-            }
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+				{
+					if (await _disciplineBusiness.FindByCourseIdTaskAsync(course.CourseId) is IList<DisciplineVO> discs)
+						return Ok(discs);
+				}
 
-            return BadRequest();
-        }
-    }
+				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
+			}
+
+			return BadRequest();
+		}
+	}
 }

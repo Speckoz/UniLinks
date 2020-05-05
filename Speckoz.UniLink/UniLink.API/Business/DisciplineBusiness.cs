@@ -54,6 +54,7 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task DeleteTaskAsync(Guid discipline) => throw new NotImplementedException();
+		public async Task DeleteTaskAsync(Guid discipline) =>
+			await _disciplineRepository.DeleteTaskAsync(discipline);
 	}
 }
