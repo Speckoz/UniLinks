@@ -10,6 +10,8 @@ namespace UniLink.API.Business.Interfaces
 	{
 		Task<DisciplineVO> AddTaskAsync(DisciplineVO discipline);
 
+		Task<bool> ExistsByNameTaskAsync(string name);
+
 		Task<IList<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines);
 
 		Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId);

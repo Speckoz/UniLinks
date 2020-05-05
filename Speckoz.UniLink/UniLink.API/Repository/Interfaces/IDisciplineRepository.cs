@@ -10,6 +10,8 @@ namespace UniLink.API.Repository.Interfaces
 	{
 		Task<DisciplineModel> AddTaskAsync(DisciplineModel disciplines);
 
+		Task<bool> ExistsByNameTaskAsync(string name);
+
 		Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines);
 
 		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);

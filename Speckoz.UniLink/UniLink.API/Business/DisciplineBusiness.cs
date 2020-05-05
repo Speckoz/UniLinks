@@ -30,6 +30,9 @@ namespace UniLink.API.Business
 			return null;
 		}
 
+		public async Task<bool> ExistsByNameTaskAsync(string name) =>
+			await _disciplineRepository.ExistsByNameTaskAsync(name);
+
 		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
 
@@ -43,8 +46,14 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline) => throw new NotImplementedException();
+		public async Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline)
+		{
+			if (await _disciplineRepository.UpdateTaskAsync(_disciplineConverter.Parse(newDiscipline)) is DisciplineModel updatedDiscipline)
+				return _disciplineConverter.Parse(updatedDiscipline);
 
-		public Task DeleteTaskAsync(Guid discipline) => throw new NotImplementedException();
+			return null;
+		}
+
+		public async Task DeleteTaskAsync(Guid discipline) => throw new NotImplementedException();
 	}
 }
