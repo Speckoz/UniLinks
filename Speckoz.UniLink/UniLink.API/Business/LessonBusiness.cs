@@ -31,9 +31,6 @@ namespace UniLink.API.Business
 
         public async Task<LessonVO> AddTaskAsync(LessonVO lesson)
         {
-            if (await _lessonRepository.FindByURITaskAsync(lesson.URI) is LessonModel)
-                return null;
-
             LessonModel lessonEntity = _lessonConverter.Parse(lesson);
             lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
             return _lessonConverter.Parse(lessonEntity);
