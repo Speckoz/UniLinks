@@ -98,5 +98,18 @@ namespace UniLink.API.Controllers
 
 			return BadRequest();
 		}
+
+		[HttpDelete("{disciplineId}")]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> DeleteTaskAsync(Guid disciplineId)
+		{
+			if (!disciplineId.Equals(Guid.Empty))
+			{
+				await _disciplineBusiness.DeleteTaskAsync(disciplineId);
+				return NoContent();
+			}
+
+			return BadRequest("Disciplina informada nao existe!");
+		}
 	}
 }
