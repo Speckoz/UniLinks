@@ -12,6 +12,8 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<bool> ExistsByNameTaskAsync(string name);
 
+		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
+
 		Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines);
 
 		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);

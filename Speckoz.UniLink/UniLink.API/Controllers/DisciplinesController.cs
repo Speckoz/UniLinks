@@ -35,6 +35,8 @@ namespace UniLink.API.Controllers
 				if (await _disciplineBusiness.ExistsByNameTaskAsync(discipline.Name))
 					return Conflict("Ja existe uma disciplina com esse nome");
 
+				//adiciona o id do coordenador que fez a requisiçao.
+
 				if (await _disciplineBusiness.AddTaskAsync(discipline) is DisciplineVO addedDiscipline)
 					return Created("/disciplines", addedDiscipline);
 
@@ -74,6 +76,26 @@ namespace UniLink.API.Controllers
 				}
 
 				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpPut]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> UpdateTaskAsync([FromBody] DisciplineVO newDiscipline)
+		{
+			if (ModelState.IsValid)
+			{
+				//verifica se nao existe pelo id
+				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newDiscipline.DisciplineId))
+					return Conflict("Nao existe uma disciplina com esse Id");
+
+				//verifica se existe um disciplina no curso com o mesmo nome.
+
+				//verifica se é do curso cujo o coordenador é do requisitante.
+
+				//atualiza os dados
 			}
 
 			return BadRequest();

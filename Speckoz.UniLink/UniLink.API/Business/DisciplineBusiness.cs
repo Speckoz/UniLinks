@@ -33,6 +33,9 @@ namespace UniLink.API.Business
 		public async Task<bool> ExistsByNameTaskAsync(string name) =>
 			await _disciplineRepository.ExistsByNameTaskAsync(name);
 
+		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
+			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
+
 		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
 
