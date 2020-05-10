@@ -35,7 +35,7 @@ namespace UniLink.API.Controllers
 				if (await _disciplineBusiness.ExistsByNameTaskAsync(discipline.Name))
 					return Conflict("Ja existe uma disciplina com esse nome");
 
-				//adicionar o id do coordenador que fez a requisiçao.
+				discipline.CourseId = (await _courseBusiness.FindByCoordIdTaskAsync(Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))).CourseId;
 
 				if (await _disciplineBusiness.AddTaskAsync(discipline) is DisciplineVO addedDiscipline)
 					return Created("/disciplines", addedDiscipline);
