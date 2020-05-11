@@ -30,8 +30,8 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task<bool> ExistsByNameTaskAsync(string name) =>
-			await _disciplineRepository.ExistsByNameTaskAsync(name);
+		public async Task<bool> ExistsByNameAndCourseIdTaskAsync(string name, Guid courseId) =>
+			await _disciplineRepository.ExistsByNameAndCourseIdTaskAsync(name, courseId);
 
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);

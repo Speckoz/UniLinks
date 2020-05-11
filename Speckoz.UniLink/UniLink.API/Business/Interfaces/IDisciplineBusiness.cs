@@ -10,7 +10,7 @@ namespace UniLink.API.Business.Interfaces
 	{
 		Task<DisciplineVO> AddTaskAsync(DisciplineVO discipline);
 
-		Task<bool> ExistsByNameTaskAsync(string name);
+		Task<bool> ExistsByNameAndCourseIdTaskAsync(string name, Guid courseId);
 
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 

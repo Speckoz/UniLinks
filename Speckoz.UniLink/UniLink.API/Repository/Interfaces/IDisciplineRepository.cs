@@ -10,7 +10,7 @@ namespace UniLink.API.Repository.Interfaces
 	{
 		Task<DisciplineModel> AddTaskAsync(DisciplineModel disciplines);
 
-		Task<bool> ExistsByNameTaskAsync(string name);
+		Task<bool> ExistsByNameAndCourseIdTaskAsync(string name, Guid courseId);
 
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 

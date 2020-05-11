@@ -24,8 +24,8 @@ namespace UniLink.API.Repository
 			return addedDiscipline;
 		}
 
-		public async Task<bool> ExistsByNameTaskAsync(string name) =>
-			await _context.Disciplines.AnyAsync(x => x.Name == name);
+		public async Task<bool> ExistsByNameAndCourseIdTaskAsync(string name, Guid courseId) =>
+			await _context.Disciplines.AnyAsync(x => x.Name == name && x.CourseId == courseId);
 
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.AnyAsync(x => x.DisciplineId == disciplineId);

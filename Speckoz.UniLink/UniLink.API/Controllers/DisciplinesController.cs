@@ -32,7 +32,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.ExistsByNameTaskAsync(discipline.Name))
+				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(discipline.Name, discipline.CourseId))
 					return Conflict("Ja existe uma disciplina com esse nome");
 
 				discipline.CourseId = (await _courseBusiness.FindByCoordIdTaskAsync(Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))).CourseId;
@@ -95,6 +95,9 @@ namespace UniLink.API.Controllers
 						return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
 
 					newDiscipline.CourseId = course.CourseId;
+
+					if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId) && !discipline.Name.Equals(newDiscipline.Name))
+						return Conflict("Ja existe uma disciplina com esse nome");
 
 					if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
 						return Ok(disciplineUpdated);
