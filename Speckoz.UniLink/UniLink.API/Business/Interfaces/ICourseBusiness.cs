@@ -5,10 +5,12 @@ using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.API.Business.Interfaces
 {
-    public interface ICourseBusiness
-    {
-        Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
+	public interface ICourseBusiness
+	{
+		Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
 
-        Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId);
-    }
+		Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId);
+
+		Task<CourseVO> FindByCourseIdTaskAsync(Guid courseId);
+	}
 }
