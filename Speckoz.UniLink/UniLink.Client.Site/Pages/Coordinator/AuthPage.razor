@@ -1,12 +1,14 @@
 ﻿@layout EmptyLayout
 @page "/auth/coordinator"
 
-<AuthorizeView Roles="Coordinator">
+@using UniLink.Dependencies.Enums
+
+<AuthorizeView Roles="@nameof(UserTypeEnum.Coordinator)">
     <Authorized>
         <UniLink.Client.Site.Components.LoggedRedirect IsStudent="false" />
     </Authorized>
 </AuthorizeView>
-<AuthorizeView Roles="Student">
+<AuthorizeView Roles="@nameof(UserTypeEnum.Student)">
     <Authorized>
         <UniLink.Client.Site.Components.LoggedRedirect IsStudent="true" />
     </Authorized>
