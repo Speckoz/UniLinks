@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -87,10 +88,13 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				//verificar se é do curso cujo o coordenador é do requisitante.
-
 				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newDiscipline.DisciplineId))
-					return Conflict("Nao existe uma disciplina com esse Id");
+					return NotFound("Nao existe uma disciplina com esse Id");
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) is CourseVO cource)
+					newDiscipline.CourseId = cource.CourseId;
+				else
+					return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
 
 				if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO discipline)
 					return Ok(discipline);
@@ -101,15 +105,25 @@ namespace UniLink.API.Controllers
 
 		[HttpDelete("{disciplineId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> DeleteTaskAsync(Guid disciplineId)
+		public async Task<IActionResult> DeleteTaskAsync([Required] Guid disciplineId)
 		{
-			if (!disciplineId.Equals(Guid.Empty))
+			if (ModelState.IsValid)
 			{
-				await _disciplineBusiness.DeleteTaskAsync(disciplineId);
-				return NoContent();
+				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline)
+				{
+					CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
+
+					if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+						return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
+
+					await _disciplineBusiness.DeleteTaskAsync(discipline);
+					return NoContent();
+				}
+				else
+					return NotFound("Nao existe uma disciplina com esse Id");
 			}
 
-			return BadRequest("Disciplina informada nao existe!");
+			return BadRequest();
 		}
 	}
 }

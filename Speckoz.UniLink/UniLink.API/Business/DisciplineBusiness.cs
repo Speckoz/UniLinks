@@ -36,6 +36,14 @@ namespace UniLink.API.Business
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
 
+		public async Task<DisciplineVO> FindByDisciplineIdTaskAsync(Guid disciplineId)
+		{
+			if (await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel discipline)
+				return _disciplineConverter.Parse(discipline);
+
+			return null;
+		}
+
 		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
 
@@ -57,7 +65,7 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task DeleteTaskAsync(Guid discipline) =>
-			await _disciplineRepository.DeleteTaskAsync(discipline);
+		public async Task DeleteTaskAsync(DisciplineVO discipline) =>
+			await _disciplineRepository.DeleteTaskAsync(_disciplineConverter.Parse(discipline));
 	}
 }

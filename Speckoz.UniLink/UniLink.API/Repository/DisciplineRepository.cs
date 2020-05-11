@@ -30,7 +30,7 @@ namespace UniLink.API.Repository
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.AnyAsync(x => x.DisciplineId == disciplineId);
 
-		public async Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId) =>
+		public async Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
 
 		public async Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines)
@@ -53,7 +53,10 @@ namespace UniLink.API.Repository
 			return newDiscipline;
 		}
 
-		public async Task DeleteTaskAsync(Guid disciplineId) =>
-			_context.Remove(await _context.Disciplines.SingleOrDefaultAsync(x => x.DisciplineId == disciplineId));
+		public async Task DeleteTaskAsync(DisciplineModel discipline)
+		{
+			_context.Remove(discipline);
+			await _context.SaveChangesAsync();
+		}
 	}
 }

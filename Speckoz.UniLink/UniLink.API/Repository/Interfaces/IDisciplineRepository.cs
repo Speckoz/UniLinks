@@ -16,12 +16,12 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines);
 
-		Task<DisciplineModel> FindByIdTaskAsync(Guid disciplineId);
+		Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId);
 
 		Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId);
 
 		Task<DisciplineModel> UpdateTaskAsync(DisciplineModel newDiscipline);
 
-		Task DeleteTaskAsync(Guid disciplineId);
+		Task DeleteTaskAsync(DisciplineModel discipline);
 	}
 }

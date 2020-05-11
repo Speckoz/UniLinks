@@ -16,10 +16,12 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<IList<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines);
 
+		Task<DisciplineVO> FindByDisciplineIdTaskAsync(Guid disciplineId);
+
 		Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId);
 
 		Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline);
 
-		Task DeleteTaskAsync(Guid discipline);
+		Task DeleteTaskAsync(DisciplineVO discipline);
 	}
 }
