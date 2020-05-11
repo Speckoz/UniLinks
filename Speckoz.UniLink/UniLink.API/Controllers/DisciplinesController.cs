@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -88,16 +87,20 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newDiscipline.DisciplineId))
-					return NotFound("Nao existe uma disciplina com esse Id");
+				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO discipline)
+				{
+					CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
 
-				if (await _courseBusiness.FindByCoordIdTaskAsync(Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) is CourseVO cource)
-					newDiscipline.CourseId = cource.CourseId;
+					if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+						return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
+
+					newDiscipline.CourseId = course.CourseId;
+
+					if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
+						return Ok(disciplineUpdated);
+				}
 				else
-					return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
-
-				if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO discipline)
-					return Ok(discipline);
+					return NotFound("Nao existe uma disciplina com esse Id");
 			}
 
 			return BadRequest();
