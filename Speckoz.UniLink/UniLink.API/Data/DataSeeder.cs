@@ -40,7 +40,7 @@ namespace UniLink.API.Data
                     u1 = new CoordinatorModel
                     {
                         CoordinatorId = Guid.Parse("DA418561-E1B0-41C9-955D-2B41F35F0C4F"),
-                        Name = "Coord Eletrica",
+                        Name = "Patricio Lima",
                         Email = "coord.ee@unilink.com",
                         Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
                     };
@@ -48,7 +48,7 @@ namespace UniLink.API.Data
                     u2 = new CoordinatorModel
                     {
                         CoordinatorId = Guid.Parse("BBB85201-C532-43F8-9F53-FC1696F49088"),
-                        Name = "Coord Sistemas",
+                        Name = "Jeffersson Alencar",
                         Email = "coord.si@unilink.com",
                         Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
                     };
