@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿function GoTo(id) {
+    document.getElementById(id).scrollIntoView(true);
+}
+
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 

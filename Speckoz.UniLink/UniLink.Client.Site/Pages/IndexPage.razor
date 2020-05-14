@@ -4,28 +4,18 @@
 @using UniLink.Dependencies.Enums
 
 @inject IJSRuntime jSRuntime
-<!--Navbar -->
-<header>
-    <nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color-bg">
-        <a class="navbar-brand" href="/#home" target="_top">UniLink</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
-                aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+
+<nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand">UNILINK</a>
+        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" @onclick="@(async () => await GoToAsync("home"))" type="button" 
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="mdi mdi-format-align-justify"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#devs" target="_top">
-                        <i class="mdi mdi-xml icon-margin-right" />Desenvolvedores
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about" target="_top">
-                        <i class="mdi mdi-information-variant icon-margin-right" />Sobre
-                    </a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation"><a class="nav-link"@onclick="@(async () => await GoToAsync("devs"))">Desenvolvedores</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" @onclick="@(async () => await GoToAsync("about"))">Sobre</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <AuthorizeView>
@@ -74,42 +64,33 @@
                 </li>
             </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+<header class="masthead text-center text-white d-flex" style="background-image:url('img/header.jpg');">
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h1 class="text-uppercase"><strong></strong></h1>
+                <hr>
+            </div>
+        </div>
+        <div class="col-lg-8 mx-auto">
+            <p class="text-faded mb-5"></p><a class="btn btn-primary btn-xl" role="button" href="#services"></a>
+        </div>
+    </div>
 </header>
-
-<section id="home">
-    <h3>Bem-Vindo ao UniLink</h3>
-
-    <p>Dignissim vulputate consetetur ea dolores eirmod kasd sed elitr eos diam amet dolore placerat invidunt eu amet duis ipsum diam</p>
-</section>
-
-<video id="video" width="320" controls>
-    <source src="https://mdn.github.io/dom-examples/canvas/chroma-keying/media/video.mp4" />
-</video>
-<br />
-<button @onclick="@(async () => await Capture(15))" style="width: 64px;border: solid 2px #ccc;">Capture</button>
-
-<br />
-<br />
-<span style="text-align: center;">Canvas: </span>
-<br />
-<canvas id="canvasid"></canvas>
-
-<br />
-<br />
-
-<section id="devs">
+<section id="devs" class="bg-dark">
     <div class="devs">
         <div class="container">
             <div class="intro">
-                <h2 class="text-center">Desenvolvedores</h2>
+                <h2 style="color: #808080" class="text-center">Desenvolvedores</h2>
                 <p class="text-center">C# the best</p>
             </div>
             <div class="row justify-content-center people">
-                <div class="card col-md-6 col-lg-4 item">
+                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
-                        <h3 class="name">Ruan Carlos CS</h3>
+                        <h3 class="name" style="color: #808080">Ruan Carlos CS</h3>
                         <p class="nick">Logikoz</p>
                         <div class="description">
                             <p>Estudante de Enganharia Elétrica</p>
@@ -124,10 +105,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="card col-md-6 col-lg-4 item">
+                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
-                        <h3 class="name">Marco Pandolfo</h3>
+                        <h3 class="name" style="color: #808080">Marco Pandolfo</h3>
                         <p class="nick">Specko</p>
                         <div class="description">
                             <p>Corno 🐮</p>
@@ -143,12 +124,29 @@
         </div>
     </div>
 </section>
-
 <section id="about">
-    <h3>Sobre</h3>
-
-    Plataforma para visualizar os links gravados nas aulas virtuais.
+    <div class="container">
+        <div class="row">
+            <div class="col offset-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Sobre</h2>
+                <hr class="my-4">
+                <p class="mb-4">
+                    Plataforma para visualizar os links gravados nas aulas virtuais.
+                </p>
+            </div>
+        </div>
+    </div>
 </section>
+<div class="footer-dark">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col item social"><a href="#"><i class="mdi mdi-github"></i></a></div>
+            </div>
+            <p class="copyright">Speckoz © 2020</p>
+        </div>
+    </footer>
+</div>
 
 @code {
     private async Task Capture(int time)

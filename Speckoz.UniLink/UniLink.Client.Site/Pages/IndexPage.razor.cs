@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-
+using Microsoft.JSInterop;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +18,9 @@ namespace UniLink.Client.Site.Pages
         [Inject]
         private ISessionStorageService SessionStorage { get; set; }
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             string fullName = await SessionStorage.GetItemAsync<string>("name");
@@ -28,6 +31,11 @@ namespace UniLink.Client.Site.Pages
                 else
                     name = fullName;
             }
+        }
+
+        private async Task GoToAsync(string id)
+        {
+            await jSRuntime.InvokeVoidAsync("GoTo", id);
         }
     }
 }
