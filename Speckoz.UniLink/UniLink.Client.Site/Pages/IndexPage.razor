@@ -8,11 +8,11 @@
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" @onclick="@(async () => await GoToAsync("home"))">
-            <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
+            <span class="uni-color">Uni</span><span style="color: darkorange;">Link</span>
         </a>
         <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="mdi mdi-format-align-justify"></i>
+            <i class="mdi mdi-menu"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="nav navbar-nav ml-auto">
@@ -32,24 +32,24 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
                         <AuthorizeView>
                             <NotAuthorized>
-                                <a class="dropdown-item" href="/auth/student">
+                                <a class="dropdown-item waves-effect" href="/auth/student">
                                     <i class="mdi mdi-account-group icon-margin-right" />Aluno
                                 </a>
-                                <a class="dropdown-item" href="/auth/coordinator">
+                                <a class="dropdown-item waves-effect" href="/auth/coordinator">
                                     <i class="mdi mdi-card-account-details-star icon-margin-right" />Coordenador
                                 </a>
                             </NotAuthorized>
                         </AuthorizeView>
                         <AuthorizeView Roles="@($"{@UserTypeEnum.Student}")">
                             <Authorized>
-                                <a class="dropdown-item" href="/student">
+                                <a class="dropdown-item waves-effect" href="/student">
                                     <i class="mdi mdi-account icon-margin-right" />Minha Area
                                 </a>
                             </Authorized>
                         </AuthorizeView>
                         <AuthorizeView Roles="@($"{@UserTypeEnum.Coordinator}")">
                             <Authorized>
-                                <a class="dropdown-item" href="/coordinator">
+                                <a class="dropdown-item waves-effect" href="/coordinator">
                                     <i class="mdi mdi-account-star icon-margin-right" />Painel
                                 </a>
                             </Authorized>
@@ -57,7 +57,7 @@
                         <AuthorizeView>
                             <Authorized>
                                 <hr />
-                                <a class="dropdown-item" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
+                                <a class="dropdown-item waves-effect" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
                                     <i class="mdi mdi-logout icon-margin-right" />Deslogar
                                 </a>
                             </Authorized>
@@ -81,7 +81,7 @@
         </div>
         <div class="col-lg-8 mx-auto">
             <br /><br />
-            <a class="btn btn-outline-light" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
+            <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
         </div>
     </div>
 </header>
@@ -147,7 +147,7 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col item social"><a href="#"><i class="mdi mdi-github"></i></a></div>
+                <div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
             </div>
             <p class="copyright">Speckoz © 2020</p>
         </div>
