@@ -7,14 +7,16 @@
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand">UNILINK</a>
-        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" @onclick="@(async () => await GoToAsync("home"))" type="button" 
+        <a class="navbar-brand" @onclick="@(async () => await GoToAsync("home"))">
+            <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
+        </a>
+        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <i class="mdi mdi-format-align-justify"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link"@onclick="@(async () => await GoToAsync("devs"))">Desenvolvedores</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" @onclick="@(async () => await GoToAsync("devs"))">Desenvolvedores</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" @onclick="@(async () => await GoToAsync("about"))">Sobre</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,7 +56,7 @@
                         </AuthorizeView>
                         <AuthorizeView>
                             <Authorized>
-                                <hr class="separator" />
+                                <hr />
                                 <a class="dropdown-item" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
                                     <i class="mdi mdi-logout icon-margin-right" />Deslogar
                                 </a>
@@ -70,17 +72,21 @@
     <div class="container my-auto">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <h1 class="text-uppercase"><strong></strong></h1>
-                <hr>
+                <h2 class="text-uppercase">
+                    <strong>Bem-Vindo a portal das aulas virtuais</strong>
+                </h2>
+                <br />
+                Et voluptua dolor eos diam sadipscing nulla dignissim duo ipsum lorem vero aliquyam feugiat exerci sit duis ut no placerat
             </div>
         </div>
         <div class="col-lg-8 mx-auto">
-            <p class="text-faded mb-5"></p><a class="btn btn-primary btn-xl" role="button" href="#services"></a>
+            <br /><br />
+            <a class="btn btn-outline-light" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
         </div>
     </div>
 </header>
-<section id="devs" class="bg-dark">
-    <div class="devs">
+<section class="bg-dark" style="padding-top: 6em">
+    <div id="devs" class="devs" style="padding-top: 50px">
         <div class="container">
             <div class="intro">
                 <h2 style="color: #808080" class="text-center">Desenvolvedores</h2>
