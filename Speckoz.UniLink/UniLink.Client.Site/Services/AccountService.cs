@@ -30,7 +30,7 @@ namespace UniLink.Client.Site.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                CoordinatorVO coord = JsonSerializer.Deserialize<CoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                AuthCoordinatorVO coord = JsonSerializer.Deserialize<AuthCoordinatorVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 await ((AuthenticationStateProviderService)_authentication).MarkUserWithAuthenticatedAsync(coord);
                 return true;
             }

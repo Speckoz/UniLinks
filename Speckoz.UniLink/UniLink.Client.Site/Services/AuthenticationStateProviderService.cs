@@ -63,7 +63,7 @@ namespace UniLink.Client.Site.Services
 
         public async Task MarkUserWithAuthenticatedAsync<T>(T user)
         {
-            if (user is CoordinatorVO coord)
+            if (user is AuthCoordinatorVO coord)
             {
                 await _sessionStorage.SetItemAsync("userId", coord.CoordinatorId);
                 await _sessionStorage.SetItemAsync("email", coord.Email);
