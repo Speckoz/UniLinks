@@ -11,13 +11,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Coordinator;
 using UniLink.Dependencies.Data.VO.Student;
 
 namespace UniLink.Client.Site.Services
 {
-    public class AuthenticationStateProviderService : AuthenticationStateProvider
+	public class AuthenticationStateProviderService : AuthenticationStateProvider
     {
         private readonly IConfiguration _configuration;
         private readonly ISessionStorageService _sessionStorage;

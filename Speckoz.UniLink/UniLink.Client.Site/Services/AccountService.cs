@@ -9,13 +9,13 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLink.Client.Site.Helper;
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Coordinator;
 using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.Client.Site.Services
 {
-    public class AccountService
+	public class AccountService
     {
         private readonly AuthenticationStateProvider _authentication;
 

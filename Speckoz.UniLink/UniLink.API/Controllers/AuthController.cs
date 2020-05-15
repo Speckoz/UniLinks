@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Models.Auxiliary;
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Coordinator;
 using UniLink.Dependencies.Data.VO.Student;
 using UniLink.Dependencies.Models.Auxiliary;
 
 namespace UniLink.API.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace UniLink.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _coordinatorBusiness.AuthAccountTaskAsync(userLogin) is CoordinatorVO user)
+                if (await _coordinatorBusiness.AuthAccountTaskAsync(userLogin) is AuthCoordinatorVO user)
                     return Ok(user);
 
                 return BadRequest("As credenciais informadas estao incorretas!");

@@ -3,11 +3,11 @@ using System.Linq;
 
 using UniLink.API.Data.Converters.Interfaces;
 using UniLink.API.Models;
-using UniLink.Dependencies.Data.VO;
+using UniLink.Dependencies.Data.VO.Coordinator;
 
 namespace UniLink.API.Data.Converters
 {
-    public class CoordinatorConverter : IParser<CoordinatorVO, CoordinatorModel>, IParser<CoordinatorModel, CoordinatorVO>
+	public class CoordinatorConverter : IParser<CoordinatorVO, CoordinatorModel>, IParser<CoordinatorModel, CoordinatorVO>
     {
         public CoordinatorModel Parse(CoordinatorVO origin)
         {
