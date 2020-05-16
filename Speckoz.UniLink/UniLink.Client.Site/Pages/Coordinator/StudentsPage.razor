@@ -89,46 +89,34 @@ else
                     <label data-error="wrong" data-success="right" for="defaultForm-pass">Email</label>
                 </div>
                 <!-- Disciplinas -->
-                <div class="d-flex mb-4">
-                    @if (newStudent.Disciplines is null || (newStudent.Disciplines is IList<DisciplineVO> disc && disc.Count == 0))
-                    {
-                        <span>Selecione as disciplinas abaixo.</span>
-                    }
-                    else
-                    {
-                        @foreach (var discipline in newStudent.Disciplines)
-                        {
-                            <div class="chip waves-effect">
-                                @(disciplines.SingleOrDefault(x => x.DisciplineId.Equals(discipline.DisciplineId)).Name)
-                                <i class="mdi mdi-close" style="background-color: lawngreen; border-radius: 1em" @onclick="@(() => newStudent.Disciplines.Remove(discipline))"></i>
-                            </div>
-                        }
-                    }
-                </div>
-
-                <SfAutoComplete TValue="string" TItem="DisciplineVO" Placeholder="Disciplinas" DataSource="@disciplines">
-                    <AutoCompleteFieldSettings Value="Name" GroupBy="Period"></AutoCompleteFieldSettings>
-                    <AutoCompleteTemplates TItem="DisciplineVO">
-                        <GroupTemplate>
-                            <span>@(context.Text)° Período</span>
-                        </GroupTemplate>
-                        <ItemTemplate>
-                            @{
-                                var discipline = (context as DisciplineVO);
-
-                                void addNewDiscipline()
-                                {
-                                    if (!newStudent.Disciplines.Any(x => x.DisciplineId == discipline.DisciplineId))
-                                        newStudent.Disciplines.Add(new DisciplineVO { DisciplineId = discipline.DisciplineId });
-                                }
-                            }
-                            <span @onclick="@(() => addNewDiscipline())">@discipline.Name</span>
-                        </ItemTemplate>
+                <SfMultiSelect TValue="List<Guid>" @bind-Value="selectedDisciplines" IgnoreAccent="true" IgnoreCase="true" AllowFiltering="true" ModelType="@typeof(List<DisciplineVO>)" ShowDropDownIcon="true" Placeholder="Selecione uma disciplina" DataSource="@disciplines">
+                    <MultiSelectTemplates>
                         <NoRecordsTemplate>
-                            <span class='norecord'>Nao tem nada aqui!</span>
+                            <span class="text-center">Nao tem nada aqui</span>
                         </NoRecordsTemplate>
-                    </AutoCompleteTemplates>
-                </SfAutoComplete>
+                        <ItemTemplate>
+                            <span>
+                                <span>@((context as DisciplineVO).Name)</span>
+                                <span class='period'>@((context as DisciplineVO).Period)° Periodo</span>
+                            </span>
+                        </ItemTemplate>
+                    </MultiSelectTemplates>
+                    <MultiSelectFieldSettings Text="@nameof(DisciplineVO.Name)" Value="@nameof(DisciplineVO.DisciplineId)"></MultiSelectFieldSettings>
+                </SfMultiSelect>
+                <style>
+                    .period
+                    {
+                        right: 15px;
+                        position: absolute;
+                    }
+
+                    .control_wrapper
+                    {
+                        max-width: 400px;
+                        margin: 0 auto;
+                        padding-top: 70px;
+                    }
+                </style>
             </div>
             <div class="modal-footer border-0 d-flex justify-content-center">
                 <button class="btn btn-gradient waves-effect" @onclick="@(async () => await AddStudentAsync())">Cadastrar</button>

@@ -18,8 +18,9 @@ namespace UniLink.Client.Site.Pages.Coordinator
     public partial class StudentsPage
     {
         private int selectedStudent = -1;
-        private IList<StudentDisciplineVO> students;
-        private IList<DisciplineVO> disciplines;
+        private List<Guid> selectedDisciplines;
+        private List<StudentDisciplineVO> students;
+        private List<DisciplineVO> disciplines;
         private StudentVO newStudent = new StudentVO();
         private string show = "collapse";
 
@@ -44,6 +45,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
 
         private async Task AddStudentAsync()
         {
+            newStudent.Disciplines = selectedDisciplines.Select(x => new DisciplineVO() { DisciplineId = x }).ToList();
             if (await StudentService.AddStudentTaskAsync(newStudent) is StudentDisciplineVO student)
             {
                 students.Add(student);

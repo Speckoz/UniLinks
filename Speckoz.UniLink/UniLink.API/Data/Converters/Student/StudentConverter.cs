@@ -31,7 +31,7 @@ namespace UniLink.API.Data.Converters.Student
             if (origin is null)
                 return null;
 
-            IList<DisciplineVO> disciplines = new List<DisciplineVO>();
+            var disciplines = new List<DisciplineVO>();
             origin.Disciplines.Split(';').ToList().ForEach(x => disciplines.Add(new DisciplineVO { DisciplineId = Guid.Parse(x) }));
 
             return new StudentVO

@@ -13,13 +13,13 @@ namespace UniLink.API.Data
         public DataSeeder(DataContext context) : base(context)
         {
         }
-
+        
         public void Init()
         {
             CoordinatorModel u1 = null, u2 = null;
             StudentModel u3 = null, u4 = null, u5 = null, u6 = null;
             CourseModel c1 = null, c2 = null;
-            DisciplineModel d1 = null, d2 = null;
+            DisciplineModel d1 = null, d2 = null, d3 = null;
             LessonModel l1 = null, l2 = null;
             ClassModel cs1 = null, cs2 = null;
 
@@ -167,8 +167,17 @@ namespace UniLink.API.Data
                         CourseId = c2.CourseId,
                         ClassId = cs2.ClassId
                     };
+                    d3 = new DisciplineModel
+                    {
+                        DisciplineId = Guid.Parse("177C32CE-511A-41DA-91EA-3BD8CE01B9FB"),
+                        Name = "Calculo IV",
+                        Teacher = "Kakashi",
+                        Period = 4,
+                        CourseId = c1.CourseId,
+                        ClassId = cs2.ClassId
+                    };
 
-                    _context.Disciplines.AddRange(d1, d2);
+                    _context.Disciplines.AddRange(d1, d2, d3);
                 }
             }
 

@@ -24,7 +24,7 @@ namespace UniLink.Client.Site.Services.Coordinator
             _sessionStorage = sessionStorage;
         }
 
-        public async Task<IList<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
+        public async Task<List<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync()
         {
             string token = await _sessionStorage.GetItemAsync<string>("token");
 

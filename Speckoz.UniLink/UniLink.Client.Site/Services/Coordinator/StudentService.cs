@@ -47,7 +47,7 @@ namespace UniLink.Client.Site.Services.Coordinator
             }
         }
 
-        public async Task<IList<StudentDisciplineVO>> GetStudentsTaskAsync(Guid courseId)
+        public async Task<List<StudentDisciplineVO>> GetStudentsTaskAsync(Guid courseId)
         {
             IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), courseId);
 
