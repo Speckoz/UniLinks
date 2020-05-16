@@ -95,8 +95,8 @@
 .footer-dark
 {
     padding: 20px 0;
-    color: #f0f9ff;
-    background-color: #282d32
+    color: #fff;
+    background-color: #212121
 }
 
     .footer-dark h3
@@ -191,7 +191,7 @@
 {
     text-align: center;
     padding-top: 10px;
-    opacity: .3;
+    opacity: .7;
     font-size: 13px;
     margin-bottom: 0
 }
