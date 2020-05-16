@@ -1,95 +1,118 @@
 ﻿@using UniLink.Dependencies.Enums
 
-<div class="navbar shadow-sm">
-    <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower">
-        <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
-    </a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="mdi mdi-menu mdi-36px" style="color: white;" />
-    </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <div style="margin: 10px; color: #d2d2d2; font-size: 15px">
-        <p style="margin: 0">Conectado como</p>
-        <p style="margin: 0; margin-bottom: -4px">@name</p>
-        <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
-            <Authorized>
-                <p style="font-size:13px; font-weight: 700; margin: 0">Aluno</p>
-            </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
-            <Authorized>
-                <p style="font-size:13px; font-weight: 700; margin: 0">Coordenador</p>
-            </Authorized>
-        </AuthorizeView>
-    </div>
-    <ul class="nav flex-column animated bounceIn">
-        <li class="nav-item py-0">
-            <a class="nav-link waves-effect" href="" Match="NavLinkMatch.All">
-                <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Página Inicial
-            </a>
-        </li>
-        <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
-            <Authorized>
-                <li class="nav-item py-0">
-                    <NavLink class="nav-link waves-effect" href="/student">
-                        <span class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></span> Minha Area
-                    </NavLink>
-                </li>
-            </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
-            <Authorized>
-                <li class="nav-item py-0">
-                    <NavLink class="nav-link waves-effect" href="/coordinator">
-                        <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Painel
-                    </NavLink>
-                </li>
-            </Authorized>
-        </AuthorizeView>
-        <AuthorizeView>
-            <Authorized>
-                <li class="nav-item py-0">
-                    <NavLink class="nav-link waves-effect" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
-                        <span class="mdi mdi-logout mdi-18px icon-margin-right" aria-hidden="true"></span> Deslogar
-                    </NavLink>
-                </li>
-            </Authorized>
-        </AuthorizeView>
-
-        <li class="nav-item py-0">
-            <hr class="separator" />
-        </li>
-        <li class="nav-item py-0">
-            <div class="nav-link waves-effect container">
-                <div class="row no-gutters">
-                    <div class="col-auto py-0">
-                        <span class="mdi mdi-theme-light-dark mdi-18px icon-margin-right white-text" style="vertical-align: middle"></span>
-                        <span class="white-text">Modo escudo: </span>
-                    </div>
-                    <div class="col-auto align-content-end">
-                        <label class="switch">
-                            <input type="checkbox" @bind="IsDark">
-                            <span class="slider round">
-                                <span class="mdi mdi-weather-night mdi-18px icon-margin-right white-text" style="margin-left: 5px;"></span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
+    <div class="navbar shadow-sm">
+        <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower" href="/">
+            <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
+        </a>
+        <button data-toggle="collapse" data-target="#navbarResponsive-panel" class="navbar-toggler navbar-toggler-right" type="button"
+                aria-controls="navbarResponsive-panel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="mdi mdi-menu mdi-36px text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive-panel">
+            <div style="margin: 10px; color: #d2d2d2; font-size: 15px">
+                <p style="margin: 0">Conectado como</p>
+                <p style="margin: 0; margin-bottom: -4px">@name</p>
+                <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
+                    <Authorized>
+                        <p style="font-size:13px; font-weight: 700; margin: 0">Aluno</p>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
+                    <Authorized>
+                        <p style="font-size:13px; font-weight: 700; margin: 0">Coordenador</p>
+                    </Authorized>
+                </AuthorizeView>
             </div>
-        </li>
+            <ul class="nav flex-column animated bounceIn">
+                <li class="nav-item py-0">
+                    <a class="nav-link waves-effect" href="" Match="NavLinkMatch.All">
+                        <span class="mdi mdi-home mdi-18px icon-margin-right"></span> Página Inicial
+                    </a>
+                </li>
+                <AuthorizeView Roles="@UserTypeEnum.Student.ToString()">
+                    <Authorized>
+                        <li class="nav-item py-0">
+                            <NavLink class="nav-link waves-effect" href="/student">
+                                <span class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></span> Minha Area
+                            </NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="@UserTypeEnum.Coordinator.ToString()">
+                    <Authorized>
+                        <li class="nav-item py-0">
+                            <NavLink class="nav-link waves-effect" href="/coordinator">
+                                <span class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></span> Painel
+                            </NavLink>
+                            <ul class="nav flex-column">
+                                <li class="nav-item py-0 nav-panel-margin">
+                                    <NavLink class="nav-link waves-effect" href="/coordinator/students">
+                                        <span class="mdi mdi-account-multiple mdi-18px icon-margin-right" aria-hidden="true"></span> Estudantes
+                                    </NavLink>
+                                </li>
+                                <li class="nav-item py-0 nav-panel-margin">
+                                    <NavLink class="nav-link waves-effect" href="/coordinator/lessons">
+                                        <span class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></span> Aulas Gravadas
+                                    </NavLink>
+                                </li>
+                                <li class="nav-item py-0 nav-panel-margin">
+                                    <NavLink class="nav-link waves-effect" href="/coordinator/disciplines">
+                                        <span class="mdi mdi-bookshelf mdi-18px icon-margin-right" aria-hidden="true"></span> Disciplinas
+                                    </NavLink>
+                                </li>
+                                <li class="nav-item py-0 nav-panel-margin">
+                                    <NavLink class="nav-link waves-effect" href="/coordinator/classes">
+                                        <span class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></span> Salas Online
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item py-0">
+                            <NavLink class="nav-link waves-effect" @onclick="@(async () => await ((UniLink.Client.Site.Services.AuthenticationStateProviderService)Authentication).LogoutUserAsync())">
+                                <span class="mdi mdi-logout mdi-18px icon-margin-right" aria-hidden="true"></span> Deslogar
+                            </NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
 
-        <li class="nav-item py-0">
-            <a class="nav-link waves-effect" href="/#devs" target="_parent">
-                <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
-            </a>
-        </li>
+                <li class="nav-item py-0">
+                    <hr class="separator" />
+                </li>
+                <li class="nav-item py-0">
+                    <div class="nav-link waves-effect container">
+                        <div class="row no-gutters">
+                            <div class="col-auto py-0">
+                                <span class="mdi mdi-theme-light-dark mdi-18px icon-margin-right white-text" style="vertical-align: middle"></span>
+                                <span class="white-text">Modo escudo: </span>
+                            </div>
+                            <div class="col-auto align-content-end">
+                                <label class="switch">
+                                    <input type="checkbox" @bind="IsDark">
+                                    <span class="slider round">
+                                        <span class="mdi mdi-weather-night mdi-18px icon-margin-right white-text" style="margin-left: 5px;"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
 
-        <li class="nav-item py-0">
-            <a class="nav-link waves-effect" href="/#about" target="_parent">
-                <span class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></span> Sobre
-            </a>
-        </li>
-    </ul>
-</div>
+                <li class="nav-item py-0">
+                    <a class="nav-link waves-effect" href="/#devs" target="_parent">
+                        <span class="mdi mdi-xml mdi-18px icon-margin-right" aria-hidden="true"></span> Desenvolvedores
+                    </a>
+                </li>
+
+                <li class="nav-item py-0">
+                    <a class="nav-link waves-effect" href="/#about" target="_parent">
+                        <span class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></span> Sobre
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+

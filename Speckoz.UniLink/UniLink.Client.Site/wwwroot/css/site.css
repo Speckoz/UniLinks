@@ -1,5 +1,10 @@
 @import url('materialdesignicons.min.css');
 
+.nav-panel-margin
+{
+    margin-left: 10px
+}
+
 .uni-color
 {
     color: white;
