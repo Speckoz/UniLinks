@@ -21,12 +21,14 @@ namespace UniLink.Client.Site.Services
         private readonly IConfiguration _configuration;
         private readonly ISessionStorageService _sessionStorage;
         private readonly NavigationManager _navigation;
+        private readonly ThemeService _themeService;
 
-        public AuthenticationStateProviderService(IConfiguration configuration, ISessionStorageService sessionStorage, NavigationManager navigation)
+        public AuthenticationStateProviderService(IConfiguration configuration, ISessionStorageService sessionStorage, NavigationManager navigation, ThemeService themeService)
         {
             _configuration = configuration;
             _sessionStorage = sessionStorage;
             _navigation = navigation;
+            _themeService = themeService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -88,6 +90,7 @@ namespace UniLink.Client.Site.Services
         {
             _navigation.NavigateTo("/");
             await _sessionStorage.ClearAsync();
+            await _themeService.ChangeTheme(false);
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
         }
     }
