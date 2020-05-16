@@ -6,7 +6,7 @@
 <h3>Aulas</h3>
 
 <div class="control_wrapper">
-    <SfMultiSelect CssClass="borderrrr" TValue="string[]" ModelType="@typeof(List<Discipline>)" ShowDropDownIcon="true" Placeholder="Selecione uma disciplina" DataSource="@disciplines">
+    <SfMultiSelect TValue="string[]" @bind-Value="@values" IgnoreAccent="true" IgnoreCase="true" AllowFiltering="true" ModelType="@typeof(List<Discipline>)" ShowDropDownIcon="true" Placeholder="Selecione uma disciplina" DataSource="@disciplines">
         <MultiSelectTemplates>
             <NoRecordsTemplate>
                 <span class="text-center">Nao tem nada aqui</span>
@@ -18,18 +18,25 @@
                 </span>
             </ItemTemplate>
         </MultiSelectTemplates>
-        <MultiSelectFieldSettings Text="@nameof(Discipline.Name)" Value="@nameof(Discipline.Period)"></MultiSelectFieldSettings>
+        <MultiSelectFieldSettings Text="@nameof(Discipline.Name)" Value="@nameof(Discipline.Id)"></MultiSelectFieldSettings>
     </SfMultiSelect>
 </div>
-<style>
-    .borderrrr{
-        border-color: purple
+
+@if (values != null)
+{
+    @foreach (var item in values)
+    {
+        <p>@item</p>
     }
+}
+
+<style>
     .period
     {
         right: 15px;
         position: absolute;
     }
+
     .control_wrapper
     {
         max-width: 400px;
@@ -38,11 +45,19 @@
     }
 </style>
 @code{
+    private string[] values;
+
     public class Discipline
     {
         public int Period { get; set; }
         public string Name { get; set; }
+        public Guid Id { get; set; }
+        public Discipline()
+        {
+            Id = Guid.NewGuid();
+        }
     }
+
     List<Discipline> disciplines = new List<Discipline>()
 {
         new Discipline() { Period = 2, Name = "Calculo IV"},
