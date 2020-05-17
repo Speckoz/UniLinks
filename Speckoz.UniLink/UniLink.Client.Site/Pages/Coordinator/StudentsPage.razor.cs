@@ -52,6 +52,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
                 await JSRuntime.InvokeVoidAsync("HideModal", "modalNewStudent");
                 newStudent = new StudentVO() { Disciplines = new List<DisciplineVO>() };
                 show = nameof(show);
+                selectedDisciplines = null;
             }
         }
 

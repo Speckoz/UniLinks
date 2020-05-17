@@ -6,7 +6,7 @@
 <h3>Aulas</h3>
 
 <div class="control_wrapper">
-    <SfMultiSelect TValue="List<Discipline>" @bind-Value="@values" IgnoreAccent="true" IgnoreCase="true" AllowFiltering="true" ModelType="@typeof(List<Discipline>)" ShowDropDownIcon="true" Placeholder="Selecione uma disciplina" DataSource="@disciplines">
+    <SfMultiSelect TValue="List<Guid>" @bind-Value="@values" IgnoreAccent="true" IgnoreCase="true" AllowFiltering="true" ModelType="@typeof(List<Discipline>)" ShowDropDownIcon="true" Placeholder="Selecione uma disciplina" DataSource="@disciplines">
         <MultiSelectTemplates>
             <NoRecordsTemplate>
                 <span class="text-center">Nao tem nada aqui</span>
@@ -18,7 +18,7 @@
                 </span>
             </ItemTemplate>
         </MultiSelectTemplates>
-        <MultiSelectFieldSettings Text="@nameof(Discipline.Name)"></MultiSelectFieldSettings>
+        <MultiSelectFieldSettings Text="@nameof(Discipline.Name)" Value="@nameof(Discipline.Id)"></MultiSelectFieldSettings>
     </SfMultiSelect>
 </div>
 
@@ -26,7 +26,9 @@
 {
     @foreach (var item in values)
     {
-        <p>@item.Name</p>
+        var discipline = disciplines.SingleOrDefault(x => x.Id == item);
+
+        <p>@discipline.Name | @discipline.Period</p>
     }
 }
 
@@ -45,7 +47,7 @@
     }
 </style>
 @code{
-    private List<Discipline> values;
+    private List<Guid> values;
 
     public class Discipline
     {
