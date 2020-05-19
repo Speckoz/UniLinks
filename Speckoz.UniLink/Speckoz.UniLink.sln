@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.Client.Site", "UniL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLink.Dependencies", "UniLink.Dependencies\UniLink.Dependencies.csproj", "{C03798D4-8184-4E8F-904E-C79F00508C4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniLink.Client.Web", "UniLink.Client.Web\UniLink.Client.Web.csproj", "{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
