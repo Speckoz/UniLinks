@@ -45,7 +45,7 @@ namespace UniLink.API.Controllers
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
 
 				if (await _lessonBusiness.AddTaskAsync(lesson) is LessonVO addedClass)
-					return Created($"/lessons/newLesson{addedClass.LessonId}", addedClass);
+					return Created($"/lessons/{addedClass.LessonId}", addedClass);
 			}
 
 			return BadRequest();
@@ -89,6 +89,12 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != newLesson.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+
 				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
 					return Ok(lesson);
 

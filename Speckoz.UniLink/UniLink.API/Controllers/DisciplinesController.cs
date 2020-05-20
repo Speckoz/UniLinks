@@ -35,7 +35,11 @@ namespace UniLink.API.Controllers
 				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(discipline.Name, discipline.CourseId))
 					return Conflict("Ja existe uma disciplina com esse nome");
 
-				discipline.CourseId = (await _courseBusiness.FindByCoordIdTaskAsync(Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))).CourseId;
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != discipline.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
 
 				if (await _disciplineBusiness.AddTaskAsync(discipline) is DisciplineVO addedDiscipline)
 					return Created("/disciplines", addedDiscipline);
