@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLink.API.Business.Interfaces;
@@ -19,9 +20,13 @@ namespace UniLink.API.Controllers
 	public class LessonsController : ControllerBase
 	{
 		private readonly ILessonBusiness _lessonBusiness;
+		private readonly ICourseBusiness _courseBusiness;
 
-		public LessonsController(ILessonBusiness lessonBusiness) =>
+		public LessonsController(ILessonBusiness lessonBusiness, ICourseBusiness courseBusiness)
+		{
 			_lessonBusiness = lessonBusiness;
+			_courseBusiness = courseBusiness;
+		}
 
 		// POST: /Lessons
 		[HttpPost]
@@ -30,6 +35,12 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != lesson.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
 
@@ -66,23 +77,6 @@ namespace UniLink.API.Controllers
 					return Ok(lessons);
 
 				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
-			}
-
-			return BadRequest();
-		}
-
-		// POST: /Lessons/uri
-		[HttpPost("uri")]
-		[Consumes("text/plain")]
-		[Authorize]
-		public async Task<IActionResult> FindByURITaskAsync([FromBody] string uri)
-		{
-			if (ModelState.IsValid)
-			{
-				if (await _lessonBusiness.FindByURITaskAsync(uri) is LessonVO lesson)
-					return Ok(lesson);
-
-				return NotFound("A aula informada nao existe!");
 			}
 
 			return BadRequest();
