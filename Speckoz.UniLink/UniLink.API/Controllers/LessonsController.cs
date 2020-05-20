@@ -107,14 +107,23 @@ namespace UniLink.API.Controllers
 		// DELETE: /Lessons/:id
 		[HttpDelete("{id}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> DeleteTaskAsync([Required] Guid id)
+		public async Task<IActionResult> DeleteTaskAsync([Required] Guid lessonId)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.DeleteTaskAsync(id))
-					return NoContent();
+				if (await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson)
+				{
+					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				return BadRequest("Turma informada nao existe");
+					if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+						if (course.CourseId != lesson.CourseId)
+							return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+
+					if (await _lessonBusiness.DeleteTaskAsync(lessonId))
+						return NoContent();
+				}
+
+				return BadRequest("Aula informada nao existe");
 			}
 
 			return BadRequest();
