@@ -51,7 +51,7 @@ namespace UniLink.API.Business
 				{
 					StudentModel addedstudent = await _studentRepository.AddTaskAsync(studentEntity);
 
-					//await _emailSender.SendEmailTaskAsync(addedstudent.Email);
+					await _emailSender.SendEmailTaskAsync(addedstudent.Email);
 
 					return _studentDisciplineConverter.Parse((addedstudent, disciplines));
 				}

@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class AddClasses : Migration
+    public partial class Migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,6 +73,7 @@ namespace UniLink.API.Migrations
                     URI = table.Column<string>(nullable: false),
                     LessonSubject = table.Column<string>(nullable: false),
                     DisciplineId = table.Column<Guid>(nullable: false),
+                    CourseId = table.Column<Guid>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

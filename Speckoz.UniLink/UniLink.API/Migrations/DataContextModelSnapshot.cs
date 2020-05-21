@@ -116,6 +116,9 @@ namespace UniLink.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
