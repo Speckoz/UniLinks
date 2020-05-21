@@ -68,7 +68,7 @@ namespace UniLink.API.Controllers
 		}
 
 		[HttpGet("all/{disciplines}")]
-		[Authorizes(UserTypeEnum.Student)]
+		[Authorizes(UserTypeEnum.Student, UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> FindAllByDisciplines([Required] string disciplines)
 		{
 			if (ModelState.IsValid)
