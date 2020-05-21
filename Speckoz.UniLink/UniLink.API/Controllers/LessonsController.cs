@@ -116,8 +116,8 @@ namespace UniLink.API.Controllers
 					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 					if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-						if (course.CourseId != lesson.CourseId)
-							return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+						if (coordId != course.CoordinatorId)
+							return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
 
 					if (await _lessonBusiness.DeleteTaskAsync(lessonId))
 						return NoContent();

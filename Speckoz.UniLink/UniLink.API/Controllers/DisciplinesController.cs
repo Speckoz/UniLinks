@@ -126,7 +126,7 @@ namespace UniLink.API.Controllers
 					if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 						return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
 
-					await _disciplineBusiness.DeleteTaskAsync(discipline);
+					await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
 					return NoContent();
 				}
 				else

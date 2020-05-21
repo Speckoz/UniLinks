@@ -22,6 +22,6 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline);
 
-		Task DeleteTaskAsync(DisciplineVO discipline);
+		Task DeleteTaskAsync(Guid disciplineId);
 	}
 }

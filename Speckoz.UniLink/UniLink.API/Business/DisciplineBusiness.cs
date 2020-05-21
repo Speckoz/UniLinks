@@ -65,7 +65,10 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task DeleteTaskAsync(DisciplineVO discipline) =>
-			await _disciplineRepository.DeleteTaskAsync(_disciplineConverter.Parse(discipline));
+		public async Task DeleteTaskAsync(Guid disciplineId)
+		{
+			if (await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel disc)
+				await _disciplineRepository.DeleteTaskAsync(disc);
+		}
 	}
 }
