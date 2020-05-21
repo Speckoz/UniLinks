@@ -105,7 +105,7 @@ namespace UniLink.API.Controllers
 		}
 
 		// DELETE: /Lessons/:id
-		[HttpDelete("{id}")]
+		[HttpDelete("{lessonId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> DeleteTaskAsync([Required] Guid lessonId)
 		{
@@ -119,8 +119,8 @@ namespace UniLink.API.Controllers
 						if (coordId != course.CoordinatorId)
 							return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
 
-					if (await _lessonBusiness.DeleteTaskAsync(lessonId))
-						return NoContent();
+					await _lessonBusiness.DeleteAsync(lessonId);
+					return NoContent();
 				}
 
 				return BadRequest("Aula informada nao existe");

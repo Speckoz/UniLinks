@@ -73,15 +73,12 @@ namespace UniLink.API.Business
             return default;
         }
 
-        public async Task<bool> DeleteTaskAsync(Guid lessonId)
+        public async Task DeleteAsync(Guid lessonId)
         {
             if (await _lessonRepository.FindByIdTaskAsync(lessonId) is LessonModel lesson)
             {
-                await _lessonRepository.DeleteTaskAsync(lesson);
-                return true;
+                await _lessonRepository.DeleteAsync(lesson);
             }
-
-            return default;
         }
     }
 }

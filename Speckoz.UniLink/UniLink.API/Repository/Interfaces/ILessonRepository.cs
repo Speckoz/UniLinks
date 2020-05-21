@@ -21,6 +21,6 @@ namespace UniLink.API.Repository.Interfaces
 
         Task<LessonModel> UpdateTaskAsync(LessonModel oldLesson, LessonModel newLesson);
 
-        Task DeleteTaskAsync(LessonModel lesson);
+        Task DeleteAsync(LessonModel lesson);
     }
 }

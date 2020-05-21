@@ -22,6 +22,6 @@ namespace UniLink.API.Business.Interfaces
 
         Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
 
-        Task<bool> DeleteTaskAsync(Guid lessonId);
+        Task DeleteAsync(Guid lessonId);
     }
 }

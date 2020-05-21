@@ -50,7 +50,7 @@ namespace UniLink.API.Repository
             return newLesson;
         }
 
-        public async Task DeleteTaskAsync(LessonModel lesson)
+        public async Task DeleteAsync(LessonModel lesson)
         {
             _context.Lessons.Remove(lesson);
             await _context.SaveChangesAsync();
