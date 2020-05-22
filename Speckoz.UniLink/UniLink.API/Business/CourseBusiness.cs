@@ -20,6 +20,14 @@ namespace UniLink.API.Business
 			_courseConverter = new CourseConverter();
 		}
 
+		public async Task<CourseVO> AddTaskAsync(CourseVO course)
+		{
+			if (await _courseRepository.AddTaskAsync(_courseConverter.Parse(course)) is CourseModel courseModel)
+				return _courseConverter.Parse(courseModel);
+
+			return null;
+		}
+
 		public async Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId) =>
 			_courseConverter.Parse(await _courseRepository.FindByCoordIdTaskAsync(coordId));
 
@@ -32,6 +40,20 @@ namespace UniLink.API.Business
 				return _courseConverter.Parse(course);
 
 			return null;
+		}
+
+		public async Task<CourseVO> UpdateTaskAsync(CourseVO newCourse)
+		{
+			if (await _courseRepository.FindByCourseIdTaskAsync(newCourse.CourseId) is CourseModel courseModel)
+				return _courseConverter.Parse(await _courseRepository.UpdateTaskAsync(courseModel, _courseConverter.Parse(newCourse)));
+
+			return null;
+		}
+
+		public async Task DeleteAsync(CourseVO course)
+		{
+			if (await _courseRepository.FindByCourseIdTaskAsync(course.CourseId) is CourseModel courseModel)
+				await _courseRepository.DeleteAsync(courseModel);
 		}
 	}
 }
