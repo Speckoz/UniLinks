@@ -68,7 +68,7 @@ namespace UniLink.API.Controllers
 		}
 
 		[HttpGet("all/{disciplines}")]
-		[Authorizes(UserTypeEnum.Student)]
+		[Authorizes(UserTypeEnum.Student, UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> FindAllByDisciplines([Required] string disciplines)
 		{
 			if (ModelState.IsValid)
@@ -94,6 +94,9 @@ namespace UniLink.API.Controllers
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != newLesson.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+
+				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO)
+					return Conflict("A aula informada ja existe, verifique se o link está correto");
 
 				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
 					return Ok(lesson);
