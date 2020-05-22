@@ -33,16 +33,16 @@ namespace UniLink.API.Repository
 		public async Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
 
-		public async Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines)
+		public async Task<List<DisciplineModel>> FindByRangeIdTaskAsync(List<Guid> disciplines)
 		{
-			IList<DisciplineModel> disciplinesAux = new List<DisciplineModel>();
+			List<DisciplineModel> disciplinesAux = new List<DisciplineModel>();
 			foreach (Guid discipline in disciplines)
 				disciplinesAux.Add(await _context.Disciplines.SingleOrDefaultAsync(x => x.DisciplineId == discipline));
 
 			return disciplinesAux;
 		}
 
-		public async Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId) =>
+		public async Task<List<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId) =>
 			await _context.Disciplines.Where(x => x.CourseId == courseId).ToListAsync();
 
 		public async Task<DisciplineModel> UpdateTaskAsync(DisciplineModel discipline, DisciplineModel newDiscipline)

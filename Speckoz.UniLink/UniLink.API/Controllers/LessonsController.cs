@@ -73,7 +73,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is IList<LessonDisciplineVO> lessons)
+				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is List<LessonDisciplineVO> lessons)
 					return Ok(lessons);
 
 				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");

@@ -5,7 +5,7 @@ namespace UniLink.API.Utils
 {
     public class GuidFormat
     {
-        public static bool TryParseList(string guids, char separator, out IList<Guid> result)
+        public static bool TryParseList(string guids, char separator, out List<Guid> result)
         {
             //chegando se os guids estao no formato correto.
             var aux = new List<Guid>();

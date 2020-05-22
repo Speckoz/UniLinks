@@ -24,7 +24,7 @@ namespace UniLink.Client.Site.Services.Student
             _sessionStorage = sessionStorage;
         }
 
-        public async Task<IList<LessonDisciplineVO>> GetAllLessonsTaskAync()
+        public async Task<List<LessonDisciplineVO>> GetAllLessonsTaskAync()
         {
             IRestResponse response = await SendRequestTaskAsync(
                 await _sessionStorage.GetItemAsync<string>("token"),

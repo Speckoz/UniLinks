@@ -22,6 +22,6 @@ namespace UniLink.API.Data.Converters.Coordinator
 			};
 		}
 
-		public IList<AuthCoordinatorVO> ParseList(IList<CoordinatorModel> origin) => throw new NotImplementedException();
+		public List<AuthCoordinatorVO> ParseList(List<CoordinatorModel> origin) => throw new NotImplementedException();
 	}
 }

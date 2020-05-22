@@ -56,7 +56,7 @@ namespace UniLink.Client.Site.Pages.Coordinator
             }
         }
 
-        private async Task ViewDisciplinesAsync(IList<DisciplineVO> disciplines)
+        private async Task ViewDisciplinesAsync(List<DisciplineVO> disciplines)
         {
             selectedStudent = students.IndexOf(students.Where(x => x.Disciplines.Equals(disciplines)).SingleOrDefault());
             await JSRuntime.InvokeVoidAsync("ShowModal", "modalStudentDisciplines");

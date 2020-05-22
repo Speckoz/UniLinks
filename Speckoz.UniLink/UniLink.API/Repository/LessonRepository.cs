@@ -28,7 +28,7 @@ namespace UniLink.API.Repository
         public Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
             throw new NotImplementedException();
 
-        public async Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines)
+        public async Task<List<LessonModel>> FindAllByDisciplinesIdTaskASync(List<Guid> disciplines)
         {
             var lessons = new List<LessonModel>();
             foreach (Guid discipline in disciplines)

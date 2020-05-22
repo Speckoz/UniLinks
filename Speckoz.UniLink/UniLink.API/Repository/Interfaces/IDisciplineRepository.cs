@@ -14,11 +14,11 @@ namespace UniLink.API.Repository.Interfaces
 
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<IList<DisciplineModel>> FindByRangeIdTaskAsync(IList<Guid> disciplines);
+		Task<List<DisciplineModel>> FindByRangeIdTaskAsync(List<Guid> disciplines);
 
 		Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<IList<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId);
+		Task<List<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId);
 
 		Task<DisciplineModel> UpdateTaskAsync(DisciplineModel discipline, DisciplineModel newDiscipline);
 

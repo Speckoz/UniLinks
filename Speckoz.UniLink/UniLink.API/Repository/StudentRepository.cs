@@ -33,7 +33,7 @@ namespace UniLink.API.Repository
 		public async Task<StudentModel> FindByEmailTaskAsync(string email) =>
 			await _context.Students.SingleOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
 
-		public async Task<IList<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
+		public async Task<List<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
 		{
 			if (await _context.Courses.SingleOrDefaultAsync(c => c.CourseId == courseId && c.CoordinatorId == coordId) is CourseModel course)
 				return await _context.Students

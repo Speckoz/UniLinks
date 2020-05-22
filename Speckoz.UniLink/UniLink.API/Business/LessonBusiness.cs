@@ -39,12 +39,12 @@ namespace UniLink.API.Business
         public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
             _lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
 
-        public async Task<IList<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
+        public async Task<List<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
         {
-            if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
+            if (GuidFormat.TryParseList(disciplines, ';', out List<Guid> result))
             {
-                IList<DisciplineModel> discipline = await _disciplineRepository.FindByRangeIdTaskAsync(result);
-                IList<LessonModel> lesson = await _lessonRepository.FindAllByDisciplinesIdTaskASync(result);
+                List<DisciplineModel> discipline = await _disciplineRepository.FindByRangeIdTaskAsync(result);
+                List<LessonModel> lesson = await _lessonRepository.FindAllByDisciplinesIdTaskASync(result);
 
                 var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
 

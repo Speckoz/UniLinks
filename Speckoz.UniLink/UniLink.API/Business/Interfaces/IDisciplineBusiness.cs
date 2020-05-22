@@ -14,11 +14,11 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<IList<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines);
+		Task<List<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines);
 
 		Task<DisciplineVO> FindByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId);
+		Task<List<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId);
 
 		Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline);
 

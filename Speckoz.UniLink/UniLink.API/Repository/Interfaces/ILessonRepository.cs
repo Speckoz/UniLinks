@@ -13,7 +13,7 @@ namespace UniLink.API.Repository.Interfaces
 
         Task<LessonModel> FindByURITaskAsync(string uri);
 
-        Task<IList<LessonModel>> FindAllByDisciplinesIdTaskASync(IList<Guid> disciplines);
+        Task<List<LessonModel>> FindAllByDisciplinesIdTaskASync(List<Guid> disciplines);
 
         Task<LessonModel> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift);
 

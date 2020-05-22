@@ -42,17 +42,17 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task<CourseVO> UpdateTaskAsync(CourseVO newCourse)
+		public async Task<CourseVO> UpdateTaskAsync(CourseVO course, CourseVO newCourse)
 		{
-			if (await _courseRepository.FindByCourseIdTaskAsync(newCourse.CourseId) is CourseModel courseModel)
-				return _courseConverter.Parse(await _courseRepository.UpdateTaskAsync(courseModel, _courseConverter.Parse(newCourse)));
+			if (await _courseRepository.UpdateTaskAsync(_courseConverter.Parse(course), _courseConverter.Parse(newCourse)) is CourseModel courseModel)
+				return _courseConverter.Parse(courseModel);
 
 			return null;
 		}
 
-		public async Task DeleteAsync(CourseVO course)
+		public async Task DeleteAsync(Guid courseId)
 		{
-			if (await _courseRepository.FindByCourseIdTaskAsync(course.CourseId) is CourseModel courseModel)
+			if (await _courseRepository.FindByCourseIdTaskAsync(courseId) is CourseModel courseModel)
 				await _courseRepository.DeleteAsync(courseModel);
 		}
 	}

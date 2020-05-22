@@ -38,14 +38,14 @@ namespace UniLink.API.Business
 		{
 			StudentModel studentEntity = _converter.Parse(student);
 
-			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out IList<Guid> result))
+			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out List<Guid> result))
 			{
 				//checando se nao existe nenhuma disciplina repetida.
 				foreach (Guid disc in result)
 					if (result.Count(x => x.Equals(disc)) > 1)
 						return null;
 
-				IList<DisciplineModel> disciplines = await _disciplineRepository.FindByRangeIdTaskAsync(result);
+				List<DisciplineModel> disciplines = await _disciplineRepository.FindByRangeIdTaskAsync(result);
 
 				if (!disciplines.Contains(null))
 				{
@@ -79,18 +79,18 @@ namespace UniLink.API.Business
 		public async Task<StudentVO> FindByIdTaskAsync(Guid id) =>
 			_converter.Parse(await _studentRepository.FindByIdTaskAsync(id));
 
-		public async Task<IList<StudentDisciplineVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId)
+		public async Task<List<StudentDisciplineVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId)
 		{
-			if (await _studentRepository.FindAllByCourseTaskAsync(coordId, courseId) is IList<StudentModel> students)
+			if (await _studentRepository.FindAllByCourseTaskAsync(coordId, courseId) is List<StudentModel> students)
 			{
-				var studentDisciplines = new List<(StudentModel student, IList<DisciplineModel> discipline)>();
+				var studentDisciplines = new List<(StudentModel student, List<DisciplineModel> discipline)>();
 
 				foreach (StudentModel student in students)
 				{
-					if (!GuidFormat.TryParseList(student.Disciplines, ';', out IList<Guid> result))
+					if (!GuidFormat.TryParseList(student.Disciplines, ';', out List<Guid> result))
 						return null;
 
-					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is IList<DisciplineModel> disciplines)
+					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is List<DisciplineModel> disciplines)
 						studentDisciplines.Add((student, disciplines));
 					else
 						return null;
@@ -102,10 +102,10 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task<StudentVO> UpdateTaskAsync(StudentVO newStudent)
+		public async Task<StudentVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent)
 		{
-			if (await _studentRepository.FindByIdTaskAsync(newStudent.StudentId) is StudentModel oldStudent)
-				return _converter.Parse(await _studentRepository.UpdateTaskAsync(oldStudent, _converter.Parse(newStudent)));
+			if (await _studentRepository.UpdateTaskAsync(_converter.Parse(student), _converter.Parse(newStudent)) is StudentModel studentModel)
+				return _converter.Parse(studentModel);
 
 			return null;
 		}

@@ -41,7 +41,7 @@ namespace UniLink.API.Data.Converters.Lesson
 			};
 		}
 
-		public IList<LessonModel> ParseList(IList<LessonVO> origin)
+		public List<LessonModel> ParseList(List<LessonVO> origin)
 		{
 			return origin switch
 			{
@@ -50,7 +50,7 @@ namespace UniLink.API.Data.Converters.Lesson
 			};
 		}
 
-		public IList<LessonVO> ParseList(IList<LessonModel> origin)
+		public List<LessonVO> ParseList(List<LessonModel> origin)
 		{
 			return origin switch
 			{

@@ -56,7 +56,7 @@ namespace UniLink.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.FindDisciplinesTaskAsync(disciplines) is IList<DisciplineVO> discs)
+				if (await _disciplineBusiness.FindDisciplinesTaskAsync(disciplines) is List<DisciplineVO> discs)
 					return Ok(discs);
 
 				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
@@ -75,7 +75,7 @@ namespace UniLink.API.Controllers
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 				{
-					if (await _disciplineBusiness.FindByCourseIdTaskAsync(course.CourseId) is IList<DisciplineVO> discs)
+					if (await _disciplineBusiness.FindByCourseIdTaskAsync(course.CourseId) is List<DisciplineVO> discs)
 						return Ok(discs);
 				}
 

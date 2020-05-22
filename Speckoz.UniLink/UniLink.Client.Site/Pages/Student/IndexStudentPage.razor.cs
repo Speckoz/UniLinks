@@ -15,8 +15,8 @@ namespace UniLink.Client.Site.Pages.Student
     public partial class IndexStudentPage
     {
         private LessonDisciplineVO selected;
-        private IList<LessonDisciplineVO> lessons;
-        private IList<LessonDisciplineVO> lessonOrigin;
+        private List<LessonDisciplineVO> lessons;
+        private List<LessonDisciplineVO> lessonOrigin;
         private byte filterSelected = 1;
 
         private byte FilterSelected

@@ -44,13 +44,13 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task<IList<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
+		public async Task<List<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
 
-		public async Task<IList<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines)
+		public async Task<List<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines)
 		{
-			if (GuidFormat.TryParseList(disciplines, ';', out IList<Guid> result))
-				if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is IList<DisciplineModel> disc)
+			if (GuidFormat.TryParseList(disciplines, ';', out List<Guid> result))
+				if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is List<DisciplineModel> disc)
 					if (!disc.Contains(null))
 						return _disciplineConverter.ParseList(disc);
 
