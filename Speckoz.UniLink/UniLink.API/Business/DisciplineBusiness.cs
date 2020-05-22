@@ -59,8 +59,8 @@ namespace UniLink.API.Business
 
 		public async Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline)
 		{
-			if (await _disciplineRepository.UpdateTaskAsync(_disciplineConverter.Parse(newDiscipline)) is DisciplineModel updatedDiscipline)
-				return _disciplineConverter.Parse(updatedDiscipline);
+			if (await _disciplineRepository.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineModel discipline)
+				return _disciplineConverter.Parse(await _disciplineRepository.UpdateTaskAsync(discipline, _disciplineConverter.Parse(newDiscipline)));
 
 			return null;
 		}

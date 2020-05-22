@@ -102,18 +102,18 @@ namespace UniLink.API.Business
 			return null;
 		}
 
-		public async Task DeleteTaskAsync(Guid id)
-		{
-			if (await _studentRepository.FindByIdTaskAsync(id) is StudentModel student)
-				await _studentRepository.DeleteTaskAsync(student);
-		}
-
 		public async Task<StudentVO> UpdateTaskAsync(StudentVO newStudent)
 		{
 			if (await _studentRepository.FindByIdTaskAsync(newStudent.StudentId) is StudentModel oldStudent)
 				return _converter.Parse(await _studentRepository.UpdateTaskAsync(oldStudent, _converter.Parse(newStudent)));
 
 			return null;
+		}
+
+		public async Task DeleteTaskAsync(Guid id)
+		{
+			if (await _studentRepository.FindByIdTaskAsync(id) is StudentModel student)
+				await _studentRepository.DeleteTaskAsync(student);
 		}
 	}
 }

@@ -7,6 +7,7 @@ namespace UniLink.API.Business.Interfaces
 {
 	public interface ICourseBusiness
 	{
+
 		Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
 
 		Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId);

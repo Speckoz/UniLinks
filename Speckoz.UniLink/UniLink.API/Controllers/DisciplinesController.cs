@@ -100,6 +100,9 @@ namespace UniLink.API.Controllers
 
 					newDiscipline.CourseId = course.CourseId;
 
+					if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO))
+						return NotFound("Nao existe uma disciplina com esse Id");
+
 					if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId) && !discipline.Name.Equals(newDiscipline.Name))
 						return Conflict("Ja existe uma disciplina com esse nome");
 
