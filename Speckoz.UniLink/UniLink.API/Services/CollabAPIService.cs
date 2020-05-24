@@ -10,9 +10,9 @@ namespace UniLink.API.Services
 {
     public class CollabAPIService
     {
-        public async Task<CollabVO> GetRecordingInfo(string url)
+        public async Task<CollabVO> GetRecordingInfo(string uri)
         {
-            string recordId = GetIDFromURL(url);
+            string recordId = GetIDFromURI(uri);
             IRestResponse response = await SendRequestTaskAsync(recordId);
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -30,6 +30,6 @@ namespace UniLink.API.Services
                 }.ExecuteTaskAsync();
             }
         }
-        private static string GetIDFromURL(string url) => url.Split('/')[4];
+        private static string GetIDFromURI(string uri) => uri.Split('/')[4];
     }
 }
