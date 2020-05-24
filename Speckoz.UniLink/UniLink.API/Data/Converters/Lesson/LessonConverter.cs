@@ -16,12 +16,14 @@ namespace UniLink.API.Data.Converters.Lesson
 
 			return new LessonModel
 			{
-				Date = origin.Date,
-				DisciplineId = origin.DisciplineId,
 				LessonId = origin.LessonId,
-				LessonSubject = origin.LessonSubject,
 				URI = origin.URI,
-				CourseId = origin.CourseId
+				LessonSubject = origin.LessonSubject,
+				DisciplineId = origin.DisciplineId,
+				CourseId = origin.CourseId,
+				Date = origin.Date,
+				RecordName = origin.RecordName,
+				Duration = origin.Duration
 			};
 		}
 
@@ -32,12 +34,14 @@ namespace UniLink.API.Data.Converters.Lesson
 
 			return new LessonVO
 			{
-				Date = origin.Date,
-				DisciplineId = origin.DisciplineId,
 				LessonId = origin.LessonId,
-				LessonSubject = origin.LessonSubject,
 				URI = origin.URI,
-				CourseId = origin.CourseId
+				LessonSubject = origin.LessonSubject,
+				DisciplineId = origin.DisciplineId,
+				CourseId = origin.CourseId,
+				Date = origin.Date,
+				RecordName = origin.RecordName,
+				Duration = origin.Duration
 			};
 		}
 

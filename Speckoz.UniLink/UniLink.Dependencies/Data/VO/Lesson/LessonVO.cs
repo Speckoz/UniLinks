@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace UniLink.Dependencies.Data.VO
 {
@@ -9,6 +10,13 @@ namespace UniLink.Dependencies.Data.VO
 		public string LessonSubject { get; set; }
 		public Guid DisciplineId { get; set; }
 		public Guid CourseId { get; set; }
+
+		[JsonPropertyName("created")]
 		public DateTime Date { get; set; }
+
+		public int Duration { get; set; }
+
+		[JsonPropertyName("name")]
+		public string RecordName { get; set; }
 	}
 }

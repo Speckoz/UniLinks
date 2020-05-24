@@ -190,7 +190,10 @@ namespace UniLink.API.Data
                         Date = DateTime.Now,
                         LessonSubject = "Lição",
                         URI = "https://logikoz.net",
-                        DisciplineId = d1.DisciplineId
+                        DisciplineId = d1.DisciplineId,
+                        Duration = 3124000,
+                        RecordName = "Nome Teste",
+                        CourseId = c1.CourseId
                     };
 
                     l2 = new LessonModel
@@ -198,7 +201,10 @@ namespace UniLink.API.Data
                         Date = DateTime.Now,
                         LessonSubject = "Prova",
                         URI = "https://bit.ly/2RF0oFQ",
-                        DisciplineId = d2.DisciplineId
+                        DisciplineId = d2.DisciplineId,
+                        Duration = 312000,
+                        RecordName = "Nome Teste 2",
+                        CourseId = c2.CourseId
                     };
 
                     _context.Lessons.AddRange(l1, l2);

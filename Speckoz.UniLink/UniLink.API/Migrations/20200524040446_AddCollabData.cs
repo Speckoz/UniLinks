@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class Migrations : Migration
+    public partial class AddCollabData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,7 +74,9 @@ namespace UniLink.API.Migrations
                     LessonSubject = table.Column<string>(nullable: false),
                     DisciplineId = table.Column<Guid>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    Duration = table.Column<int>(nullable: false),
+                    RecordName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

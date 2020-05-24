@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200520235914_Migrations")]
-    partial class Migrations
+    [Migration("20200524040446_AddCollabData")]
+    partial class AddCollabData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -127,7 +127,14 @@ namespace UniLink.API.Migrations
                     b.Property<Guid>("DisciplineId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
                     b.Property<string>("LessonSubject")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RecordName")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 

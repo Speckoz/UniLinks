@@ -22,5 +22,11 @@ namespace UniLink.Dependencies.Models
 
 		[Required]
 		public DateTime Date { get; set; }
+
+		[Required]
+		public int Duration { get; set; }
+
+		[Required]
+		public string RecordName { get; set; }
 	}
 }

@@ -1,35 +1,43 @@
 ﻿using Dependencies.Services;
+
 using RestSharp;
-using System;
+
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 using UniLink.Dependencies.Data.VO;
 
 namespace UniLink.API.Services
 {
-    public class CollabAPIService
-    {
-        public async Task<CollabVO> GetRecordingInfo(string uri)
-        {
-            string recordId = GetIDFromURI(uri);
-            IRestResponse response = await SendRequestTaskAsync(recordId);
+	public class CollabAPIService
+	{
+		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson)
+		{
+			IRestResponse response = await SendRequestTaskAsync(lesson.URI.Split('/')[4]);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-                return JsonSerializer.Deserialize<CollabVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			if (response.StatusCode == HttpStatusCode.OK)
+			{
+				LessonVO lessonCollab = JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return default;
+				lesson.RecordName = lessonCollab.RecordName;
+				lesson.Duration = lessonCollab.Duration;
+				lesson.Date = lessonCollab.Date;
 
-            static async Task<IRestResponse> SendRequestTaskAsync(string id)
-            {
-                return await new RequestService()
-                {
-                    Method = Method.GET,
-                    URL = "https://us.bbcollab.com/collab/api/csa/recordings/",
-                    URN = $"{id}/data",
-                }.ExecuteTaskAsync();
-            }
-        }
-        private static string GetIDFromURI(string uri) => uri.Split('/')[4];
-    }
+				return lesson;
+			}
+
+			return null;
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string id)
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = "us.bbcollab.com",
+					URN = $"collab/api/csa/recordings/{id}/data",
+				}.ExecuteTaskAsync();
+			}
+		}
+	}
 }
