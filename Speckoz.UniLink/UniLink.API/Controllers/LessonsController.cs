@@ -57,7 +57,7 @@ namespace UniLink.API.Controllers
 		// GET: /Lessons/:id
 		[HttpGet("{id}")]
 		[Authorize]
-		public async Task<IActionResult> FindByIdTaskAsync(Guid id)
+		public async Task<IActionResult> FindByDisciplineIdTaskAsync(Guid id)
 		{
 			if (ModelState.IsValid)
 			{
@@ -72,7 +72,7 @@ namespace UniLink.API.Controllers
 
 		[HttpGet("all/{disciplines}")]
 		[Authorizes(UserTypeEnum.Student, UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> FindAllByDisciplines([Required] string disciplines)
+		public async Task<IActionResult> FindAllByDisciplinesTaskAsync([Required] string disciplines)
 		{
 			if (ModelState.IsValid)
 			{

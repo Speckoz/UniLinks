@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -50,13 +51,13 @@ namespace UniLink.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpGet("{disciplines}")]
+		[HttpGet("all")]
 		[Authorizes]
-		public async Task<IActionResult> GetDisciplinesTaskAsync([Required] string disciplines)
+		public async Task<IActionResult> GetDisciplinesTaskAsync([FromBody] List<Guid> disciplines)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.FindDisciplinesTaskAsync(disciplines) is List<DisciplineVO> discs)
+				if (await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> discs)
 					return Ok(discs);
 
 				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");

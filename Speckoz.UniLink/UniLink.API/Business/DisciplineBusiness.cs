@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using UniLink.API.Business.Interfaces;
 using UniLink.API.Data.Converters;
 using UniLink.API.Repository.Interfaces;
-using UniLink.API.Utils;
 using UniLink.Dependencies.Data.VO;
 using UniLink.Dependencies.Models;
 
@@ -47,12 +46,11 @@ namespace UniLink.API.Business
 		public async Task<List<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
 			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
 
-		public async Task<List<DisciplineVO>> FindDisciplinesTaskAsync(string disciplines)
+		public async Task<List<DisciplineVO>> FindAllByDisciplineIdsTaskAsync(List<Guid> disciplines)
 		{
-			if (GuidFormat.TryParseList(disciplines, ';', out List<Guid> result))
-				if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is List<DisciplineModel> disc)
-					if (!disc.Contains(null))
-						return _disciplineConverter.ParseList(disc);
+			if (await _disciplineRepository.FindByRangeIdTaskAsync(disciplines) is List<DisciplineModel> disc)
+				if (!disc.Contains(null))
+					return _disciplineConverter.ParseList(disc);
 
 			return null;
 		}

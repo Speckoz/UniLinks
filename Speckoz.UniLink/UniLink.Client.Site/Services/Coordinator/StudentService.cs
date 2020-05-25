@@ -48,24 +48,24 @@ namespace UniLink.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<List<StudentDisciplineVO>> GetStudentsTaskAsync(Guid courseId)
+		public async Task<List<StudentDisciplineVO>> GetStudentsTaskAsync()
 		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), courseId);
+			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"));
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else if (response.StatusCode == HttpStatusCode.NotFound)
+			else
 				return new List<StudentDisciplineVO>();
 
 			return default;
 
-			async Task<IRestResponse> SendRequestTaskAsync(string token, Guid courseId)
+			async Task<IRestResponse> SendRequestTaskAsync(string token)
 			{
 				return await new RequestService()
 				{
 					Method = Method.GET,
 					URL = DataHelper.URLBase,
-					URN = $"Students/{courseId}",
+					URN = $"Students/all",
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}
