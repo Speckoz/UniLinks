@@ -71,27 +71,9 @@ namespace UniLink.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<bool> RemoveStudentTaskAsync(Guid studentId)
-		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), studentId);
-
-			return response.StatusCode == HttpStatusCode.NoContent;
-
-			static async Task<IRestResponse> SendRequestTaskAsync(string token, Guid studentId)
-			{
-				return await new RequestService()
-				{
-					Method = Method.DELETE,
-					URL = DataHelper.URLBase,
-					URN = $"Students/{studentId}",
-					Authenticator = new JwtAuthenticator(token)
-				}.ExecuteTaskAsync();
-			}
-		}
-
 		public async Task<StudentVO> UpdateStudentTaskAsync(StudentVO student)
 		{
-			// Update do student
+			student.CourseId = Guid.Parse(await _sessionStorage.GetItemAsync<string>("courseId"));
 			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), student);
 
 			if (response.StatusCode == HttpStatusCode.OK)
@@ -107,6 +89,24 @@ namespace UniLink.Client.Site.Services.Coordinator
 					URL = DataHelper.URLBase,
 					URN = $"Students",
 					Body = student,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
+
+		public async Task<bool> RemoveStudentTaskAsync(Guid studentId)
+		{
+			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), studentId);
+
+			return response.StatusCode == HttpStatusCode.NoContent;
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string token, Guid studentId)
+			{
+				return await new RequestService()
+				{
+					Method = Method.DELETE,
+					URL = DataHelper.URLBase,
+					URN = $"Students/{studentId}",
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}

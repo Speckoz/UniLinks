@@ -1,20 +1,25 @@
-﻿.theme-bg {
+﻿.theme-bg
+{
     background-color: #2d2d2d;
 }
 
-.theme-card {
+.theme-card
+{
     background-color: #313131
 }
 
-.theme-text {
+.theme-text
+{
     color: white;
 }
 
-    .theme-text:focus {
+    .theme-text:focus
+    {
         color: var(--theme-text)
     }
 
-tr.tr-hover:hover {
+tr.tr-hover:hover
+{
     background-color: #444444 !important;
     color: white !important;
 }
@@ -36,6 +41,7 @@ tr.tr-hover:hover {
     border-color: rgba(0, 0, 0, 0.42);
     color: white;
 }
+
 .e-multi-select-wrapper input[type='text']
 {
     background: none;
