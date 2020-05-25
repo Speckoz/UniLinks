@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLink.API.Migrations
 {
-    public partial class AddCourseIdAtCoord : Migration
+    public partial class RemovingNotNullFromLessonSubject : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,7 +72,7 @@ namespace UniLink.API.Migrations
                 {
                     LessonId = table.Column<Guid>(nullable: false),
                     URI = table.Column<string>(nullable: false),
-                    LessonSubject = table.Column<string>(nullable: false),
+                    LessonSubject = table.Column<string>(nullable: true),
                     DisciplineId = table.Column<Guid>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),

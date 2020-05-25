@@ -11,7 +11,6 @@ namespace UniLink.Dependencies.Models
 		[Required]
 		public string URI { get; set; }
 
-		[Required]
 		public string LessonSubject { get; set; }
 
 		[Required]

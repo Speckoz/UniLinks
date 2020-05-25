@@ -132,7 +132,6 @@ namespace UniLink.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LessonSubject")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RecordName")

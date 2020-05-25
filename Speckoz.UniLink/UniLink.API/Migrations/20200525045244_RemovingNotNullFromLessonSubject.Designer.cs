@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200525042921_AddCourseIdAtCoord")]
-    partial class AddCourseIdAtCoord
+    [Migration("20200525045244_RemovingNotNullFromLessonSubject")]
+    partial class RemovingNotNullFromLessonSubject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,7 +134,6 @@ namespace UniLink.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LessonSubject")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RecordName")
