@@ -210,9 +210,9 @@ namespace UniLink.API.Data
 					RecordName = "Nome Teste 2",
 					CourseId = c2.CourseId
 				};
-			}
 
-			_context.Lessons.AddRange(l1, l2);
+				_context.Lessons.AddRange(l1, l2);
+			}
 		}
 	}
 }
