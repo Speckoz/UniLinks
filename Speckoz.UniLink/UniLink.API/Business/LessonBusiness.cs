@@ -32,16 +32,16 @@ namespace UniLink.API.Business
 			_lessonDisciplineConverter = new LessonDisciplineConverter();
 		}
 
-		public async Task<LessonVO> AddTaskAsync(LessonVO lesson)
+		public async Task<LessonVO> AddTaskAsync(LessonVO lessonCollab)
 		{
-			if (!(await _collabAPIService.GetRecordingInfoTaskAsync(lesson) is LessonVO lessonCollab))
-				return null;
-
 			LessonModel lessonEntity = _lessonConverter.Parse(lessonCollab);
 			lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
 
 			return _lessonConverter.Parse(lessonEntity);
 		}
+
+		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) => 
+			await _collabAPIService.GetRecordingInfoTaskAsync(lesson);
 
 		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
 			_lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));

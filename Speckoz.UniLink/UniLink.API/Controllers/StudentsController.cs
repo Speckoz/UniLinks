@@ -52,16 +52,19 @@ namespace UniLink.API.Controllers
 			return BadRequest();
 		}
 
-		// GET: /students/:courseId
-		[HttpGet("{courseId}")]
+		// GET: /students/all
+		[HttpGet("all")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> FindAllByCoordIdTaskAsync([Required] Guid courseId)
+		public async Task<IActionResult> FindAllByCoordIdTaskAsync()
 		{
 			if (ModelState.IsValid)
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (await _studentBusiness.FindAllByCoordIdAndCourseId(coordId, courseId) is List<StudentDisciplineVO> studentDiscpline)
+				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
+					return NotFound("Nao existe nenhum curso referente ao coordenador!");
+
+				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentDisciplineVO> studentDiscpline)
 					return Ok(studentDiscpline);
 
 				return BadRequest("Nao foi encontrado nenhum aluno no curso informado ou algum aluno nao possui as disciplinas no formato correto.");

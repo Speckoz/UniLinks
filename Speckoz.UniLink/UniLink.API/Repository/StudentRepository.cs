@@ -33,15 +33,8 @@ namespace UniLink.API.Repository
 		public async Task<StudentModel> FindByEmailTaskAsync(string email) =>
 			await _context.Students.SingleOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
 
-		public async Task<List<StudentModel>> FindAllByCourseTaskAsync(Guid coordId, Guid courseId)
-		{
-			if (await _context.Courses.SingleOrDefaultAsync(c => c.CourseId == courseId && c.CoordinatorId == coordId) is CourseModel course)
-				return await _context.Students
-					.Where(c => c.CourseId == course.CourseId)
-					.ToListAsync();
-
-			return null;
-		}
+		public async Task<List<StudentModel>> FindAllByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Students.Where(c => c.CourseId == courseId).ToListAsync();
 
 		public async Task<StudentModel> UpdateTaskAsync(StudentModel student, StudentModel newStudent)
 		{
@@ -50,7 +43,7 @@ namespace UniLink.API.Repository
 			return newStudent;
 		}
 
-		public async Task DeleteTaskAsync(StudentModel student)
+		public async Task DeleteAsync(StudentModel student)
 		{
 			_context.Students.Remove(student);
 			await _context.SaveChangesAsync();

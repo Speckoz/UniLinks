@@ -44,7 +44,10 @@ namespace UniLink.API.Controllers
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
 
-				if (await _lessonBusiness.AddTaskAsync(lesson) is LessonVO addedClass)
+				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(lesson) is LessonVO lessonCollab))
+					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
+
+				if (await _lessonBusiness.AddTaskAsync(lessonCollab) is LessonVO addedClass)
 					return Created($"/lessons/{addedClass.LessonId}", addedClass);
 			}
 

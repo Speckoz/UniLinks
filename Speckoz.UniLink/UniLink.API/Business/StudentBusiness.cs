@@ -29,8 +29,8 @@ namespace UniLink.API.Business
 			_studentRepository = studentRepository;
 			_emailSender = sendEmailService;
 			_tokenService = tokenService;
-			_converter = new StudentConverter();
 			_disciplineRepository = disciplineRepository;
+			_converter = new StudentConverter();
 			_studentDisciplineConverter = new StudentDisciplineConverter();
 		}
 
@@ -79,9 +79,9 @@ namespace UniLink.API.Business
 		public async Task<StudentVO> FindByIdTaskAsync(Guid id) =>
 			_converter.Parse(await _studentRepository.FindByIdTaskAsync(id));
 
-		public async Task<List<StudentDisciplineVO>> FindAllByCoordIdAndCourseId(Guid coordId, Guid courseId)
+		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)
 		{
-			if (await _studentRepository.FindAllByCourseTaskAsync(coordId, courseId) is List<StudentModel> students)
+			if (await _studentRepository.FindAllByCourseIdTaskAsync(courseId) is List<StudentModel> students)
 			{
 				var studentDisciplines = new List<(StudentModel student, List<DisciplineModel> discipline)>();
 
@@ -113,7 +113,7 @@ namespace UniLink.API.Business
 		public async Task DeleteTaskAsync(Guid id)
 		{
 			if (await _studentRepository.FindByIdTaskAsync(id) is StudentModel student)
-				await _studentRepository.DeleteTaskAsync(student);
+				await _studentRepository.DeleteAsync(student);
 		}
 	}
 }

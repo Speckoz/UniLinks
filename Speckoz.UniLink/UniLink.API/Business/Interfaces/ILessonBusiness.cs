@@ -18,6 +18,8 @@ namespace UniLink.API.Business.Interfaces
 
 		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum LessonShift);
 
+		Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson);
+
 		Task<List<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
 
 		Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
