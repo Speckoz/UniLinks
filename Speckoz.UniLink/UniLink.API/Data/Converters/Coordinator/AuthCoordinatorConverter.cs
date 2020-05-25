@@ -18,7 +18,8 @@ namespace UniLink.API.Data.Converters.Coordinator
 			{
 				CoordinatorId = origin.CoordinatorId,
 				Email = origin.Email,
-				Name = origin.Name
+				Name = origin.Name,
+				CourseId = origin.CourseId
 			};
 		}
 

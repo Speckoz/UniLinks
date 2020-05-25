@@ -8,6 +8,7 @@ namespace UniLink.Dependencies.Data.VO.Coordinator
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string Password { get; set; }
+		public Guid CourseId { get; set; }
 		public string Token { get; set; }
 	}
 }

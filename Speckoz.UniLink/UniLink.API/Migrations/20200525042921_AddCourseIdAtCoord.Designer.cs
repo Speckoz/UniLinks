@@ -9,8 +9,8 @@ using UniLink.API.Data;
 namespace UniLink.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200524040446_AddCollabData")]
-    partial class AddCollabData
+    [Migration("20200525042921_AddCourseIdAtCoord")]
+    partial class AddCourseIdAtCoord
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,9 @@ namespace UniLink.API.Migrations
                 {
                     b.Property<Guid>("CoordinatorId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CourseId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Email")

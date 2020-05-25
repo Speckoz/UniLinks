@@ -19,7 +19,8 @@ namespace UniLink.API.Data.Converters
 				CoordinatorId = origin.CoordinatorId,
 				Name = origin.Name,
 				Email = origin.Email,
-				Password = origin.Password
+				Password = origin.Password,
+				CourseId = origin.CourseId
 			};
 		}
 
@@ -33,7 +34,8 @@ namespace UniLink.API.Data.Converters
 				CoordinatorId = origin.CoordinatorId,
 				Name = origin.Name,
 				Email = origin.Email,
-				Password = origin.Password
+				Password = origin.Password,
+				CourseId = origin.CourseId
 			};
 		}
 
