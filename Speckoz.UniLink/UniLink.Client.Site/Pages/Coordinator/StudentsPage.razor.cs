@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
+using Syncfusion.Blazor.DropDowns;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +30,6 @@ namespace UniLink.Client.Site.Pages.Coordinator
 		private StudentService StudentService { get; set; }
 
 		[Inject]
-		private CourseService CourseService { get; set; }
-
-		[Inject]
 		private DisciplineService DisciplineService { get; set; }
 
 		[Inject]
@@ -54,6 +53,11 @@ namespace UniLink.Client.Site.Pages.Coordinator
 				show = nameof(show);
 				selectedDisciplines = null;
 			}
+		}
+		private void OnChange(MultiSelectChangeEventArgs<List<Guid>> args)
+		{
+			selectedDisciplines = args.Value;
+			StateHasChanged();
 		}
 
 		private async Task ViewDisciplinesAsync(List<DisciplineVO> disciplines)
