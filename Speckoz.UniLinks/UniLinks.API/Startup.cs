@@ -73,6 +73,7 @@ namespace UniLinks.API
 			services.AddScoped<IStudentRepository, StudentRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();
 			services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+			services.AddScoped<IClassRepository, ClassRepository>();
 
 			// Business
 			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
@@ -80,12 +81,10 @@ namespace UniLinks.API
 			services.AddScoped<IStudentBusiness, StudentBusiness>();
 			services.AddScoped<ICourseBusiness, CourseBusiness>();
 			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
+			services.AddScoped<IClassBusiness, ClassBusiness>();
 
 			// Filter
-			services.AddMvc(options =>
-			{
-				options.Filters.Add(typeof(ErrorResponseFilter));
-			});
+			services.AddMvc(options => options.Filters.Add(typeof(ErrorResponseFilter)));
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)

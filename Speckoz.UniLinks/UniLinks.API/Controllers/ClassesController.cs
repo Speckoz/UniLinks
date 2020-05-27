@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
@@ -11,66 +12,74 @@ using UniLinks.Dependencies.Enums;
 
 namespace UniLinks.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ClassesController : ControllerBase
-    {
-        private readonly IClassBusiness _classBusiness;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class ClassesController : ControllerBase
+	{
+		private readonly IClassBusiness _classBusiness;
+		private readonly ICourseBusiness _courseBusiness;
 
-        public ClassesController(IClassBusiness classBusiness)
-        {
-            _classBusiness = classBusiness;
-        }
+		public ClassesController(IClassBusiness classBusiness, ICourseBusiness courseBusiness)
+		{
+			_classBusiness = classBusiness;
+			_courseBusiness = courseBusiness;
+		}
 
-        [HttpPost]
-        [Authorizes(UserTypeEnum.Coordinator)]
-        public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO)
-        {
-            if (ModelState.IsValid)
-            {
-                if (await _classBusiness.FindByURITaskAsync(classVO.URI) is ClassVO)
-                    return Conflict("Ja existe uma sala com esse link");
+		[HttpPost]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO)
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
-                    return Created("/Classes", addedClass);
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != classVO.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
 
-                return BadRequest("Nao possivel adicionar a sala, verifique se os campos estao corretos.");
-            }
+				if (await _classBusiness.FindByURITaskAsync(classVO.URI) is ClassVO)
+					return Conflict("Ja existe uma sala com esse link");
 
-            return BadRequest();
-        }
+				if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
+					return Created("/Classes", addedClass);
 
-        [HttpGet("{classId}")]
-        [Authorizes]
-        public async Task<IActionResult> GetClassTaskAsync([Required] Guid classId)
-        {
-            if (ModelState.IsValid)
-            {
-                if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO @class)
-                    return Ok(@class);
+				return BadRequest("Nao possivel adicionar a sala, verifique se os campos estao corretos.");
+			}
 
-                return NotFound("A sala informada nao foi encontrada!");
-            }
+			return BadRequest();
+		}
 
-            return BadRequest();
-        }
+		[HttpGet("{classId}")]
+		[Authorizes]
+		public async Task<IActionResult> GetClassTaskAsync([Required] Guid classId)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO @class)
+					return Ok(@class);
 
-        [HttpDelete]
-        [Authorizes(UserTypeEnum.Coordinator)]
-        public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
-        {
-            if (ModelState.IsValid)
-            {
-                if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO classVO)
-                {
-                    await _classBusiness.RemoveAsync(classVO);
-                    return NoContent();
-                }
+				return NotFound("A sala informada nao foi encontrada!");
+			}
 
-                return NotFound("Nao foi possivel encontrra a aula informada!");
-            }
+			return BadRequest();
+		}
 
-            return BadRequest();
-        }
-    }
+		[HttpDelete]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO classVO)
+				{
+					await _classBusiness.RemoveAsync(classVO);
+					return NoContent();
+				}
+
+				return NotFound("Nao foi possivel encontrra a aula informada!");
+			}
+
+			return BadRequest();
+		}
+	}
 }
