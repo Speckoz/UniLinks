@@ -1,0 +1,64 @@
+﻿@layout EmptyLayout
+@page "/auth/coordinator"
+
+@using UniLinks.Dependencies.Enums
+
+<AuthorizeView Roles="@nameof(UserTypeEnum.Coordinator)">
+    <Authorized>
+        <UniLinks.Client.Site.Components.LoggedRedirect IsStudent="false" />
+    </Authorized>
+</AuthorizeView>
+<AuthorizeView Roles="@nameof(UserTypeEnum.Student)">
+    <Authorized>
+        <UniLinks.Client.Site.Components.LoggedRedirect IsStudent="true" />
+    </Authorized>
+</AuthorizeView>
+
+<div class="alert alert-danger alert-dismissible animated bounceInDown fast @show">
+    O email ou senha inválido!
+    <button type="button" class="close" aria-label="Close" @onclick="HideAlert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="d-flex justify-content-center p-3">
+    <div class="card form-login">
+
+        <h4 class="card-header info-color white-text text-center py-3 primary-color-bg">
+            <strong>Autenticaçao</strong>
+        </h4>
+
+        <!--Card content-->
+        <div class="card-body pt-0 py-2">
+
+            <!-- Form -->
+            <form class="text-center">
+
+                <!-- Email -->
+                <div class="md-form">
+                    <input type="email" id="email" class="form-control validate" @bind="email" @bind:event="onchange">
+                    <label for="email" data-error="wrong" data-success="right">Email</label>
+                </div>
+
+                <!-- Password -->
+                <div class="md-form">
+                    <input type="password" id="password" class="form-control validate" @bind="password" @bind:event="onchange">
+                    <label for="password" data-error="wrong" data-success="right">Password</label>
+                </div>
+
+                <!-- Sign in button -->
+                <button class="btn peach-gradient btn-block rounded-pill my-4 waves-effect z-depth-0" type="button" @onclick="AuthAccountTaskAsync">
+                    <i class="mdi mdi-login mdi-18px" />
+                    Entrar
+                </button>
+
+                <!-- Register -->
+                <p>
+                    Esqueceu sua senha?
+                    <a href="">Recuperar</a>
+                </p>
+            </form>
+            <!-- Form -->
+        </div>
+    </div>
+</div>

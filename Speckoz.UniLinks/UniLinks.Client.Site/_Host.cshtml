@@ -1,0 +1,41 @@
+﻿@page "/"
+@namespace UniLinks.Client.Site
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniLinks</title>
+    <base href="~/" />
+    <link href="css/material.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
+</head>
+<body id="home" class="theme-bg theme-text">
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.Server))
+    </app>
+
+    <div id="blazor-error-ui" class="black-text">
+        <environment include="Staging,Production">
+            Ocorreu um erro. Este aplicativo não pode responder mais até ser recarregado.
+        </environment>
+        <environment include="Development">
+            Ops! Uma exception foi disparada!
+        </environment>
+        <a href="" class="reload">Recarregar 😑</a>
+        <a class="dismiss">❌</a>
+    </div>
+    <script src="_framework/blazor.server.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/mdb.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+</html>

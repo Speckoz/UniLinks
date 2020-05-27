@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+    Layout = "EmptyLayout";
+}
+@using UniLinks.Dependencies.Enums
+
+<nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="/#home">
+            <span class="uni-color">Uni</span><span style="color: darkorange;">Link</span>
+        </a>
+        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="mdi mdi-menu mdi-36px"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/#devs">Desenvolvedores</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/#about">Sobre</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="mdi mdi-account icon-margin-right" />NOME AQUI
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
+                        <a class="dropdown-item waves-effect" href="/student">
+                            <i class="mdi mdi-account icon-margin-right" />Minha Area
+                        </a>
+                        <hr />
+                        <a class="dropdown-item waves-effect" href="/#LOGOUT">
+                            <i class="mdi mdi-logout icon-margin-right" />Deslogar
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<header class="masthead text-center text-white d-flex" style="background-image:url('img/header.jpg');">
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="text-uppercase">
+                    <strong>Bem-Vindo ao portal das aulas virtuais</strong>
+                </h2>
+                <br />
+                Et voluptua dolor eos diam sadipscing nulla dignissim duo ipsum lorem vero aliquyam feugiat exerci sit duis ut no placerat
+            </div>
+        </div>
+        <div class="col-lg-8 mx-auto">
+            <br /><br />
+            <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
+        </div>
+    </div>
+</header>
+<section class="bg-dark" style="padding-top: 6em">
+    <div id="devs" class="devs" style="padding-top: 50px">
+        <div class="container">
+            <div class="intro">
+                <h2 style="color: #808080" class="text-center">Desenvolvedores</h2>
+                <p class="text-center">C# the best</p>
+            </div>
+            <div class="row justify-content-center people">
+                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                    <div class="box">
+                        <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
+                        <h3 class="name" style="color: #808080">Ruan Carlos CS</h3>
+                        <p class="nick">Logikoz</p>
+                        <div class="description">
+                            <p>Estudante de Enganharia Elétrica</p>
+                            <p>.Net Entusiasta</p>
+                        </div>
+                        <div class="social">
+                            <a target="_blank" href="https://logikoz.net"><i class="mdi mdi-web"></i></a>
+                            <a target="_blank" href="https://github.com/logikoz"><i class="mdi mdi-github"></i></a>
+                            <a target="_blank" href="https://facebook.com/ruancarlosc.s"><i class="mdi mdi-facebook"></i></a>
+                            <a target="_blank" href="https://twitter.com/logikoz"><i class="mdi mdi-twitter"></i></a>
+                            <a target="_blank" href="https://instagram.com/logikozrc"><i class="mdi mdi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                    <div class="box">
+                        <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
+                        <h3 class="name" style="color: #808080">Marco Pandolfo</h3>
+                        <p class="nick">Specko</p>
+                        <div class="description">
+                            <p>Corno 🐮</p>
+                            <p>Backend Developer</p>
+                        </div>
+                        <div class="social">
+                            <a target="_blank" href="https://github.com/marcopandolfo"><i class="mdi mdi-github"></i></a>
+                            <a target="_blank" href="https://twitter.com/lolgamarco2"><i class="mdi mdi-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="about" style="background-color: white; color: black">
+    <div class="container">
+        <div class="row">
+            <div class="col offset-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Sobre</h2>
+                <hr class="my-4">
+                <p class="mb-4">
+                    Plataforma para visualizar os links gravados nas aulas virtuais.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
+        </div>
+        <p class="copyright">Speckoz © 2020</p>
+    </div>
+</footer>
