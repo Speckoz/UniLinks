@@ -16,6 +16,8 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<List<ClassModel>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period);
 
+		Task<ClassModel> UpdateTaskAsync(ClassModel currentClass, ClassModel newClass);
+
 		Task RemoveAsync(ClassModel @class);
 	}
 }

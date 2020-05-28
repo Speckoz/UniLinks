@@ -16,6 +16,8 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<List<ClassVO>> FindByCourseIdAndPeriodTaskAsync(Guid courseId, int period);
 
+		Task<ClassVO> UpdateTaskAsync(ClassVO newClass);
+
 		Task RemoveAsync(Guid classId);
 	}
 }

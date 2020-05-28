@@ -33,6 +33,13 @@ namespace UniLinks.API.Repository
 		public async Task<ClassModel> FindByURITaskAsync(string uri) =>
 			await _context.Classes.SingleOrDefaultAsync(x => x.URI == uri);
 
+		public async Task<ClassModel> UpdateTaskAsync(ClassModel currentClass, ClassModel newClass)
+		{
+			_context.Entry(currentClass).CurrentValues.SetValues(newClass);
+			await _context.SaveChangesAsync();
+			return newClass;
+		}
+
 		public async Task RemoveAsync(ClassModel @class)
 		{
 			_context.Classes.Remove(@class);

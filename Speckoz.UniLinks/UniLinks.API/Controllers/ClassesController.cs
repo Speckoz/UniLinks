@@ -85,6 +85,34 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
+		[HttpPut]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass)
+		{
+			if (ModelState.IsValid)
+			{
+				if (!(await _classBusiness.FindByClassIdTaskAsync(newClass.ClassId) is ClassVO classVO))
+					return NotFound("Nao existe nenhuma sala com o Id informado");
+
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != newClass.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+
+				if (await _classBusiness.FindByURITaskAsync(newClass.URI) is ClassVO currentCourse)
+					if (currentCourse.ClassId != newClass.ClassId)
+						return Conflict("Ja existe uma sala com este link");
+
+				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
+					return Ok(updatedClass);
+
+				return BadRequest("Nao foi possivel atualizar as informaçoes, verifique se informou os valores corretamente!");
+			}
+
+			return BadRequest();
+		}
+
 		[HttpDelete("{classId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
