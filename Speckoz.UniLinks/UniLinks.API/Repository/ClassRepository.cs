@@ -30,6 +30,9 @@ namespace UniLinks.API.Repository
 		public async Task<List<ClassModel>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period) =>
 			await _context.Classes.Where(x => x.CourseId == courseId && x.Period == period).ToListAsync();
 
+		public async Task<List<ClassModel>> FindAllByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Classes.Where(x => x.CourseId == courseId).ToListAsync();
+
 		public async Task<ClassModel> FindByURITaskAsync(string uri) =>
 			await _context.Classes.SingleOrDefaultAsync(x => x.URI == uri);
 

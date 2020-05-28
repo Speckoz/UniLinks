@@ -65,13 +65,38 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpGet("all/{courseId}")]
+		[HttpGet("all")]
 		[Authorizes]
-		public async Task<IActionResult> GetClassTaskAsync([Required] Guid courseId, [Required] int period)
+		public async Task<IActionResult> GetClassesTaskAsync()
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _classBusiness.FindByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
+					return NotFound("Nao existe nenhum curso com o coordenador informado!");
+
+				if (await _classBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<ClassVO> classVO)
+				{
+					if (classVO.Count <= 0)
+						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+
+					return Ok(classVO);
+				}
+
+				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("all/{courseId}")]
+		[Authorizes]
+		public async Task<IActionResult> GetClassesTaskAsync([Required] Guid courseId, [Required] int period)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _classBusiness.FindAllByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
 				{
 					if (classVO.Count <= 0)
 						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
