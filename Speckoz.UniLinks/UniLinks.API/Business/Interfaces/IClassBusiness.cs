@@ -14,7 +14,11 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<ClassVO> FindByURITaskAsync(string uri);
 
-		Task<List<ClassVO>> FindByCourseIdAndPeriodTaskAsync(Guid courseId, int period);
+		Task<List<ClassVO>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period);
+
+		Task<List<ClassVO>> FindAllByCourseIdTaskAsync(Guid courseId);
+
+		Task<ClassVO> UpdateTaskAsync(ClassVO newClass);
 
 		Task RemoveAsync(Guid classId);
 	}

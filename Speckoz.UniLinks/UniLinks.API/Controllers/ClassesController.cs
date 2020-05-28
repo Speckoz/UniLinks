@@ -65,13 +65,18 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpGet("all/{courseId}")]
+		[HttpGet("all")]
 		[Authorizes]
-		public async Task<IActionResult> GetClassTaskAsync([Required] Guid courseId, [Required] int period)
+		public async Task<IActionResult> GetClassesTaskAsync()
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _classBusiness.FindByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
+					return NotFound("Nao existe nenhum curso com o coordenador informado!");
+
+				if (await _classBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<ClassVO> classVO)
 				{
 					if (classVO.Count <= 0)
 						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
@@ -80,6 +85,54 @@ namespace UniLinks.API.Controllers
 				}
 
 				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("all/{courseId}")]
+		[Authorizes]
+		public async Task<IActionResult> GetClassesTaskAsync([Required] Guid courseId, [Required] int period)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _classBusiness.FindAllByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
+				{
+					if (classVO.Count <= 0)
+						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+
+					return Ok(classVO);
+				}
+
+				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpPut]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass)
+		{
+			if (ModelState.IsValid)
+			{
+				if (!(await _classBusiness.FindByClassIdTaskAsync(newClass.ClassId) is ClassVO classVO))
+					return NotFound("Nao existe nenhuma sala com o Id informado");
+
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != newClass.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+
+				if (await _classBusiness.FindByURITaskAsync(newClass.URI) is ClassVO currentCourse)
+					if (currentCourse.ClassId != newClass.ClassId)
+						return Conflict("Ja existe uma sala com este link");
+
+				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
+					return Ok(updatedClass);
+
+				return BadRequest("Nao foi possivel atualizar as informaçoes, verifique se informou os valores corretamente!");
 			}
 
 			return BadRequest();
