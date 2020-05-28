@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -59,6 +60,26 @@ namespace UniLinks.API.Controllers
 					return Ok(@class);
 
 				return NotFound("A sala informada nao foi encontrada!");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("all/{courseId}")]
+		[Authorizes]
+		public async Task<IActionResult> GetClassTaskAsync([Required] Guid courseId, [Required] int period)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _classBusiness.FindByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
+				{
+					if (classVO.Count <= 0)
+						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+
+					return Ok(classVO);
+				}
+
+				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
 			}
 
 			return BadRequest();
