@@ -24,7 +24,7 @@ namespace UniLinks.API.Controllers
         }
 
         // POST: /Auth
-        [HttpPost]
+        [HttpPost("coordinator")]
         public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)
         {
             if (ModelState.IsValid)
@@ -39,7 +39,7 @@ namespace UniLinks.API.Controllers
         }
 
         // POST: /Auth/User
-        [HttpPost("User")]
+        [HttpPost("student")]
         public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
         {
             if (ModelState.IsValid)

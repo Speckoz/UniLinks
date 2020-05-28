@@ -24,7 +24,7 @@ namespace UniLinks.Client.Site.Services
 
 		public async Task<bool> AuthAccountTaskAsync(LoginRequestModel login)
 		{
-			IRestResponse response = await SendRequestTaskAsync(login, "Auth");
+			IRestResponse response = await SendRequestTaskAsync(login, "Auth/coordinator");
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -38,7 +38,7 @@ namespace UniLinks.Client.Site.Services
 
 		public async Task<bool> AuthAccountTaskAsync(string login)
 		{
-			IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/User");
+			IRestResponse response = await SendRequestTaskAsync(new { Email = login }, "Auth/student");
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{

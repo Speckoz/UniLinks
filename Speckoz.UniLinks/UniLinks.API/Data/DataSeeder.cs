@@ -42,7 +42,7 @@ namespace UniLinks.API.Data
 				{
 					CoordinatorId = Guid.Parse("DA418561-E1B0-41C9-955D-2B41F35F0C4F"),
 					Name = "Patricio Lima",
-					Email = "coord.ee@unilink.com",
+					Email = "coord.ee@unilinks.com",
 					Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
 					CourseId = Guid.Parse("8E6BDCE0-6B3C-4847-8EB7-0B5C4BC6549E")
 				};
@@ -51,7 +51,7 @@ namespace UniLinks.API.Data
 				{
 					CoordinatorId = Guid.Parse("BBB85201-C532-43F8-9F53-FC1696F49088"),
 					Name = "Jeffersson Alencar",
-					Email = "coord.si@unilink.com",
+					Email = "coord.si@unilinks.com",
 					Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
 					CourseId = Guid.Parse("498880FD-A708-4BD4-AAC7-4AD859DC1FD8")
 				};
@@ -91,7 +91,7 @@ namespace UniLinks.API.Data
 				{
 					StudentId = Guid.Parse("74E8B9D9-310D-431B-B118-D386B85F8B8A"),
 					Name = "Ruan Carlos",
-					Email = "logikoz@unilink.com",
+					Email = "logikoz@unilinks.com",
 					CourseId = c1.CourseId,
 					Disciplines = $"{d1.DisciplineId};{d2.DisciplineId}"
 				};
@@ -99,7 +99,7 @@ namespace UniLinks.API.Data
 				{
 					StudentId = Guid.Parse("94D21EF7-7F3B-4DA5-8B81-1A382BC235A3"),
 					Name = "Joao Figueredo",
-					Email = "joaof@unilink.com",
+					Email = "joaof@unilinks.com",
 					CourseId = c1.CourseId,
 					Disciplines = $"{d2.DisciplineId}"
 				};
@@ -108,7 +108,7 @@ namespace UniLinks.API.Data
 				{
 					StudentId = Guid.Parse("900BBD93-EE4F-4938-93A2-CF20FD49673E"),
 					Name = "Carlos Eduardo",
-					Email = "carlose@unilink.com",
+					Email = "carlose@unilinks.com",
 					CourseId = c2.CourseId,
 					Disciplines = $"{d1.DisciplineId}"
 				};
@@ -117,7 +117,7 @@ namespace UniLinks.API.Data
 				{
 					StudentId = Guid.Parse("4E4F780A-0313-45F6-8897-3BFF7D930778"),
 					Name = "Marco Pandolfo",
-					Email = "specko@unilink.com",
+					Email = "specko@unilinks.com",
 					CourseId = c2.CourseId,
 					Disciplines = $"{d1.DisciplineId};{d2.DisciplineId}"
 				};
@@ -141,7 +141,7 @@ namespace UniLinks.API.Data
 				{
 					ClassId = Guid.Parse("17233026-2E4F-4216-B79A-3DF5A7572DBB"),
 					CourseId = c2.CourseId,
-					URI = "https://logikoz.net",
+					URI = "https://google.com",
 					Period = 2
 				};
 

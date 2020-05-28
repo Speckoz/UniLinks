@@ -37,7 +37,10 @@ namespace UniLinks.API.Business
 		public async Task<ClassVO> FindByURITaskAsync(string uri) =>
 			_classConverter.Parse(await _classRepository.FindByURITaskAsync(uri));
 
-		public async Task RemoveAsync(ClassVO @class) =>
-			await _classRepository.RemoveAsync(_classConverter.Parse(@class));
+		public async Task RemoveAsync(Guid classId)
+		{
+			if (await _classRepository.FindByClassIdTaskAsync(classId) is ClassModel classModel)
+				await _classRepository.RemoveAsync(classModel);
+		}
 	}
 }

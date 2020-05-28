@@ -41,7 +41,7 @@ namespace UniLinks.API.Controllers
 					return Conflict("Ja existe uma sala com esse link");
 
 				if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
-					return Created("/Classes", addedClass);
+					return Created($"/Classes/{addedClass.ClassId}", addedClass);
 
 				return BadRequest("Nao possivel adicionar a sala, verifique se os campos estao corretos.");
 			}
@@ -64,19 +64,23 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpDelete]
+		[HttpDelete("{classId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO classVO)
-				{
-					await _classBusiness.RemoveAsync(classVO);
-					return NoContent();
-				}
+				if (!(await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO classVO))
+					return NotFound("Nao foi possivel encontrar a sala informada!");
 
-				return NotFound("Nao foi possivel encontrra a aula informada!");
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != classVO.CourseId)
+						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+
+				await _classBusiness.RemoveAsync(classVO.ClassId);
+				return NoContent();
 			}
 
 			return BadRequest();
