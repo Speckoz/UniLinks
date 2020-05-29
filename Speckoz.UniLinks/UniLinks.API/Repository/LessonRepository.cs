@@ -24,7 +24,7 @@ namespace UniLinks.API.Repository
 			return lessonAdded;
 		}
 
-		public async Task<List<LessonModel>> FindAllByDisciplinesIdTaskASync(List<Guid> disciplines)
+		public async Task<List<LessonModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
 		{
 			var lessons = new List<LessonModel>();
 			foreach (Guid discipline in disciplines)

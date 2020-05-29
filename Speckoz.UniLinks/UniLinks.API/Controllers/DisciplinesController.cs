@@ -50,6 +50,9 @@ namespace UniLinks.API.Controllers
 				if (newDiscipline.Period <= 0)
 					return BadRequest("O periodo precisa ser maior que zero!");
 
+				if (newDiscipline.ClassId == Guid.Empty)
+					return BadRequest("É necessario informar a sala!");
+
 				if (await _disciplineBusiness.AddTaskAsync(newDiscipline) is DisciplineVO addedDiscipline)
 					return Created("/disciplines", addedDiscipline);
 
@@ -59,7 +62,7 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpGet("all")]
+		[HttpPost("all")]
 		[Authorizes]
 		public async Task<IActionResult> GetDisciplinesTaskAsync([FromBody] List<Guid> disciplines)
 		{
@@ -68,7 +71,7 @@ namespace UniLinks.API.Controllers
 				if (await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> discs)
 					return Ok(discs);
 
-				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
+				return NotFound("Uma ou todas as disciplinas requisitadas nao foram localizadas!");
 			}
 
 			return BadRequest();
@@ -110,9 +113,6 @@ namespace UniLinks.API.Controllers
 
 				newDiscipline.CourseId = course.CourseId;
 
-				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO))
-					return NotFound("Nao existe uma disciplina com esse Id");
-
 				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId))
 					if (newDiscipline.Name != currentDiscipline.Name)
 						return Conflict("Ja existe uma disciplina com esse nome");
@@ -125,6 +125,9 @@ namespace UniLinks.API.Controllers
 
 				if (newDiscipline.Period <= 0)
 					return BadRequest("O periodo precisa ser maior que zero!");
+
+				if (newDiscipline.ClassId == Guid.Empty)
+					return BadRequest("É necessario informar a sala!");
 
 				if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
 					return Ok(disciplineUpdated);

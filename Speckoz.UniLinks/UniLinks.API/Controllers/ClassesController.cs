@@ -66,7 +66,7 @@ namespace UniLinks.API.Controllers
 		}
 
 		[HttpGet("all")]
-		[Authorizes]
+		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> GetClassesTaskAsync()
 		{
 			if (ModelState.IsValid)

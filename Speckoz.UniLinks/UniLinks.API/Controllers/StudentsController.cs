@@ -30,20 +30,26 @@ namespace UniLinks.API.Controllers
 		// POST: /students
 		[HttpPost]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddStudentTaskAsync([FromBody] StudentVO student)
+		public async Task<IActionResult> AddStudentTaskAsync([FromBody] StudentVO newStudent)
 		{
 			if (ModelState.IsValid)
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-					if (course.CourseId != student.CourseId)
+					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
-				if (await _studentBusiness.ExistsByEmailTaskAsync(student.Email))
+				if (await _studentBusiness.ExistsByEmailTaskAsync(newStudent.Email))
 					return Conflict("Ja existe um aluno com esse email!");
 
-				if (await _studentBusiness.AddTaskAsync(student) is StudentDisciplineVO createdStudent)
+				if (string.IsNullOrEmpty(newStudent.Email))
+					return BadRequest("É necessario informar o email!");
+
+				if (string.IsNullOrEmpty(newStudent.Name))
+					return BadRequest("É necessario informar o nome!");
+
+				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentDisciplineVO createdStudent)
 					return Created("/students", createdStudent);
 
 				return BadRequest("O formato das disciplinas do estudante nao está valida (guid;guid;guid)");
@@ -67,13 +73,13 @@ namespace UniLinks.API.Controllers
 				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentDisciplineVO> studentDiscpline)
 					return Ok(studentDiscpline);
 
-				return BadRequest("Nao foi encontrado nenhum aluno no curso informado ou algum aluno nao possui as disciplinas no formato correto.");
+				return BadRequest("Nao foi encontrado nenhum aluno no curso.");
 			}
 
-			return BadRequest("O Coordenador nao tem acesso a esse curso!");
+			return BadRequest();
 		}
 
-		// PUT: /students/:studentId
+		// PUT: /students
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> UpdateStudentTaskAsync([FromBody] StudentVO newStudent)
@@ -95,7 +101,7 @@ namespace UniLinks.API.Controllers
 				return UnprocessableEntity("Nao foi possivel atualizar os dados, verifique se o estudante realmente existe!");
 			}
 
-			return BadRequest("Todos os campos são obrigatórios");
+			return BadRequest();
 		}
 
 		// DELETE: /students/:studentId

@@ -17,7 +17,7 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson);
 
-		Task<List<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines);
+		Task<List<LessonDisciplineVO>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines);
 
 		Task<LessonVO> UpdateTaskAsync(LessonVO newLesson);
 

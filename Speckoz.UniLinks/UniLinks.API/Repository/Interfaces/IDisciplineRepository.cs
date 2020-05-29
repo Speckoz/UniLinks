@@ -14,7 +14,7 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<List<DisciplineModel>> FindByRangeIdTaskAsync(List<Guid> disciplines);
+		Task<List<DisciplineModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines);
 
 		Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId);
 

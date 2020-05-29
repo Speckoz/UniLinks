@@ -45,7 +45,7 @@ namespace UniLinks.API.Business
 					if (result.Count(x => x.Equals(disc)) > 1)
 						return null;
 
-				List<DisciplineModel> disciplines = await _disciplineRepository.FindByRangeIdTaskAsync(result);
+				List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result);
 
 				if (!disciplines.Contains(null))
 				{
@@ -90,7 +90,7 @@ namespace UniLinks.API.Business
 					if (!GuidFormat.TryParseList(student.Disciplines, ';', out List<Guid> result))
 						return null;
 
-					if (await _disciplineRepository.FindByRangeIdTaskAsync(result) is List<DisciplineModel> disciplines)
+					if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines)
 						studentDisciplines.Add((student, disciplines));
 					else
 						return null;
