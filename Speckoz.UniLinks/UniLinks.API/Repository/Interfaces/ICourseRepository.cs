@@ -9,6 +9,8 @@ namespace UniLinks.API.Repository.Interfaces
 	{
 		Task<CourseModel> AddTaskAsync(CourseModel course);
 
+		Task<bool> ExistsWithNameTaskAsync(string courseName);
+
 		Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
 
 		Task<CourseModel> FindByCoordIdTaskAsync(Guid coordId);
