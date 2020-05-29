@@ -43,9 +43,6 @@ namespace UniLinks.API.Business
 		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) => 
 			await _collabAPIService.GetRecordingInfoTaskAsync(lesson);
 
-		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
-			_lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
-
 		public async Task<List<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
 		{
 			if (GuidFormat.TryParseList(disciplines, ';', out List<Guid> result))

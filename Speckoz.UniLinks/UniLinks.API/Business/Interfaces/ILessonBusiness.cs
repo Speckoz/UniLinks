@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Lesson;
-using UniLinks.Dependencies.Enums;
 
 namespace UniLinks.API.Business.Interfaces
 {
@@ -15,8 +14,6 @@ namespace UniLinks.API.Business.Interfaces
 		Task<LessonVO> FindByIdTaskAsync(Guid lessonId);
 
 		Task<LessonVO> FindByURITaskAsync(string uri);
-
-		Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum LessonShift);
 
 		Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson);
 
