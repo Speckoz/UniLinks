@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -29,20 +28,29 @@ namespace UniLinks.API.Controllers
 
 		[HttpPost]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO discipline)
+		public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO newDiscipline)
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(discipline.Name, discipline.CourseId))
+				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId))
 					return Conflict("Ja existe uma disciplina com esse nome");
 
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-					if (course.CourseId != discipline.CourseId)
+					if (course.CourseId != newDiscipline.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
 
-				if (await _disciplineBusiness.AddTaskAsync(discipline) is DisciplineVO addedDiscipline)
+				if (string.IsNullOrEmpty(newDiscipline.Name))
+					return BadRequest("É necessario informar o nome da disciplina!");
+
+				if (string.IsNullOrEmpty(newDiscipline.Teacher))
+					return BadRequest("É necessario informar o nome do professor!");
+
+				if (newDiscipline.Period <= 0)
+					return BadRequest("O periodo precisa ser maior que zero!");
+
+				if (await _disciplineBusiness.AddTaskAsync(newDiscipline) is DisciplineVO addedDiscipline)
 					return Created("/disciplines", addedDiscipline);
 
 				return BadRequest("Algo deu errado, verifique os valores e tente novamente");
@@ -92,26 +100,34 @@ namespace UniLinks.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO discipline)
-				{
-					CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
+				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO currentDiscipline))
+					return NotFound("Nao existe uma disciplina com esse Id");
 
-					if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-						return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
+				CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(currentDiscipline.CourseId);
 
-					newDiscipline.CourseId = course.CourseId;
+				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+					return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
 
-					if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO))
-						return NotFound("Nao existe uma disciplina com esse Id");
+				newDiscipline.CourseId = course.CourseId;
 
-					if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId) && !discipline.Name.Equals(newDiscipline.Name))
+				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO))
+					return NotFound("Nao existe uma disciplina com esse Id");
+
+				if (await _disciplineBusiness.ExistsByNameAndCourseIdTaskAsync(newDiscipline.Name, newDiscipline.CourseId))
+					if (newDiscipline.Name != currentDiscipline.Name)
 						return Conflict("Ja existe uma disciplina com esse nome");
 
-					if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
-						return Ok(disciplineUpdated);
-				}
-				else
-					return NotFound("Nao existe uma disciplina com esse Id");
+				if (string.IsNullOrEmpty(newDiscipline.Name))
+					return BadRequest("É necessario informar o nome da disciplina!");
+
+				if (string.IsNullOrEmpty(newDiscipline.Teacher))
+					return BadRequest("É necessario informar o nome do professor!");
+
+				if (newDiscipline.Period <= 0)
+					return BadRequest("O periodo precisa ser maior que zero!");
+
+				if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
+					return Ok(disciplineUpdated);
 			}
 
 			return BadRequest();
