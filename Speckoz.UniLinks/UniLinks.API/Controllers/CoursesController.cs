@@ -71,5 +71,38 @@ namespace UniLinks.API.Controllers
 
 			return NotFound("Nao existe nenhum curso com este coordenador");
 		}
+
+		[HttpPut]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> UpdateTaskAsync([FromBody] CourseVO newCourse)
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _courseBusiness.FindByCourseIdTaskAsync(newCourse.CourseId) is CourseVO currentCourse))
+					return NotFound("Nao existe nenhum curso com esse Id");
+
+				if (currentCourse.CoordinatorId != coordId)
+					return Unauthorized("Voce nao tem permissao para alterar informaçoes do curso onde nao é coordenador!");
+
+				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
+					if (newCourse.Name != currentCourse.Name)
+						return Conflict("Ja existe um curso com esse nome!");
+
+				if (string.IsNullOrEmpty(newCourse.Name))
+					return BadRequest("É necessario informar o nome do curso!");
+
+				if (newCourse.Periods <= 0)
+					return BadRequest("A quantidade de periodos precisa ser maior que zero");
+
+				newCourse.CoordinatorId = coordId;
+
+				if (await _courseBusiness.UpdateTaskAsync(currentCourse, newCourse) is CourseVO updatedCourse)
+					return Ok(updatedCourse);
+			}
+
+			return BadRequest();
+		}
 	}
 }
