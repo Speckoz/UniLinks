@@ -28,7 +28,7 @@ namespace UniLinks.API.Business
 			return null;
 		}
 
-		public async Task<bool> ExistsWithNameTaskAsync(string courseName) => 
+		public async Task<bool> ExistsWithNameTaskAsync(string courseName) =>
 			await _courseRepository.ExistsWithNameTaskAsync(courseName);
 
 		public async Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId) =>
@@ -45,10 +45,10 @@ namespace UniLinks.API.Business
 			return null;
 		}
 
-		public async Task<CourseVO> UpdateTaskAsync(CourseVO course, CourseVO newCourse)
+		public async Task<CourseVO> UpdateTaskAsync(CourseVO newCourse)
 		{
-			if (await _courseRepository.UpdateTaskAsync(_courseConverter.Parse(course), _courseConverter.Parse(newCourse)) is CourseModel courseModel)
-				return _courseConverter.Parse(courseModel);
+			if (await _courseRepository.FindByCourseIdTaskAsync(newCourse.CourseId) is CourseModel currentCourse)
+				return _courseConverter.Parse(await _courseRepository.UpdateTaskAsync(currentCourse, _courseConverter.Parse(newCourse)));
 
 			return null;
 		}

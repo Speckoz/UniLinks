@@ -93,13 +93,31 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
 
+				newCourse.CoordinatorId = currentCourse.CoordinatorId;
+
 				if (newCourse.Periods <= 0)
 					return BadRequest("A quantidade de periodos precisa ser maior que zero");
 
-				newCourse.CoordinatorId = coordId;
-
-				if (await _courseBusiness.UpdateTaskAsync(currentCourse, newCourse) is CourseVO updatedCourse)
+				if (await _courseBusiness.UpdateTaskAsync(newCourse) is CourseVO updatedCourse)
 					return Ok(updatedCourse);
+			}
+
+			return BadRequest();
+		}
+
+		[HttpDelete]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> DeleteTaskAsync()
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO currentCourse))
+					return NotFound("Nao existe nenhum curso com o coordenador informado!");
+
+				await _courseBusiness.DeleteAsync(currentCourse.CourseId);
+				return NoContent();
 			}
 
 			return BadRequest();

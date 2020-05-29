@@ -139,18 +139,16 @@ namespace UniLinks.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline)
-				{
-					CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
-
-					if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-						return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
-
-					await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
-					return NoContent();
-				}
-				else
+				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline))
 					return NotFound("Nao existe uma disciplina com esse Id");
+
+				CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
+
+				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+					return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
+
+				await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
+				return NoContent();
 			}
 
 			return BadRequest();

@@ -17,7 +17,7 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<CourseVO> FindByCourseIdTaskAsync(Guid courseId);
 
-		Task<CourseVO> UpdateTaskAsync(CourseVO course, CourseVO newCourse);
+		Task<CourseVO> UpdateTaskAsync(CourseVO newCourse);
 
 		Task DeleteAsync(Guid courseId);
 	}
