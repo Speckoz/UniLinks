@@ -29,7 +29,7 @@ namespace UniLinks.API.Controllers
 		}
 
 		// POST: /Lessons
-		[HttpPost]
+		[HttpPost("add")]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> AddClassTaskAsync([FromBody] LessonVO lesson)
 		{
@@ -70,13 +70,13 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
-		[HttpGet("all/{disciplines}")]
-		[Authorizes(UserTypeEnum.Student, UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> FindAllByDisciplinesTaskAsync([Required] string disciplines)
+		[HttpPost]
+		[Authorizes]
+		public async Task<IActionResult> FindAllByDisciplinesTaskAsync([FromBody] List<Guid> disciplines)
 		{
 			if (ModelState.IsValid)
 			{
-				if ((await _lessonBusiness.FindAllByDisciplinesIdTaskASync(disciplines)) is List<LessonDisciplineVO> lessons)
+				if ((await _lessonBusiness.FindAllByRangeDisciplinesIdTaskASync(disciplines)) is List<LessonDisciplineVO> lessons)
 					return Ok(lessons);
 
 				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");

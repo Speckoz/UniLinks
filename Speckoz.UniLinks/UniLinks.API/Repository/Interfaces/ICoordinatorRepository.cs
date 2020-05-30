@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using UniLinks.API.Models;
 using UniLinks.Dependencies.Models.Auxiliary;
 
 namespace UniLinks.API.Repository.Interfaces
 {
-    public interface ICoordinatorRepository
-    {
-        Task<CoordinatorModel> FindUserByLoginTaskAsync(LoginRequestModel login);
-    }
+	public interface ICoordinatorRepository
+	{
+		Task<CoordinatorModel> FindUserByLoginTaskAsync(LoginRequestModel login);
+
+		Task<CoordinatorModel> FindByCoordIdTaskAsync(Guid coordId);
+	}
 }

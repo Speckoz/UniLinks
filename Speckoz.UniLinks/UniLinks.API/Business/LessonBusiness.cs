@@ -7,10 +7,8 @@ using UniLinks.API.Business.Interfaces;
 using UniLinks.API.Data.Converters.Lesson;
 using UniLinks.API.Repository.Interfaces;
 using UniLinks.API.Services;
-using UniLinks.API.Utils;
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Lesson;
-using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models;
 
 namespace UniLinks.API.Business
@@ -40,28 +38,22 @@ namespace UniLinks.API.Business
 			return _lessonConverter.Parse(lessonEntity);
 		}
 
-		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) => 
+		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) =>
 			await _collabAPIService.GetRecordingInfoTaskAsync(lesson);
 
-		public async Task<LessonVO> FindByDateTaskAsync(DateTime dateTime, ClassShiftEnum lessonShift) =>
-			_lessonConverter.Parse(await _lessonRepository.FindByDateTaskAsync(dateTime, lessonShift));
-
-		public async Task<List<LessonDisciplineVO>> FindAllByDisciplinesIdTaskASync(string disciplines)
+		public async Task<List<LessonDisciplineVO>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
 		{
-			if (GuidFormat.TryParseList(disciplines, ';', out List<Guid> result))
-			{
-				List<DisciplineModel> discipline = await _disciplineRepository.FindByRangeIdTaskAsync(result);
-				List<LessonModel> lesson = await _lessonRepository.FindAllByDisciplinesIdTaskASync(result);
+			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<DisciplineModel> listDisciplines))
+				return null;
+			if (!(await _lessonRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<LessonModel> listLessons))
+				return null;
 
-				var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
+			var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
 
-				foreach (LessonModel l in lesson)
-					lessonDisciplines.Add((l, discipline.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
+			foreach (LessonModel l in listLessons)
+				lessonDisciplines.Add((l, listDisciplines.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
 
-				return _lessonDisciplineConverter.ParseList(lessonDisciplines);
-			}
-
-			return default;
+			return _lessonDisciplineConverter.ParseList(lessonDisciplines);
 		}
 
 		public async Task<LessonVO> FindByIdTaskAsync(Guid lessonId) =>

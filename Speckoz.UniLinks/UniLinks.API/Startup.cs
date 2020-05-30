@@ -20,6 +20,8 @@ using UniLinks.API.Services.Email;
 using UniLinks.API.Services.Email.Interfaces;
 using UniLinks.API.Utils;
 
+using static System.Environment;
+
 namespace UniLinks.API
 {
 	public class Startup
@@ -47,9 +49,12 @@ namespace UniLinks.API
 				});
 
 			// MySQL Database
+			string host = GetEnvironmentVariable("DBHOST") ?? "localhost";
+			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
+			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
 			services.AddDbContext<DataContext>
 			(
-				options => options.UseMySql(Configuration["ConnectionString"],
+				options => options.UseMySql($"server={host};userid=root;pwd={password};port={port};database=unilinks",
 				builder => builder.MigrationsAssembly("UniLinks.API"))
 			);
 
@@ -95,10 +100,11 @@ namespace UniLinks.API
 				dbContext.Database.Migrate();
 			}
 
+			dataSeeder.Init();
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				dataSeeder.Init();
 			}
 
 			//app.UseHttpsRedirection();

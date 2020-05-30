@@ -14,7 +14,11 @@ namespace UniLinks.API.Services
 	{
 		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson)
 		{
-			IRestResponse response = await SendRequestTaskAsync(lesson.URI.Split('/')[4]);
+			string[] parts = lesson.URI.Split('/');
+			if (parts.Length <= 4)
+				return null;
+
+			IRestResponse response = await SendRequestTaskAsync(parts[4]);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{

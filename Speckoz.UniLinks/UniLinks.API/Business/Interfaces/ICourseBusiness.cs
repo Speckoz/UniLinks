@@ -9,13 +9,15 @@ namespace UniLinks.API.Business.Interfaces
 	{
 		Task<CourseVO> AddTaskAsync(CourseVO course);
 
+		Task<bool> ExistsWithNameTaskAsync(string courseName);
+
 		Task<bool> ExistsCoordInCourseTaskAsync(Guid coordId, Guid courseId);
 
 		Task<CourseVO> FindByCoordIdTaskAsync(Guid coordId);
 
 		Task<CourseVO> FindByCourseIdTaskAsync(Guid courseId);
 
-		Task<CourseVO> UpdateTaskAsync(CourseVO course, CourseVO newCourse);
+		Task<CourseVO> UpdateTaskAsync(CourseVO newCourse);
 
 		Task DeleteAsync(Guid courseId);
 	}

@@ -22,6 +22,9 @@ namespace UniLinks.API.Repository
 			return addedCourse;
 		}
 
+		public async Task<bool> ExistsWithNameTaskAsync(string courseName) =>
+			await _context.Courses.AnyAsync(x => x.Name.ToLower().Equals(courseName.ToLower()));
+
 		public async Task<CourseModel> FindByCoordIdTaskAsync(Guid coordId) =>
 			await _context.Courses.FirstOrDefaultAsync(x => x.CoordinatorId == coordId);
 

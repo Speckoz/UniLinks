@@ -48,7 +48,7 @@ namespace UniLinks.API.Business
 
 		public async Task<List<DisciplineVO>> FindAllByDisciplineIdsTaskAsync(List<Guid> disciplines)
 		{
-			if (await _disciplineRepository.FindByRangeIdTaskAsync(disciplines) is List<DisciplineModel> disc)
+			if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<DisciplineModel> disc)
 				if (!disc.Contains(null))
 					return _disciplineConverter.ParseList(disc);
 
