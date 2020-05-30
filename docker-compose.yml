@@ -17,6 +17,19 @@ services:
       - mysqldata:/var/lib/mysql
     networks:
       - prod
+
+  nginx-frontend:
+    image: nginx-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - blazor-1
+    networks:
+      - prod
+    ports:
+      - 80:80
+
   api-1:
     build:
       context: ./Speckoz.UniLinks
@@ -24,22 +37,19 @@ services:
     networks:
       - prod
     restart: always
-    ports:
-      - 5051:80
     environment:
       - ASPNETCORE_ENVIROMENT=Production
       - DBHOST=mysql
       - DBPASSWORD=numsey
     depends_on:
       - mysql
+
   blazor-1:
     build:
       context: ./Speckoz.UniLinks
       dockerfile: UniLinks.Client.Site/Dockerfile
     networks:
       - prod
-    ports:
-      - 80:80
     environment:
       - ASPNETCORE_ENVIROMENT=Production
       - APIHOST=api-1
