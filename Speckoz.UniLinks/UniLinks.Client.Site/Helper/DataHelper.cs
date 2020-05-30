@@ -2,6 +2,6 @@
 {
     public class DataHelper
     {
-        public const string URLBase = "api-1:5051/api";
+        public const string URLBase = "localhost:5051/api";
     }
 }

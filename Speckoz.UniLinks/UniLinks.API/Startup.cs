@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using static System.Environment;
+
 using System.Text;
 
 using UniLinks.API.Business;
@@ -19,6 +19,8 @@ using UniLinks.API.Services;
 using UniLinks.API.Services.Email;
 using UniLinks.API.Services.Email.Interfaces;
 using UniLinks.API.Utils;
+
+using static System.Environment;
 
 namespace UniLinks.API
 {
@@ -47,13 +49,12 @@ namespace UniLinks.API
 				});
 
 			// MySQL Database
-			var host = GetEnvironmentVariable("DBHOST") ?? "localhost";
-			var port = GetEnvironmentVariable("DBPORT") ?? "3306";
-			var password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
+			string host = GetEnvironmentVariable("DBHOST") ?? "localhost";
+			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
+			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
 			services.AddDbContext<DataContext>
 			(
-				options => options.UseMySql($"server={host};userid=root;pwd={password};"
-					+ $"port={port};database=unilinks",
+				options => options.UseMySql($"server={host};userid=root;pwd={password};port={port};database=unilinks",
 				builder => builder.MigrationsAssembly("UniLinks.API"))
 			);
 
