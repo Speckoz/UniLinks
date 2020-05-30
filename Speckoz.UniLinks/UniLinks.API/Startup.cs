@@ -100,10 +100,11 @@ namespace UniLinks.API
 				dbContext.Database.Migrate();
 			}
 
+			dataSeeder.Init();
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				dataSeeder.Init();
 			}
 
 			//app.UseHttpsRedirection();
