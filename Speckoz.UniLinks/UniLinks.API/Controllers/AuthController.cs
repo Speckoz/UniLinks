@@ -23,7 +23,7 @@ namespace UniLinks.API.Controllers
             _studentBusiness = studentBusiness;
         }
 
-        // POST: /Auth
+        // POST: /Auth/coordinator
         [HttpPost("coordinator")]
         public async Task<IActionResult> AuthAccountTaskAsync([FromBody]LoginRequestModel userLogin)
         {
@@ -38,7 +38,7 @@ namespace UniLinks.API.Controllers
             return BadRequest();
         }
 
-        // POST: /Auth/User
+        // POST: /Auth/student
         [HttpPost("student")]
         public async Task<IActionResult> AuthUserTaskAsync([FromBody]EmailFromBody email)
         {

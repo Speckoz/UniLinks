@@ -22,14 +22,15 @@ namespace UniLinks.Client.Web.Controllers
 		public CoordinatorController(AuthService authService) =>
 			_authService = authService;
 
+		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public IActionResult IndexCoordinator() => View();
+		public IActionResult Index() => View();
 
 		[HttpGet("auth/coordinator")]
-		public IActionResult AuthCoordinator() => View();
+		public IActionResult Auth() => View();
 
 		[HttpPost("auth/coordinator")]
-		public async Task<IActionResult> AuthCoordinator([FromBody] LoginRequestModel login)
+		public async Task<IActionResult> Auth(LoginRequestModel login)
 		{
 			if (ModelState.IsValid)
 			{
@@ -37,7 +38,7 @@ namespace UniLinks.Client.Web.Controllers
 					return View();
 
 				await GenerateClaims(authCoordinator);
-				return RedirectToAction("IndexCoordinator", "Coordinator");
+				return RedirectToAction("Index", "Coordinator");
 			}
 
 			return View();
