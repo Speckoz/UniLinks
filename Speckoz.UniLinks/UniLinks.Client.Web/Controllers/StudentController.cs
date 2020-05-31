@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+using UniLinks.Client.Site.Services.Student;
 using UniLinks.Client.Web.Services;
 using UniLinks.Dependencies.Attributes;
+using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models.Auxiliary;
@@ -18,15 +21,24 @@ namespace UniLinks.Client.Web.Controllers
 	public class StudentController : Controller
 	{
 		private readonly AuthService _authService;
+		private readonly LessonService _lessonService;
 
-		public StudentController(AuthService authService)
+		public StudentController(AuthService authService, LessonService lessonService)
 		{
 			_authService = authService;
+			_lessonService = lessonService;
 		}
 
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Student)]
-		public IActionResult Index() => View();
+		public async Task<IActionResult> Index()
+		{
+			string disciplines = User.FindFirst("Disciplines").Value;
+			string token = User.FindFirst("Token").Value;
+
+			List<LessonDisciplineVO> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines);
+			return base.View(model);
+		}
 
 		[HttpGet("auth/student")]
 		public IActionResult Auth() => View();
@@ -54,7 +66,7 @@ namespace UniLinks.Client.Web.Controllers
 				new Claim(ClaimTypes.Name, student.Name),
 				new Claim(ClaimTypes.Email, student.Email),
 				new Claim(ClaimTypes.Role, nameof(UserTypeEnum.Student)),
-				new Claim("Disciplines", string.Join(';', student.Disciplines)),
+				new Claim("Disciplines", string.Join(';', student.Disciplines.Select(x => x.DisciplineId).ToList())),
 				new Claim("Token", student.Token)
 			};
 
