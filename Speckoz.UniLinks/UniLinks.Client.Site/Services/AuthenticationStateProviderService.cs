@@ -61,7 +61,7 @@ namespace UniLinks.Client.Site.Services
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]))
 			};
 
-			return new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out SecurityToken validatedToken);
+			return new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out _);
 		}
 
 		public async Task MarkUserWithAuthenticatedAsync<T>(T user)

@@ -11,8 +11,8 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using UniLinks.Client.Site.Helper;
 using UniLinks.Dependencies.Data.VO.Lesson;
+using UniLinks.Dependencies.Helper;
 
 namespace UniLinks.Client.Site.Services.Student
 {
@@ -20,23 +20,20 @@ namespace UniLinks.Client.Site.Services.Student
 	{
 		private readonly ISessionStorageService _sessionStorage;
 
-		public LessonService(ISessionStorageService sessionStorage)
-		{
+		public LessonService(ISessionStorageService sessionStorage) =>
 			_sessionStorage = sessionStorage;
-		}
 
 		public async Task<List<LessonDisciplineVO>> GetAllLessonsTaskAync()
 		{
-			var disciplines = await _sessionStorage.GetItemAsync<string>("disciplines");
+			string disciplines = await _sessionStorage.GetItemAsync<string>("disciplines");
 			var dis = disciplines.Split(';').ToList();
 
-			IRestResponse response = await SendRequestTaskAsync(
-				await _sessionStorage.GetItemAsync<string>("token"), dis);
+			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), dis);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-			return default;
+			return null;
 		}
 
 		private async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)

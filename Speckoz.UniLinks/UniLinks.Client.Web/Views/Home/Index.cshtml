@@ -3,6 +3,7 @@
     Layout = "EmptyLayout";
 }
 @using UniLinks.Dependencies.Enums
+@using System.Security.Claims
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
@@ -11,24 +12,57 @@
         </a>
         <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="mdi mdi-menu mdi-36px"></i>
+            <i class="mdi mdi-menu mdi-36px black-text"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/#devs">Desenvolvedores</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/#about">Sobre</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#devs">Desenvolvedores</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#about">Sobre</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="mdi mdi-account icon-margin-right" />NOME AQUI
+                        @if (User.Claims.Count() > 0)
+                        {
+                            <div>
+                                <i class="mdi mdi-account icon-margin-right"></i> @User.FindFirst(ClaimTypes.Name).Value
+                            </div>
+                        }
+                        else
+                        {
+                            <span>
+                                <i class="mdi mdi-login icon-margin-right"></i> Entrar como
+                            </span>
+                        }
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item waves-effect" href="/student">
-                            <i class="mdi mdi-account icon-margin-right" />Minha Area
-                        </a>
-                        <hr />
-                        <a class="dropdown-item waves-effect" href="/#LOGOUT">
-                            <i class="mdi mdi-logout icon-margin-right" />Deslogar
-                        </a>
+                        @if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
+                        {
+                            <a class="dropdown-item waves-effect" href="/coordinator">
+                                <i class="mdi mdi-account-star icon-margin-right"></i> Painel
+                            </a>
+                            <hr />
+                            <a class="dropdown-item waves-effect">
+                                <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
+                            </a>
+                        }
+                        else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
+                        {
+                            <a class="dropdown-item waves-effect" href="/student">
+                                <i class="mdi mdi-account icon-margin-right"></i> Minha Area
+                            </a>
+                            <hr />
+                            <a class="dropdown-item waves-effect">
+                                <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item waves-effect" href="/auth/student">
+                                <i class="mdi mdi-account-group icon-margin-right"></i> Aluno
+                            </a>
+                            <a class="dropdown-item waves-effect" href="/auth/coordinator">
+                                <i class="mdi mdi-card-account-details-star icon-margin-right"></i> Coordenador
+                            </a>
+                        }
                     </div>
                 </li>
             </ul>

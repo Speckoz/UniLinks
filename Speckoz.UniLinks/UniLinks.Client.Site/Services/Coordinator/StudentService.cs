@@ -11,8 +11,8 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using UniLinks.Client.Site.Helper;
 using UniLinks.Dependencies.Data.VO.Student;
+using UniLinks.Dependencies.Helper;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {

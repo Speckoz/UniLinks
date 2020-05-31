@@ -1,8 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using UniLinks.Client.Web.Services;
 
 namespace UniLinks.Client.Web
 {
@@ -15,6 +19,12 @@ namespace UniLinks.Client.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
+
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+					.AddCookie(o => o.LoginPath = new PathString("/noauth"));
+
+			//Services
+			services.AddScoped<AuthService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,11 +39,12 @@ namespace UniLinks.Client.Web
 				app.UseHsts();
 			}
 
-			//app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();
 
+			app.UseAuthorization();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
