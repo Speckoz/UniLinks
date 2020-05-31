@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using UniLinks.Client.Site.Services.Student;
 using UniLinks.Client.Web.Services;
 
 namespace UniLinks.Client.Web
@@ -25,6 +26,7 @@ namespace UniLinks.Client.Web
 
 			//Services
 			services.AddScoped<AuthService>();
+			services.AddScoped<LessonService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,17 +46,20 @@ namespace UniLinks.Client.Web
 
 			app.UseRouting();
 
-			app.UseAuthorization();
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Home}/{action=Index}/{id?}");
+					pattern: "{controller=Home}/{action=Index}");
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Coordinator}/{action=IndexCoordinator}/{id?}");
+					pattern: "{controller=Coordinator}/{action=Index}");
+				endpoints.MapControllerRoute(
+					name: "default",
+					pattern: "{controller=Student}/{action=Index}");
 			});
 		}
 	}
