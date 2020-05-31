@@ -13,6 +13,12 @@ namespace UniLinks.Client.Web.Controllers
 		[HttpGet]
 		public IActionResult Index() => View();
 
+		[HttpGet("problem/404")]
+		public IActionResult PageNotFound() => View();
+
+		[HttpGet("problem/500")]
+		public IActionResult PageInternalError() => View();
+
 		[HttpGet("noauth")]
 		public IActionResult NoAuth() => View();
 
