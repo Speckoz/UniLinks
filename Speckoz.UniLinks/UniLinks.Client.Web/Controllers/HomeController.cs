@@ -27,6 +27,7 @@ namespace UniLinks.Client.Web.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			Response.Cookies.Delete("theme");
 			return RedirectToAction("");
 		}
 	}

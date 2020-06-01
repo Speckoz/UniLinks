@@ -1,5 +1,6 @@
 ﻿@using UniLinks.Dependencies.Enums
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Http
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
 </head>
-<body id="home" class="theme-bg theme-text">
+<body id="home" class="theme-bg theme-text" onload="checkTheme()">
     <div class="app">
         <aside class="sidebar">
             <div class="navbar shadow-sm">
@@ -101,7 +102,7 @@
                                     </div>
                                     <div class="col-auto align-content-end">
                                         <label class="switch">
-                                            <input type="checkbox" @("2".Equals(1.ToString()) ? "checked" : "")>
+                                            <input id="themeCheckbox" type="checkbox" onclick="ChangeTheme()">
                                             <span class="slider round">
                                                 <i class="mdi mdi-weather-night mdi-18px icon-margin-right white-text" style="margin-left: 5px;"></i>
                                             </span>
