@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using UniLinks.Client.Site.Services.Student;
 using UniLinks.Client.Web.Services;
+using UniLinks.Client.Web.Services.Coordinator;
 
 namespace UniLinks.Client.Web
 {
@@ -29,7 +29,12 @@ namespace UniLinks.Client.Web
 
 			//Services
 			services.AddScoped<AuthService>();
+			services.AddScoped<CourseService>();
+			services.AddScoped<DisciplineService>();
+			services.AddScoped<ClassService>();
+			services.AddScoped<StudentsService>();
 			services.AddScoped<LessonService>();
+			services.AddScoped<Site.Services.Student.LessonService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

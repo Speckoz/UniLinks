@@ -26,18 +26,18 @@ namespace UniLinks.Client.Site.Services.Student
 				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
 			return null;
-		}
 
-		private async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)
-		{
-			return await new RequestService()
+			async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)
 			{
-				Method = Method.POST,
-				URL = DataHelper.URLBase,
-				URN = $"lessons",
-				Body = disciplines,
-				Authenticator = new JwtAuthenticator(token)
-			}.ExecuteTaskAsync();
+				return await new RequestService()
+				{
+					Method = Method.POST,
+					URL = DataHelper.URLBase,
+					URN = $"lessons",
+					Body = disciplines,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
 		}
 	}
 }
