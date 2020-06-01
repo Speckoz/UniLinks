@@ -41,7 +41,19 @@ namespace UniLinks.Client.Web.Controllers
 		}
 
 		[HttpGet("auth/student")]
-		public IActionResult Auth() => View();
+		public IActionResult Auth()
+		{
+			switch (User.FindFirst(ClaimTypes.Role)?.Value)
+			{
+				case nameof(UserTypeEnum.Coordinator):
+					return RedirectToActionPermanent("Index", "Coordinator");
+
+				case nameof(UserTypeEnum.Student):
+					return RedirectToActionPermanent("Index", "Student");
+			}
+
+			return View();
+		}
 
 		[HttpPost("auth/student")]
 		public async Task<IActionResult> Auth(LoginStudentRequestModel login)
