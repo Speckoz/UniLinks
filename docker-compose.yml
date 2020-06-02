@@ -77,9 +77,10 @@ services:
     restart: always
     environment:
       - PMA_ARBITRARY=1
-      - PMA_PORT=3000
-      # - PMA_HOST=dbhost=mysql-dev
+      - PMA_ABSOLUTE_URI=https://db-dev.unilinks.tech/
     networks:
       - prod
-    expose:
-      - "3000"
+    ports:
+      -3000:80
+    depends_on: 
+      - mysql-dev
