@@ -26,6 +26,7 @@ namespace UniLinks.Client.Web
 					{
 						o.LoginPath = "/noauth";
 						o.AccessDeniedPath = "/noauth";
+						o.ReturnUrlParameter = null;
 					});
 
 			//Services

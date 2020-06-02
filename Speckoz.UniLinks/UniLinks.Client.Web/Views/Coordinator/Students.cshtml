@@ -1,7 +1,4 @@
-﻿@using UniLinks.Dependencies.Data.VO.Student
-@using UniLinks.Dependencies.Data.VO
-@using System.Text.Json
-@using System.ComponentModel
+﻿@using System.Text.Json
 
 @model IEnumerable<StudentDisciplineVO>
 
@@ -86,7 +83,6 @@ else
 </div>
 
 <script>
-    //recebe um json do DisciplineVO
     function showDisciplines(disciplinesJson) {
         const disciplines = JSON.parse(disciplinesJson);
 
@@ -94,7 +90,6 @@ else
 
         let items = ``;
 
-        //modifica os valores
         disciplines.forEach(function (x) {
 
             items += `<h5>${x.Name} (${x.Period} Período)</h5>

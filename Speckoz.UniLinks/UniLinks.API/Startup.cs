@@ -105,9 +105,7 @@ namespace UniLinks.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-			}
-
-			//app.UseHttpsRedirection();
+			} 
 
 			app.UseRouting();
 

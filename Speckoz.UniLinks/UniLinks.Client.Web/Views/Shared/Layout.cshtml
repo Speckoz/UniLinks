@@ -1,5 +1,4 @@
-﻿@using UniLinks.Dependencies.Enums
-@using System.Security.Claims
+﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Http
 
 <!DOCTYPE html>
@@ -49,7 +48,12 @@
                         {
                             <li class="nav-item py-0">
                                 <a class="nav-link waves-effect" href="/student">
-                                    <i class="mdi mdi-account mdi-18px icon-margin-right" aria-hidden="true"></i> Minha Area
+                                    <i class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></i> Minhas Aulas
+                                </a>
+                            </li>
+                            <li class="nav-item py-0">
+                                <a class="nav-link waves-effect" href="/student/classes">
+                                    <i class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></i> Salas Online
                                 </a>
                             </li>
                         }
@@ -81,6 +85,11 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li>
+                            <li class="nav-item py-0">
+                                <a class="nav-link waves-effect" href="/coordinator/course">
+                                    <i class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></i> Informaçao do Curso
+                                </a>
                             </li>
                         }
                         <li class="nav-item py-0">

@@ -23,26 +23,16 @@ namespace UniLinks.Client.Web.Controllers
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public IActionResult Index() => View();
 
-		[HttpGet]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> Students([FromServices] StudentsService studentsService)
-		{
-			string token = User.FindFirst("Token").Value;
-
-			List<StudentDisciplineVO> students = await studentsService.GetStudentsTaskAsync(token);
-			return View(students);
-		}
-
 		[HttpGet("auth/coordinator")]
 		public IActionResult Auth()
 		{
 			switch (User.FindFirst(ClaimTypes.Role)?.Value)
 			{
 				case nameof(UserTypeEnum.Coordinator):
-					return RedirectToActionPermanent("Index", "Coordinator");
+					return RedirectToAction("Index", "Coordinator");
 
 				case nameof(UserTypeEnum.Student):
-					return RedirectToActionPermanent("Index", "Student");
+					return RedirectToAction("Index", "Student");
 			}
 
 			return View();
@@ -79,8 +69,8 @@ namespace UniLinks.Client.Web.Controllers
 
 			var authProp = new AuthenticationProperties
 			{
-				IssuedUtc = DateTime.UtcNow,
-				ExpiresUtc = DateTimeOffset.UtcNow.AddHours(5),
+				IssuedUtc = DateTime.Now,
+				ExpiresUtc = DateTimeOffset.Now.AddDays(2),
 				IsPersistent = true
 			};
 
