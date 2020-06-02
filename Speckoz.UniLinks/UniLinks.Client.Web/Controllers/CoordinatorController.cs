@@ -23,16 +23,6 @@ namespace UniLinks.Client.Web.Controllers
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public IActionResult Index() => View();
 
-		[HttpGet]
-		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> Students([FromServices] StudentsService studentsService)
-		{
-			string token = User.FindFirst("Token").Value;
-
-			List<StudentDisciplineVO> students = await studentsService.GetStudentsTaskAsync(token);
-			return View(students);
-		}
-
 		[HttpGet("auth/coordinator")]
 		public IActionResult Auth()
 		{
