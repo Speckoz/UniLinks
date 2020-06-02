@@ -86,7 +86,6 @@ else
 </div>
 
 <script>
-    //recebe um json do DisciplineVO
     function showDisciplines(disciplinesJson) {
         const disciplines = JSON.parse(disciplinesJson);
 
@@ -94,7 +93,6 @@ else
 
         let items = ``;
 
-        //modifica os valores
         disciplines.forEach(function (x) {
 
             items += `<h5>${x.Name} (${x.Period} Período)</h5>

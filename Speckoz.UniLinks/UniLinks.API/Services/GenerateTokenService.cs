@@ -27,7 +27,7 @@ namespace UniLinks.API.Services
 					new Claim(ClaimTypes.NameIdentifier, id.ToString()),
 					new Claim(ClaimTypes.Role, userType.ToString()),
 				},
-				expires: DateTime.Now.AddHours(5),
+				expires: DateTime.UtcNow.AddDays(2),
 				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])), SecurityAlgorithms.HmacSha256
 				)));
 		}
