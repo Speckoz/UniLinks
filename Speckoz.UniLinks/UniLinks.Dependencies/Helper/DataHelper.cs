@@ -1,7 +1,9 @@
-﻿namespace UniLinks.Dependencies.Helper
+﻿using static System.Environment;
+
+namespace UniLinks.Dependencies.Helper
 {
 	public class DataHelper
 	{
-		public const string URLBase = "localhost:5051/api";
+		public static string URLBase = "api-1/api";
 	}
 }
