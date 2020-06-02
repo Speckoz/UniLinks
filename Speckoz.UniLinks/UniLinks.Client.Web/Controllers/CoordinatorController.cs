@@ -8,8 +8,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.Client.Web.Services;
+using UniLinks.Client.Web.Services.Coordinator;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO.Coordinator;
+using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models.Auxiliary;
 
@@ -17,14 +19,19 @@ namespace UniLinks.Client.Web.Controllers
 {
 	public class CoordinatorController : Controller
 	{
-		public readonly AuthService _authService;
-
-		public CoordinatorController(AuthService authService) =>
-			_authService = authService;
-
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public IActionResult Index() => View();
+
+		[HttpGet]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> Students([FromServices] StudentsService studentsService)
+		{
+			string token = User.FindFirst("Token").Value;
+
+			List<StudentDisciplineVO> students = await studentsService.GetStudentsTaskAsync(token);
+			return View(students);
+		}
 
 		[HttpGet("auth/coordinator")]
 		public IActionResult Auth()
@@ -42,11 +49,11 @@ namespace UniLinks.Client.Web.Controllers
 		}
 
 		[HttpPost("auth/coordinator")]
-		public async Task<IActionResult> Auth(LoginRequestModel login)
+		public async Task<IActionResult> Auth([FromServices] AuthService authService, LoginRequestModel login)
 		{
 			if (ModelState.IsValid)
 			{
-				if (!(await _authService.AuthAccountTaskAsync(login) is AuthCoordinatorVO authCoordinator))
+				if (!(await authService.AuthAccountTaskAsync(login) is AuthCoordinatorVO authCoordinator))
 					return View();
 
 				await GenerateClaims(authCoordinator);
