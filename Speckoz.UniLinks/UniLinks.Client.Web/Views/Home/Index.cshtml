@@ -41,7 +41,10 @@
                         else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
                         {
                             <a class="dropdown-item waves-effect" href="/student">
-                                <i class="mdi mdi-account icon-margin-right"></i> Minha Area
+                                <i class="mdi mdi-record-rec icon-margin-right"></i> Minhas Aulas
+                            </a>
+                            <a class="dropdown-item waves-effect" href="/student/classes">
+                                <i class="mdi mdi-google-lesson icon-margin-right"></i> Salas Online
                             </a>
                         }
                         else
