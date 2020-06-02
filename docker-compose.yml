@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - blazor-1
+      - mvc-1
     networks:
       - prod
     ports:
@@ -44,14 +44,17 @@ services:
     depends_on:
       - mysql
 
-  blazor-1:
+  mvc-1:
     build:
       context: ./Speckoz.UniLinks
-      dockerfile: UniLinks.Client.Site/Dockerfile
+      dockerfile: UniLinks.Client.Web/Dockerfile
     networks:
       - prod
+    restart: always
     environment:
       - ASPNETCORE_ENVIROMENT=Production
-      - APIHOST=api-1
+      - API_URL=api-1/api
     depends_on:
+      - api-1
+    links:
       - api-1
