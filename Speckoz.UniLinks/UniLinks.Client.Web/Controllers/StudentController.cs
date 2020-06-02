@@ -46,10 +46,10 @@ namespace UniLinks.Client.Web.Controllers
 			switch (User.FindFirst(ClaimTypes.Role)?.Value)
 			{
 				case nameof(UserTypeEnum.Coordinator):
-					return RedirectToActionPermanent("Index", "Coordinator");
+					return RedirectToAction("Index", "Coordinator");
 
 				case nameof(UserTypeEnum.Student):
-					return RedirectToActionPermanent("Index", "Student");
+					return RedirectToAction("Index", "Student");
 			}
 
 			return View();
