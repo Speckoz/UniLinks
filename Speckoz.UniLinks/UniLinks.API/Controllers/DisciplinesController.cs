@@ -26,7 +26,7 @@ namespace UniLinks.API.Controllers
 			_courseBusiness = courseBusiness;
 		}
 
-		[HttpPost]
+		[HttpPost("add")]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> AddTaskAsync([FromBody] DisciplineVO newDiscipline)
 		{
@@ -91,7 +91,7 @@ namespace UniLinks.API.Controllers
 						return Ok(discs);
 				}
 
-				return NotFound("Nenhuma disciplina foi encontrada com a entrada fornecida, verifique se formato está correto (guid;guid;guid)");
+				return NotFound("O curso nao possivel nenhuma disciplina!");
 			}
 
 			return BadRequest();

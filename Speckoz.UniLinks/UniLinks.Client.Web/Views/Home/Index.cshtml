@@ -3,32 +3,65 @@
     Layout = "EmptyLayout";
 }
 @using UniLinks.Dependencies.Enums
+@using System.Security.Claims
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/#home">
+        <a class="navbar-brand animated swing slower js-scroll-trigger" href="/#home">
             <span class="uni-color">Uni</span><span style="color: darkorange;">Link</span>
         </a>
-        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="mdi mdi-menu mdi-36px"></i>
+        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right " type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="mdi mdi-menu mdi-36px black-text"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/#devs">Desenvolvedores</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="/#about">Sobre</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#devs">Desenvolvedores</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="mdi mdi-account icon-margin-right" />NOME AQUI
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if (User.Claims.Count() > 0)
+                        {
+                            <span>
+                                <i class="mdi mdi-account icon-margin-right"></i> @User.FindFirst(ClaimTypes.Name).Value
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                <i class="mdi mdi-login icon-margin-right"></i> Entrar como
+                            </span>
+                        }
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item waves-effect" href="/student">
-                            <i class="mdi mdi-account icon-margin-right" />Minha Area
-                        </a>
-                        <hr />
-                        <a class="dropdown-item waves-effect" href="/#LOGOUT">
-                            <i class="mdi mdi-logout icon-margin-right" />Deslogar
-                        </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+                        @if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
+                        {
+                            <a class="dropdown-item waves-effect" href="/coordinator">
+                                <i class="mdi mdi-account-star icon-margin-right"></i> Painel
+                            </a>
+                        }
+                        else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
+                        {
+                            <a class="dropdown-item waves-effect" href="/student">
+                                <i class="mdi mdi-account icon-margin-right"></i> Minha Area
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item waves-effect" href="/auth/student">
+                                <i class="mdi mdi-account-group icon-margin-right"></i> Aluno
+                            </a>
+                            <a class="dropdown-item waves-effect" href="/auth/coordinator">
+                                <i class="mdi mdi-card-account-details-star icon-margin-right"></i> Coordenador
+                            </a>
+                        }
+
+                        @if (User.Claims.Count() > 0)
+                        {
+                            <hr />
+                            <a class="dropdown-item waves-effect" href="/logout">
+                                <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
+                            </a>
+                        }
                     </div>
                 </li>
             </ul>
@@ -50,10 +83,13 @@
             <br /><br />
             <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
         </div>
+        <a class="btn btn-link js-scroll-trigger animated pulse slow infinite waves-effect waves-light" role="button" href="#about" style="padding: 0; margin-top: 20px; padding-left: 15px; padding-right: 15px; border-radius: 5em;">
+            <i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
+        </a>
     </div>
 </header>
 <section class="bg-dark" style="padding-top: 6em">
-    <div id="devs" class="devs" style="padding-top: 50px">
+    <div id="devs" class="devs">
         <div class="container">
             <div class="intro">
                 <h2 style="color: #808080" class="text-center">Desenvolvedores</h2>

@@ -1,0 +1,36 @@
+﻿@using UniLinks.Dependencies.Enums
+@using UniLinks.Dependencies.Models.Auxiliary
+
+@{
+    ViewData["Title"] = "Autenticação";
+    Layout = "EmptyLayout";
+}
+
+@model LoginRequestModel
+
+<div class="alert alert-danger alert-dismissible animated bounceInDown fast collapse">
+    O email ou senha inválido!
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="login-dark" style="background-image: url(img/coord_login.jpg)">
+    <form method="post" asp-action="Auth" asp-controller="Coordinator" style="opacity: 0.9;">
+        <h4 class="text-center" style="color: #adadad">Autenticação</h4>
+        <p class="text-center" style="color: #adadad;font-size: 13px">Informe suas credenciais para continuar</p>
+        <br />
+        <div class="form-group md-form">
+            <input asp-for="Email" class="form-control validate" id="email" type="email" required>
+            <label for="email" data-error="wrong" data-success="right">Email</label>
+        </div>
+        <div class="form-group md-form">
+            <input asp-for="Password" class="form-control validate" type="password" id="password" required>
+            <label for="password" data-error="wrong" data-success="right">Senha</label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block waves-effect" type="submit">AUTENTICAR</button>
+        </div>
+        @*<a class="forgot">Esqueceu a senha?</a>*@
+    </form>
+</div>

@@ -55,7 +55,7 @@ namespace UniLinks.API
 			services.AddDbContext<DataContext>
 			(
 				options => options.UseMySql($"server={host};userid=root;pwd={password};port={port};database=unilinks",
-				builder => builder.MigrationsAssembly("UniLinks.API"))
+				builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName))
 			);
 
 			// Injecoes do smtp/email

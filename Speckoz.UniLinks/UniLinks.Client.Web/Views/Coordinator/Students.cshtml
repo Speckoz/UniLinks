@@ -1,0 +1,108 @@
+﻿@using UniLinks.Dependencies.Data.VO.Student
+@using UniLinks.Dependencies.Data.VO
+@using System.Text.Json
+@using System.ComponentModel
+
+@model IEnumerable<StudentDisciplineVO>
+
+@{
+    ViewData["Title"] = "Alunos";
+}
+
+<h1 class="text-center mt-2">Gerenciar Alunos</h1>
+<hr class="separator" />
+
+<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight"
+        data-toggle="modal" data-target="#modalNewStudent">
+    <i class="mdi mdi-plus mdi-24px"></i>
+</button>
+
+@if (Model.Count() == 0)
+{
+    <p class="text-center py-2">Ops! Nao existe nenhum estudante no curso.</p>
+}
+else
+{
+
+    <section id="students-list-table" class="d-flex justify-content-lg-center nosection-padding">
+        <table class="table table-hover table-students theme-bg theme-text">
+
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th class="text-center" scope="col">Disciplinas</th>
+                    <th class="text-center" scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr class="tr-hover">
+                        <td class="text-wrap">
+                            <span>@student.Name</span><br />
+                            <span style="color: grey; font-size: 13px">@student.Email</span>
+                        </td>
+                        <td class="icons-td text-center">
+                            @{
+                                string json = JsonSerializer.Serialize(student.Disciplines.Select(x => new
+                                {
+                                    x.Name,
+                                    x.Period
+                                }));
+                            }
+                            <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines('@json')">Ver</span>
+                        </td>
+                        <td class="icons-td text-center">
+                            <a asp-action="Delete">
+                                <span class="mdi mdi-delete mdi-24px red-text"></span>
+                            </a>
+                            <a asp-action="Update">
+                                <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+<div class="modal animated bounceInDown" id="modalStudentDisciplines" tabindex="-1" role="dialog" aria-labelledby="modalStudentDisciplines"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content theme-bg theme-text">
+            <div class="modal-header border-0 text-center">
+                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Disciplinas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="theme-text">&times;</span>
+                </button>
+            </div>
+            <div id="disciplinesStudent" class="modal-body mx-3"></div>
+            <div class="modal-footer border-0 d-flex justify-content-center">
+                <button class="btn btn-gradient waves-effect" data-dismiss="modal" aria-label="Close">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //recebe um json do DisciplineVO
+    function showDisciplines(disciplinesJson) {
+        const disciplines = JSON.parse(disciplinesJson);
+
+        const objDiv = document.getElementById("disciplinesStudent");
+
+        let items = ``;
+
+        //modifica os valores
+        disciplines.forEach(function (x) {
+
+            items += `<h5>${x.Name} (${x.Period} Período)</h5>
+                <hr class="separator" />`;
+        })
+
+        objDiv.innerHTML = items;
+
+        ShowModal("modalStudentDisciplines");
+    }
+</script>
