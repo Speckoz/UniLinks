@@ -51,10 +51,15 @@ namespace UniLinks.Client.Web
 
 			app.UseStatusCodePagesWithReExecute("/problem/{0}");
 
-			app.UseHttpsRedirection();
+			// app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();
+
+			app.UseForwardedHeaders(new ForwardedHeadersOptions
+			{
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+			});
 
 			app.UseAuthentication();
 			app.UseAuthorization();
