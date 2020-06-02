@@ -53,7 +53,7 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIROMENT=Production
-      - API_URL=api-1/api
+      - API_URL=http://api-1/api
     depends_on:
       - api-1
     links:

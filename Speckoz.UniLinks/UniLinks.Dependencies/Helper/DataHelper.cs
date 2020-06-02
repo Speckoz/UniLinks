@@ -4,6 +4,6 @@ namespace UniLinks.Dependencies.Helper
 {
 	public class DataHelper
 	{
-		public static string URLBase = "http://localhost:5050/api";
+		public static string URLBase = GetEnvironmentVariable("API_URL") ?? "http://localhost:5050/api";
 	}
 }
