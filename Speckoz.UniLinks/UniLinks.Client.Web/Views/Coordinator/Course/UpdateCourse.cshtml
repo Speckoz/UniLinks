@@ -1,0 +1,31 @@
+﻿@using System.Net
+
+@model ResponseResultModel<CourseVO>
+
+@{
+    ViewData["Title"] = "Modificar Informaçoes do Curso";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.StatusCode != HttpStatusCode.OK)
+{
+    <p class="red-text text-center">@Model.Message</p>
+}
+
+<div>
+    <form method="post" asp-controller="Course" asp-action="UpdateCourse">
+        <dl class="row">
+            <dt class="col-sm-2">Nome do Curso</dt>
+            <dd class="col-sm-10">
+                <input asp-for="Object.Name" />
+            </dd>
+            <dt class="col-sm-2">Quantidade de periodos</dt>
+            <dd class="col-sm-10">
+                <input asp-for="Object.Periods" type="number" />
+            </dd>
+        </dl>
+
+        <button>Salvar</button>
+    </form>
+</div>

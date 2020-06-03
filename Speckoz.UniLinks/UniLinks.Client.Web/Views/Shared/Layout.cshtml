@@ -1,6 +1,8 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Http
 
+@inject UniLinks.Client.Web.Services.Coordinator.CourseService _courseService
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +21,7 @@
         <aside class="sidebar">
             <div class="navbar shadow-sm">
                 <a class="navbar-brand font-nav-title animated heartBeat delay-3s slower" href="/">
-                    <span style="color: white;">Uni</span><span style="color: darkorange;">Link</span>
+                    <span style="color: white;">Uni</span><span style="color: darkorange;">Links</span>
                 </a>
                 <button data-toggle="collapse" data-target="#navbarResponsive-panel" class="navbar-toggler navbar-toggler-right" type="button"
                         aria-controls="navbarResponsive-panel" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,28 +65,36 @@
                                 <a class="nav-link waves-effect" href="/coordinator">
                                     <i class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></i> Painel
                                 </a>
-                                <ul class="nav flex-column">
-                                    <li class="nav-item py-0 nav-panel-margin">
-                                        <a class="nav-link waves-effect" href="/coordinator/students">
-                                            <i class="mdi mdi-account-multiple mdi-18px icon-margin-right" aria-hidden="true"></i> Estudantes
-                                        </a>
-                                    </li>
-                                    <li class="nav-item py-0 nav-panel-margin">
-                                        <a class="nav-link waves-effect" href="/coordinator/lessons">
-                                            <i class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></i> Aulas Gravadas
-                                        </a>
-                                    </li>
-                                    <li class="nav-item py-0 nav-panel-margin">
-                                        <a class="nav-link waves-effect" href="/coordinator/disciplines">
-                                            <i class="mdi mdi-bookshelf mdi-18px icon-margin-right" aria-hidden="true"></i> Disciplinas
-                                        </a>
-                                    </li>
-                                    <li class="nav-item py-0 nav-panel-margin">
-                                        <a class="nav-link waves-effect" href="/coordinator/classes">
-                                            <i class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></i> Salas Online
-                                        </a>
-                                    </li>
-                                </ul>
+
+                                @{
+                                    var request = await _courseService.GetCourseByCoordIdTaskAsync(User.FindFirst("Token").Value);
+
+                                    if (request.StatusCode == System.Net.HttpStatusCode.OK)
+                                    {
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item py-0 nav-panel-margin">
+                                                <a class="nav-link waves-effect" href="/coordinator/students">
+                                                    <i class="mdi mdi-account-multiple mdi-18px icon-margin-right" aria-hidden="true"></i> Estudantes
+                                                </a>
+                                            </li>
+                                            <li class="nav-item py-0 nav-panel-margin">
+                                                <a class="nav-link waves-effect" href="/coordinator/lessons">
+                                                    <i class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></i> Aulas Gravadas
+                                                </a>
+                                            </li>
+                                            <li class="nav-item py-0 nav-panel-margin">
+                                                <a class="nav-link waves-effect" href="/coordinator/disciplines">
+                                                    <i class="mdi mdi-bookshelf mdi-18px icon-margin-right" aria-hidden="true"></i> Disciplinas
+                                                </a>
+                                            </li>
+                                            <li class="nav-item py-0 nav-panel-margin">
+                                                <a class="nav-link waves-effect" href="/coordinator/classes">
+                                                    <i class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></i> Salas Online
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                }
                             </li>
                             <li class="nav-item py-0">
                                 <a class="nav-link waves-effect" href="/coordinator/course">
@@ -102,11 +112,11 @@
                             <hr class="separator" />
                         </li>
                         <li class="nav-item py-0">
-                            <div class="nav-link waves-effect container">
+                            <div class="nav-link waves-effect">
                                 <div class="row no-gutters">
-                                    <div class="col-auto py-0">
-                                        <i class="mdi mdi-theme-light-dark mdi-18px icon-margin-right white-text" style="vertical-align: middle"></i>
-                                        <span class="white-text">Modo escudo: </span>
+                                    <div class="col-auto py-0" style="color: #d7d7d7">
+                                        <i class="mdi mdi-theme-light-dark mdi-18px icon-margin-right" style="vertical-align: middle"></i>
+                                        <span>Modo Escuro: </span>
                                     </div>
                                     <div class="col-auto align-content-end">
                                         <label class="switch">

@@ -9,20 +9,31 @@ using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Web.Services.Coordinator
 {
 	public class CourseService
 	{
-		public async Task<CourseVO> AddCourseTaskAsync(CourseVO newCourse, string token)
+		public async Task<ResponseResultModel<CourseVO>> AddCourseTaskAsync(CourseVO newCourse, string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
-			if (resp.StatusCode == HttpStatusCode.Created)
-				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResponseResultModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "Curso criado com sucesso!"
+				},
 
-			return null;
-
+				_ => new ResponseResultModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				}
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
 			{
 				Method = Method.POST,
@@ -33,15 +44,25 @@ namespace UniLinks.Client.Web.Services.Coordinator
 			}.ExecuteTaskAsync();
 		}
 
-		public async Task<CourseVO> GetCourseByCoordIdTaskAsync(string token)
+		public async Task<ResponseResultModel<CourseVO>> GetCourseByCoordIdTaskAsync(string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseResultModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "Sucesso!"
+				},
 
-			return null;
-
+				_ => new ResponseResultModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				},
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
 			{
 				Method = Method.GET,
@@ -51,15 +72,25 @@ namespace UniLinks.Client.Web.Services.Coordinator
 			}.ExecuteTaskAsync();
 		}
 
-		public async Task<CourseVO> UpdateCourseTaskAsync(CourseVO newCourse, string token)
+		public async Task<ResponseResultModel<CourseVO>> UpdateCourseTaskAsync(CourseVO newCourse, string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseResultModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "As informaçoes foram atualizadas com sucesso!"
+				},
 
-			return null;
-
+				_ => new ResponseResultModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				},
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
 			{
 				Method = Method.PUT,

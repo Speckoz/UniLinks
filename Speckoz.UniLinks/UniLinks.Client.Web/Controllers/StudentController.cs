@@ -14,6 +14,7 @@ using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
+using UniLinks.Dependencies.Models;
 using UniLinks.Dependencies.Models.Auxiliary;
 
 namespace UniLinks.Client.Web.Controllers
@@ -33,11 +34,12 @@ namespace UniLinks.Client.Web.Controllers
 		[Authorizes(UserTypeEnum.Student)]
 		public async Task<IActionResult> Index()
 		{
-			string disciplines = User.FindFirst("Disciplines").Value;
 			string token = User.FindFirst("Token").Value;
+			string disciplines = User.FindFirst("Disciplines").Value;
 
-			List<LessonDisciplineVO> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines);
-			return base.View(model);
+			ResponseResultModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
+
+			return View(model.Object);
 		}
 
 		[HttpGet("auth/student")]

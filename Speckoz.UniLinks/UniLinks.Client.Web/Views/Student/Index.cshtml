@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Text.Json;
+@using System.Globalization;
+
+@{
     ViewData["Title"] = "Painel";
     Layout = "Layout";
 }
@@ -8,53 +11,20 @@
 <h4 class="text-center p-3">Aulas</h4>
 
 <div class="container">
-    @*@if (selected != null)
-        {*@
-    <article class="row justify-content-center d-flex">
-        <div class="card card-lesson theme-card theme-text">
-            <div class="row nowrap-row" style="height: 6em">
-                <div class="col-3 image-lesson">
-                    <img class="card-lesson-image" src="img/collabRec.jpg" alt="Thumbnail da aula">
-                </div>
-
-                <div class="col-7" style="padding-left: 10px;padding-top: 10px;">
-                    <h6 style="width: auto;min-width: 205px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@Model[0].Discipline.Name</h6>
-                    @*@if (!string.IsNullOrEmpty(selected.Lesson.LessonSubject))
-                        {
-                            <p class="card-text blue-text" style="margin-top: -10px" data-target="#lessonSubjectModal" data-toggle="modal">
-                                <u style="font-size: 15px; cursor: pointer">Ver assuntos</u>
-                            </p>
-                        }*@
-                    @{
-                        var durationInDateTime = new DateTime(0001, 01, 01).AddMilliseconds(Model[0].Lesson.Duration);
-                        var duration = durationInDateTime.ToString(@"HH \hora(\s) e mm \minu\to(\s)");
-                    }
-                    <span style=" font-size: 13px; color: grey; top: 30px; position: absolute;" data-toggle="tooltip" data-placement="bottom" title="Duraçao da aula">@duration</span>
-                    <span style="position: absolute;bottom: 5px;left: 10px;font-size: 14px;color: grey;" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi adicionada">@Model[0].Lesson.Date.ToString(@"dd/MM/yyyy HH:mm")</span>
-                </div>
-
-                <div class="col-2 text-center">
-                    <div class="animated pulse slower delay-2s infinite" style="position: absolute; bottom: 25%; right: 20%" data-toggle="tooltip" data-placement="right" title="Abrir aula">
-                        <a class="blue-text" href="@Model[0].Lesson.URI" target="_blank">
-                            <i class="mdi mdi-open-in-new" style="font-size: 2em"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <article class="row justify-content-center d-flex" id="card-lesson">
+        <span>Selecione uma aula</span>
     </article>
-    @*}*@
 
     <div class="row" style="display: grid; text-align: -webkit-center">
         <div class="card theme-card theme-text" style="border-radius: 2em; margin: 20px; max-width: 800px">
             <div class="row">
                 <div class="col">
                     <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
-                        <input type="text" @*@oninput="@((e) => FilterSearch(e))"*@ style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
+                        <input type="text" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
                     </div>
                 </div>
                 <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
-                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%" @*@bind="@FilterSelected" @bind :event="onchange"*@>
+                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%">
                         <option disabled aria-disabled="true">Filtar por</option>
                         <option value="1">Disciplina</option>
                         <option value="2">Periodo</option>
@@ -89,9 +59,21 @@
                         <tbody>
                             @foreach (var lesson in Model)
                             {
-                                <tr class="tr-hover" @*@onclick="@(() => SelectLesson(lesson))"*@>
+                                var durationInDateTime = new DateTime(0001, 01, 01).AddMilliseconds(lesson.Lesson.Duration);
+                                var duration = durationInDateTime.ToString(@"HH \hora(\s) e mm \minu\to(\s)");
+                                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy", new CultureInfo("pt-BR"));
+
+                                string json = JsonSerializer.Serialize(new
+                                {
+                                    discipline = lesson.Discipline.Name,
+                                    uri = lesson.Lesson.URI,
+                                    duration,
+                                    created
+                                });
+
+                                <tr class="tr-hover tr-lesson" onclick="showLessonCard(@json)">
                                     <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
-                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@lesson.Lesson.Date.ToShortDateString()</td>
+                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@created</td>
                                 </tr>
                             }
                         </tbody>
@@ -102,22 +84,30 @@
     }
 </div>
 
-@*@if (selected != null)
-    {
-        <div class="modal animated bounceInDown" id="lessonSubjectModal" tabindex="-1" role="dialog" aria-labelledby="modalNewStudent"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content theme-bg theme-text">
-                    <div class="modal-header border-0 text-center">
-                        <h4 class="modal-title w-100 font-weight-bold text-center ml-5">Assuntos</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" class="theme-text">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body mx-3">
-                        <span class="text-center">@selected.Lesson.LessonSubject</span>
+<script>
+    function showLessonCard({ discipline, uri, duration, created }) {
+        $("#card-lesson").html(`
+        <div class="card card-lesson theme-card theme-text">
+            <div class="row nowrap-row" style="height: 6em">
+                <div class="col-3 image-lesson">
+                    <img class="card-lesson-image" src="img/collabRec.jpg" alt="Thumbnail da aula">
+                </div>
+
+                <div class="col-7" style="padding-left: 10px;padding-top: 10px;">
+                    <h6 style="width: auto;min-width: 205px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${discipline}</h6>
+                    <span style=" font-size: 13px; color: grey; top: 30px; position: absolute;" data-toggle="tooltip" data-placement="bottom" title="Duraçao da aula">${duration}</span>
+                    <span style="position: absolute;bottom: 5px;left: 10px;font-size: 14px;color: grey;" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi adicionada">Criado em ${created}</span>
+                </div>
+
+                <div class="col-2 text-center">
+                    <div class="animated pulse slower delay-2s infinite" style="position: absolute; bottom: 25%; right: 20%" data-toggle="tooltip" data-placement="right" title="Abrir aula">
+                        <a class="blue-text" href="${uri}" target="_blank">
+                            <i class="mdi mdi-open-in-new" style="font-size: 2em"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    }*@
+    `)
+    }
+</script>

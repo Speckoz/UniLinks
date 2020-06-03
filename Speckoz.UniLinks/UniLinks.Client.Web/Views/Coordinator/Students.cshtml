@@ -9,8 +9,7 @@
 <h1 class="text-center mt-2">Gerenciar Alunos</h1>
 <hr class="separator" />
 
-<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight"
-        data-toggle="modal" data-target="#modalNewStudent">
+<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight" data-toggle="modal" data-target="#modalNewStudent">
     <i class="mdi mdi-plus mdi-24px"></i>
 </button>
 
@@ -47,7 +46,7 @@ else
                                     x.Period
                                 }));
                             }
-                            <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines('@json')">Ver</span>
+                            <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines(@json)">Ver</span>
                         </td>
                         <td class="icons-td text-center">
                             <a asp-action="Delete">
