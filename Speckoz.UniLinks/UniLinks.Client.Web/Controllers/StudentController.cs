@@ -37,7 +37,7 @@ namespace UniLinks.Client.Web.Controllers
 			string token = User.FindFirst("Token").Value;
 			string disciplines = User.FindFirst("Disciplines").Value;
 
-			ResponseResultModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
+			ResponseModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
 
 			return View(model.Object);
 		}

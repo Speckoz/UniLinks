@@ -29,7 +29,7 @@ namespace UniLinks.Client.Web.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
 			return response.StatusCode switch
 			{
@@ -44,17 +44,17 @@ namespace UniLinks.Client.Web.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
 			return View("/Views/Coordinator/Course/AddCourse.cshtml", response);
 		}
 
 		[HttpPost("add")]
-		public async Task<IActionResult> AddCourse(ResponseResultModel<CourseVO> newCourse)
+		public async Task<IActionResult> AddCourse(ResponseModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseResultModel<CourseVO> response = await _courseService.AddCourseTaskAsync(newCourse.Object, token);
+			ResponseModel<CourseVO> response = await _courseService.AddCourseTaskAsync(newCourse.Object, token);
 
 			return response.StatusCode switch
 			{
@@ -68,7 +68,7 @@ namespace UniLinks.Client.Web.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
 			return response.StatusCode switch
 			{
@@ -78,13 +78,13 @@ namespace UniLinks.Client.Web.Controllers.Coordinator
 		}
 
 		[HttpPost("update")]
-		public async Task<IActionResult> UpdateCourse(ResponseResultModel<CourseVO> newCourse)
+		public async Task<IActionResult> UpdateCourse(ResponseModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
 			newCourse.Object.CoordinatorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			newCourse.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
 
-			ResponseResultModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(newCourse.Object, token);
+			ResponseModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(newCourse.Object, token);
 
 			return response.StatusCode switch
 			{

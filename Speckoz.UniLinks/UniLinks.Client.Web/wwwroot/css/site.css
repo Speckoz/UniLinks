@@ -689,7 +689,9 @@ input:checked + .slider:before
     .devs .item .box
     {
         text-align: center;
-        padding: 30px;
+        padding: 10px;
+        padding-bottom: 30px;
+        padding-top: 30px;
     }
 
     .devs .item .name
