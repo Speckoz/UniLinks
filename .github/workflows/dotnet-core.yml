@@ -18,7 +18,7 @@ jobs:
 
     # ================= Site =================
     - name: Build Site
-      run: dotnet build ./Speckoz.UniLinks/UniLinks.Client.Web/UniLinks.Client.Web.csproj
+      run: dotnet build ./Speckoz.UniLinks/UniLinks.Client.Site/UniLinks.Client.Site.csproj
 
     # ================= API ==================
     - name: Build API
