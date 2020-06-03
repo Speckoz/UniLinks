@@ -19,27 +19,21 @@ namespace UniLinks.Client.Web.Services.Coordinator
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
-			if (resp.StatusCode == HttpStatusCode.Created)
+			return resp.StatusCode switch
 			{
-				return new ResponseResultModel<CourseVO>
+				HttpStatusCode.Created => new ResponseResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "Curso criado com sucesso!"
-				};
-			}
+				},
 
-			if (resp.StatusCode == HttpStatusCode.Conflict)
-			{
-				return new ResponseResultModel<CourseVO>
+				_ => new ResponseResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)
-				};
-			}
-
-			return null;
-
+				}
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
 			{
 				Method = Method.POST,
@@ -54,27 +48,21 @@ namespace UniLinks.Client.Web.Services.Coordinator
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
+			return resp.StatusCode switch
 			{
-				return new ResponseResultModel<CourseVO>
+				HttpStatusCode.OK => new ResponseResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "Sucesso!"
-				};
-			}
+				},
 
-			if (resp.StatusCode == HttpStatusCode.NotFound)
-			{
-				return new ResponseResultModel<CourseVO>
+				_ => new ResponseResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)
-				};
-			}
-
-			return null;
-
+				},
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
 			{
 				Method = Method.GET,
@@ -88,27 +76,21 @@ namespace UniLinks.Client.Web.Services.Coordinator
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
+			return resp.StatusCode switch
 			{
-				return new ResponseResultModel<CourseVO>
+				HttpStatusCode.OK => new ResponseResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "As informaçoes foram atualizadas com sucesso!"
-				};
-			}
+				},
 
-			if (resp.StatusCode == HttpStatusCode.Conflict)
-			{
-				return new ResponseResultModel<CourseVO>
+				_ => new ResponseResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)
-				};
-			}
-
-			return null;
-
+				},
+			};
 			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
 			{
 				Method = Method.PUT,
