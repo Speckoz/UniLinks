@@ -831,3 +831,6 @@ input:checked + .slider:before
 .home-main-section {
     height: 100vh;
 }
+.tr-lesson:hover {
+    cursor: pointer;
+}
