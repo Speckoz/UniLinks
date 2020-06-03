@@ -14,7 +14,7 @@ jobs:
 
     # ============= Dependencies =============
     - name: Build Dependencies
-      run: dotnet build ./Speckoz.UniLinks/UniLinks.API/UniLinks.API.csproj
+      run: dotnet build ./Speckoz.UniLinks/UniLinks.Dependencies/UniLinks.Dependencies.csproj
 
     # ================= Site =================
     - name: Build Site
