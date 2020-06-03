@@ -54,7 +54,6 @@ services:
     environment:
       - ASPNETCORE_ENVIROMENT=Production
       - API_URL=http://api-1/api
+      - LAST_COMMIT=${LAST_COMMIT}
     depends_on:
-      - api-1
-    links:
       - api-1
