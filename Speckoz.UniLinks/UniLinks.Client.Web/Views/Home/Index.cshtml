@@ -1,13 +1,14 @@
-﻿@{
+﻿@using System.Security.Claims
+
+@{
     ViewData["Title"] = "Inicio";
     Layout = "EmptyLayout";
 }
-@using System.Security.Claims
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand animated swing slower js-scroll-trigger" href="/#home">
-            <span class="uni-color">Uni</span><span style="color: darkorange;">Link</span>
+            <span class="uni-color">Uni</span><span style="color: darkorange;">Links</span>
         </a>
         <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right " type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <i class="mdi mdi-menu mdi-36px black-text"></i>
@@ -70,7 +71,8 @@
         </div>
     </div>
 </nav>
-<header class="masthead text-center text-white d-flex" style="background-image:url('img/header.jpg');">
+
+<section id="main" class="masthead text-center text-white d-flex home-main-section" style="background-image:url('img/header.jpg');">
     <div class="container my-auto">
         <div class="row">
             <div class="col-lg-10 mx-auto">
@@ -89,8 +91,9 @@
             <i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
         </a>
     </div>
-</header>
-<section class="bg-dark" style="padding-top: 6em">
+</section>
+
+<section id="desenvolvedores" class="bg-dark" style="padding-top: 6em">
     <div id="devs" class="devs">
         <div class="container">
             <div class="intro">
@@ -98,7 +101,7 @@
                 <p class="text-center">C# the best</p>
             </div>
             <div class="row justify-content-center people">
-                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                <article class="card col-md-6 col-lg-4 item" style="background-color: #222223">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
                         <h3 class="name" style="color: #808080">Ruan Carlos CS</h3>
@@ -115,11 +118,11 @@
                             <a target="_blank" href="https://instagram.com/logikozrc"><i class="mdi mdi-instagram"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                </article>
+                <article class="card col-md-6 col-lg-4 item" style="background-color: #222223">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
-                        <h3 class="name" style="color: #808080">Marco Pandolfo</h3>
+                        <h3 class="name" style="color: #808080">Marco Antonio Pandolfo</h3>
                         <p class="nick">Specko</p>
                         <div class="description">
                             <p>Corno 🐮</p>
@@ -130,11 +133,12 @@
                             <a target="_blank" href="https://twitter.com/lolgamarco2"><i class="mdi mdi-twitter"></i></a>
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </div>
 </section>
+
 <section id="about" style="background-color: white; color: black">
     <div class="container">
         <div class="row">
@@ -148,6 +152,7 @@
         </div>
     </div>
 </section>
+
 <footer class="footer-dark">
     <div class="container">
         <div class="row">
