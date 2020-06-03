@@ -14,7 +14,7 @@ namespace UniLinks.API.Data
 		private StudentModel u3 = null, u4 = null, u5 = null, u6 = null;
 		private CourseModel c1 = null, c2 = null;
 		private DisciplineModel d1 = null, d2 = null, d3 = null;
-		private LessonModel l1 = null, l2 = null;
+		private LessonModel l1 = null, l2 = null, l3 = null;
 		private ClassModel cs1 = null, cs2 = null;
 
 		public DataSeeder(DataContext context) : base(context)
@@ -41,7 +41,7 @@ namespace UniLinks.API.Data
 				u1 = new CoordinatorModel
 				{
 					CoordinatorId = Guid.Parse("DA418561-E1B0-41C9-955D-2B41F35F0C4F"),
-					Name = "Patricio Lima",
+					Name = "Patricio de Souza Lima",
 					Email = "coord.ee@unilinks.com",
 					Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
 					CourseId = Guid.Parse("8E6BDCE0-6B3C-4847-8EB7-0B5C4BC6549E")
@@ -50,7 +50,7 @@ namespace UniLinks.API.Data
 				u2 = new CoordinatorModel
 				{
 					CoordinatorId = Guid.Parse("BBB85201-C532-43F8-9F53-FC1696F49088"),
-					Name = "Jeffersson Alencar",
+					Name = "Jeffersson Carneiro Alencar",
 					Email = "coord.si@unilinks.com",
 					Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
 					CourseId = Guid.Parse("498880FD-A708-4BD4-AAC7-4AD859DC1FD8")
@@ -93,7 +93,7 @@ namespace UniLinks.API.Data
 					Name = "Ruan Carlos",
 					Email = "logikoz@unilinks.com",
 					CourseId = c1.CourseId,
-					Disciplines = $"{d1.DisciplineId};{d2.DisciplineId}"
+					Disciplines = $"{d1.DisciplineId};{d3.DisciplineId}"
 				};
 				u4 = new StudentModel
 				{
@@ -101,7 +101,7 @@ namespace UniLinks.API.Data
 					Name = "Joao Figueredo",
 					Email = "joaof@unilinks.com",
 					CourseId = c1.CourseId,
-					Disciplines = $"{d2.DisciplineId}"
+					Disciplines = $"{d3.DisciplineId}"
 				};
 
 				u5 = new StudentModel
@@ -110,7 +110,7 @@ namespace UniLinks.API.Data
 					Name = "Carlos Eduardo",
 					Email = "carlose@unilinks.com",
 					CourseId = c2.CourseId,
-					Disciplines = $"{d1.DisciplineId}"
+					Disciplines = $"{d2.DisciplineId}"
 				};
 
 				u6 = new StudentModel
@@ -119,7 +119,7 @@ namespace UniLinks.API.Data
 					Name = "Marco Pandolfo",
 					Email = "specko@unilinks.com",
 					CourseId = c2.CourseId,
-					Disciplines = $"{d1.DisciplineId};{d2.DisciplineId}"
+					Disciplines = $"{d2.DisciplineId}"
 				};
 
 				_context.Students.AddRange(u3, u4, u5, u6);
@@ -174,11 +174,11 @@ namespace UniLinks.API.Data
 				d3 = new DisciplineModel
 				{
 					DisciplineId = Guid.Parse("177C32CE-511A-41DA-91EA-3BD8CE01B9FB"),
-					Name = "Calculo IV",
+					Name = "Circuitos Eletricos II",
 					Teacher = "Kakashi",
-					Period = 4,
+					Period = 5,
 					CourseId = c1.CourseId,
-					ClassId = cs2.ClassId
+					ClassId = cs1.ClassId
 				};
 
 				_context.Disciplines.AddRange(d1, d2, d3);
@@ -192,10 +192,10 @@ namespace UniLinks.API.Data
 				l1 = new LessonModel
 				{
 					Date = DateTime.Now,
-					LessonSubject = "Lição",
+					LessonSubject = "Diodos\nRedes Cristalinas\nDopagem\nDiodo Zener",
 					URI = "https://logikoz.net",
 					DisciplineId = d1.DisciplineId,
-					Duration = 3124000,
+					Duration = 31240004,
 					RecordName = "Nome Teste",
 					CourseId = c1.CourseId
 				};
@@ -203,15 +203,25 @@ namespace UniLinks.API.Data
 				l2 = new LessonModel
 				{
 					Date = DateTime.Now,
-					LessonSubject = "Prova",
+					LessonSubject = "Revisao da Prova",
 					URI = "https://bit.ly/2RF0oFQ",
 					DisciplineId = d2.DisciplineId,
-					Duration = 312000,
+					Duration = 34523467,
 					RecordName = "Nome Teste 2",
 					CourseId = c2.CourseId
 				};
 
-				_context.Lessons.AddRange(l1, l2);
+				l3 = new LessonModel
+				{
+					Date = DateTime.Now,
+					URI = "https://logikoz.net",
+					DisciplineId = d3.DisciplineId,
+					Duration = 31240004,
+					RecordName = "Nome Teste 3",
+					CourseId = c1.CourseId
+				};
+
+				_context.Lessons.AddRange(l1, l2, l3);
 			}
 		}
 	}
