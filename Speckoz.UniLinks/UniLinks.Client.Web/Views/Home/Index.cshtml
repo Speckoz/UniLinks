@@ -1,8 +1,9 @@
-﻿@{
+﻿@using System.Security.Claims
+
+@{
     ViewData["Title"] = "Inicio";
     Layout = "EmptyLayout";
 }
-@using System.Security.Claims
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
@@ -70,7 +71,8 @@
         </div>
     </div>
 </nav>
-<header class="masthead text-center text-white d-flex" style="background-image:url('img/header.jpg');">
+
+<section id="main" class="masthead text-center text-white d-flex home-main-section" style="background-image:url('img/header.jpg');">
     <div class="container my-auto">
         <div class="row">
             <div class="col-lg-10 mx-auto">
@@ -89,7 +91,7 @@
             <i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
         </a>
     </div>
-</header>
+</section>
 <section class="bg-dark" style="padding-top: 6em">
     <div id="devs" class="devs">
         <div class="container">

@@ -827,3 +827,7 @@ input:checked + .slider:before
     {
         transform: translateY(1px)
     }
+
+.home-main-section {
+    height: 100%;
+}
