@@ -4,28 +4,37 @@ using RestSharp;
 using RestSharp.Authenticators;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Student
 {
 	public class LessonService
 	{
-		public async Task<List<LessonDisciplineVO>> GetAllLessonsTaskAync(string token, string disciplines)
+		public async Task<ResponseResultModel<List<LessonDisciplineVO>>> GetAllLessonsTaskAync(string token, List<string> disciplines)
 		{
-			var dis = disciplines.Split(';').ToList();
+			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
 
-			IRestResponse response = await SendRequestTaskAsync(token, dis);
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseResultModel<List<LessonDisciplineVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = response.StatusCode,
+					Message = "Sucesso!"
+				},
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-			return null;
+				_ => new ResponseResultModel<List<LessonDisciplineVO>>
+				{
+					StatusCode = response.StatusCode,
+					Message = response.Content.Replace("\"", string.Empty)
+				}
+			};
 
 			async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)
 			{
