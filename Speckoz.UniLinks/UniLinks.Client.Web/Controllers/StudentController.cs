@@ -33,11 +33,11 @@ namespace UniLinks.Client.Web.Controllers
 		[Authorizes(UserTypeEnum.Student)]
 		public async Task<IActionResult> Index()
 		{
-			string disciplines = User.FindFirst("Disciplines").Value;
 			string token = User.FindFirst("Token").Value;
+			string disciplines = User.FindFirst("Disciplines").Value;
 
 			List<LessonDisciplineVO> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines);
-			return base.View(model);
+			return View(model);
 		}
 
 		[HttpGet("auth/student")]

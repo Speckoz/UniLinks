@@ -61,6 +61,7 @@ namespace UniLinks.Client.Web.Controllers
 				new Claim(ClaimTypes.Name, authCoordinator.Name),
 				new Claim(ClaimTypes.Email, authCoordinator.Email),
 				new Claim(ClaimTypes.Role, nameof(UserTypeEnum.Coordinator)),
+				new Claim("CourseId", authCoordinator.CourseId.ToString()),
 				new Claim("Token", authCoordinator.Token)
 			};
 
