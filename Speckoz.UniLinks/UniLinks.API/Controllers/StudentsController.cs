@@ -40,11 +40,11 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
-				if (await _studentBusiness.ExistsByEmailTaskAsync(newStudent.Email))
-					return Conflict("Ja existe um aluno com esse email!");
-
 				if (string.IsNullOrEmpty(newStudent.Email))
 					return BadRequest("É necessario informar o email!");
+
+				if (await _studentBusiness.ExistsByEmailTaskAsync(newStudent.Email))
+					return Conflict("Ja existe um aluno com esse email!");
 
 				if (string.IsNullOrEmpty(newStudent.Name))
 					return BadRequest("É necessario informar o nome!");
