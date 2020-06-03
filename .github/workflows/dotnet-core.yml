@@ -1,0 +1,25 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+
+    # ============= Dependencies =============
+    - name: Build Dependencies
+      run: dotnet build ./Speckoz.UniLinks/UniLinks.API/UniLinks.API.csproj
+
+    # ================= Site =================
+    - name: Build Site
+      run: dotnet build ./Speckoz.UniLinks/UniLinks.Client.Web/UniLinks.Client.Web.csproj
+
+    # ================= API ==================
+    - name: Build API
+      run: dotnet build ./Speckoz.UniLinks/UniLinks.API/UniLinks.API.csproj
