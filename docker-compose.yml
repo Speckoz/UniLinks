@@ -3,8 +3,6 @@ version: "3.3"
 volumes:
   mysqldata:
 
-  mysql-devdata:
-
 networks:
   prod:
 
@@ -60,27 +58,3 @@ services:
       - api-1
     links:
       - api-1
-
-  mysql-dev:
-    image: mysql:5.7
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=numsey
-      - MYSQL_DATABASE=unilinks
-    volumes:
-      - mysql-devdata:/var/lib/mysql
-    networks:
-      - prod
-
-  phpmyadmin-dev:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_ABSOLUTE_URI=https://db-dev.unilinks.tech/
-    networks:
-      - prod
-    ports:
-      - 3000:80
-    depends_on: 
-      - mysql-dev
