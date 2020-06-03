@@ -1,32 +1,25 @@
-﻿using Blazored.SessionStorage;
-
-using Dependencies.Services;
+﻿using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Helper;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class LessonService
 	{
-		private readonly ISessionStorageService _sessionStorage;
-
-		public LessonService(ISessionStorageService sessionStorage)
+		public async Task<LessonVO> AddLessonTaskAsync(LessonVO lesson, string token)
 		{
-			_sessionStorage = sessionStorage;
-		}
-
-		public async Task<LessonVO> AddLessonTaskAsync(LessonVO lesson)
-		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), lesson);
+			IRestResponse response = await SendRequestTaskAsync(token, lesson);
 
 			if (response.StatusCode == HttpStatusCode.Created)
 				return JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -46,14 +39,14 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<LessonVO> GetLessonByIdTaskAsync(Guid lessonId)
+		public async Task<LessonVO> GetLessonByIdTaskAsync(Guid lessonId, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), lessonId);
+			IRestResponse response = await SendRequestTaskAsync(token, lessonId);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-			return default;
+			return null;
 
 			static async Task<IRestResponse> SendRequestTaskAsync(string token, Guid lessonId)
 			{
@@ -67,14 +60,36 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<LessonVO> UpdateLessonTaskAsync(LessonVO lesson)
+		public async Task<List<LessonDisciplineVO>> GetAllLessonsByDisciplineIDsTaskAsync(string token, List<Guid> disciplines)
 		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), lesson);
+			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
+
+			if (response.StatusCode == HttpStatusCode.OK)
+				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+			return null;
+
+			static async Task<IRestResponse> SendRequestTaskAsync(string token, List<Guid> disciplines)
+			{
+				return await new RequestService()
+				{
+					Method = Method.POST,
+					URL = DataHelper.URLBase,
+					URN = $"lessons",
+					Body = disciplines,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
+
+		public async Task<LessonVO> UpdateLessonTaskAsync(LessonVO lesson, string token)
+		{
+			IRestResponse response = await SendRequestTaskAsync(token, lesson);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-			return default;
+			return null;
 
 			async Task<IRestResponse> SendRequestTaskAsync(string token, LessonVO lesson)
 			{
@@ -89,9 +104,9 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<bool> RemoveLessonTaskAsync(Guid lessonId)
+		public async Task<bool> RemoveLessonTaskAsync(Guid lessonId, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), lessonId);
+			IRestResponse response = await SendRequestTaskAsync(token, lessonId);
 
 			return response.StatusCode == HttpStatusCode.NoContent;
 

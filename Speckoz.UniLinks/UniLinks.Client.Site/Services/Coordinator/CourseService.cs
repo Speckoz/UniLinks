@@ -1,6 +1,4 @@
-﻿using Blazored.SessionStorage;
-
-using Dependencies.Services;
+﻿using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
@@ -11,36 +9,96 @@ using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class CourseService
 	{
-		private readonly ISessionStorageService _sessionStorage;
-
-		public CourseService(ISessionStorageService sessionStorage)
+		public async Task<ResponseModel<CourseVO>> AddCourseTaskAsync(CourseVO newCourse, string token)
 		{
-			_sessionStorage = sessionStorage;
+			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
+
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResponseModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "Curso criado com sucesso!"
+				},
+
+				_ => new ResponseModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				}
+			};
+			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
+			{
+				Method = Method.POST,
+				URL = DataHelper.URLBase,
+				URN = "Courses",
+				Body = newCourse,
+				Authenticator = new JwtAuthenticator(token)
+			}.ExecuteTaskAsync();
 		}
 
-		public async Task<CourseVO> GetCourseByCoordIdTaskAsync()
+		public async Task<ResponseModel<CourseVO>> GetCourseByCoordIdTaskAsync(string token)
 		{
-			string token = await _sessionStorage.GetItemAsync<string>("token");
-
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "Sucesso!"
+				},
 
-			return null;
+				_ => new ResponseModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				},
+			};
+			async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
+			{
+				Method = Method.GET,
+				URL = DataHelper.URLBase,
+				URN = "Courses",
+				Authenticator = new JwtAuthenticator(token)
+			}.ExecuteTaskAsync();
 		}
 
-		private async Task<IRestResponse> SendRequestTaskAsync(string token) => await new RequestService()
+		public async Task<ResponseModel<CourseVO>> UpdateCourseTaskAsync(CourseVO newCourse, string token)
 		{
-			Method = Method.GET,
-			URL = DataHelper.URLBase,
-			URN = $"Courses",
-			Authenticator = new JwtAuthenticator(token)
-		}.ExecuteTaskAsync();
+			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
+
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseModel<CourseVO>
+				{
+					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = resp.StatusCode,
+					Message = "As informaçoes foram atualizadas com sucesso!"
+				},
+
+				_ => new ResponseModel<CourseVO>
+				{
+					StatusCode = resp.StatusCode,
+					Message = resp.Content.Replace("\"", string.Empty)
+				},
+			};
+			async Task<IRestResponse> SendRequestTaskAsync(CourseVO newCourse, string token) => await new RequestService()
+			{
+				Method = Method.PUT,
+				URL = DataHelper.URLBase,
+				URN = "Courses",
+				Body = newCourse,
+				Authenticator = new JwtAuthenticator(token)
+			}.ExecuteTaskAsync();
+		}
 	}
 }

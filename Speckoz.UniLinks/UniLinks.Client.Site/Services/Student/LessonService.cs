@@ -1,51 +1,52 @@
-﻿using Blazored.SessionStorage;
-
-using Dependencies.Services;
+﻿using Dependencies.Services;
 
 using RestSharp;
 using RestSharp.Authenticators;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Student
 {
 	public class LessonService
 	{
-		private readonly ISessionStorageService _sessionStorage;
-
-		public LessonService(ISessionStorageService sessionStorage) =>
-			_sessionStorage = sessionStorage;
-
-		public async Task<List<LessonDisciplineVO>> GetAllLessonsTaskAync()
+		public async Task<ResponseModel<List<LessonDisciplineVO>>> GetAllLessonsTaskAync(string token, List<string> disciplines)
 		{
-			string disciplines = await _sessionStorage.GetItemAsync<string>("disciplines");
-			var dis = disciplines.Split(';').ToList();
+			IRestResponse response = await SendRequestTaskAsync(token, disciplines);
 
-			IRestResponse response = await SendRequestTaskAsync(await _sessionStorage.GetItemAsync<string>("token"), dis);
-
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-			return null;
-		}
-
-		private async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)
-		{
-			return await new RequestService()
+			return response.StatusCode switch
 			{
-				Method = Method.POST,
-				URL = DataHelper.URLBase,
-				URN = $"lessons",
-				Body = disciplines,
-				Authenticator = new JwtAuthenticator(token)
-			}.ExecuteTaskAsync();
+				HttpStatusCode.OK => new ResponseModel<List<LessonDisciplineVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<LessonDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					StatusCode = response.StatusCode,
+					Message = "Sucesso!"
+				},
+
+				_ => new ResponseModel<List<LessonDisciplineVO>>
+				{
+					StatusCode = response.StatusCode,
+					Message = response.Content.Replace("\"", string.Empty)
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync(string token, List<string> disciplines)
+			{
+				return await new RequestService()
+				{
+					Method = Method.POST,
+					URL = DataHelper.URLBase,
+					URN = $"lessons",
+					Body = disciplines,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
 		}
 	}
 }
