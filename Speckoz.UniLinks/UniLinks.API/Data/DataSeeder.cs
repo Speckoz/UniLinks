@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 
 using UniLinks.API.Models;
+using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models;
 
 namespace UniLinks.API.Data
@@ -135,14 +136,16 @@ namespace UniLinks.API.Data
 					ClassId = Guid.Parse("F0399CDA-FE59-45A3-8440-27EE01A33CFB"),
 					CourseId = c1.CourseId,
 					URI = "https://logikoz.net",
-					Period = 5
+					Period = 5,
+					WeekDays = WeekDaysEnum.AllValid
 				};
 				cs2 = new ClassModel
 				{
 					ClassId = Guid.Parse("17233026-2E4F-4216-B79A-3DF5A7572DBB"),
 					CourseId = c2.CourseId,
 					URI = "https://google.com",
-					Period = 2
+					Period = 2,
+					WeekDays = WeekDaysEnum.Saturday
 				};
 
 				_context.Classes.AddRange(cs1, cs2);

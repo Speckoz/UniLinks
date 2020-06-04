@@ -83,10 +83,10 @@ namespace UniLinks.API
 
 			// Business
 			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
-			services.AddScoped<ILessonBusiness, LessonBusiness>();
 			services.AddScoped<IStudentBusiness, StudentBusiness>();
 			services.AddScoped<ICourseBusiness, CourseBusiness>();
 			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
+			services.AddScoped<ILessonBusiness, LessonBusiness>();
 			services.AddScoped<IClassBusiness, ClassBusiness>();
 
 			// Filter

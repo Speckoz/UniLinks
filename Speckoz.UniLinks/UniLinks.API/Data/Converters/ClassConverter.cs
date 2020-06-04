@@ -19,7 +19,8 @@ namespace UniLinks.API.Data.Converters
 				ClassId = origin.ClassId,
 				CourseId = origin.CourseId,
 				Period = origin.Period,
-				URI = origin.URI
+				URI = origin.URI,
+				WeekDays = origin.WeekDays
 			};
 		}
 
@@ -33,7 +34,8 @@ namespace UniLinks.API.Data.Converters
 				ClassId = origin.ClassId,
 				CourseId = origin.CourseId,
 				Period = origin.Period,
-				URI = origin.URI
+				URI = origin.URI,
+				WeekDays = origin.WeekDays
 			};
 		}
 

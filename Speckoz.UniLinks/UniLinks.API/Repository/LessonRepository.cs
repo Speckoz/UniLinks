@@ -21,6 +21,7 @@ namespace UniLinks.API.Repository
 		{
 			LessonModel lessonAdded = (await _context.AddAsync(lesson)).Entity;
 			await _context.SaveChangesAsync();
+			
 			return lessonAdded;
 		}
 
