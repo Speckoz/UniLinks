@@ -104,7 +104,7 @@ namespace UniLinks.API.Controllers
 			if (!(await disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplineIDs) is List<DisciplineVO> disciplines))
 				return NotFound("Nao foi possivel encontrar as disciplinas do aluno!");
 
-			if (!(await _classBusiness.FindByRangeClassIdTaskAsync(disciplines.Select(x => x.ClassId).ToList()) is List<ClassVO> classes))
+			if (!(await _classBusiness.FindByRangeClassIdTaskAsync(disciplines.Select(x => x.ClassId).ToHashSet()) is List<ClassVO> classes))
 				return NotFound("Nao foi possivel encontrar as salsas do aluno");
 
 			return Ok(classes);

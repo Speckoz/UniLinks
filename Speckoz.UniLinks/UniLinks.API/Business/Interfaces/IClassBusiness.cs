@@ -12,7 +12,7 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
 
-		Task<List<ClassVO>> FindByRangeClassIdTaskAsync(List<Guid> classIds);
+		Task<List<ClassVO>> FindByRangeClassIdTaskAsync(HashSet<Guid> classIds);
 
 		Task<ClassVO> FindByURITaskAsync(string uri);
 
