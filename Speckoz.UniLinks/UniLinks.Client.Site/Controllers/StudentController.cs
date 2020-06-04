@@ -8,9 +8,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-using UniLinks.Client.Site.Services.Student;
 using UniLinks.Client.Site.Services;
+using UniLinks.Client.Site.Services.Student;
 using UniLinks.Dependencies.Attributes;
+using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
@@ -23,11 +24,13 @@ namespace UniLinks.Client.Site.Controllers
 	{
 		private readonly AuthService _authService;
 		private readonly LessonService _lessonService;
+		private readonly ClassService _classService;
 
-		public StudentController(AuthService authService, LessonService lessonService)
+		public StudentController(AuthService authService, LessonService lessonService, ClassService classService)
 		{
 			_authService = authService;
 			_lessonService = lessonService;
+			_classService = classService;
 		}
 
 		[HttpGet]
@@ -40,6 +43,18 @@ namespace UniLinks.Client.Site.Controllers
 			ResponseModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
 
 			return View(model.Object);
+		}
+
+		[Route("student/classes")]
+		[HttpGet]
+		[Authorizes(UserTypeEnum.Student)]
+		public async Task<IActionResult> Classes()
+		{
+			string token = User.FindFirst("Token").Value;
+
+			ResponseModel<List<ClassVO>> response = await _classService.GetAllClassesTaskAsync(token);
+
+			return View("/Views/Student/Classes.cshtml", response.Object);
 		}
 
 		[HttpGet("auth/student")]
