@@ -35,7 +35,8 @@ namespace UniLinks.Client.Site
 			services.AddScoped<ClassService>();
 			services.AddScoped<StudentsService>();
 			services.AddScoped<LessonService>();
-			services.AddScoped<Site.Services.Student.LessonService>();
+			services.AddScoped<Services.Student.LessonService>();
+			services.AddScoped<Services.Student.ClassService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
