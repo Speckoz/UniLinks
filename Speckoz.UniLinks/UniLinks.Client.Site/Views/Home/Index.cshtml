@@ -35,25 +35,25 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
                         @if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
                         {
-                            <a class="dropdown-item waves-effect" href="/coordinator">
+                            <a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Coordinator">
                                 <i class="mdi mdi-account-star icon-margin-right"></i> Painel
                             </a>
                         }
                         else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
                         {
-                            <a class="dropdown-item waves-effect" href="/student">
+                            <a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Student">
                                 <i class="mdi mdi-record-rec icon-margin-right"></i> Minhas Aulas
                             </a>
-                            <a class="dropdown-item waves-effect" href="/student/classes">
+                            <a class="dropdown-item waves-effect" asp-action="Classes" asp-controller="Student">
                                 <i class="mdi mdi-google-lesson icon-margin-right"></i> Salas Online
                             </a>
                         }
                         else
                         {
-                            <a class="dropdown-item waves-effect" href="/auth/student">
+                            <a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Student">
                                 <i class="mdi mdi-account-group icon-margin-right"></i> Aluno
                             </a>
-                            <a class="dropdown-item waves-effect" href="/auth/coordinator">
+                            <a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Coordinator">
                                 <i class="mdi mdi-card-account-details-star icon-margin-right"></i> Coordenador
                             </a>
                         }
@@ -61,7 +61,7 @@
                         @if (User.Claims.Count() > 0)
                         {
                             <hr />
-                            <a class="dropdown-item waves-effect" href="/logout">
+                            <a class="dropdown-item waves-effect" asp-action="Logout" asp-controller="Home">
                                 <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
                             </a>
                         }
@@ -85,7 +85,7 @@
         </div>
         <div class="col-lg-8 mx-auto">
             <br /><br />
-            <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" href="/auth/student">Ver Aulas</a>
+            <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" asp-action="Index" asp-controller="Student">Ver Aulas</a>
         </div>
         <a class="btn btn-link js-scroll-trigger animated pulse slow infinite waves-effect waves-light" role="button" href="#about" style="padding: 0; margin-top: 20px; padding-left: 15px; padding-right: 15px; border-radius: 5em;">
             <i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
@@ -158,7 +158,10 @@
         <div class="row">
             <div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
         </div>
-        <p class="copyright">Speckoz © 2020 - Versão @ViewBag.version</p>
+        @{ 
+            string version = Environment.GetEnvironmentVariable("LAST_COMMIT")?.Substring(0, 5) ?? "Local";
+        }
+        <p class="copyright">Speckoz © 2020 - Versão @version</p>
     </div>
 </footer>
 

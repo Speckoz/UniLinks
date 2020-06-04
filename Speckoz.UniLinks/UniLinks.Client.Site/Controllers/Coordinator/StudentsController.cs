@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,17 +10,17 @@ using UniLinks.Dependencies.Enums;
 
 namespace UniLinks.Client.Site.Controllers.Coordinator
 {
-	[Route("coordinator/students")]
+	[Route("Coordinator/[Controller]")]
 	public class StudentsController : Controller
 	{
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> Students([FromServices] StudentsService studentsService)
+		public async Task<IActionResult> Index([FromServices] StudentsService studentsService)
 		{
 			string token = User.FindFirst("Token").Value;
 
 			List<StudentDisciplineVO> students = await studentsService.GetStudentsTaskAsync(token);
-			return View("/Views/Coordinator/Students.cshtml", students);
+			return View("/Views/Coordinator/Students/Index.cshtml", students);
 		}
 	}
 }

@@ -24,8 +24,8 @@ namespace UniLinks.Client.Site
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 					.AddCookie(o =>
 					{
-						o.LoginPath = "/noauth";
-						o.AccessDeniedPath = "/noauth";
+						o.LoginPath = "/NoAuth";
+						o.AccessDeniedPath = "/NoAuth";
 					});
 
 			//Services
@@ -47,11 +47,11 @@ namespace UniLinks.Client.Site
 			}
 			else
 			{
-				app.UseExceptionHandler("/problem/500");
+				app.UseExceptionHandler("/Problem/500");
 				app.UseHsts();
 			}
 
-			app.UseStatusCodePagesWithReExecute("/problem/{0}");
+			app.UseStatusCodePagesWithReExecute("/Problem/{0}");
 
 			// app.UseHttpsRedirection();
 			app.UseStaticFiles();

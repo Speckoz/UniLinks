@@ -45,7 +45,6 @@ namespace UniLinks.Client.Site.Controllers
 			return View(model.Object);
 		}
 
-		[Route("student/classes")]
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Student)]
 		public async Task<IActionResult> Classes()
@@ -57,7 +56,7 @@ namespace UniLinks.Client.Site.Controllers
 			return View("/Views/Student/Classes.cshtml", response.Object);
 		}
 
-		[HttpGet("auth/student")]
+		[HttpGet]
 		public IActionResult Auth()
 		{
 			switch (User.FindFirst(ClaimTypes.Role)?.Value)
@@ -72,7 +71,7 @@ namespace UniLinks.Client.Site.Controllers
 			return View();
 		}
 
-		[HttpPost("auth/student")]
+		[HttpPost]
 		public async Task<IActionResult> Auth(LoginStudentRequestModel login)
 		{
 			if (ModelState.IsValid)

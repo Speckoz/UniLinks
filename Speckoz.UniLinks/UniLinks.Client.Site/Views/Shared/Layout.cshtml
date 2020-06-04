@@ -50,12 +50,12 @@
                         @if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
                         {
                             <li class="nav-item py-0">
-                                <a class="nav-link waves-effect" href="/student">
+                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Student">
                                     <i class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></i> Minhas Aulas
                                 </a>
                             </li>
                             <li class="nav-item py-0">
-                                <a class="nav-link waves-effect" href="/student/classes">
+                                <a class="nav-link waves-effect" asp-action="Classes" asp-controller="Student">
                                     <i class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></i> Salas Online
                                 </a>
                             </li>
@@ -63,7 +63,7 @@
                         else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
                         {
                             <li class="nav-item py-0">
-                                <a class="nav-link waves-effect" href="/coordinator">
+                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Coordinator">
                                     <i class="mdi mdi-account-star mdi-18px icon-margin-right" aria-hidden="true"></i> Painel
                                 </a>
 
@@ -74,22 +74,22 @@
                                     {
                                         <ul class="nav flex-column">
                                             <li class="nav-item py-0 nav-panel-margin">
-                                                <a class="nav-link waves-effect" href="/coordinator/students">
+                                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Students">
                                                     <i class="mdi mdi-account-multiple mdi-18px icon-margin-right" aria-hidden="true"></i> Estudantes
                                                 </a>
                                             </li>
                                             <li class="nav-item py-0 nav-panel-margin">
-                                                <a class="nav-link waves-effect" href="/coordinator/lessons">
+                                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Lessons">
                                                     <i class="mdi mdi-record-rec mdi-18px icon-margin-right" aria-hidden="true"></i> Aulas Gravadas
                                                 </a>
                                             </li>
                                             <li class="nav-item py-0 nav-panel-margin">
-                                                <a class="nav-link waves-effect" href="/coordinator/disciplines">
+                                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Disciplines">
                                                     <i class="mdi mdi-bookshelf mdi-18px icon-margin-right" aria-hidden="true"></i> Disciplinas
                                                 </a>
                                             </li>
                                             <li class="nav-item py-0 nav-panel-margin">
-                                                <a class="nav-link waves-effect" href="/coordinator/classes">
+                                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Classes">
                                                     <i class="mdi mdi-google-lesson mdi-18px icon-margin-right" aria-hidden="true"></i> Salas Online
                                                 </a>
                                             </li>
@@ -98,13 +98,13 @@
                                 }
                             </li>
                             <li class="nav-item py-0">
-                                <a class="nav-link waves-effect" href="/coordinator/course">
+                                <a class="nav-link waves-effect" asp-action="Index" asp-controller="Course">
                                     <i class="mdi mdi-information-variant mdi-18px icon-margin-right" aria-hidden="true"></i> Informaçao do Curso
                                 </a>
                             </li>
                         }
                         <li class="nav-item py-0">
-                            <a class="nav-link waves-effect" href="/logout">
+                            <a class="nav-link waves-effect" asp-action="Logout" asp-controller="Home">
                                 <i class="mdi mdi-logout mdi-18px icon-margin-right" aria-hidden="true"></i> Deslogar
                             </a>
                         </li>

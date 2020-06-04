@@ -12,19 +12,19 @@ using UniLinks.Dependencies.Enums;
 
 namespace UniLinks.Client.Site.Controllers.Coordinator
 {
-	[Route("coordinator/lessons")]
+	[Route("Coordinator/[Controller]")]
 	public class LessonsController : Controller
 	{
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> Lessons([FromServices] LessonService lessonService, [FromServices] DisciplineService disciplineService)
+		public async Task<IActionResult> Index([FromServices] LessonService lessonService, [FromServices] DisciplineService disciplineService)
 		{
 			string token = User.FindFirst("Token").Value;
 
 			List<DisciplineVO> disciplines = await disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
 			List<LessonDisciplineVO> lessons = await lessonService.GetAllLessonsByDisciplineIDsTaskAsync(token, disciplines.Select(x => x.DisciplineId).ToList());
 
-			return View("/Views/Coordinator/Lessons.cshtml", lessons);
+			return View("/Views/Coordinator/Lessons/Index.cshtml", lessons);
 		}
 	}
 }

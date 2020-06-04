@@ -13,7 +13,7 @@ using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Controllers.Coordinator
 {
-	[Route("coordinator/course")]
+	[Route("Coordinator/[Controller]")]
 	[Authorizes(UserTypeEnum.Coordinator)]
 	public class CourseController : Controller
 	{
@@ -25,7 +25,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Course()
+		public async Task<IActionResult> Index()
 		{
 			string token = User.FindFirst("Token").Value;
 
@@ -33,13 +33,13 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Course/Course.cshtml", response.Object),
+				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
 				HttpStatusCode.NotFound => View("/Views/Coordinator/Course/CourseNotFound.cshtml", response.Object),
 				_ => View("/Views/Coordinator/Course/AddCourse.cshtml", response.Object),
 			};
 		}
 
-		[HttpGet("add")]
+		[HttpGet("Add")]
 		public async Task<IActionResult> AddCourse()
 		{
 			string token = User.FindFirst("Token").Value;
@@ -49,7 +49,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			return View("/Views/Coordinator/Course/AddCourse.cshtml", response);
 		}
 
-		[HttpPost("add")]
+		[HttpPost("Add")]
 		public async Task<IActionResult> AddCourse(ResponseModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
@@ -58,12 +58,12 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => View("/Views/Coordinator/Course/Course.cshtml", response.Object),
+				HttpStatusCode.Created => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
 				_ => View("/Views/Coordinator/Course/AddCourse.cshtml", response),
 			};
 		}
 
-		[HttpGet("update")]
+		[HttpGet("Update")]
 		public async Task<IActionResult> UpdateCourse()
 		{
 			string token = User.FindFirst("Token").Value;
@@ -72,12 +72,12 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => View("/Views/Coordinator/Course/Course.cshtml", response.Object),
+				HttpStatusCode.Created => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
 				_ => View("/Views/Coordinator/Course/UpdateCourse.cshtml", response),
 			};
 		}
 
-		[HttpPost("update")]
+		[HttpPost("Update")]
 		public async Task<IActionResult> UpdateCourse(ResponseModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
@@ -88,7 +88,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Course/Course.cshtml", response.Object),
+				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
 				_ => View("/Views/Coordinator/Course/UpdateCourse.cshtml", response),
 			};
 		}

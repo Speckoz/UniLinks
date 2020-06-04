@@ -8,10 +8,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.Client.Site.Services;
-using UniLinks.Client.Site.Services.Coordinator;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO.Coordinator;
-using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models.Auxiliary;
 
@@ -23,7 +21,7 @@ namespace UniLinks.Client.Site.Controllers
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public IActionResult Index() => View();
 
-		[HttpGet("auth/coordinator")]
+		[HttpGet("Auth")]
 		public IActionResult Auth()
 		{
 			switch (User.FindFirst(ClaimTypes.Role)?.Value)
@@ -38,7 +36,7 @@ namespace UniLinks.Client.Site.Controllers
 			return View();
 		}
 
-		[HttpPost("auth/coordinator")]
+		[HttpPost("Auth")]
 		public async Task<IActionResult> Auth([FromServices] AuthService authService, LoginRequestModel login)
 		{
 			if (ModelState.IsValid)
