@@ -6,32 +6,18 @@
     ViewData["Title"] = "Salas";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ClassId</th>
-            <th>CourseId</th>
-            <th>URI</th>
-            <th>Period</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClassId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.URI)
-                </td>
-                <td>
+<div class="card-deck" style="margin: 20px">
+    @foreach (var item in Model)
+    {
+        <div class="card mb-4 theme-bg theme-text">
+            <div class="card-body">
+
+                <h5 class="card-title">@(item.Period)º Período</h5>
+                <p class="card-text">
                     @(item.WeekDays.AsString(EnumFormat.Description))
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </p>
+                <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
+            </div>
+        </div>
+    }
+</div>
