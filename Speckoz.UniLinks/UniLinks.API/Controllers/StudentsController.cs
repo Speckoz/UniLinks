@@ -92,7 +92,7 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
-				if (!(await _studentBusiness.FindByIdTaskAsync(newStudent.StudentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
 				if (await _studentBusiness.UpdateTaskAsync(studentVO, newStudent) is StudentVO student)
@@ -113,7 +113,7 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByIdTaskAsync(studentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
