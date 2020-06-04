@@ -16,7 +16,7 @@ namespace UniLinks.API.Data
 		private CourseModel c1 = null, c2 = null;
 		private DisciplineModel d1 = null, d2 = null, d3 = null;
 		private LessonModel l1 = null, l2 = null, l3 = null;
-		private ClassModel cs1 = null, cs2 = null;
+		private ClassModel cs1 = null, cs2 = null, cs3 = null;
 
 		public DataSeeder(DataContext context) : base(context)
 		{
@@ -148,7 +148,16 @@ namespace UniLinks.API.Data
 					WeekDays = WeekDaysEnum.Saturday
 				};
 
-				_context.Classes.AddRange(cs1, cs2);
+				cs3 = new ClassModel
+				{
+					ClassId = Guid.Parse("07D78E89-A0B8-4983-A0AD-53FCEFF4FB29"),
+					CourseId = c1.CourseId,
+					URI = "https://bing.com",
+					Period = 5,
+					WeekDays = WeekDaysEnum.Saturday
+				};
+
+				_context.Classes.AddRange(cs1, cs2, cs3);
 			}
 		}
 
@@ -163,7 +172,7 @@ namespace UniLinks.API.Data
 					Teacher = "Son Goku",
 					Period = 5,
 					CourseId = c1.CourseId,
-					ClassId = cs1.ClassId
+					ClassId = cs3.ClassId
 				};
 				d2 = new DisciplineModel
 				{
