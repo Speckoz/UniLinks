@@ -12,6 +12,8 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
 
+		Task<List<ClassVO>> FindByRangeClassIdTaskAsync(List<Guid> classIds);
+
 		Task<ClassVO> FindByURITaskAsync(string uri);
 
 		Task<List<ClassVO>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period);

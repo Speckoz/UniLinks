@@ -76,7 +76,7 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
 			await _studentRepository.ExistsByEmailTaskAsync(email);
 
-		public async Task<StudentVO> FindByIdTaskAsync(Guid id) =>
+		public async Task<StudentVO> FindByStudentIdTaskAsync(Guid id) =>
 			_converter.Parse(await _studentRepository.FindByIdTaskAsync(id));
 
 		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)

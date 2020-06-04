@@ -35,6 +35,21 @@ namespace UniLinks.API.Business
 		public async Task<ClassVO> FindByClassIdTaskAsync(Guid classId) =>
 			_classConverter.Parse(await _classRepository.FindByClassIdTaskAsync(classId));
 
+		public async Task<List<ClassVO>> FindByRangeClassIdTaskAsync(List<Guid> classIds)
+		{
+			var classes = new List<ClassVO>();
+
+			foreach (Guid classId in classIds)
+			{
+				if (await _classRepository.FindByClassIdTaskAsync(classId) is ClassModel classModel)
+					classes.Add(_classConverter.Parse(classModel));
+				else
+					return null;
+			}
+
+			return classes;
+		}
+
 		public async Task<List<ClassVO>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period) =>
 			_classConverter.ParseList(await _classRepository.FindAllByCourseIdAndPeriodTaskAsync(courseId, period));
 
