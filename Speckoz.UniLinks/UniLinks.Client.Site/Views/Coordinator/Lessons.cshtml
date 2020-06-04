@@ -12,7 +12,6 @@
             <th class="th-sm">URI</th>
             <th class="th-sm">Assunto</th>
             <th class="th-sm">Disciplina</th>
-            <th class="th-sm">Data</th>
             <th class="th-sm">Duraçao</th>
         </tr>
     </thead>
@@ -20,10 +19,9 @@
         @foreach (LessonDisciplineVO item in Model)
         {
             <tr>
-                <td>@item.Lesson.URI</td>
+                <td><a href="@item.Lesson.URI" target="_blank">Abrir link</a><br />@item.Lesson.Date.ToShortDateString()</td>
                 <td>@item.Lesson.LessonSubject</td>
                 <td>@item.Discipline.Name</td>
-                <td>@item.Lesson.Date</td>
                 <td>@item.Lesson.Duration</td>
             </tr>
         }
@@ -33,7 +31,6 @@
             <th>URI</th>
             <th>Assunto</th>
             <th>Disciplina</th>
-            <th>Data</th>
             <th>Duraçao</th>
         </tr>
     </tfoot>

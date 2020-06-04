@@ -225,7 +225,7 @@ namespace UniLinks.API.Data
 
 				l3 = new LessonModel
 				{
-					Date = DateTime.Now,
+					Date = DateTime.Now.AddDays(-5),
 					URI = "https://logikoz.net",
 					DisciplineId = d3.DisciplineId,
 					Duration = 31240004,
