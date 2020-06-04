@@ -2,6 +2,11 @@
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+$(document).ready(function () {
+    $('#dtBasicExample').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+});
+
 function checkTheme() {
     let themeInCookie = getCookie("theme");
     if (themeInCookie != "") {
