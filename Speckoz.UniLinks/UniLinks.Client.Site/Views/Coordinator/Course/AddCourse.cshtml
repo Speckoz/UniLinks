@@ -6,26 +6,32 @@
     ViewData["Title"] = "Adicionar Curso";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-
 @if (Model.StatusCode != HttpStatusCode.Created)
 {
     <p class="red-text text-center">@Model.Message</p>
 }
 
 <div>
-    <form method="post" asp-controller="Course" asp-action="AddCourse">
-        <dl class="row">
-            <dt class="col-sm-2">Nome do Curso</dt>
-            <dd class="col-sm-10">
-                <input asp-for="Object.Name" />
-            </dd>
-            <dt class="col-sm-2">Quantidade de periodos</dt>
-            <dd class="col-sm-10">
-                <input asp-for="Object.Periods" type="number" />
-            </dd>
-        </dl>
+    <h3 class="text-center">@ViewData["Title"]</h3>
 
-        <button>Adicionar</button>
+    <form method="post" asp-controller="Course" asp-action="AddCourse">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="md-form">
+                    <input type="text" id="courseName" class="form-control" asp-for="Object.Name" />
+                    <label for="courseName">Nome do Curso</label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="md-form">
+                    <input type="number" id="periodsNumber" class="form-control" asp-for="Object.Periods" />
+                    <label for="periodsNumber">Nº Periodos</label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary waves-effect justify-content-center">Adicionar</button>
+            </div>
+        </div>
     </form>
 </div>
