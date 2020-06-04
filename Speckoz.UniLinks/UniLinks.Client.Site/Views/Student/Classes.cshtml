@@ -1,0 +1,37 @@
+﻿@using EnumsNET
+
+@model List<ClassVO>
+
+@{
+    ViewData["Title"] = "Salas";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ClassId</th>
+            <th>CourseId</th>
+            <th>URI</th>
+            <th>Period</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.URI)
+                </td>
+                <td>
+                    @(item.WeekDays.AsString(EnumFormat.Description))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
