@@ -52,9 +52,10 @@ namespace UniLinks.API
 			string host = GetEnvironmentVariable("DBHOST") ?? "localhost";
 			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
 			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
+			string user = GetEnvironmentVariable("DBUSER") ?? "root";			
 			services.AddDbContext<DataContext>
 			(
-				options => options.UseMySql($"server={host};userid=root;pwd={password};port={port};database=unilinks",
+				options => options.UseMySql($"server={host};userid={user};pwd={password};port={port};database=unilinks",
 				builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName))
 			);
 
