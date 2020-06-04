@@ -9,14 +9,14 @@ using UniLinks.API.Data;
 namespace UniLinks.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200525045244_RemovingNotNullFromLessonSubject")]
-    partial class RemovingNotNullFromLessonSubject
+    [Migration("20200604080602_AddWeekDayOnClassModel")]
+    partial class AddWeekDayOnClassModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("UniLinks.API.Models.ClassModel", b =>
@@ -34,6 +34,9 @@ namespace UniLinks.API.Migrations
                     b.Property<string>("URI")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("WeekDays")
+                        .HasColumnType("int");
 
                     b.HasKey("ClassId");
 

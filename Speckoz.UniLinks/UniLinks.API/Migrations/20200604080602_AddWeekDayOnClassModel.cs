@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniLinks.API.Migrations
 {
-    public partial class RemovingNotNullFromLessonSubject : Migration
+    public partial class AddWeekDayOnClassModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace UniLinks.API.Migrations
                     ClassId = table.Column<Guid>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: false),
                     URI = table.Column<string>(nullable: false),
-                    Period = table.Column<byte>(nullable: false)
+                    Period = table.Column<byte>(nullable: false),
+                    WeekDays = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

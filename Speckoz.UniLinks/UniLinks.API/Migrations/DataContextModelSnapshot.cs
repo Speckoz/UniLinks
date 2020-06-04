@@ -14,7 +14,7 @@ namespace UniLinks.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("UniLinks.API.Models.ClassModel", b =>
@@ -32,6 +32,9 @@ namespace UniLinks.API.Migrations
                     b.Property<string>("URI")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("WeekDays")
+                        .HasColumnType("int");
 
                     b.HasKey("ClassId");
 
