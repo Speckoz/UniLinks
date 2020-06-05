@@ -4,12 +4,14 @@ using RestSharp;
 using RestSharp.Authenticators;
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {
@@ -37,14 +39,25 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ClassVO> GetClassesTaskAsync(string token)
+		public async Task<ResponseModel<List<ClassVO>>> GetClassesTaskAsync(string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
-			if (resp.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<ClassVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return resp.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseModel<List<ClassVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<ClassVO>>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Sucesso!",
+					StatusCode = resp.StatusCode
+				},
 
-			return null;
+				_ => new ResponseModel<List<ClassVO>>
+				{
+					Message = resp.Content.Replace("\"", string.Empty),
+					StatusCode = resp.StatusCode
+				}
+			};
 
 			async Task<IRestResponse> SendRequestTaskAsync(string token)
 			{
@@ -52,7 +65,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				{
 					Method = Method.GET,
 					URL = DataHelper.URLBase,
-					URN = "Classes",
+					URN = "Classes/all",
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}
