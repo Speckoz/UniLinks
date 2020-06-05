@@ -11,27 +11,29 @@
     <p class="red-text text-center">@Model.Message</p>
 }
 
-<div>
-    <h3 class="text-center">@ViewData["Title"]</h3>
+<div class="row h-100" style="margin-left: 0; margin-right: 0">
+    <div class="col-sm-12 my-auto">
+        <h3 class="text-center">@ViewData["Title"]</h3>
 
-    <form method="post" asp-controller="Course" asp-action="AddCourse">
+        <form method="post" asp-controller="Course" asp-action="AddCourse">
 
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="md-form">
-                    <input type="text" id="courseName" class="form-control" asp-for="Object.Name" />
-                    <label for="courseName">Nome do Curso</label>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="md-form">
+                        <input type="text" id="courseName" class="form-control theme-text" asp-for="Object.Name" />
+                        <label for="courseName">Nome do Curso</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="md-form">
+                        <input type="number" id="periodsNumber" class="form-control theme-text" asp-for="Object.Periods" />
+                        <label for="periodsNumber">Nº Periodos</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <button class="btn btn-primary waves-effect justify-content-center">Adicionar</button>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="md-form">
-                    <input type="number" id="periodsNumber" class="form-control" asp-for="Object.Periods" />
-                    <label for="periodsNumber">Nº Periodos</label>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <button class="btn btn-primary waves-effect justify-content-center">Adicionar</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>    
 </div>

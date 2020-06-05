@@ -3,24 +3,25 @@
 @{
     ViewData["Title"] = "Informaçoes do Curso";
 }
-<div>
-    <h3 class="text-center">@ViewData["Title"]</h3>
+<div class="row h-100" style="margin-left: 0; margin-right: 0">
+    <div class="col-sm-12 my-auto">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="md-form">
-                <input type="text" id="courseName" class="form-control" value="@Model.Name" readonly style="color:grey" />
-                <label for="courseName">Nome do Curso</label>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="md-form">
+                    <input type="text" id="courseName" class="form-control" value="@Model.Name" readonly style="color:grey" />
+                    <label for="courseName">Nome do Curso</label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="md-form">
+                    <input type="number" id="periodsNumber" class="form-control" value="@Model.Periods" readonly style="color:grey"/>
+                    <label for="periodsNumber">Nº Periodos</label>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <a asp-action="UpdateCourse" asp-controller="Course" class="btn btn-primary waves-effect justify-content-center">Atualizar Informaçoes</a>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="md-form">
-                <input type="number" id="periodsNumber" class="form-control" value="@Model.Periods" readonly />
-                <label for="periodsNumber">Nº Periodos</label>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <a asp-action="UpdateCourse" asp-controller="Course" class="btn btn-primary waves-effect justify-content-center">Atualizar Informaçoes</a>
-        </div>
-    </div>
+    </div>    
 </div>
