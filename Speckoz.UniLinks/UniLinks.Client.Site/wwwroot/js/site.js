@@ -94,7 +94,7 @@ function getCookie(cname) {
 }
 
 function setCookie(cname, value) {
-    document.cookie = `${cname}=${value}`;
+    document.cookie = `${cname}=${value}; path=/`;
     return value;
 }
 

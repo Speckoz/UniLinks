@@ -836,3 +836,7 @@ input:checked + .slider:before
 .tr-lesson:hover {
     cursor: pointer;
 }
+
+.main-navbar-aside {
+    -webkit-box-shadow: none !important;
+}
