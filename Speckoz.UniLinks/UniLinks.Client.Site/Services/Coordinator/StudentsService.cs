@@ -11,21 +11,32 @@ using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class StudentsService
 	{
-		///
-		public async Task<StudentDisciplineVO> AddStudentTaskAsync(StudentVO student, string token, Guid courseId)
+		public async Task<ResponseModel<StudentDisciplineVO>> AddStudentTaskAsync(StudentVO student, string token, Guid courseId)
 		{
 			student.CourseId = courseId;
 			IRestResponse response = await SendRequestTaskAsync(token, student);
 
-			if (response.StatusCode == HttpStatusCode.Created)
-				return JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return response.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResponseModel<StudentDisciplineVO>
+				{
+					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "sucesso!",
+					StatusCode = response.StatusCode
+				},
 
-			return default;
+				_ => new ResponseModel<StudentDisciplineVO>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
 
 			static async Task<IRestResponse> SendRequestTaskAsync(string token, StudentVO student)
 			{
@@ -40,14 +51,25 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<List<StudentDisciplineVO>> GetStudentsTaskAsync(string token)
+		public async Task<ResponseModel<List<StudentDisciplineVO>>> GetStudentsTaskAsync(string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token);
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new List<StudentDisciplineVO>();
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseModel<List<StudentDisciplineVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Aluno removido com sucesso!",
+					StatusCode = response.StatusCode
+				},
+
+				_ => new ResponseModel<List<StudentDisciplineVO>>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
 
 			async Task<IRestResponse> SendRequestTaskAsync(string token)
 			{
@@ -61,15 +83,26 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<StudentVO> UpdateStudentTaskAsync(StudentVO newStudent, string token, Guid courseId)
+		public async Task<ResponseModel<StudentVO>> UpdateStudentTaskAsync(StudentVO newStudent, string token, Guid courseId)
 		{
 			newStudent.CourseId = courseId;
 			IRestResponse response = await SendRequestTaskAsync(token, newStudent);
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return response.StatusCode switch
+			{
+				HttpStatusCode.NoContent => new ResponseModel<StudentVO>
+				{
+					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Sucesso!",
+					StatusCode = response.StatusCode
+				},
 
-			return null;
+				_ => new ResponseModel<StudentVO>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
 
 			static async Task<IRestResponse> SendRequestTaskAsync(string token, StudentVO student)
 			{
@@ -84,11 +117,26 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<bool> RemoveStudentTaskAsync(Guid studentId, string token)
+		public async Task<ResponseModel<bool>> RemoveStudentTaskAsync(Guid studentId, string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token, studentId);
 
-			return response.StatusCode == HttpStatusCode.NoContent;
+			return response.StatusCode switch
+			{
+				HttpStatusCode.NoContent => new ResponseModel<bool>
+				{
+					Object = true,
+					Message = "Aluno removido com sucesso!",
+					StatusCode = response.StatusCode
+				},
+
+				_ => new ResponseModel<bool>
+				{
+					Object = false,
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
 
 			static async Task<IRestResponse> SendRequestTaskAsync(string token, Guid studentId)
 			{
