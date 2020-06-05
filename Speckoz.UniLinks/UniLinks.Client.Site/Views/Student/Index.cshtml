@@ -47,6 +47,33 @@
             <span style="padding-bottom: 20px">Encontradas: @Model.Count</span>
         </div>
         <section id="lessons-list-table" class="row nosection-padding">
+
+            <!-- Modal Assuntos da aula -->
+            <div class="modal fade" id="modal-lesson-details" tabindex="-1" role="dialog" aria-labelledby="modal-lesson-details"
+                 aria-hidden="true">
+
+                <!-- Change class .modal-sm to change the size of the modal -->
+                <div class="modal-dialog modal-md" role="document">
+
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title w-100 text-center ml-3" id="myModalLabel">Assuntos da aula</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modal-assunto-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Assuntos da aula -->
+
             <div class="col-md-12">
                 <div class="d-flex justify-content-lg-center">
                     <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
@@ -71,9 +98,12 @@
                                     created
                                 });
 
+                                string lessonObj = JsonSerializer.Serialize(lesson);
+
                                 <tr class="tr-hover tr-lesson" onclick="showLessonCard(@json)">
                                     <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
-                                    <td class="text-wrap col unselectable" style="color: #6b6b6b; font-size: 0.9em">@created</td>
+                                    <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em">@created</td>
+                                    <td onclick="showLessonDetails(@lessonObj)" class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em; cursor: help">Assuntos</td>
                                 </tr>
                             }
                         </tbody>
@@ -109,5 +139,11 @@
             </div>
         </div>
     `)
+    }
+
+    function showLessonDetails({ Lesson, Discipline }) {
+        const subject = Lesson.LessonSubject;
+        $("#modal-assunto-body").text(subject);
+        ShowModal("modal-lesson-details");
     }
 </script>

@@ -840,3 +840,6 @@ input:checked + .slider:before
 .main-navbar-aside {
     -webkit-box-shadow: none !important;
 }
+.td-students-lesson {
+    vertical-align: middle !important;
+}
