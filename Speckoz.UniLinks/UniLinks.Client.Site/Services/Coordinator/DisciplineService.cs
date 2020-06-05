@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Helper;
+using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Services.Coordinator
 {
@@ -38,14 +39,25 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<List<DisciplineVO>> GetDisciplinesByCoordIdTaskAsync(string token)
+		public async Task<ResponseModel<List<DisciplineVO>>> GetDisciplinesByCoordIdTaskAsync(string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token);
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new List<DisciplineVO>();
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResponseModel<List<DisciplineVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Sucesso!",
+					StatusCode = response.StatusCode
+				},
+
+				_ => new ResponseModel<List<DisciplineVO>>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
 
 			static async Task<IRestResponse> SendRequestTaskAsync(string token)
 			{

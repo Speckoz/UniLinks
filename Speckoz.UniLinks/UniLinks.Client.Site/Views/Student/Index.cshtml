@@ -2,14 +2,13 @@
 @using System.Globalization;
 
 @{
-    ViewData["Title"] = "Painel";
-    Layout = "Layout";
+    ViewData["Title"] = "Aulas";
 }
 
 @model List<LessonDisciplineVO>
-    
 
-<h4 class="text-center p-3">Aulas</h4>
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
 
 <div class="container">
     <article class="row justify-content-center d-flex" id="card-lesson">
@@ -55,7 +54,6 @@
 
                 <!-- Change class .modal-sm to change the size of the modal -->
                 <div class="modal-dialog modal-md" role="document">
-
 
                     <div class="modal-content">
                         <div class="modal-header">

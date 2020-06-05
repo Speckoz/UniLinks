@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Disciplinas";
+}
+
+@model List<DisciplineVO>
+
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
+
+<div class="card-deck" style="margin: 20px">
+
+    @foreach (DisciplineVO item in Model)
+    {
+        <div class="card mb-4 theme-bg theme-text" style="max-width: 250px; border-radius: 1.2em">
+            <div class="card-body">
+
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">
+                    @(item.Period)º Período
+                </p>
+                <p class="card-text">
+                    @item.Teacher
+                </p>
+
+            </div>
+        </div>
+    }
+</div>

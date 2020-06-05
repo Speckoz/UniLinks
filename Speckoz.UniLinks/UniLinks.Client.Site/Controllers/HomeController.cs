@@ -12,11 +12,7 @@ namespace UniLinks.Client.Site.Controllers
 	public class HomeController : Controller
 	{
 		[HttpGet]
-		public IActionResult Index()
-		{
-			//ViewBag.version = Environment.GetEnvironmentVariable("LAST_COMMIT")?.Substring(0, 5) ?? "Local";
-			return View();
-		}
+		public IActionResult Index() => View();
 
 		[HttpGet("Problem/404")]
 		public IActionResult PageNotFound() => View();
