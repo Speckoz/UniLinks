@@ -10,14 +10,13 @@
 <hr />
 
 <div class="card-deck" style="margin: 20px">
-
     @foreach (var item in Model)
     {
-        <div class="card mb-4 theme-bg theme-text" style="max-width: 200px">
+        <div class="card mb-4 theme-bg theme-text" style="max-width: 230px; align-self: center; width: 230px; align-items: center;">
             <div class="card-body">
 
-                <h5 class="card-title">@(item.Period)º Período</h5>
-                <p class="card-text">
+                <h5 class="card-title text-center">@(item.Period)º Período</h5>
+                <p class="card-text text-center">
                     @(item.WeekDays.AsString(EnumFormat.Description))
                 </p>
                 <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>

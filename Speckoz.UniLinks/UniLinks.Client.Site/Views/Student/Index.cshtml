@@ -52,21 +52,20 @@
             <div class="modal fade" id="modal-lesson-details" tabindex="-1" role="dialog" aria-labelledby="modal-lesson-details"
                  aria-hidden="true">
 
-                <!-- Change class .modal-sm to change the size of the modal -->
-                <div class="modal-dialog modal-md" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
 
-                    <div class="modal-content">
+                    <div class="modal-content theme-bg theme-text">
                         <div class="modal-header">
                             <h4 class="modal-title w-100 text-center ml-3" id="myModalLabel">Assuntos da aula</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" id="modal-assunto-body">
+                        <div class="modal-body" style="font-size: 15px" id="modal-assunto-body">
                             ...
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                        <div class="modal-footer border-0 d-flex justify-content-center">
+                            <button class="btn btn-gradient waves-effect" data-dismiss="modal" aria-label="Close">Fechar</button>
                         </div>
                     </div>
                 </div>
@@ -92,17 +91,15 @@
                                 string json = JsonSerializer.Serialize(new
                                 {
                                     discipline = lesson.Discipline.Name,
+                                    lessonSubject = lesson.Lesson.LessonSubject,
                                     uri = lesson.Lesson.URI,
                                     duration,
                                     created
                                 });
 
-                                string lessonObj = JsonSerializer.Serialize(lesson);
-
                                 <tr class="tr-hover tr-lesson" onclick="showLessonCard(@json)">
                                     <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
                                     <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em">@created</td>
-                                    <td onclick="showLessonDetails(@lessonObj)" class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em; cursor: help">Assuntos</td>
                                 </tr>
                             }
                         </tbody>
@@ -114,7 +111,7 @@
 </div>
 
 <script>
-    function showLessonCard({ discipline, uri, duration, created }) {
+    function showLessonCard({ discipline, lessonSubject, uri, duration, created }) {
         $("#card-lesson").html(`
         <div class="card card-lesson theme-card theme-text">
             <div class="row nowrap-row" style="height: 6em">
@@ -125,24 +122,33 @@
                 <div class="col-7" style="padding-left: 10px;padding-top: 10px;">
                     <h6 style="width: auto;min-width: 205px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${discipline}</h6>
                     <span style=" font-size: 13px; color: grey; top: 30px; position: absolute;" data-toggle="tooltip" data-placement="bottom" title="Duraçao da aula">${duration}</span>
-                    <span style="position: absolute;bottom: 5px;left: 10px;font-size: 14px;color: grey;" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi gravada">Criado em ${created}</span>
+                    <span style="position: absolute;bottom: 5px;left: 10px;font-size: 14px;color: grey;" data-toggle="tooltip" data-placement="bottom" title="Data/hora que a aula foi gravada">Gravado em ${created}</span>
                 </div>
 
                 <div class="col-2 text-center">
-                    <div class="animated pulse slower delay-2s infinite" style="position: absolute; bottom: 25%; right: 20%" data-toggle="tooltip" data-placement="right" title="Abrir aula">
+                    <div style="position: absolute; top: ${lessonSubject != "" && lessonSubject != null ? "10px" : "30px"}; right: 30%" data-toggle="tooltip" data-placement="right" title="Abrir aula">
                         <a class="blue-text" href="${uri}" target="_blank">
-                            <i class="mdi mdi-open-in-new" style="font-size: 2em"></i>
+                            <i class="mdi mdi-share" style="font-size: 25px"></i>
                         </a>
                     </div>
+                    ${
+                        lessonSubject != "" && lessonSubject != null ?
+                        `<div style="position: absolute; bottom: 10%; right: 30%" data-toggle="tooltip" data-placement="right" title="Assuntos">
+                                <a class="blue-text" onclick="showLessonDetails('${lessonSubject}')">
+                                    <i class="mdi mdi-file-document-edit-outline" style="font-size: 25px"></i>
+                                </a>
+                            </div>`
+                        : ``
+                    }
                 </div>
             </div>
         </div>
     `)
     }
 
-    function showLessonDetails({ Lesson, Discipline }) {
-        const subject = Lesson.LessonSubject;
-        $("#modal-assunto-body").text(subject);
+    function showLessonDetails(lessonSubject) {
+        const subject = lessonSubject.replace(/;/gi, "<br/>");
+        $("#modal-assunto-body").html(subject);
         ShowModal("modal-lesson-details");
     }
 </script>

@@ -204,7 +204,7 @@ namespace UniLinks.API.Data
 				l1 = new LessonModel
 				{
 					Date = DateTime.Now,
-					LessonSubject = "Diodos\nRedes Cristalinas\nDopagem\nDiodo Zener",
+					LessonSubject = "Diodos;Redes Cristalinas;Dopagem;Diodo Zener",
 					URI = "https://logikoz.net",
 					DisciplineId = d1.DisciplineId,
 					Duration = 31240004,

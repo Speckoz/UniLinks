@@ -24,7 +24,6 @@ namespace UniLinks.Client.Site.Controllers
 		public IActionResult NoAuth() => View();
 
 		[HttpGet]
-		[Authorizes]
 		public async Task<IActionResult> Logout()
 		{
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
