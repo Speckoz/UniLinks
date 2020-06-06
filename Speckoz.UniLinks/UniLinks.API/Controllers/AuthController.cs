@@ -44,7 +44,7 @@ namespace UniLinks.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _studentBusiness.AuthUserTaskAsync(email.Email) is StudentVO user)
+                if (await _studentBusiness.AuthUserTaskAsync(email.Email) is AuthStudentVO user)
                     return Ok(user);
 
                 return BadRequest("Nao foi possivel encontrar um aluno com este email!");

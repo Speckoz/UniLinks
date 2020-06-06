@@ -20,7 +20,7 @@ namespace UniLinks.API.Business
 		private readonly IStudentRepository _studentRepository;
 		private readonly ISendEmailService _emailSender;
 		private readonly GenerateTokenService _tokenService;
-		private readonly StudentConverter _converter;
+		private readonly StudentConverter _studentConverter;
 		private readonly StudentDisciplineConverter _studentDisciplineConverter;
 		private readonly IDisciplineRepository _disciplineRepository;
 
@@ -30,13 +30,13 @@ namespace UniLinks.API.Business
 			_emailSender = sendEmailService;
 			_tokenService = tokenService;
 			_disciplineRepository = disciplineRepository;
-			_converter = new StudentConverter();
+			_studentConverter = new StudentConverter();
 			_studentDisciplineConverter = new StudentDisciplineConverter();
 		}
 
-		public async Task<StudentDisciplineVO> AddTaskAsync(StudentVO student)
+		public async Task<StudentVO> AddTaskAsync(StudentVO student)
 		{
-			StudentModel studentEntity = _converter.Parse(student);
+			StudentModel studentEntity = _studentConverter.Parse(student);
 
 			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out List<Guid> result))
 			{
@@ -60,11 +60,12 @@ namespace UniLinks.API.Business
 			return null;
 		}
 
-		public async Task<StudentVO> AuthUserTaskAsync(string email)
+		public async Task<AuthStudentVO> AuthUserTaskAsync(string email)
 		{
 			if (await _studentRepository.FindByEmailTaskAsync(email) is StudentModel user)
 			{
-				StudentVO userVO = _converter.Parse(user);
+				var authStudentConverter = new AuthStudentConverter();
+				AuthStudentVO userVO = authStudentConverter.Parse(user);
 				userVO.Token = _tokenService.Generate(user.StudentId, UserTypeEnum.Student);
 
 				return userVO;
@@ -76,10 +77,16 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
 			await _studentRepository.ExistsByEmailTaskAsync(email);
 
-		public async Task<StudentVO> FindByStudentIdTaskAsync(Guid id) =>
-			_converter.Parse(await _studentRepository.FindByIdTaskAsync(id));
+		public async Task<StudentVO> FindByStudentIdTaskAsync(Guid studentId)
+		{
+			StudentModel studentModel = await _studentRepository.FindByStudentIdTaskAsync(studentId);
+			StudentVO studentVO = _studentConverter.Parse(studentModel);
+			List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(studentVO.Disciplines.Select(x => x.DisciplineId).ToList());
 
-		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)
+			return _studentDisciplineConverter.Parse((studentModel, disciplines));
+		}
+
+		public async Task<List<StudentVO>> FindAllByCourseIdTaskAsync(Guid courseId)
 		{
 			if (await _studentRepository.FindAllByCourseIdTaskAsync(courseId) is List<StudentModel> students)
 			{
@@ -104,15 +111,15 @@ namespace UniLinks.API.Business
 
 		public async Task<StudentVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent)
 		{
-			if (await _studentRepository.UpdateTaskAsync(_converter.Parse(student), _converter.Parse(newStudent)) is StudentModel studentModel)
-				return _converter.Parse(studentModel);
+			if (await _studentRepository.UpdateTaskAsync(_studentConverter.Parse(student), _studentConverter.Parse(newStudent)) is StudentModel studentModel)
+				return _studentConverter.Parse(studentModel);
 
 			return null;
 		}
 
 		public async Task DeleteTaskAsync(Guid id)
 		{
-			if (await _studentRepository.FindByIdTaskAsync(id) is StudentModel student)
+			if (await _studentRepository.FindByStudentIdTaskAsync(id) is StudentModel student)
 				await _studentRepository.DeleteAsync(student);
 		}
 	}

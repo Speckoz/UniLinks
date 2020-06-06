@@ -49,7 +49,7 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newStudent.Name))
 					return BadRequest("É necessario informar o nome!");
 
-				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentDisciplineVO createdStudent)
+				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentVO createdStudent)
 					return Created("/students", createdStudent);
 
 				return BadRequest("O formato das disciplinas do estudante nao está valida (guid;guid;guid)");
@@ -70,10 +70,31 @@ namespace UniLinks.API.Controllers
 				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
 					return NotFound("Nao existe nenhum curso referente ao coordenador!");
 
-				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentDisciplineVO> studentDiscpline)
+				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentVO> studentDiscpline)
 					return Ok(studentDiscpline);
 
 				return BadRequest("Nao foi encontrado nenhum aluno no curso.");
+			}
+
+			return BadRequest();
+		}
+
+		[HttpGet("{studentId}")]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> FindByStudentIdTaskAsync([Required] Guid studentId)
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentVO student))
+					return NotFound("O Id informado nao coincide com nenhum aluno cadastrado!");
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != student.CourseId)
+						return Unauthorized("Voce nao tem permissao para pegar informaçoes de um aluno de outro curso!");
+
+				return Ok(student);
 			}
 
 			return BadRequest();

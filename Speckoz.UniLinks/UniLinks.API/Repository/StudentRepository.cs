@@ -27,7 +27,7 @@ namespace UniLinks.API.Repository
 		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
 			await _context.Students.AnyAsync(x => x.Email.ToLower().Equals(email.ToLower()));
 
-		public async Task<StudentModel> FindByIdTaskAsync(Guid id) =>
+		public async Task<StudentModel> FindByStudentIdTaskAsync(Guid id) =>
 			await _context.Students.Where(x => x.StudentId == id).SingleOrDefaultAsync();
 
 		public async Task<StudentModel> FindByEmailTaskAsync(string email) =>

@@ -7,7 +7,7 @@ using UniLinks.Dependencies.Models;
 
 namespace UniLinks.API.Data.Converters.Student
 {
-	public class StudentDisciplineConverter : IParser<(StudentModel student, List<DisciplineModel> discipline), StudentDisciplineVO>
+	public class StudentDisciplineConverter : IParser<(StudentModel student, List<DisciplineModel> discipline), StudentVO>
 	{
 		private readonly DisciplineConverter _disciplineConverter;
 
@@ -16,12 +16,12 @@ namespace UniLinks.API.Data.Converters.Student
 			_disciplineConverter = new DisciplineConverter();
 		}
 
-		public StudentDisciplineVO Parse((StudentModel student, List<DisciplineModel> discipline) origin)
+		public StudentVO Parse((StudentModel student, List<DisciplineModel> discipline) origin)
 		{
 			if (origin.student is null || origin.discipline is null)
 				return null;
 
-			return new StudentDisciplineVO
+			return new StudentVO
 			{
 				StudentId = origin.student.StudentId,
 				Name = origin.student.Name,
@@ -31,7 +31,7 @@ namespace UniLinks.API.Data.Converters.Student
 			};
 		}
 
-		public List<StudentDisciplineVO> ParseList(List<(StudentModel, List<DisciplineModel>)> origin)
+		public List<StudentVO> ParseList(List<(StudentModel, List<DisciplineModel>)> origin)
 		{
 			return origin switch
 			{
