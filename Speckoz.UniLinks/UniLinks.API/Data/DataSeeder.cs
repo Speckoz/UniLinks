@@ -14,9 +14,9 @@ namespace UniLinks.API.Data
 		private CoordinatorModel u1 = null, u2 = null;
 		private StudentModel u3 = null, u4 = null, u5 = null, u6 = null;
 		private CourseModel c1 = null, c2 = null;
-		private DisciplineModel d1 = null, d2 = null, d3 = null;
+		private DisciplineModel d1 = null, d2 = null, d3 = null, d4 = null, d5 = null;
 		private LessonModel l1 = null, l2 = null, l3 = null;
-		private ClassModel cs1 = null, cs2 = null, cs3 = null;
+		private ClassModel cs1 = null, cs2 = null, cs3 = null, cs4 = null, cs5 = null;
 
 		public DataSeeder(DataContext context) : base(context)
 		{
@@ -157,7 +157,25 @@ namespace UniLinks.API.Data
 					WeekDays = WeekDaysEnum.Saturday
 				};
 
-				_context.Classes.AddRange(cs1, cs2, cs3);
+				cs4 = new ClassModel
+				{
+					ClassId = Guid.Parse("A7A1923B-4EB1-43EF-BC1C-CB69F5B69D47"),
+					CourseId = c1.CourseId,
+					URI = "https://cara.com",
+					Period = 3,
+					WeekDays = WeekDaysEnum.AllValid
+				};
+
+				cs5 = new ClassModel
+				{
+					ClassId = Guid.Parse("781D3B02-B415-454C-8781-E83CFB485EC8"),
+					CourseId = c1.CourseId,
+					URI = "https://semideia.com",
+					Period = 7,
+					WeekDays = WeekDaysEnum.AllValid
+				};
+
+				_context.Classes.AddRange(cs1, cs2, cs3, cs4, cs5);
 			}
 		}
 
@@ -192,8 +210,26 @@ namespace UniLinks.API.Data
 					CourseId = c1.CourseId,
 					ClassId = cs1.ClassId
 				};
+				d4 = new DisciplineModel
+				{
+					DisciplineId = Guid.Parse("DB4AE4A0-30F5-4ECA-A806-C5E64BAD89C2"),
+					Name = "Eletronica Digital",
+					Teacher = "Vegetta",
+					Period = 7,
+					CourseId = c1.CourseId,
+					ClassId = cs5.ClassId
+				};
+				d5 = new DisciplineModel
+				{
+					DisciplineId = Guid.Parse("31DE7408-9836-48A6-9558-9A0F4AB0602F"),
+					Name = "Calculo III",
+					Teacher = "Sakura",
+					Period = 3,
+					CourseId = c1.CourseId,
+					ClassId = cs4.ClassId
+				};
 
-				_context.Disciplines.AddRange(d1, d2, d3);
+				_context.Disciplines.AddRange(d1, d2, d3, d4, d5);
 			}
 		}
 

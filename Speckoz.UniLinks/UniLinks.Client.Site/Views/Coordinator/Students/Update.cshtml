@@ -77,19 +77,21 @@
                     }
                 }
 
-                @* Input para servir de intermediario entre o JS e C# *@
+                @* Input para servir de comunicador entre o JS e C# *@
                 <input asp-for="Object.Student.Disciplines" id="inputTest" style="display: none" type="text" />
                 <div data-test-hook="groups">
+                    
                     <label style="font-size: 14px; color: #757575;">Disciplinas do Aluno</label>
                     <select class="md-form" name="studentDisciplines" id="studentDisciplines" multiple>
                         @foreach (var disciplines in showedDisciplines)
                         {
-                            <optgroup label="@(disciplines.Period)° Perído">
-                                @foreach (var discipline in disciplines.Disciplines)
-                                {
-                                    <option value="@discipline.DisciplineId">@discipline.Discipline</option>
-                                }
-                            </optgroup>
+                        <optgroup label="@(disciplines.Period)° Perído">
+                            @foreach (var discipline in disciplines.Disciplines)
+                            {
+                                bool isEquals = Model?.Object?.Student?.Disciplines?.Contains(discipline.DisciplineId.ToString()) ?? false;
+                                <option selected="@(isEquals ? "selected" : null)" value="@discipline.DisciplineId">@discipline.Discipline</option>
+                            }
+                        </optgroup>
                         }
                     </select>
                 </div>
@@ -125,7 +127,7 @@
 
         <div class="row justify-content-center">
             <button onclick="addValues()" class="btn btn-primary waves-effect">Salvar</button>
-            @*<a class="btn btn-outline-primary waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>*@
+            <a class="btn btn-outline-primary waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>
         </div>
     </form>
 </div>
