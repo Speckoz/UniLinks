@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
+using UniLinks.API.Utils;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Student;
@@ -97,11 +98,10 @@ namespace UniLinks.API.Controllers
 		public async Task<IActionResult> GetClassesByDisciplineIDsTaskAsync([FromServices] IDisciplineBusiness disciplineBusiness, [FromServices] IStudentBusiness studentBusiness)
 		{
 			var studentId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-			if (!(await studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentVO student))
+			if (!(await studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
 				return NotFound("Nao existe nenhum aluno com Id fornecido!");
 
-			var disciplineIDs = student.Disciplines.Select(x => x.DisciplineId).ToList();
-			if (!(await disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplineIDs) is List<DisciplineVO> disciplines))
+			if (!(await disciplineBusiness.FindAllByDisciplineIdsTaskAsync(student.Disciplines.Select(x => x.DisciplineId).ToList()) is List<DisciplineVO> disciplines))
 				return NotFound("Nao foi possivel encontrar as disciplinas do aluno!");
 
 			if (!(await _classBusiness.FindByRangeClassIdTaskAsync(disciplines.Select(x => x.ClassId).ToHashSet()) is List<ClassVO> classes))

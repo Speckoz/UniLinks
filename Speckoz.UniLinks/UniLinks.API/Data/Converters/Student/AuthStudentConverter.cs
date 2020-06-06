@@ -22,7 +22,7 @@ namespace UniLinks.API.Data.Converters.Student
 				Name = origin.Name,
 				Email = origin.Email,
 				CourseId = origin.CourseId,
-				Disciplines = string.Join(";", origin.Disciplines.Select(x => x.DisciplineId.ToString()).ToArray())
+				Disciplines = origin.Disciplines
 			};
 		}
 
@@ -31,16 +31,13 @@ namespace UniLinks.API.Data.Converters.Student
 			if (origin is null)
 				return null;
 
-			var disciplines = new List<DisciplineVO>();
-			origin.Disciplines.Split(';').ToList().ForEach(x => disciplines.Add(new DisciplineVO { DisciplineId = Guid.Parse(x) }));
-
 			return new AuthStudentVO
 			{
 				StudentId = origin.StudentId,
 				Name = origin.Name,
 				Email = origin.Email,
 				CourseId = origin.CourseId,
-				Disciplines = disciplines
+				Disciplines = origin.Disciplines
 			};
 		}
 

@@ -49,7 +49,7 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newStudent.Name))
 					return BadRequest("É necessario informar o nome!");
 
-				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentVO createdStudent)
+				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentDisciplineVO createdStudent)
 					return Created("/students", createdStudent);
 
 				return BadRequest("O formato das disciplinas do estudante nao está valida (guid;guid;guid)");
@@ -70,7 +70,7 @@ namespace UniLinks.API.Controllers
 				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
 					return NotFound("Nao existe nenhum curso referente ao coordenador!");
 
-				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentVO> studentDiscpline)
+				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentDisciplineVO> studentDiscpline)
 					return Ok(studentDiscpline);
 
 				return BadRequest("Nao foi encontrado nenhum aluno no curso.");
@@ -87,11 +87,11 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentVO student))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
 					return NotFound("O Id informado nao coincide com nenhum aluno cadastrado!");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-					if (course.CourseId != student.CourseId)
+					if (course.CourseId != student.Student.CourseId)
 						return Unauthorized("Voce nao tem permissao para pegar informaçoes de um aluno de outro curso!");
 
 				return Ok(student);
@@ -113,10 +113,10 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentDisciplineVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
-				if (await _studentBusiness.UpdateTaskAsync(studentVO, newStudent) is StudentVO student)
+				if (await _studentBusiness.UpdateTaskAsync(studentVO.Student, newStudent) is StudentDisciplineVO student)
 					return Ok(student);
 
 				return UnprocessableEntity("Nao foi possivel atualizar os dados, verifique se o estudante realmente existe!");
@@ -134,14 +134,14 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-					if (course.CourseId != studentVO.CourseId)
+					if (course.CourseId != studentVO.Student.CourseId)
 						return Unauthorized("Voce nao tem permissao para deletar um aluno de outro curso!");
 
-				await _studentBusiness.DeleteTaskAsync(studentVO.StudentId);
+				await _studentBusiness.DeleteTaskAsync(studentVO.Student.StudentId);
 				return NoContent();
 			}
 

@@ -101,7 +101,7 @@ namespace UniLinks.Client.Site.Controllers
 				new Claim(ClaimTypes.Name, student.Name),
 				new Claim(ClaimTypes.Email, student.Email),
 				new Claim(ClaimTypes.Role, nameof(UserTypeEnum.Student)),
-				new Claim("Disciplines", string.Join(';', student.Disciplines.Select(x => x.DisciplineId).ToList())),
+				new Claim("Disciplines", student.Disciplines),
 				new Claim("Token", student.Token)
 			};
 

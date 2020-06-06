@@ -17,9 +17,8 @@ namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class StudentsService
 	{
-		public async Task<ResultModel<StudentVO>> AddStudentTaskAsync(AuthStudentVO student, string token, Guid courseId)
+		public async Task<ResultModel<StudentVO>> AddStudentTaskAsync(StudentVO student, string token)
 		{
-			student.CourseId = courseId;
 			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
@@ -51,20 +50,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResultModel<StudentVO>> GetStudentTaskAsync(string token, Guid studentId)
+		public async Task<ResultModel<StudentDisciplineVO>> GetStudentTaskAsync(string token, Guid studentId)
 		{
 			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResultModel<StudentVO>
+				HttpStatusCode.OK => new ResultModel<StudentDisciplineVO>
 				{
-					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResultModel<StudentVO>
+				_ => new ResultModel<StudentDisciplineVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
@@ -83,20 +82,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResultModel<List<StudentVO>>> GetStudentsTaskAsync(string token)
+		public async Task<ResultModel<List<StudentDisciplineVO>>> GetStudentsTaskAsync(string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResultModel<List<StudentVO>>
+				HttpStatusCode.OK => new ResultModel<List<StudentDisciplineVO>>
 				{
-					Object = JsonSerializer.Deserialize<List<StudentVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Object = JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Aluno removido com sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResultModel<List<StudentVO>>
+				_ => new ResultModel<List<StudentDisciplineVO>>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
@@ -115,21 +114,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResultModel<StudentVO>> UpdateStudentTaskAsync(StudentVO newStudent, string token, Guid courseId)
+		public async Task<ResultModel<StudentDisciplineVO>> UpdateStudentTaskAsync(StudentVO newStudent, string token)
 		{
-			newStudent.CourseId = courseId;
 			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.NoContent => new ResultModel<StudentVO>
+				HttpStatusCode.NoContent => new ResultModel<StudentDisciplineVO>
 				{
-					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResultModel<StudentVO>
+				_ => new ResultModel<StudentDisciplineVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode

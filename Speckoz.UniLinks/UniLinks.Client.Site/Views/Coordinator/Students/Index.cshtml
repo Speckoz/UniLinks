@@ -1,6 +1,6 @@
 ﻿@using System.Text.Json
 
-@model ResultModel<List<StudentVO>>
+@model ResultModel<List<StudentDisciplineVO>>
 
 @{
     ViewData["Title"] = "Alunos";
@@ -55,8 +55,8 @@ else
                 {
                     <tr class="tr-hover">
                         <td class="text-wrap">
-                            <span>@student.Name</span><br />
-                            <span style="color: grey; font-size: 13px">@student.Email</span>
+                            <span>@student.Student.Name</span><br />
+                            <span style="color: grey; font-size: 13px">@student.Student.Email</span>
                         </td>
                         <td class="icons-td text-center">
                             @{
@@ -69,12 +69,12 @@ else
                             <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines(@json)">Ver</span>
                         </td>
                         <td class="icons-td text-center">
-                            <form method="post" class="d-inline-flex" action="Coordinator/Students/Delete/@student.StudentId">
+                            <form method="post" class="d-inline-flex" action="Coordinator/Students/Delete/@student.Student.StudentId">
                                 <button>
                                     <span class="mdi mdi-delete mdi-24px red-text"></span>
                                 </button>
                             </form>
-                            <form method="put" class="d-inline-flex" action="Coordinator/Students/Update/@student.StudentId">
+                            <form method="put" class="d-inline-flex" action="Coordinator/Students/Update/@student.Student.StudentId">
                                 <button>
                                     <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
                                 </button>

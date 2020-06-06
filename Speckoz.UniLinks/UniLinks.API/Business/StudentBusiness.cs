@@ -34,7 +34,7 @@ namespace UniLinks.API.Business
 			_studentDisciplineConverter = new StudentDisciplineConverter();
 		}
 
-		public async Task<StudentVO> AddTaskAsync(StudentVO student)
+		public async Task<StudentDisciplineVO> AddTaskAsync(StudentVO student)
 		{
 			StudentModel studentEntity = _studentConverter.Parse(student);
 
@@ -77,16 +77,18 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
 			await _studentRepository.ExistsByEmailTaskAsync(email);
 
-		public async Task<StudentVO> FindByStudentIdTaskAsync(Guid studentId)
+		public async Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid studentId)
 		{
 			StudentModel studentModel = await _studentRepository.FindByStudentIdTaskAsync(studentId);
-			StudentVO studentVO = _studentConverter.Parse(studentModel);
-			List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(studentVO.Disciplines.Select(x => x.DisciplineId).ToList());
+			if (!GuidFormat.TryParseList(studentModel.Disciplines, ';', out List<Guid> result))
+				return null;
+
+			List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result);
 
 			return _studentDisciplineConverter.Parse((studentModel, disciplines));
 		}
 
-		public async Task<List<StudentVO>> FindAllByCourseIdTaskAsync(Guid courseId)
+		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)
 		{
 			if (await _studentRepository.FindAllByCourseIdTaskAsync(courseId) is List<StudentModel> students)
 			{
@@ -109,10 +111,15 @@ namespace UniLinks.API.Business
 			return null;
 		}
 
-		public async Task<StudentVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent)
+		public async Task<StudentDisciplineVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent)
 		{
 			if (await _studentRepository.UpdateTaskAsync(_studentConverter.Parse(student), _studentConverter.Parse(newStudent)) is StudentModel studentModel)
-				return _studentConverter.Parse(studentModel);
+			{
+				if (!GuidFormat.TryParseList(studentModel.Disciplines, ';', out List<Guid> disciplines))
+					return null;
+
+				return _studentDisciplineConverter.Parse((studentModel, await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines)));
+			}
 
 			return null;
 		}

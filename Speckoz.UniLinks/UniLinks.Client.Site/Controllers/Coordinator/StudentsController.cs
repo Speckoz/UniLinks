@@ -23,7 +23,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResultModel<List<StudentVO>> students = await studentsService.GetStudentsTaskAsync(token);
+			ResultModel<List<StudentDisciplineVO>> students = await studentsService.GetStudentsTaskAsync(token);
 			return View("/Views/Coordinator/Students/Index.cshtml", students);
 		}
 
@@ -34,7 +34,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			{
 				string token = User.FindFirst("Token").Value;
 
-				ResultModel<StudentVO> response = await studentsService.GetStudentTaskAsync(token, studentId);
+				ResultModel<StudentDisciplineVO> response = await studentsService.GetStudentTaskAsync(token, studentId);
 
 				return View("/Views/Coordinator/Students/Update.cshtml", response);
 			}
@@ -42,37 +42,34 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			return BadRequest();
 		}
 
-		[HttpPost("Update")]
-		public async Task<IActionResult> Update([FromServices] StudentsService studentsService, ResultModel<StudentVO> request)
+		[HttpPost]
+		public async Task<IActionResult> Update([FromServices] StudentsService studentsService, ResultModel<StudentDisciplineVO> request)
 		{
 			string token = User.FindFirst("Token").Value;
-			var courseId = Guid.Parse(User.FindFirst("CourseId").Value);
 
-			if (ModelState.IsValid)
-			{
-				ResultModel<StudentVO> response = await studentsService.UpdateStudentTaskAsync(request.Object, token, courseId);
+			request.Object.Student.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+			request.Object.Student.Disciplines = string.Join(';', request.Object.Disciplines);
 
-				if (response.StatusCode != HttpStatusCode.OK)
-					return View("/Views/Coordinator/Students/Update.cshtml", new ResultModel<StudentVO>
-					{
-						Object = request.Object,
-						Message = response.Message,
-						StatusCode = response.StatusCode
-					});
+			ResultModel<StudentDisciplineVO> response = await studentsService.UpdateStudentTaskAsync(request.Object.Student, token);
 
-				ResultModel<List<StudentVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
-
-				studentResponse.Message = response.Message;
-				studentResponse.StatusCode = response.StatusCode;
-
-				return response.StatusCode switch
+			if (response.StatusCode != HttpStatusCode.OK)
+				return View("/Views/Coordinator/Students/Update.cshtml", new ResultModel<StudentDisciplineVO>
 				{
-					HttpStatusCode.OK => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
-					_ => View("/Views/Coordinator/Students/Update.cshtml", studentResponse)
-				};
-			}
+					Object = request.Object,
+					Message = response.Message,
+					StatusCode = response.StatusCode
+				});
 
-			return NotFound();
+			ResultModel<List<StudentDisciplineVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
+
+			studentResponse.Message = response.Message;
+			studentResponse.StatusCode = response.StatusCode;
+
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
+				_ => View("/Views/Coordinator/Students/Update.cshtml", studentResponse)
+			};
 		}
 
 		[HttpPost("Delete/{studentId}")]
@@ -83,7 +80,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 				string token = User.FindFirst("Token").Value;
 
 				ResultModel<bool> response = await studentsService.RemoveStudentTaskAsync(studentId, token);
-				ResultModel<List<StudentVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
+				ResultModel<List<StudentDisciplineVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
 
 				studentResponse.Message = response.Message;
 				studentResponse.StatusCode = response.StatusCode;
