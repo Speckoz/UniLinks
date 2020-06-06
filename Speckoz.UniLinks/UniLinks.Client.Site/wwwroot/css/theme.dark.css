@@ -1,20 +1,50 @@
-﻿.theme-bg {
+﻿:root
+{
+    --theme-bg: #2d2d2d;
+    --theme-bg-plus: #1A1A1A;
+    --theme-card: #242424;
+    --theme-select: #525252;
+    --theme-text-header: #d0d0d0;
+    --theme-text: #a4a4a4;
+}
+
+.theme-bg
+{
     background-color: #2d2d2d;
 }
 
-.theme-card {
-    background-color: #313131
+.theme-bg-plus
+{
+    background-color: #1A1A1A;
 }
 
-.theme-text {
+.theme-card
+{
+    background-color: #242424;
+}
+
+.theme-select
+{
+    background-color: #525252;
+}
+
+.theme-text-header
+{
+    color: #d0d0d0;
+}
+
+.theme-text
+{
     color: #a4a4a4;
 }
 
-    .theme-text:focus {
+    .theme-text:focus
+    {
         color: var(--theme-text)
     }
 
-tr.tr-hover:hover {
+tr.tr-hover:hover
+{
     background-color: #444444 !important;
     color: white !important;
 }

@@ -1,11 +1,37 @@
-﻿.theme-bg
+﻿:root
+{
+    --theme-bg: white;
+    --theme-bg-plus: #EAEAEA;
+    --theme-card: #fefefe;
+    --theme-select: #B4B4B4;
+    --theme-text-header: #d0d0d0;
+    --theme-text: #2f2c2c;
+}
+
+.theme-bg
 {
     background-color: white;
 }
 
+
+.theme-bg-plus
+{
+    background-color: #E5E5E5;
+}
+
 .theme-card
 {
-    background-color: #fefefe
+    background-color: #fefefe;
+}
+
+.theme-select
+{
+    background-color: #B4B4B4;
+}
+
+.theme-text-header
+{
+    color: #d0d0d0;
 }
 
 .theme-text

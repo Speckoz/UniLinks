@@ -1,4 +1,8 @@
-﻿@model ResultModel<StudentDisciplineVO>
+﻿@using UniLinks.Client.Site.Models.Auxiliary
+
+@inject UniLinks.Client.Site.Services.Coordinator.DisciplineService _disciplineService
+
+@model ResultModel<StudentDisciplineVO>
 
 @{
     ViewData["Title"] = "Editar Aluno";
@@ -26,7 +30,7 @@
         <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
     </div>
 
-    <form method="post" asp-controller="Students" asp-action="Update">
+    <form method="post" asp-controller="Students" asp-action="UpdateStudent">
         <div class="row">
             <div class="col-12">
                 <div class="md-form">
@@ -50,9 +54,78 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12">
+                @{
+                    string token = User.FindFirst("Token").Value;
+                    var disciplinesInCourse = await _disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
+
+                    List<AuxDisciplines> showedDisciplines = new List<AuxDisciplines>();
+                    var periods = new HashSet<int>();
+                    disciplinesInCourse.Object.ForEach(i => periods.Add(i.Period));
+                    foreach (var period in periods)
+                    {
+                        showedDisciplines.Add(new AuxDisciplines
+                        {
+                            Period = period,
+                            Disciplines = disciplinesInCourse.Object.Where(x => x.Period == period).Select(x => new AuxDiscipline()
+                            {
+                                DisciplineId = x.DisciplineId,
+                                Discipline = x.Name
+                            }).ToList()
+                        });
+                    }
+                }
+
+                @* Input para servir de intermediario entre o JS e C# *@
+                <input asp-for="Object.Student.Disciplines" id="inputTest" style="display: none" type="text" />
+                <div data-test-hook="groups">
+                    <label style="font-size: 14px; color: #757575;">Disciplinas do Aluno</label>
+                    <select class="md-form" name="studentDisciplines" id="studentDisciplines" multiple>
+                        @foreach (var disciplines in showedDisciplines)
+                        {
+                            <optgroup label="@(disciplines.Period)° Perído">
+                                @foreach (var discipline in disciplines.Disciplines)
+                                {
+                                    <option value="@discipline.DisciplineId">@discipline.Discipline</option>
+                                }
+                            </optgroup>
+                        }
+                    </select>
+                </div>
+
+                <script src="~/js/choices.js"></script>
+                <script>
+                    const inputT = document.getElementById("inputTest");
+
+                    function addValues() {
+                        inputT.value = groupselect.getValue().map(obj => obj.value).join(';');
+                    }
+
+                    var groupselect = new Choices('#studentDisciplines', {
+                        removeItemButton: true
+                    });
+
+                    groupselect.passedElement.element.addEventListener(
+                        'removeItem',
+                        function (event) {
+                            const idsArray = inputT.value.split(';');
+
+                            const index = idsArray.indexOf(event.detail.value);
+                            if (index > -1) {
+                                idsArray.splice(index, 1);
+                            }
+
+                            inputT.value = idsArray.map(x => x).join(';');
+                        }
+                    );
+                </script>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
-            <button class="btn btn-primary waves-effect">Salvar</button>
-            <a class="btn btn-outline-primary waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>
+            <button onclick="addValues()" class="btn btn-primary waves-effect">Salvar</button>
+            @*<a class="btn btn-outline-primary waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>*@
         </div>
     </form>
 </div>

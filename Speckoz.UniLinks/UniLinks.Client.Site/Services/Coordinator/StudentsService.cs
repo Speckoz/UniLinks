@@ -26,7 +26,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				HttpStatusCode.Created => new ResultModel<StudentVO>
 				{
 					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "sucesso!",
+					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
@@ -91,7 +91,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				HttpStatusCode.OK => new ResultModel<List<StudentDisciplineVO>>
 				{
 					Object = JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "Aluno removido com sucesso!",
+					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
@@ -120,10 +120,10 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.NoContent => new ResultModel<StudentDisciplineVO>
+				HttpStatusCode.OK => new ResultModel<StudentDisciplineVO>
 				{
 					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "Sucesso!",
+					Message = "As informaçoes foram atualizadas com sucesso!",
 					StatusCode = response.StatusCode
 				},
 

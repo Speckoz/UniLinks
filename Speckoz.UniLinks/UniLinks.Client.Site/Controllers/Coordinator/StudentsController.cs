@@ -43,12 +43,11 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Update([FromServices] StudentsService studentsService, ResultModel<StudentDisciplineVO> request)
+		public async Task<IActionResult> UpdateStudent([FromServices] StudentsService studentsService, ResultModel<StudentDisciplineVO> request)
 		{
 			string token = User.FindFirst("Token").Value;
 
 			request.Object.Student.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
-			request.Object.Student.Disciplines = string.Join(';', request.Object.Disciplines);
 
 			ResultModel<StudentDisciplineVO> response = await studentsService.UpdateStudentTaskAsync(request.Object.Student, token);
 
