@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ using UniLinks.Client.Site.Services;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO.Coordinator;
 using UniLinks.Dependencies.Enums;
+using UniLinks.Dependencies.Models;
 using UniLinks.Dependencies.Models.Auxiliary;
 
 namespace UniLinks.Client.Site.Controllers
@@ -21,7 +23,7 @@ namespace UniLinks.Client.Site.Controllers
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public IActionResult Index() => View();
 
-		[HttpGet("Auth")]
+		[HttpGet]
 		public IActionResult Auth()
 		{
 			switch (User.FindFirst(ClaimTypes.Role)?.Value)
@@ -36,15 +38,22 @@ namespace UniLinks.Client.Site.Controllers
 			return View();
 		}
 
-		[HttpPost("Auth")]
-		public async Task<IActionResult> Auth([FromServices] AuthService authService, LoginRequestModel login)
+		[HttpPost]
+		public async Task<IActionResult> Auth([FromServices] AuthService authService, ResultModel<LoginRequestModel> request)
 		{
 			if (ModelState.IsValid)
 			{
-				if (!(await authService.AuthAccountTaskAsync(login) is AuthCoordinatorVO authCoordinator))
-					return View();
+				ResultModel<AuthCoordinatorVO> response = await authService.AuthAccountTaskAsync(request.Object);
 
-				await GenerateClaims(authCoordinator);
+				if (response.StatusCode != HttpStatusCode.OK)
+					return View(new ResultModel<LoginRequestModel>
+					{
+						Object = request.Object,
+						Message = response.Message,
+						StatusCode = response.StatusCode
+					});
+
+				await GenerateClaims(response.Object);
 				return RedirectToAction("Index", "Coordinator");
 			}
 

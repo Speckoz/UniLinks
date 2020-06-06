@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace UniLinks.Client.Site.Controllers
 			string token = User.FindFirst("Token").Value;
 			string disciplines = User.FindFirst("Disciplines").Value;
 
-			ResponseModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
+			ResultModel<List<LessonDisciplineVO>> model = await _lessonService.GetAllLessonsTaskAync(token, disciplines.Split(';').ToList());
 
 			return View(model.Object);
 		}
@@ -51,7 +52,7 @@ namespace UniLinks.Client.Site.Controllers
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<List<ClassVO>> response = await _classService.GetAllClassesTaskAsync(token);
+			ResultModel<List<ClassVO>> response = await _classService.GetAllClassesTaskAsync(token);
 
 			return View("/Views/Student/Classes.cshtml", response.Object);
 		}
@@ -72,21 +73,27 @@ namespace UniLinks.Client.Site.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Auth(LoginStudentRequestModel login)
+		public async Task<IActionResult> Auth(ResultModel<LoginStudentRequestModel> request)
 		{
 			if (ModelState.IsValid)
 			{
-				if (!(await _authService.AuthAccountTaskAsync(login.Email) is StudentVO student))
-					return View();
+				ResultModel<AuthStudentVO> response = await _authService.AuthAccountTaskAsync(request.Object.Email);
+				if (response.StatusCode != HttpStatusCode.OK)
+					return View(new ResultModel<LoginStudentRequestModel>
+					{
+						Object = request.Object,
+						Message = response.Message,
+						StatusCode = response.StatusCode
+					});
 
-				await GenerateClaims(student);
+				await GenerateClaims(response.Object);
 				return RedirectToAction("Index", "Student");
 			}
 
 			return View();
 		}
 
-		public async Task GenerateClaims(StudentVO student)
+		public async Task GenerateClaims(AuthStudentVO student)
 		{
 			var claims = new List<Claim>
 			{

@@ -29,13 +29,13 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
+				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response),
 				HttpStatusCode.NotFound => View("/Views/Coordinator/Course/CourseNotFound.cshtml", response.Object),
-				_ => View("/Views/Coordinator/Course/AddCourse.cshtml", response.Object),
+				_ => View("/Views/Coordinator/Course/AddCourse.cshtml", response),
 			};
 		}
 
@@ -44,21 +44,21 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
 			return View("/Views/Coordinator/Course/AddCourse.cshtml", response);
 		}
 
 		[HttpPost("Add")]
-		public async Task<IActionResult> AddCourse(ResponseModel<CourseVO> newCourse)
+		public async Task<IActionResult> AddCourse(ResultModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<CourseVO> response = await _courseService.AddCourseTaskAsync(newCourse.Object, token);
+			ResultModel<CourseVO> response = await _courseService.AddCourseTaskAsync(newCourse.Object, token);
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
+				HttpStatusCode.Created => View("/Views/Coordinator/Course/Index.cshtml", response),
 				_ => View("/Views/Coordinator/Course/AddCourse.cshtml", response),
 			};
 		}
@@ -68,27 +68,23 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
+			ResultModel<CourseVO> response = await _courseService.GetCourseByCoordIdTaskAsync(token);
 
-			return response.StatusCode switch
-			{
-				HttpStatusCode.Created => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
-				_ => View("/Views/Coordinator/Course/UpdateCourse.cshtml", response),
-			};
+			return View("/Views/Coordinator/Course/UpdateCourse.cshtml", response);
 		}
 
 		[HttpPost("Update")]
-		public async Task<IActionResult> UpdateCourse(ResponseModel<CourseVO> newCourse)
+		public async Task<IActionResult> UpdateCourse(ResultModel<CourseVO> newCourse)
 		{
 			string token = User.FindFirst("Token").Value;
 			newCourse.Object.CoordinatorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			newCourse.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
 
-			ResponseModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(newCourse.Object, token);
+			ResultModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(newCourse.Object, token);
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response.Object),
+				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response),
 				_ => View("/Views/Coordinator/Course/UpdateCourse.cshtml", response),
 			};
 		}

@@ -21,6 +21,7 @@ namespace UniLinks.Client.Site.Controllers
 		public IActionResult PageInternalError() => View();
 
 		[HttpGet]
+		[Route("NoAuth")]
 		public IActionResult NoAuth() => View();
 
 		[HttpGet]

@@ -17,7 +17,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<List<ClassVO>> response = await classService.GetClassesTaskAsync(token);
+			ResultModel<List<ClassVO>> response = await classService.GetClassesTaskAsync(token);
 
 			return View("/Views/Coordinator/Classes/Index.cshtml", response.Object);
 		}

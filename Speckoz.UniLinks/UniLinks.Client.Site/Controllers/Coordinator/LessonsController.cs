@@ -22,7 +22,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		{
 			string token = User.FindFirst("Token").Value;
 
-			ResponseModel<List<DisciplineVO>> disciplines = await disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
+			ResultModel<List<DisciplineVO>> disciplines = await disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
 			List<LessonDisciplineVO> lessons = await lessonService.GetAllLessonsByDisciplineIDsTaskAsync(token, disciplines.Object.Select(x => x.DisciplineId).ToList());
 
 			return View("/Views/Coordinator/Lessons/Index.cshtml", lessons);
