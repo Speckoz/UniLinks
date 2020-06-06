@@ -6,10 +6,16 @@
     ViewData["Title"] = "Adicionar Curso";
 }
 
-@if (Model.StatusCode != HttpStatusCode.Created)
+@if (Model.StatusCode == HttpStatusCode.NotFound)
 {
     <script>
-        sendMessage("@Model.Message", "success");
+        sendMessage("@Model.Message", "info");
+    </script>
+}
+else if (Model.StatusCode != HttpStatusCode.Created)
+{
+    <script>
+        sendMessage("@Model.Message", "error");
     </script>
 }
 

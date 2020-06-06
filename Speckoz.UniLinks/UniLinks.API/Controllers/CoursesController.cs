@@ -42,11 +42,11 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
 
-				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
-					return Conflict("Ja existe um curso com esse nome");
-
 				if (newCourse.Periods <= 0)
 					return BadRequest("A quantidade de periodos precisa ser maior que zero");
+
+				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
+					return Conflict("Ja existe um curso com esse nome");
 
 				newCourse.CoordinatorId = coordinator.CoordinatorId;
 				newCourse.CourseId = coordinator.CourseId;
@@ -89,12 +89,12 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
 
+				if (newCourse.Periods <= 0)
+					return BadRequest("A quantidade de periodos precisa ser maior que zero");
+
 				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
 					if (newCourse.Name != currentCourse.Name)
 						return Conflict("Ja existe um curso com esse nome!");
-
-				if (newCourse.Periods <= 0)
-					return BadRequest("A quantidade de periodos precisa ser maior que zero");
 
 				if (await _courseBusiness.UpdateTaskAsync(newCourse) is CourseVO updatedCourse)
 					return Ok(updatedCourse);

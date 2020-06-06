@@ -321,32 +321,6 @@ a, .btn-link
     outline: 1px solid red;
 }
 
-.validation-message
-{
-    color: red;
-}
-
-#blazor-error-ui
-{
-    background-color: white;
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
-
-    #blazor-error-ui .dismiss
-    {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
-
 @media (max-width: 767.98px)
 {
     .main .top-row:not(.auth)
@@ -395,56 +369,6 @@ a, .btn-link
     {
         display: block;
     }
-}
-
-/* Try reconnect to server */
-.my-reconnect-modal > div
-{
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    overflow: hidden;
-    text-align: center;
-    font-weight: bold;
-    padding-top: 50px;
-}
-
-.components-reconnect-hide > div
-{
-    display: none;
-}
-
-.components-reconnect-show > div
-{
-    display: none;
-}
-
-.components-reconnect-show > .show
-{
-    display: block;
-}
-
-.components-reconnect-failed > div
-{
-    display: none;
-}
-
-.components-reconnect-failed > .failed
-{
-    display: block;
-}
-
-.components-reconnect-refused > div
-{
-    display: none;
-}
-
-.components-reconnect-refused > .refused
-{
-    display: block;
 }
 
 .switch
@@ -521,20 +445,6 @@ input:checked + .slider:before
 .admin-margin-top
 {
     margin-top: 30px;
-}
-
-/* LOGIN */
-.form-login
-{
-    width: 25em;
-}
-
-@media(max-width: 768px)
-{
-    .form-login
-    {
-        max-width: 25em;
-    }
 }
 
 /* STUDENTS ADMIN */
