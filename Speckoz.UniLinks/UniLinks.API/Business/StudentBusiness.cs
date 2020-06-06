@@ -111,17 +111,18 @@ namespace UniLinks.API.Business
 			return null;
 		}
 
-		public async Task<StudentDisciplineVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent)
+		public async Task<StudentDisciplineVO> UpdateTaskAsync(StudentVO newStudent)
 		{
-			if (await _studentRepository.UpdateTaskAsync(_studentConverter.Parse(student), _studentConverter.Parse(newStudent)) is StudentModel studentModel)
-			{
-				if (!GuidFormat.TryParseList(studentModel.Disciplines, ';', out List<Guid> disciplines))
-					return null;
+			if (!(await _studentRepository.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentModel studentModel))
+				return null;
 
-				return _studentDisciplineConverter.Parse((studentModel, await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines)));
-			}
+			if (!(await _studentRepository.UpdateTaskAsync(studentModel, _studentConverter.Parse(newStudent)) is StudentModel newStudentModel))
+				return null;
 
-			return null;
+			if (!GuidFormat.TryParseList(newStudentModel.Disciplines, ';', out List<Guid> disciplines))
+				return null;
+
+			return _studentDisciplineConverter.Parse((newStudentModel, await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines)));
 		}
 
 		public async Task DeleteTaskAsync(Guid id)
