@@ -17,28 +17,28 @@ namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class StudentsService
 	{
-		public async Task<ResponseModel<StudentDisciplineVO>> AddStudentTaskAsync(StudentVO student, string token, Guid courseId)
+		public async Task<ResultModel<StudentVO>> AddStudentTaskAsync(AuthStudentVO student, string token, Guid courseId)
 		{
 			student.CourseId = courseId;
-			IRestResponse response = await SendRequestTaskAsync(token, student);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => new ResponseModel<StudentDisciplineVO>
+				HttpStatusCode.Created => new ResultModel<StudentVO>
 				{
-					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<StudentDisciplineVO>
+				_ => new ResultModel<StudentVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
 				}
 			};
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string token, StudentVO student)
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
@@ -51,27 +51,59 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResponseModel<List<StudentDisciplineVO>>> GetStudentsTaskAsync(string token)
+		public async Task<ResultModel<StudentVO>> GetStudentTaskAsync(string token, Guid studentId)
 		{
-			IRestResponse response = await SendRequestTaskAsync(token);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<List<StudentDisciplineVO>>
+				HttpStatusCode.OK => new ResultModel<StudentVO>
 				{
-					Object = JsonSerializer.Deserialize<List<StudentDisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "Aluno removido com sucesso!",
+					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<List<StudentDisciplineVO>>
+				_ => new ResultModel<StudentVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
 				}
 			};
 
-			async Task<IRestResponse> SendRequestTaskAsync(string token)
+			async Task<IRestResponse> SendRequestTaskAsync()
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = DataHelper.URLBase,
+					URN = $"Students/{studentId}",
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
+
+		public async Task<ResultModel<List<StudentVO>>> GetStudentsTaskAsync(string token)
+		{
+			IRestResponse response = await SendRequestTaskAsync();
+
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResultModel<List<StudentVO>>
+				{
+					Object = JsonSerializer.Deserialize<List<StudentVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Aluno removido com sucesso!",
+					StatusCode = response.StatusCode
+				},
+
+				_ => new ResultModel<List<StudentVO>>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
@@ -83,54 +115,54 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResponseModel<StudentVO>> UpdateStudentTaskAsync(StudentVO newStudent, string token, Guid courseId)
+		public async Task<ResultModel<StudentVO>> UpdateStudentTaskAsync(StudentVO newStudent, string token, Guid courseId)
 		{
 			newStudent.CourseId = courseId;
-			IRestResponse response = await SendRequestTaskAsync(token, newStudent);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.NoContent => new ResponseModel<StudentVO>
+				HttpStatusCode.NoContent => new ResultModel<StudentVO>
 				{
 					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<StudentVO>
+				_ => new ResultModel<StudentVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
 				}
 			};
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string token, StudentVO student)
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
 					Method = Method.PUT,
 					URL = DataHelper.URLBase,
 					URN = $"Students",
-					Body = student,
+					Body = newStudent,
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}
 		}
 
-		public async Task<ResponseModel<bool>> RemoveStudentTaskAsync(Guid studentId, string token)
+		public async Task<ResultModel<bool>> RemoveStudentTaskAsync(Guid studentId, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(token, studentId);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.NoContent => new ResponseModel<bool>
+				HttpStatusCode.NoContent => new ResultModel<bool>
 				{
 					Object = true,
 					Message = "Aluno removido com sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<bool>
+				_ => new ResultModel<bool>
 				{
 					Object = false,
 					Message = response.Content.Replace("\"", string.Empty),
@@ -138,7 +170,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				}
 			};
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string token, Guid studentId)
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{

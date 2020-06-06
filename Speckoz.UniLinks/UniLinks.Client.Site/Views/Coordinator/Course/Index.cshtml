@@ -1,21 +1,41 @@
-﻿@model CourseVO
+﻿@model ResultModel<CourseVO>
 
 @{
     ViewData["Title"] = "Informaçoes do Curso";
 }
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+        case System.Net.HttpStatusCode.Created:
+        case System.Net.HttpStatusCode.NoContent:
+            <script>
+                sendMessage("@Model.Message", "success");
+            </script>
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
 <div class="row h-100" style="margin-left: 0; margin-right: 0">
     <div class="col-sm-12 my-auto">
 
         <div class="container">
             <div class="row justify-content-center">
                 <div class="md-form">
-                    <input type="text" id="courseName" class="form-control" value="@Model.Name" readonly style="color:grey" />
+                    <input type="text" id="courseName" class="form-control" value="@Model.Object.Name" readonly style="color:grey" />
                     <label for="courseName">Nome do Curso</label>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="md-form">
-                    <input type="number" id="periodsNumber" class="form-control" value="@Model.Periods" readonly style="color:grey"/>
+                    <input type="number" id="periodsNumber" class="form-control" value="@Model.Object.Periods" readonly style="color:grey" />
                     <label for="periodsNumber">Nº Periodos</label>
                 </div>
             </div>
@@ -23,5 +43,5 @@
                 <a asp-action="UpdateCourse" asp-controller="Course" class="btn btn-primary waves-effect justify-content-center">Atualizar Informaçoes</a>
             </div>
         </div>
-    </div>    
+    </div>
 </div>

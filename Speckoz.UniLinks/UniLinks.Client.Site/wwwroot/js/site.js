@@ -4,6 +4,7 @@
 
 function checkTheme() {
     let themeInCookie = getCookie("theme");
+
     if (themeInCookie != "") {
         const themeCheckbox = document.getElementById("themeCheckbox");
 

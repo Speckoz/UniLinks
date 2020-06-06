@@ -1,13 +1,3 @@
-/*
- * Nofifier
- *
- * @version 1.2.3
- *
- * @author Javier Sanahuja Liebana <bannss1@gmail.com>
- *
- * https://github.com/jsanahuja/Notifierjs
- *
- */
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
         define([], factory);
@@ -78,7 +68,8 @@
         this.element.style.padding = "1em 2em 1em 2.5em";
         switch(notifier.options.direction){
             case "top":
-                this.element.style.marginTop = "0.5em";
+                this.element.style.marginTop = "3em";
+                this.element.style.marginRight = "5em";
                 break;
             case "bottom":
             default:
@@ -89,6 +80,7 @@
         this.element.style.borderWidth = "1px";
         this.element.style.borderStyle = "solid";
         this.element.style.borderColor = type.borderColor;
+        this.element.style.borderRadius = "1em";
         this.element.style.boxSizing = "border-box";
         this.element.style.backgroundColor = type.backgroundColor;
 
@@ -127,9 +119,9 @@
         progress.className = 'progress';
         progress.style.position = "absolute";
         progress.style.bottom = 0;
-        progress.style.left = 0;
-        progress.style.right = "100%";
-        progress.style.height = "2px";
+        progress.style.left = "10px";
+        progress.style.right = "30px";
+        progress.style.height = "3px";
         progress.style.content = " ";
         progress.style.backgroundColor = type.progressColor;
         progress.style.marginBottom = 0;
@@ -269,3 +261,12 @@
 
     return Notifier;
 }));
+
+var toastNotifier = new Notifier({
+    position: 'top-right',
+    direction: 'top'
+});
+
+function sendMessage(message, type) {
+    toastNotifier.notify(type, message);
+}

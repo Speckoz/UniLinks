@@ -1,3 +1,8 @@
+li.nav-item
+{
+    padding: 10px;
+}
+
 .nav-panel-margin
 {
     margin-left: 10px
@@ -830,16 +835,22 @@ input:checked + .slider:before
         transform: translateY(1px)
     }
 
-.home-main-section {
+.home-main-section
+{
     height: 100vh;
 }
-.tr-lesson:hover {
+
+.tr-lesson:hover
+{
     cursor: pointer;
 }
 
-.main-navbar-aside {
+.main-navbar-aside
+{
     -webkit-box-shadow: none !important;
 }
-.td-students-lesson {
+
+.td-students-lesson
+{
     vertical-align: middle !important;
 }

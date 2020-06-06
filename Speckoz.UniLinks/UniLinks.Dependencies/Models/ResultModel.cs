@@ -2,7 +2,7 @@
 
 namespace UniLinks.Dependencies.Models
 {
-	public class ResponseModel<T>
+	public class ResultModel<T>
 	{
 		public T Object { get; set; }
 		public HttpStatusCode StatusCode { get; set; }

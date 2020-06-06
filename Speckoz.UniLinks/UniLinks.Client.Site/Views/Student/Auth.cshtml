@@ -3,14 +3,21 @@
     Layout = "EmptyLayout";
 }
 
-@model LoginStudentRequestModel
+@model ResultModel<LoginStudentRequestModel>
 
-<div class="alert alert-danger alert-dismissible animated bounceInDown fast collapse">
-    O email informado está nao está cadastrado!
-    <button type="button" class="close" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
 
 <div class="login-dark" style="background-image: url(img/user_login.jpg); height: 100vh">
     <form asp-action="Auth" asp-controller="Student" method="post" style="opacity: 0.9">
@@ -18,7 +25,7 @@
         <p class="text-center" style="color: #adadad;font-size: 13px">Informe seu email para continuar</p>
         <br />
         <div class="form-group md-form">
-            <input asp-for="Email" class="form-control validate" id="email" type="email" required>
+            <input asp-for="Object.Email" class="form-control validate" id="email" type="email" required>
             <label for="email" data-error="wrong" data-success="right">Email</label>
         </div>
         <div class="form-group">

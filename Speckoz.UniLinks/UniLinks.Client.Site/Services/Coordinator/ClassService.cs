@@ -39,20 +39,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResponseModel<List<ClassVO>>> GetClassesTaskAsync(string token)
+		public async Task<ResultModel<List<ClassVO>>> GetClassesTaskAsync(string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
 			return resp.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<List<ClassVO>>
+				HttpStatusCode.OK => new ResultModel<List<ClassVO>>
 				{
 					Object = JsonSerializer.Deserialize<List<ClassVO>>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = resp.StatusCode
 				},
 
-				_ => new ResponseModel<List<ClassVO>>
+				_ => new ResultModel<List<ClassVO>>
 				{
 					Message = resp.Content.Replace("\"", string.Empty),
 					StatusCode = resp.StatusCode

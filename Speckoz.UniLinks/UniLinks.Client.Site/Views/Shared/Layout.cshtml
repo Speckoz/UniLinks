@@ -147,23 +147,25 @@
             </div>
         </aside>
 
+        <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/Notifier.js"></script>
+
         <main role="main" class="main">
             @RenderBody()
         </main>
-    </div>
 
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/popper.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/mdb.min.js"></script>
-    <script src="~/js/datatables.min.js"></script>
-    <script src="~/js/site.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#dtBasicExample').DataTable();
-            $('.dataTables_length').addClass('bs-select');
-        });
-    </script>
+        <script src="~/js/popper.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/mdb.min.js"></script>
+        <script src="~/js/datatables.min.js"></script>
+        <script src="~/js/site.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#dtBasicExample').DataTable();
+                $('.dataTables_length').addClass('bs-select');
+            });
+        </script>
+    </div>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

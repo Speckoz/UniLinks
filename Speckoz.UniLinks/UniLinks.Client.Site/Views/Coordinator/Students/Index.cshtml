@@ -1,9 +1,29 @@
 ﻿@using System.Text.Json
 
-@model IEnumerable<StudentDisciplineVO>
+@model ResultModel<List<StudentVO>>
 
 @{
     ViewData["Title"] = "Alunos";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        case System.Net.HttpStatusCode.Created:
+        case System.Net.HttpStatusCode.NoContent:
+            <script>
+                sendMessage("@Model.Message", "success");
+            </script>
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
 }
 
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
@@ -13,7 +33,7 @@
     <i class="mdi mdi-plus mdi-24px"></i>
 </button>
 
-@if (Model.Count() == 0)
+@if (Model.Object.Count() == 0)
 {
     <p class="text-center py-2">Ops! Nao existe nenhum estudante no curso.</p>
 }
@@ -31,7 +51,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var student in Model)
+                @foreach (var student in Model.Object)
                 {
                     <tr class="tr-hover">
                         <td class="text-wrap">
@@ -49,12 +69,16 @@ else
                             <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines(@json)">Ver</span>
                         </td>
                         <td class="icons-td text-center">
-                            <a asp-action="Delete">
-                                <span class="mdi mdi-delete mdi-24px red-text"></span>
-                            </a>
-                            <a asp-action="Update">
-                                <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
-                            </a>
+                            <form method="post" class="d-inline-flex" action="Coordinator/Students/Delete/@student.StudentId">
+                                <button>
+                                    <span class="mdi mdi-delete mdi-24px red-text"></span>
+                                </button>
+                            </form>
+                            <form method="put" class="d-inline-flex" action="Coordinator/Students/Update/@student.StudentId">
+                                <button>
+                                    <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }

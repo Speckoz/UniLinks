@@ -15,20 +15,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class CourseService
 	{
-		public async Task<ResponseModel<CourseVO>> AddCourseTaskAsync(CourseVO newCourse, string token)
+		public async Task<ResultModel<CourseVO>> AddCourseTaskAsync(CourseVO newCourse, string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
 			return resp.StatusCode switch
 			{
-				HttpStatusCode.Created => new ResponseModel<CourseVO>
+				HttpStatusCode.Created => new ResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "Curso criado com sucesso!"
 				},
 
-				_ => new ResponseModel<CourseVO>
+				_ => new ResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)
@@ -44,20 +44,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}.ExecuteTaskAsync();
 		}
 
-		public async Task<ResponseModel<CourseVO>> GetCourseByCoordIdTaskAsync(string token)
+		public async Task<ResultModel<CourseVO>> GetCourseByCoordIdTaskAsync(string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(token);
 
 			return resp.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<CourseVO>
+				HttpStatusCode.OK => new ResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "Sucesso!"
 				},
 
-				_ => new ResponseModel<CourseVO>
+				_ => new ResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)
@@ -72,20 +72,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}.ExecuteTaskAsync();
 		}
 
-		public async Task<ResponseModel<CourseVO>> UpdateCourseTaskAsync(CourseVO newCourse, string token)
+		public async Task<ResultModel<CourseVO>> UpdateCourseTaskAsync(CourseVO newCourse, string token)
 		{
 			IRestResponse resp = await SendRequestTaskAsync(newCourse, token);
 
 			return resp.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<CourseVO>
+				HttpStatusCode.OK => new ResultModel<CourseVO>
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
 					Message = "As informaçoes foram atualizadas com sucesso!"
 				},
 
-				_ => new ResponseModel<CourseVO>
+				_ => new ResultModel<CourseVO>
 				{
 					StatusCode = resp.StatusCode,
 					Message = resp.Content.Replace("\"", string.Empty)

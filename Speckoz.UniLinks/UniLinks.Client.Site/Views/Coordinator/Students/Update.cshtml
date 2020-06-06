@@ -1,0 +1,44 @@
+﻿@model ResultModel<StudentVO>
+
+@{
+    ViewData["Title"] = "Editar Aluno";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" asp-controller="Students" method="post">
+            <div class="form-group">
+                <label class="control-label">Id do Aluno</label>
+                <input asp-for="Object.StudentId" class="form-control" readonly/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Object.Name" class="control-label"></label>
+                <input asp-for="Object.Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Object.Email" class="control-label"></label>
+                <input asp-for="Object.Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿@using System.Net
 
-@model ResponseModel<CourseVO>
+@model ResultModel<CourseVO>
 
 @{
     ViewData["Title"] = "Modificar Informaçoes do Curso";
@@ -8,10 +8,12 @@
 
 @if (Model.StatusCode != HttpStatusCode.OK)
 {
-    <p class="red-text text-center">@Model.Message</p>
+    <script>
+        sendMessage("@Model.Message", "error");
+    </script>
 }
 
-<div class="row h-100">
+<div class="row h-100" style="margin-left: 0; margin-right: 0">
     <div class="col-sm-12 my-auto">
         
         <form method="post" asp-controller="Course" asp-action="UpdateCourse">

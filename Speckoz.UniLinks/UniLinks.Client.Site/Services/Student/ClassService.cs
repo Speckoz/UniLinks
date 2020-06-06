@@ -16,20 +16,20 @@ namespace UniLinks.Client.Site.Services.Student
 {
 	public class ClassService
 	{
-		public async Task<ResponseModel<List<ClassVO>>> GetAllClassesTaskAsync(string token)
+		public async Task<ResultModel<List<ClassVO>>> GetAllClassesTaskAsync(string token)
 		{
 			IRestResponse response = await SendRequestAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<List<ClassVO>>
+				HttpStatusCode.OK => new ResultModel<List<ClassVO>>
 				{
 					Object = JsonSerializer.Deserialize<List<ClassVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<List<ClassVO>>
+				_ => new ResultModel<List<ClassVO>>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode

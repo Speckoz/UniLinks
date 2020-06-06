@@ -10,6 +10,5 @@ namespace UniLinks.Dependencies.Data.VO.Student
 		public string Email { get; set; }
 		public Guid CourseId { get; set; }
 		public List<DisciplineVO> Disciplines { get; set; }
-		public string Token { get; set; }
 	}
 }

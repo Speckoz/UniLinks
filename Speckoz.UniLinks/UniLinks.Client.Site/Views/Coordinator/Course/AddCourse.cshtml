@@ -1,6 +1,6 @@
 ﻿@using System.Net
 
-@model ResponseModel<CourseVO>
+@model ResultModel<CourseVO>
 
 @{
     ViewData["Title"] = "Adicionar Curso";
@@ -8,7 +8,9 @@
 
 @if (Model.StatusCode != HttpStatusCode.Created)
 {
-    <p class="red-text text-center">@Model.Message</p>
+    <script>
+        sendMessage("@Model.Message", "success");
+    </script>
 }
 
 <div class="row h-100" style="margin-left: 0; margin-right: 0">
@@ -35,5 +37,5 @@
                 </div>
             </div>
         </form>
-    </div>    
+    </div>
 </div>

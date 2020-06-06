@@ -39,20 +39,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<ResponseModel<List<DisciplineVO>>> GetDisciplinesByCoordIdTaskAsync(string token)
+		public async Task<ResultModel<List<DisciplineVO>>> GetDisciplinesByCoordIdTaskAsync(string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync(token);
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResponseModel<List<DisciplineVO>>
+				HttpStatusCode.OK => new ResultModel<List<DisciplineVO>>
 				{
 					Object = JsonSerializer.Deserialize<List<DisciplineVO>>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResponseModel<List<DisciplineVO>>
+				_ => new ResultModel<List<DisciplineVO>>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode

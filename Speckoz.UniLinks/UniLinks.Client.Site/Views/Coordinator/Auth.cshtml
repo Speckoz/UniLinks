@@ -3,7 +3,21 @@
     Layout = "EmptyLayout";
 }
 
-@model LoginRequestModel
+@model ResultModel<LoginRequestModel>
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
 
 <div class="alert alert-danger alert-dismissible animated bounceInDown fast collapse">
     O email ou senha inválido!
@@ -18,11 +32,11 @@
         <p class="text-center" style="color: #adadad;font-size: 13px">Informe suas credenciais para continuar</p>
         <br />
         <div class="form-group md-form">
-            <input asp-for="Email" class="form-control validate" id="email" type="email" required>
+            <input asp-for="Object.Email" class="form-control validate" id="email" type="email" required>
             <label for="email" data-error="wrong" data-success="right">Email</label>
         </div>
         <div class="form-group md-form">
-            <input asp-for="Password" class="form-control validate" type="password" id="password" required>
+            <input asp-for="Object.Password" class="form-control validate" type="password" id="password" required>
             <label for="password" data-error="wrong" data-success="right">Senha</label>
         </div>
         <div class="form-group">
