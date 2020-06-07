@@ -505,8 +505,8 @@ input:checked + .slider:before
     .card-lesson-image
     {
         position: absolute;
-        width: 80px;
-        height: 48px;
+        width: 75px;
+        height: 45px;
         border-radius: 0;
         bottom: 25%;
         padding-left: 10px;
@@ -531,13 +531,13 @@ input:checked + .slider:before
         padding-left: 0;
     }
 
-    .nowrap-row .col-7
+    .nowrap-row .col-8
     {
         padding-right: 0;
         padding-left: 0;
     }
 
-    .nowrap-row .col-2
+    .nowrap-row .col-1
     {
         padding-right: 0;
         padding-left: 0;
