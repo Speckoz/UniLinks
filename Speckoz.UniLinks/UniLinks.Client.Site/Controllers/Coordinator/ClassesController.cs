@@ -111,5 +111,23 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
             }
             return NotFound();
         }
+
+        [HttpPost("Delete/{classId}")]
+        public async Task<IActionResult> Delete([FromServices] ClassService classService, [Required] Guid classId)
+        {
+            if (ModelState.IsValid)
+            {
+                string token = User.FindFirst("Token").Value;
+                ResultModel<bool> response = await classService.RemoveClassTaskAsync(classId, token);
+                ResultModel<List<ClassVO>> studentResponse = await classService.GetClassesTaskAsync(token);
+
+                studentResponse.Message = response.Message;
+                studentResponse.StatusCode = response.StatusCode;
+
+                return View("/Views/Coordinator/Classes/Index.cshtml", studentResponse);
+            }
+
+            return NotFound();
+        }
     }
 }

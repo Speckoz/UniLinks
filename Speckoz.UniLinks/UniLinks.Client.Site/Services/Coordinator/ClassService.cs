@@ -158,7 +158,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
             {
                 HttpStatusCode.NoContent => new ResultModel<bool>
                 {
-                    Object = JsonSerializer.Deserialize<bool>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+                    Object = true,
                     Message = "Sala removida com sucesso",
                     StatusCode = resp.StatusCode
                 },
@@ -174,7 +174,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
             {
                 return await new RequestService()
                 {
-                    Method = Method.PUT,
+                    Method = Method.DELETE,
                     URL = DataHelper.URLBase,
                     URN = $"Classes/{classId}",
                     Authenticator = new JwtAuthenticator(token)
