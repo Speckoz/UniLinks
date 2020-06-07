@@ -21,11 +21,13 @@ namespace UniLinks.API.Controllers
 	{
 		private readonly ILessonBusiness _lessonBusiness;
 		private readonly ICourseBusiness _courseBusiness;
+		private readonly IDisciplineBusiness _disciplineBusiness;
 
-		public LessonsController(ILessonBusiness lessonBusiness, ICourseBusiness courseBusiness)
+		public LessonsController(ILessonBusiness lessonBusiness, ICourseBusiness courseBusiness, IDisciplineBusiness disciplineBusiness)
 		{
 			_lessonBusiness = lessonBusiness;
 			_courseBusiness = courseBusiness;
+			_disciplineBusiness = disciplineBusiness;
 		}
 
 		// POST: /Lessons
@@ -43,6 +45,9 @@ namespace UniLinks.API.Controllers
 
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
+
+				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(lesson.DisciplineId))
+					return NotFound("Nao existe a disciplina com o Id informado");
 
 				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(lesson) is LessonVO lessonCollab))
 					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
@@ -100,6 +105,9 @@ namespace UniLinks.API.Controllers
 
 				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
+
+				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newLesson.DisciplineId))
+					return NotFound("Nao existe a disciplina com o Id informado");
 
 				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
 					return Ok(lesson);

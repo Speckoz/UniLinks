@@ -416,6 +416,9 @@
     max-width: 100%;
     padding: 4px 0 4px 2px;
     color: var(--theme-text);
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
 }
 
     .choices__input:focus
