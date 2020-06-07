@@ -1,0 +1,71 @@
+@model ResultModel<ClassVO>
+@{
+    ViewData["Title"] = "Editar Sala";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
+
+
+<div style="padding-top: 20px; width: 88%; margin: 0 auto;">
+    <div class="text-center">
+        <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+    </div>
+    <div style="padding: 10px">
+        <form method="post" asp-controller="Classes" asp-action="UpdateClass">
+            <div class="row">
+                <div class="col-12">
+                    <div class="md-form">
+                        <input type="text" id="classId" class="form-control theme-text" asp-for="Object.ClassId" readonly />
+                        <label for="classId">Id da Sala</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group md-form">
+                        <input type="text" id="classUri" class="form-control theme-text validate" asp-for="Object.URI" required />
+                        <label for="classUri" data-error="wrong" data-success="right">Link da Sala</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label data-error="wrong" data-success="right">Periodo</label>
+                        <select asp-for="Object.Period">
+                            @{
+                                for (int i = 1; i <= ViewBag.periods; i++)
+                                {
+                                    <option value="@i">@i° Periodo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group md-form">
+                        <label for="studentWeekDays" data-error="wrong" data-success="right">Dias da semana</label>
+                        <select asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
+                            <option selected="selected" value="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+        </form>
+    </div>
+</div>

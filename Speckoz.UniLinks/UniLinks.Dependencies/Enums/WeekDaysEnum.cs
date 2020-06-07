@@ -1,31 +1,32 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace UniLinks.Dependencies.Enums
 {
-	public enum WeekDaysEnum
-	{
-		[Description("Domingo")]
-		Sunday = 1,
+    public enum WeekDaysEnum
+    {
+        [Display(Name = "Domingo")]
+        Sunday = 1,
 
-		[Description("Segunda-Feira")]
-		Monday,
+        [Display(Name = "Segunda-Feira")]
+        Monday,
 
-		[Description("Terça-Feira")]
-		Tuesday,
+        [Display(Name = "Terça-Feira")]
+        Tuesday,
 
-		[Description("Quarta-Feira")]
-		Wednesday,
+        [Display(Name = "Quarta-Feira")]
+        Wednesday,
 
-		[Description("Quinta-Feira")]
-		Thursday,
+        [Display(Name = "Quinta-Feira")]
+        Thursday,
 
-		[Description("Sexta-Feira")]
-		Friday,
+        [Display(Name = "Sexta-Feira")]
+        Friday,
 
-		[Description("Sábado")]
-		Saturday,
+        [Display(Name = "Sabado")]
+        Saturday,
 
-		[Description("Segunda a Sexta")]
-		AllValid
-	}
+        [Display(Name = "Segunda a Sexta")]
+        AllValid
+    }
 }
