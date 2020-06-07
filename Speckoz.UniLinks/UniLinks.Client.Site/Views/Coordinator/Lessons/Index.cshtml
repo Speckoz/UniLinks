@@ -1,11 +1,35 @@
-﻿@{
+﻿@model ResultModel<List<LessonDisciplineVO>>
+
+@{
     ViewData["Title"] = "Aulas";
 }
 
-@model List<LessonDisciplineVO>
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        case System.Net.HttpStatusCode.Created:
+        case System.Net.HttpStatusCode.NoContent:
+            <script>
+                sendMessage("@Model.Message", "success");
+            </script>
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
 
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
+
+<a asp-action="Add" asp-controller="Lessons" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
+    <i class="mdi mdi-plus mdi-24px"></i>
+</a>
 
 <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
@@ -17,13 +41,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (LessonDisciplineVO item in Model)
+        @foreach (LessonDisciplineVO lesson in Model.Object)
         {
+            var durationInDateTime = new DateTime(0001, 01, 01).AddMilliseconds(lesson.Lesson.Duration);
+            var duration = durationInDateTime.ToString(@"HH \hora(\s) e mm \minu\to(\s)");
             <tr>
-                <td><a href="@item.Lesson.URI" target="_blank">Abrir link</a><br />@item.Lesson.Date.ToShortDateString()</td>
-                <td>@item.Lesson.LessonSubject</td>
-                <td>@item.Discipline.Name</td>
-                <td>@item.Lesson.Duration</td>
+                <td><a href="@lesson.Lesson.URI" target="_blank">Abrir link</a><br />@lesson.Lesson.Date.ToShortDateString()</td>
+                <td>@lesson.Lesson.LessonSubject</td>
+                <td>@lesson.Discipline.Name</td>
+                <td>@duration</td>
             </tr>
         }
     </tbody>

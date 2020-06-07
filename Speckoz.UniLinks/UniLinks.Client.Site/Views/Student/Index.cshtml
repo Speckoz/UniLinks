@@ -86,7 +86,7 @@
                             {
                                 var durationInDateTime = new DateTime(0001, 01, 01).AddMilliseconds(lesson.Lesson.Duration);
                                 var duration = durationInDateTime.ToString(@"HH \hora(\s) e mm \minu\to(\s)");
-                                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy", new CultureInfo("pt-BR"));
+                                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy");
 
                                 string json = JsonSerializer.Serialize(new
                                 {
