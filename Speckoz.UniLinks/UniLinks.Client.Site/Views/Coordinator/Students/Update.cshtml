@@ -39,15 +39,15 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <div class="md-form">
-                        <input type="text" id="studentName" class="form-control theme-text" asp-for="Object.Student.Name" />
-                        <label for="studentName">Nome do Aluno</label>
+                    <div class="form-group md-form">
+                        <input type="text" id="studentName" class="form-control theme-text validate" asp-for="Object.Student.Name" required />
+                        <label for="studentName" data-error="wrong" data-success="right">Nome do Aluno</label>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="md-form">
-                        <input type="text" id="studentEmail" class="form-control theme-text" asp-for="Object.Student.Email" />
-                        <label for="studentEmail">Email do Aluno</label>
+                    <div class="form-group md-form">
+                        <input type="text" id="studentEmail" class="form-control theme-text validate" asp-for="Object.Student.Email" required />
+                        <label for="studentEmail" data-error="wrong" data-success="right">Email do Aluno</label>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
             </div>
 
             <div class="row justify-content-center" style="margin-top: 35px">
-                <button onclick="addValues()" class="btn btn-success waves-effect">Salvar</button>
+                <button type="submit" onclick="addValues()" class="btn btn-success waves-effect">Salvar</button>
                 <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>
             </div>
         </form>
