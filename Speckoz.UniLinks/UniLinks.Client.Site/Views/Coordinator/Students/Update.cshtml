@@ -1,6 +1,4 @@
-﻿@using UniLinks.Client.Site.Models.Auxiliary
-
-@inject UniLinks.Client.Site.Services.Coordinator.DisciplineService _disciplineService
+﻿@inject UniLinks.Client.Site.Services.DisciplinesPeriodsService _disciplinePeriodsService
 
 @model ResultModel<StudentDisciplineVO>
 
@@ -57,41 +55,24 @@
         <div class="row">
             <div class="col-12">
                 @{
-                    string token = User.FindFirst("Token").Value;
-                    var disciplinesInCourse = await _disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
-
-                    List<AuxDisciplines> showedDisciplines = new List<AuxDisciplines>();
-                    var periods = new HashSet<int>();
-                    disciplinesInCourse.Object.ForEach(i => periods.Add(i.Period));
-                    foreach (var period in periods)
-                    {
-                        showedDisciplines.Add(new AuxDisciplines
-                        {
-                            Period = period,
-                            Disciplines = disciplinesInCourse.Object.Where(x => x.Period == period).Select(x => new AuxDiscipline()
-                            {
-                                DisciplineId = x.DisciplineId,
-                                Discipline = x.Name
-                            }).ToList()
-                        });
-                    }
+                    var showedDisciplines = await _disciplinePeriodsService.GetDisciplinesAsync();
                 }
 
                 @* Input para servir de comunicador entre o JS e C# *@
                 <input asp-for="Object.Student.Disciplines" id="inputTest" style="display: none" type="text" />
                 <div data-test-hook="groups">
-                    
+
                     <label style="font-size: 14px; color: #757575;">Disciplinas do Aluno</label>
                     <select class="md-form" name="studentDisciplines" id="studentDisciplines" multiple>
                         @foreach (var disciplines in showedDisciplines)
                         {
-                        <optgroup label="@(disciplines.Period)° Perído">
-                            @foreach (var discipline in disciplines.Disciplines)
-                            {
-                                bool isEquals = Model?.Object?.Student?.Disciplines?.Contains(discipline.DisciplineId.ToString()) ?? false;
-                                <option selected="@(isEquals ? "selected" : null)" value="@discipline.DisciplineId">@discipline.Discipline</option>
-                            }
-                        </optgroup>
+                            <optgroup label="@(disciplines.Period)° Perído">
+                                @foreach (var discipline in disciplines.Disciplines)
+                                {
+                                    bool isEquals = Model?.Object?.Student?.Disciplines?.Contains(discipline.DisciplineId.ToString()) ?? false;
+                                    <option selected="@(isEquals ? "selected" : null)" value="@discipline.DisciplineId">@discipline.Discipline</option>
+                                }
+                            </optgroup>
                         }
                     </select>
                 </div>
@@ -126,8 +107,8 @@
         </div>
 
         <div class="row justify-content-center">
-            <button onclick="addValues()" class="btn btn-primary waves-effect">Salvar</button>
-            <a class="btn btn-outline-primary waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>
+            <button onclick="addValues()" class="btn btn-success waves-effect">Salvar</button>
+            <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Students">Voltar</a>
         </div>
     </form>
 </div>

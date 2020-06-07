@@ -20,6 +20,7 @@ namespace UniLinks.Client.Site
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
+			services.AddHttpContextAccessor();
 
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 					.AddCookie(o =>
@@ -37,6 +38,7 @@ namespace UniLinks.Client.Site
 			services.AddScoped<LessonService>();
 			services.AddScoped<Services.Student.LessonService>();
 			services.AddScoped<Services.Student.ClassService>();
+			services.AddScoped<DisciplinesPeriodsService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
