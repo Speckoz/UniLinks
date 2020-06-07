@@ -117,19 +117,17 @@ namespace UniLinks.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson)
-				{
-					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+				if (!(await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson))
+					return BadRequest("Aula informada nao existe");
 
-					if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-						if (coordId != course.CoordinatorId)
-							return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-					await _lessonBusiness.DeleteAsync(lessonId);
-					return NoContent();
-				}
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (coordId != course.CoordinatorId)
+						return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
 
-				return BadRequest("Aula informada nao existe");
+				await _lessonBusiness.DeleteAsync(lessonId);
+				return NoContent();
 			}
 
 			return BadRequest();

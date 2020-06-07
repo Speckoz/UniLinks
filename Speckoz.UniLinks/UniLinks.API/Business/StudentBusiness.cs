@@ -38,40 +38,37 @@ namespace UniLinks.API.Business
 		{
 			StudentModel studentEntity = _studentConverter.Parse(student);
 
-			if (GuidFormat.TryParseList(studentEntity.Disciplines, ';', out List<Guid> result))
-			{
-				//checando se nao existe nenhuma disciplina repetida.
-				foreach (Guid disc in result)
-					if (result.Count(x => x.Equals(disc)) > 1)
-						return null;
+			if (!(GuidFormat.TryParseList(studentEntity.Disciplines, ';', out List<Guid> result)))
+				return null;
 
-				List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result);
+			//checando se nao existe nenhuma disciplina repetida.
+			foreach (Guid disc in result)
+				if (result.Count(x => x.Equals(disc)) > 1)
+					return null;
 
-				if (!disciplines.Contains(null))
-				{
-					StudentModel addedstudent = await _studentRepository.AddTaskAsync(studentEntity);
+			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines))
+				return null;
 
-					await _emailSender.SendEmailTaskAsync(addedstudent.Email);
+			if (disciplines.Contains(null))
+				return null;
 
-					return _studentDisciplineConverter.Parse((addedstudent, disciplines));
-				}
-			}
+			if (!(await _studentRepository.AddTaskAsync(studentEntity) is StudentModel addedStudent))
+				return null;
 
-			return null;
+			await _emailSender.SendEmailTaskAsync(addedStudent.Email);
+
+			return _studentDisciplineConverter.Parse((addedStudent, disciplines));
 		}
 
 		public async Task<AuthStudentVO> AuthUserTaskAsync(string email)
 		{
-			if (await _studentRepository.FindByEmailTaskAsync(email) is StudentModel user)
-			{
-				var authStudentConverter = new AuthStudentConverter();
-				AuthStudentVO userVO = authStudentConverter.Parse(user);
-				userVO.Token = _tokenService.Generate(user.StudentId, UserTypeEnum.Student);
+			if (!(await _studentRepository.FindByEmailTaskAsync(email) is StudentModel user))
+				return null;
 
-				return userVO;
-			}
+			AuthStudentVO userVO = new AuthStudentConverter().Parse(user);
+			userVO.Token = _tokenService.Generate(user.StudentId, UserTypeEnum.Student);
 
-			return default;
+			return userVO;
 		}
 
 		public async Task<bool> ExistsByEmailTaskAsync(string email) =>
@@ -79,36 +76,37 @@ namespace UniLinks.API.Business
 
 		public async Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid studentId)
 		{
-			StudentModel studentModel = await _studentRepository.FindByStudentIdTaskAsync(studentId);
+			if (!(await _studentRepository.FindByStudentIdTaskAsync(studentId) is StudentModel studentModel))
+				return null;
+
 			if (!GuidFormat.TryParseList(studentModel.Disciplines, ';', out List<Guid> result))
 				return null;
 
-			List<DisciplineModel> disciplines = await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result);
+			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines))
+				return null;
 
 			return _studentDisciplineConverter.Parse((studentModel, disciplines));
 		}
 
 		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)
 		{
-			if (await _studentRepository.FindAllByCourseIdTaskAsync(courseId) is List<StudentModel> students)
+			if (!(await _studentRepository.FindAllByCourseIdTaskAsync(courseId) is List<StudentModel> students))
+				return null;
+
+			var studentDisciplines = new List<(StudentModel student, List<DisciplineModel> discipline)>();
+
+			foreach (StudentModel student in students)
 			{
-				var studentDisciplines = new List<(StudentModel student, List<DisciplineModel> discipline)>();
+				if (!GuidFormat.TryParseList(student.Disciplines, ';', out List<Guid> result))
+					return null;
 
-				foreach (StudentModel student in students)
-				{
-					if (!GuidFormat.TryParseList(student.Disciplines, ';', out List<Guid> result))
-						return null;
-
-					if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines)
-						studentDisciplines.Add((student, disciplines));
-					else
-						return null;
-				}
-
-				return _studentDisciplineConverter.ParseList(studentDisciplines);
+				if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines)
+					studentDisciplines.Add((student, disciplines));
+				else
+					return null;
 			}
 
-			return null;
+			return _studentDisciplineConverter.ParseList(studentDisciplines);
 		}
 
 		public async Task<StudentDisciplineVO> UpdateTaskAsync(StudentVO newStudent)
