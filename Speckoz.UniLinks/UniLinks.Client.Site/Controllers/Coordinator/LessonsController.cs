@@ -63,6 +63,45 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			return View("/Views/Coordinator/Lessons/Index.cshtml", lessonsResponse);
 		}
 
+		[HttpGet("Update/{lessonId}")]
+		public async Task<IActionResult> Update([FromServices] LessonService lessonService, [Required] Guid lessonId)
+		{
+			string token = User.FindFirst("Token").Value;
+
+			ResultModel<LessonVO> response = await lessonService.GetLessonByIdTaskAsync(lessonId, token);
+
+			return View("/Views/Coordinator/Lessons/Update.cshtml", response);
+		}
+
+		[HttpPost("Update")]
+		public async Task<IActionResult> UpdateLesson([FromServices] LessonService lessonService, [FromServices] DisciplineService disciplineService, ResultModel<LessonVO> request)
+		{
+			string token = User.FindFirst("Token").Value;
+
+			request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+
+			ResultModel<LessonVO> response = await lessonService.UpdateLessonTaskAsync(request.Object, token);
+
+			if (response.StatusCode != HttpStatusCode.OK)
+				return View("/Views/Coordinator/Lessons/Update.cshtml", new ResultModel<LessonVO>
+				{
+					Object = request.Object,
+					Message = response.Message,
+					StatusCode = response.StatusCode
+				});
+
+			ResultModel<List<DisciplineVO>> disciplines = await disciplineService.GetDisciplinesByCoordIdTaskAsync(token);
+			ResultModel<List<LessonDisciplineVO>> lessonsResponse = await lessonService.GetAllLessonsByDisciplineIDsTaskAsync(token, disciplines.Object.Select(x => x.DisciplineId).ToList());
+
+			if (lessonsResponse.StatusCode == HttpStatusCode.OK)
+			{
+				lessonsResponse.Message = response.Message;
+				lessonsResponse.StatusCode = response.StatusCode;
+			}
+
+			return View("/Views/Coordinator/Lessons/Index.cshtml", lessonsResponse);
+		}
+
 		[HttpPost("Delete/{lessonId}")]
 		public async Task<IActionResult> Delete([FromServices] LessonService lessonService, [FromServices] DisciplineService disciplineService, [Required] Guid lessonId)
 		{
