@@ -27,6 +27,41 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			return View("/Views/Coordinator/Students/Index.cshtml", students);
 		}
 
+		[HttpGet("Add")]
+		public IActionResult Add() => View("/Views/Coordinator/Students/Add.cshtml");
+
+		[HttpPost("Add")]
+		public async Task<IActionResult> AddStudent([FromServices] StudentsService studentsService, ResultModel<StudentDisciplineVO> request)
+		{
+			string token = User.FindFirst("Token").Value;
+
+			request.Object.Student.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+
+			ResultModel<StudentDisciplineVO> response = await studentsService.AddStudentTaskAsync(request.Object.Student, token);
+
+			if (response.StatusCode != HttpStatusCode.Created)
+				return View("/Views/Coordinator/Students/Add.cshtml", new ResultModel<StudentDisciplineVO>
+				{
+					Object = request.Object,
+					Message = response.Message,
+					StatusCode = response.StatusCode
+				});
+
+			ResultModel<List<StudentDisciplineVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
+
+			if (studentResponse.StatusCode == HttpStatusCode.OK)
+			{
+				studentResponse.Message = response.Message;
+				studentResponse.StatusCode = response.StatusCode;
+			}
+
+			return studentResponse.StatusCode switch
+			{
+				HttpStatusCode.Created => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
+				_ => View("/Views/Coordinator/Students/Add.cshtml", studentResponse)
+			};
+		}
+
 		[HttpGet("Update/{studentId}")]
 		public async Task<IActionResult> Update([FromServices] StudentsService studentsService, [Required] Guid studentId)
 		{
@@ -42,7 +77,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			return BadRequest();
 		}
 
-		[HttpPost]
+		[HttpPost("Update")]
 		public async Task<IActionResult> UpdateStudent([FromServices] StudentsService studentsService, ResultModel<StudentDisciplineVO> request)
 		{
 			string token = User.FindFirst("Token").Value;
@@ -61,10 +96,13 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			ResultModel<List<StudentDisciplineVO>> studentResponse = await studentsService.GetStudentsTaskAsync(token);
 
-			studentResponse.Message = response.Message;
-			studentResponse.StatusCode = response.StatusCode;
+			if (studentResponse.StatusCode == HttpStatusCode.OK)
+			{
+				studentResponse.Message = response.Message;
+				studentResponse.StatusCode = response.StatusCode;
+			}
 
-			return response.StatusCode switch
+			return studentResponse.StatusCode switch
 			{
 				HttpStatusCode.OK => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
 				_ => View("/Views/Coordinator/Students/Update.cshtml", studentResponse)
