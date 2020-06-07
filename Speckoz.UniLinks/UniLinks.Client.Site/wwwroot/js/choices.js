@@ -169,7 +169,7 @@
                 shouldSortItems: false,
                 sorter: utils_1.sortByAlpha,
                 placeholder: true,
-                placeholderValue: "asdasd",
+                placeholderValue: "+Tag",
                 searchPlaceholderValue: null,
                 prependValue: null,
                 appendValue: null,

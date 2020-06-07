@@ -172,15 +172,10 @@
     overflow: hidden;
 }
 
-    .choices__inner:focus
-    {
-        border-bottom: 2px solid var(--primary-color-bg);
-    }
-
 .is-focused .choices__inner,
 .is-open .choices__inner
 {
-    border-bottom: 2px solid var(--color-primary);
+    border-bottom: 2px solid var(--blue);
 }
 
 .is-open .choices__inner
@@ -416,7 +411,7 @@
     background-color: transparent;
     font-size: 14px;
     margin-bottom: 5px;
-    border: 0;
+    border: 0 !important;
     border-radius: 0;
     max-width: 100%;
     padding: 4px 0 4px 2px;
