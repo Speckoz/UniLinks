@@ -1,0 +1,64 @@
+@model ResultModel<ClassVO>
+
+@{
+    ViewData["Title"] = "Adicionar uma Sala";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.Created:
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
+
+<div style="padding-top: 20px">
+    <div class="text-center">
+        <span class="theme-text">Adicionar nova Sala</span>
+    </div>
+    <div style="padding: 10px">
+        <form method="post" asp-controller="Classes" asp-action="AddClass">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group md-form">
+                        <input type="text" id="classUri" class="form-control theme-text validate" asp-for="Object.URI" required />
+                        <label for="classUri" data-error="wrong" data-success="right">Url da Sala</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label data-error="wrong" data-success="right">Periodo</label>
+                        <select asp-for="Object.Period">
+                            @{
+                                for (int i = 1; i <= ViewBag.periods; i++)
+                                {
+                                    <option value="@i">@i° Periodo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group md-form">
+                        <label for="studentWeekDays" data-error="wrong" data-success="right">Dias da semana</label>
+                        <select asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
+                            <option selected="selected" value="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Cadastrar</button>
+        </form>
+    </div>
+</div>

@@ -22,6 +22,45 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
             return View("/Views/Coordinator/Classes/Index.cshtml", response);
         }
 
+        [HttpGet("Add")]
+        public async Task<IActionResult> Add([FromServices] ClassService classService, [FromServices] CourseService courseService)
+        {
+            string token = User.FindFirst("Token").Value;
+            var periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
+            ViewBag.periods = periods;
+            return View("/Views/Coordinator/Classes/Add.cshtml");
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddClass([FromServices] ClassService classService, ResultModel<ClassVO> request)
+        {
+            string token = User.FindFirst("Token").Value;
+            request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+            ResultModel<ClassVO> response = await classService.AddClasseTaskAsync(request.Object, token);
+
+            if (response.StatusCode != HttpStatusCode.Created)
+                return View("/Views/Coordinator/Classes/Add.cshtml", new ResultModel<ClassVO>
+                {
+                    Object = request.Object,
+                    Message = response.Message,
+                    StatusCode = response.StatusCode
+                });
+
+            ResultModel<List<ClassVO>> classResponse = await classService.GetClassesTaskAsync(token);
+
+            if (classResponse.StatusCode == HttpStatusCode.OK)
+            {
+                classResponse.Message = response.Message;
+                classResponse.StatusCode = response.StatusCode;
+            }
+
+            return classResponse.StatusCode switch
+            {
+                HttpStatusCode.Created => View("/Views/Coordinator/Classes/Index.cshtml", classResponse),
+                _ => View("/Views/Coordinator/Classes/Add.cshtml", classResponse)
+            };
+        }
+
         [HttpGet("Update/{classId}")]
         public async Task<IActionResult> Update([FromServices] ClassService classService, [FromServices] CourseService courseService, [Required] Guid classId)
         {
