@@ -38,7 +38,7 @@ namespace UniLinks.API.Services
 				return await new RequestService()
 				{
 					Method = Method.GET,
-					URL = "us.bbcollab.com",
+					URL = "https://us.bbcollab.com",
 					URN = $"collab/api/csa/recordings/{id}/data",
 				}.ExecuteTaskAsync();
 			}
