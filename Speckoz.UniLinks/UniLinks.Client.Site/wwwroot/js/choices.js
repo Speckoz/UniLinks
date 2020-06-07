@@ -178,10 +178,10 @@
                 noResultsText: 'Nada encontrado!',
                 noChoicesText: 'Nao ha mais nada para selecionar',
                 itemSelectText: 'Selecionar',
-                uniqueItemText: 'Only unique values can be added',
+                uniqueItemText: 'Ja está na lista',
                 customAddItemText: 'Only values matching specific conditions can be added',
                 addItemText: function addItemText(value) {
-                    return "Press Enter to add <b>\"" + utils_1.sanitise(value) + "\"</b>";
+                    return "\'Enter\' para adicionar <b>\"" + utils_1.sanitise(value) + "\"</b> na lista";
                 },
                 maxItemText: function maxItemText(maxItemCount) {
                     return "Only " + maxItemCount + " values can be added";

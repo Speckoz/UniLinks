@@ -1,0 +1,119 @@
+﻿@inject UniLinks.Client.Site.Services.DisciplinesPeriodsService _disciplinePeriodsService
+
+@model ResultModel<LessonVO>
+
+@{
+    ViewData["Title"] = "Adicionar Aula";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+        case System.Net.HttpStatusCode.Created:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
+<hr />
+
+<div style="padding-top: 20px">
+    <div class="text-center">
+        <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+    </div>
+    <div style="padding: 10px">
+        <form method="post" asp-controller="Lessons" asp-action="AddLesson" onload="onLoadFail()">
+            <div class="row">
+                <div class="col-12">
+                    @* Input para servir de comunicador entre o JS e C# *@
+                    <input asp-for="Object.LessonSubject" id="inputLessonSubject" style="display: none" type="text" />
+
+                    <div class="form-group md-form">
+                        <label style="font-size: 14px; color: #757575;">Assuntos da Aula</label>
+                        <input type="text" id="lessonSubject" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group md-form">
+                        <input type="text" id="lessonURI" class="form-control theme-text validate" style="margin-bottom: 0" aria-describedby="lessonURIHelp" asp-for="Object.URI" required />
+                        <label for="lessonURI" data-error="wrong" data-success="right">Link da Aula</label>
+                        <small id="lessonURIHelp" class="form-text text-muted">
+                            Formato: https://us.bbcollab.com/recording/{ID}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @{
+                        var showedDisciplines = await _disciplinePeriodsService.GetDisciplinesAsync();
+                    }
+
+                    <div>
+                        <label style="font-size: 14px; color: #757575;">Disciplina</label>
+                        <select id="lessonDiscipline" asp-for="Object.DisciplineId">
+                            @foreach (var disciplines in showedDisciplines)
+                            {
+                                <optgroup label="@(disciplines.Period)° Perído">
+                                    @foreach (var discipline in disciplines.Disciplines)
+                                    {
+                                        <option selected value="@discipline.DisciplineId"> @discipline.Discipline</option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center" style="margin-top: 35px">
+                <button type="submit" onclick="addValues()" class="btn btn-success waves-effect">Adicionar</button>
+                <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Lessons">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/choices.js"></script>
+<script>
+    new Choices("#lessonDiscipline");
+
+    const inputLessonSubject = document.getElementById("inputLessonSubject");
+
+    function addValues() {
+        inputLessonSubject.value = subjects.getValue().map(obj => obj.value).join(';');
+    }
+
+    var subjects = new Choices('#lessonSubject', {
+        removeItemButton: true,
+        duplicateItemsAllowed: false
+    });
+
+    subjects.passedElement.element.addEventListener(
+        'removeItem',
+        function (event) {
+            const idsArray = inputLessonSubject.value.split(';');
+
+            const index = idsArray.indexOf(event.detail.value);
+            if (index > -1) {
+                idsArray.splice(index, 1);
+            }
+
+            inputLessonSubject.value = idsArray.map(x => x).join(';');
+        });
+
+    subjects.passedElement.element.addEventListener(
+        'addItem',
+        function (event) {
+            inputLessonSubject.value = subjects.getValue().map(obj => obj.value).join(';');
+        });
+</script>

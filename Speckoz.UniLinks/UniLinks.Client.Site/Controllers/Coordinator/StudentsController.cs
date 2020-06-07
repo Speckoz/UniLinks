@@ -55,11 +55,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 				studentResponse.StatusCode = response.StatusCode;
 			}
 
-			return studentResponse.StatusCode switch
-			{
-				HttpStatusCode.Created => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
-				_ => View("/Views/Coordinator/Students/Add.cshtml", studentResponse)
-			};
+			return View("/Views/Coordinator/Students/Index.cshtml", studentResponse);
 		}
 
 		[HttpGet("Update/{studentId}")]
@@ -102,11 +98,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 				studentResponse.StatusCode = response.StatusCode;
 			}
 
-			return studentResponse.StatusCode switch
-			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Students/Index.cshtml", studentResponse),
-				_ => View("/Views/Coordinator/Students/Update.cshtml", studentResponse)
-			};
+			return View("/Views/Coordinator/Students/Index.cshtml", studentResponse);
 		}
 
 		[HttpPost("Delete/{studentId}")]

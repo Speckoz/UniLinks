@@ -43,7 +43,7 @@ else
 
             <thead>
                 <tr>
-                    <th scope="col">Nome</th>
+                    <th scope="col">Info</th>
                     <th class="text-center" scope="col">Disciplinas</th>
                     <th class="text-center" scope="col">Ações</th>
                 </tr>
@@ -54,7 +54,7 @@ else
                     <tr class="tr-hover">
                         <td class="text-wrap">
                             <span>@student.Student.Name</span><br />
-                            <span style="color: grey; font-size: 13px">@student.Student.Email</span>
+                            <span style="color: grey;font-size: 12px">@student.Student.Email</span>
                         </td>
                         <td class="icons-td text-center">
                             @{
@@ -72,7 +72,7 @@ else
                                     <span class="mdi mdi-delete mdi-24px red-text"></span>
                                 </button>
                             </form>
-                            <form method="put" class="d-inline-flex" action="Coordinator/Students/Update/@student.Student.StudentId">
+                            <form method="post" class="d-inline-flex" action="Coordinator/Students/Update/@student.Student.StudentId">
                                 <button>
                                     <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
                                 </button>
