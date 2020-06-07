@@ -77,6 +77,21 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
+		[HttpGet("{disciplineId}")]
+		[Authorizes]
+		public async Task<IActionResult> GetDisciplineByDisciplineId([Required] Guid disciplineId)
+		{
+			if (ModelState.IsValid)
+			{
+				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline)
+					return Ok(discipline);
+
+				return NotFound("Nao existe nenhuma disciplina com o Id informado");
+			}
+
+			return BadRequest();
+		}
+
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> GetDisciplinesByCoordIdTaskAsync()
