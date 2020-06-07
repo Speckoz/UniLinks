@@ -29,9 +29,9 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<button class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight" data-toggle="modal" data-target="#modalNewStudent">
+<a asp-action="Add" asp-controller="Students" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
     <i class="mdi mdi-plus mdi-24px"></i>
-</button>
+</a>
 
 @if (Model.Object.Count() == 0)
 {
@@ -39,7 +39,6 @@
 }
 else
 {
-
     <section id="students-list-table" class="d-flex justify-content-lg-center nosection-padding">
         <table class="table table-hover table-students theme-bg theme-text">
 

@@ -17,20 +17,20 @@ namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class StudentsService
 	{
-		public async Task<ResultModel<StudentVO>> AddStudentTaskAsync(StudentVO student, string token)
+		public async Task<ResultModel<StudentDisciplineVO>> AddStudentTaskAsync(StudentVO student, string token)
 		{
 			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => new ResultModel<StudentVO>
+				HttpStatusCode.Created => new ResultModel<StudentDisciplineVO>
 				{
-					Object = JsonSerializer.Deserialize<StudentVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "Sucesso!",
+					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Aluno adicionado com Sucesso!",
 					StatusCode = response.StatusCode
 				},
 
-				_ => new ResultModel<StudentVO>
+				_ => new ResultModel<StudentDisciplineVO>
 				{
 					Message = response.Content.Replace("\"", string.Empty),
 					StatusCode = response.StatusCode
