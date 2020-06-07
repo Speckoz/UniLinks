@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title text-center">@(item.Period)º Período</h5>
                 <p class="card-text text-center">
-                    @(item.WeekDays.AsString(EnumFormat.Description))
+                    @(item.WeekDays.AsString(EnumFormat.DisplayName))
                 </p>
                 <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
             </div>

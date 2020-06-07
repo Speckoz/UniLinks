@@ -80,12 +80,7 @@ namespace UniLinks.API.Controllers
 					return NotFound("Nao existe nenhum curso com o coordenador informado!");
 
 				if (await _classBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<ClassVO> classVO)
-				{
-					if (classVO.Count <= 0)
-						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
-
 					return Ok(classVO);
-				}
 
 				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
 			}

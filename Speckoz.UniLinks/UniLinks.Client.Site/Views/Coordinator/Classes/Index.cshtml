@@ -28,24 +28,34 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<a class="btn btn-primary" href="/Coordinator/Classes/Add">Adicionar</a>
-<div class="card-deck" style="margin: 20px">
-    @foreach (ClassVO item in Model.Object)
-    {
-        <div class="card mb-4 theme-bg theme-text" style="max-width: 230px; align-self: center; min-width: 230px; align-items: center;">
-            <div class="card-body">
-                <h5 class="card-title text-center">@(item.Period)º Período</h5>
-                <p class="card-text text-center">
-                    @(item.WeekDays.AsString(EnumFormat.DisplayName))
-                </p>
-                <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
-                <a class="btn waves-effect btn-danger btn-md" href="/Coordinator/Classes/Update/@item.ClassId">Editar</a>
-                <form method="post" class="d-inline-flex" action="/Coordinator/Classes/Delete/@item.ClassId">
-                    <button>
-                        <span class="mdi mdi-delete mdi-24px red-text"></span>
-                    </button>
-                </form>
+<a asp-action="Add" asp-controller="Clasees" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
+    <i class="mdi mdi-plus mdi-24px"></i>
+</a>
+
+@if (Model.Object.Count() == 0)
+{
+    <p class="text-center p-4">Ops! Nao existe nenhuma sala para mostrar! 😢</p>
+}
+else
+{
+    <div class="card-deck" style="margin: 20px">
+        @foreach (ClassVO item in Model.Object)
+        {
+            <div class="card mb-4 theme-bg theme-text" style="max-width: 230px; align-self: center; min-width: 230px; align-items: center;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">@(item.Period)º Período</h5>
+                    <p class="card-text text-center">
+                        @(item.WeekDays.AsString(EnumFormat.DisplayName))
+                    </p>
+                    <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
+                    <a class="btn waves-effect btn-danger btn-md" href="/Coordinator/Classes/Update/@item.ClassId">Editar</a>
+                    <form method="post" class="d-inline-flex" action="/Coordinator/Classes/Delete/@item.ClassId">
+                        <button>
+                            <span class="mdi mdi-delete mdi-24px red-text"></span>
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
