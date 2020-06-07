@@ -103,13 +103,17 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newLesson.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
 
-				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO)
-					return Conflict("A aula informada ja existe, verifique se o link está correto");
+				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO currentLesson)
+					if(currentLesson.LessonId != newLesson.LessonId)
+						return Conflict("A aula informada ja existe, verifique se o link está correto");
 
 				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newLesson.DisciplineId))
 					return NotFound("Nao existe a disciplina com o Id informado");
 
-				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
+				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(newLesson) is LessonVO lessonCollab))
+					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
+
+				if (await _lessonBusiness.UpdateTaskAsync(lessonCollab) is LessonVO lesson)
 					return Ok(lesson);
 
 				return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
