@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,123 +12,121 @@ using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Controllers.Coordinator
 {
-    [Route("Coordinator/[Controller]")]
-    public class ClassesController : Controller
-    {
-        [HttpGet]
-        public async Task<IActionResult> Index([FromServices] ClassService classService)
-        {
-            string token = User.FindFirst("Token").Value;
-            ResultModel<List<ClassVO>> response = await classService.GetClassesTaskAsync(token);
-            return View("/Views/Coordinator/Classes/Index.cshtml", response);
-        }
+	[Route("Coordinator/[Controller]")]
+	public class ClassesController : Controller
+	{
+		[HttpGet]
+		public async Task<IActionResult> Index([FromServices] ClassService classService)
+		{
+			string token = User.FindFirst("Token").Value;
 
-        [HttpGet("Add")]
-        public async Task<IActionResult> Add([FromServices] ClassService classService, [FromServices] CourseService courseService)
-        {
-            string token = User.FindFirst("Token").Value;
-            var periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
-            ViewBag.periods = periods;
-            return View("/Views/Coordinator/Classes/Add.cshtml");
-        }
+			ResultModel<List<ClassVO>> response = await classService.GetClassesTaskAsync(token);
 
-        [HttpPost("Add")]
-        public async Task<IActionResult> AddClass([FromServices] ClassService classService, ResultModel<ClassVO> request)
-        {
-            string token = User.FindFirst("Token").Value;
-            request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
-            ResultModel<ClassVO> response = await classService.AddClasseTaskAsync(request.Object, token);
+			return View("/Views/Coordinator/Classes/Index.cshtml", response);
+		}
 
-            if (response.StatusCode != HttpStatusCode.Created)
-                return View("/Views/Coordinator/Classes/Add.cshtml", new ResultModel<ClassVO>
-                {
-                    Object = request.Object,
-                    Message = response.Message,
-                    StatusCode = response.StatusCode
-                });
+		[HttpGet("Add")]
+		public async Task<IActionResult> Add([FromServices] ClassService classService, [FromServices] CourseService courseService)
+		{
+			string token = User.FindFirst("Token").Value;
 
-            ResultModel<List<ClassVO>> classResponse = await classService.GetClassesTaskAsync(token);
+			ViewBag.periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
 
-            if (classResponse.StatusCode == HttpStatusCode.OK)
-            {
-                classResponse.Message = response.Message;
-                classResponse.StatusCode = response.StatusCode;
-            }
+			return View("/Views/Coordinator/Classes/Add.cshtml");
+		}
 
-            return classResponse.StatusCode switch
-            {
-                HttpStatusCode.Created => View("/Views/Coordinator/Classes/Index.cshtml", classResponse),
-                _ => View("/Views/Coordinator/Classes/Add.cshtml", classResponse)
-            };
-        }
+		[HttpPost("Add")]
+		public async Task<IActionResult> AddClass([FromServices] ClassService classService, ResultModel<ClassVO> request)
+		{
+			string token = User.FindFirst("Token").Value;
+			request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+			ResultModel<ClassVO> response = await classService.AddClasseTaskAsync(request.Object, token);
 
-        [HttpGet("Update/{classId}")]
-        public async Task<IActionResult> Update([FromServices] ClassService classService, [FromServices] CourseService courseService, [Required] Guid classId)
-        {
-            if (ModelState.IsValid)
-            {
-                string token = User.FindFirst("Token").Value;
-                var periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
-                ViewBag.periods = periods;
-                ResultModel<ClassVO> response = await classService.GetClassTaskAsync(classId, token);
-                return View("/Views/Coordinator/Classes/Update.cshtml", response);
-            }
+			if (response.StatusCode != HttpStatusCode.Created)
+				return View("/Views/Coordinator/Classes/Add.cshtml", new ResultModel<ClassVO>
+				{
+					Object = request.Object,
+					Message = response.Message,
+					StatusCode = response.StatusCode
+				});
 
-            return BadRequest();
-        }
+			ResultModel<List<ClassVO>> classResponse = await classService.GetClassesTaskAsync(token);
 
-        [HttpPost("Update")]
-        public async Task<IActionResult> UpdateClass([FromServices] ClassService classService, ResultModel<ClassVO> request)
-        {
-            if (ModelState.IsValid)
-            {
-                string token = User.FindFirst("Token").Value;
-                request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+			if (classResponse.StatusCode == HttpStatusCode.OK)
+			{
+				classResponse.Message = response.Message;
+				classResponse.StatusCode = response.StatusCode;
+			}
 
-                var response = await classService.UpdateClassTaskAsync(request.Object, token);
+			return View("/Views/Coordinator/Classes/Index.cshtml", classResponse);
+		}
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                    return View("/Views/Coordinator/classes/Update.cshtml", new ResultModel<ClassVO>
-                    {
-                        Object = request.Object,
-                        Message = response.Message,
-                        StatusCode = response.StatusCode
-                    });
+		[HttpGet("Update/{classId}")]
+		public async Task<IActionResult> Update([FromServices] ClassService classService, [FromServices] CourseService courseService, [Required] Guid classId)
+		{
+			if (ModelState.IsValid)
+			{
+				string token = User.FindFirst("Token").Value;
 
-                ResultModel<List<ClassVO>> classResponse = await classService.GetClassesTaskAsync(token);
+				ViewBag.periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
 
-                if (classResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    classResponse.Message = response.Message;
-                    classResponse.StatusCode = response.StatusCode;
-                }
+				ResultModel<ClassVO> response = await classService.GetClassTaskAsync(classId, token);
 
+				return View("/Views/Coordinator/Classes/Update.cshtml", response);
+			}
 
-                return classResponse.StatusCode switch
-                {
-                    HttpStatusCode.OK => View("/Views/Coordinator/Classes/Index.cshtml", classResponse),
-                    _ => View("/Views/Coordinator/Classes/Update.cshtml", classResponse)
-                };
-            }
-            return NotFound();
-        }
+			return BadRequest();
+		}
 
-        [HttpPost("Delete/{classId}")]
-        public async Task<IActionResult> Delete([FromServices] ClassService classService, [Required] Guid classId)
-        {
-            if (ModelState.IsValid)
-            {
-                string token = User.FindFirst("Token").Value;
-                ResultModel<bool> response = await classService.RemoveClassTaskAsync(classId, token);
-                ResultModel<List<ClassVO>> studentResponse = await classService.GetClassesTaskAsync(token);
+		[HttpPost("Update")]
+		public async Task<IActionResult> UpdateClass([FromServices] ClassService classService, ResultModel<ClassVO> request)
+		{
+			if (ModelState.IsValid)
+			{
+				string token = User.FindFirst("Token").Value;
+				request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
 
-                studentResponse.Message = response.Message;
-                studentResponse.StatusCode = response.StatusCode;
+				ResultModel<ClassVO> response = await classService.UpdateClassTaskAsync(request.Object, token);
 
-                return View("/Views/Coordinator/Classes/Index.cshtml", studentResponse);
-            }
+				if (response.StatusCode != HttpStatusCode.OK)
+					return View("/Views/Coordinator/classes/Update.cshtml", new ResultModel<ClassVO>
+					{
+						Object = request.Object,
+						Message = response.Message,
+						StatusCode = response.StatusCode
+					});
 
-            return NotFound();
-        }
-    }
+				ResultModel<List<ClassVO>> classResponse = await classService.GetClassesTaskAsync(token);
+
+				if (classResponse.StatusCode == HttpStatusCode.OK)
+				{
+					classResponse.Message = response.Message;
+					classResponse.StatusCode = response.StatusCode;
+				}
+
+				return View("/Views/Coordinator/Classes/Index.cshtml", classResponse);
+			}
+
+			return NotFound();
+		}
+
+		[HttpPost("Delete/{classId}")]
+		public async Task<IActionResult> Delete([FromServices] ClassService classService, [Required] Guid classId)
+		{
+			if (ModelState.IsValid)
+			{
+				string token = User.FindFirst("Token").Value;
+
+				ResultModel<bool> response = await classService.RemoveClassTaskAsync(classId, token);
+				ResultModel<List<ClassVO>> studentResponse = await classService.GetClassesTaskAsync(token);
+
+				studentResponse.Message = response.Message;
+				studentResponse.StatusCode = response.StatusCode;
+
+				return View("/Views/Coordinator/Classes/Index.cshtml", studentResponse);
+			}
+
+			return NotFound();
+		}
+	}
 }

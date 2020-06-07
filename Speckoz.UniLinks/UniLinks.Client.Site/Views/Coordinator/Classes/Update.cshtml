@@ -44,8 +44,8 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label data-error="wrong" data-success="right">Periodo</label>
-                        <select asp-for="Object.Period">
+                        <label>Periodo</label>
+                        <select id="periodSelector" asp-for="Object.Period">
                             @{
                                 for (int i = 1; i <= ViewBag.periods; i++)
                                 {
@@ -56,9 +56,9 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="form-group md-form">
-                        <label for="studentWeekDays" data-error="wrong" data-success="right">Dias da semana</label>
-                        <select asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
+                    <div class="form-group">
+                        <label>Dias da semana</label>
+                        <select id="weekDaysSelector" asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
                             <option selected="selected" value="">Selecione</option>
                         </select>
                     </div>
@@ -69,3 +69,9 @@
         </form>
     </div>
 </div>
+
+<script src="~/js/choices.js"></script>
+<script>
+    new Choices("#periodSelector");
+    new Choices("#weekDaysSelector");
+</script>
