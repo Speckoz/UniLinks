@@ -1,3 +1,17 @@
+.list-disciplines
+{
+    margin-top: 20px;
+}
+
+@media (max-width: 400px)
+{
+    .list-disciplines
+    {
+        padding-left: 0;
+        align-items: center;
+    }
+}
+
 li.nav-item
 {
     padding: 10px;

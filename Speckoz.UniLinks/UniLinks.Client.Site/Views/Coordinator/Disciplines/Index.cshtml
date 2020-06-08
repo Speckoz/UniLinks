@@ -1,57 +1,101 @@
-﻿@model List<DisciplineVO>
+﻿@using System.Net
+
+@model ResultModel<List<DisciplineVO>>
 
 @{
     ViewData["Title"] = "Disciplinas";
 }
 
-@*@if (Model != null)
+@if (Model != null)
+{
+    switch (Model.StatusCode)
     {
-        switch (Model.StatusCode)
-        {
-            case System.Net.HttpStatusCode.OK:
-            case System.Net.HttpStatusCode.Created:
-            case System.Net.HttpStatusCode.NoContent:
-                <script>
+        case HttpStatusCode.OK:
+            break;
+        case HttpStatusCode.Created:
+        case HttpStatusCode.NoContent:
+            <script>
                     sendMessage("@Model.Message", "success");
-                </script>
-                break;
-            default:
-                <script>
+            </script>
+            break;
+        default:
+            <script>
                     sendMessage("@Model.Message", "error");
-                </script>
-                break;
-        }
-    }*@
+            </script>
+            break;
+    }
+}
 
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<a asp-action="Add" asp-controller="Lessons" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
+<a asp-action="Add" asp-controller="Disciplines" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
+<div class="md-form md-outline">
+    <input id="disciplinesSearch" class="form-control" type="text" style="color: var(--theme-text)" />
+    <label for="disciplinesSearch">Pesquisar</label>
 
-@if (Model.Count() == 0)
+    <style>
+        .md-form.md-outline label.active
+        {
+            background: var(--theme-bg);
+            color: var(--theme-text);
+        }
+    </style>
+</div>
+
+@if (Model.Object.Count() == 0)
 {
     <p class="text-center p-4">Ops! Nao existe nenhuma disciplina para mostrar! 😢</p>
 }
 else
 {
-    <div class="card-deck" style="margin: 20px">
+    <ul id="disciplinesList" class="card-deck list-disciplines">
 
-        @foreach (DisciplineVO item in Model)
+        @foreach (DisciplineVO item in Model.Object)
         {
-            <div class="card mb-4 theme-bg theme-text" style="max-width: 250px; border-radius: 1.2em">
-                <div class="card-body">
-
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">
-                        @(item.Period)º Período
-                    </p>
-                    <p class="card-text">
-                        @item.Teacher
-                    </p>
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/background.jpg'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">@item.Name</h6>
+                            <p class="card-text" style="color: #c5c5c5; position: absolute; top: 40px;">
+                                @item.Teacher
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 10px">
+                        <p class="card-text">
+                            @(item.Period)º Período
+                        </p>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Delete/@item.DisciplineId">
+                            <button>
+                                <i class="mdi mdi-delete mdi-24px red-text"></i>
+                            </button>
+                        </form>
+                        <a class="icons-td d-inline-flex" asp-action="UpdateDiscipline" asp-controller="Disciplines">
+                            <i class="mdi mdi-account-edit mdi-24px blue-text"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </li>
         }
-    </div>
+    </ul>
 }
+
+<script>
+    $(document).ready(function () {
+        $("#disciplinesSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#disciplinesList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

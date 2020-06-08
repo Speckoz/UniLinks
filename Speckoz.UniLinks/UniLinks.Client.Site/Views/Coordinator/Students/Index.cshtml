@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json
+@using System.Net
 
 @model ResultModel<List<StudentDisciplineVO>>
 
@@ -10,16 +11,17 @@
 {
     switch (Model.StatusCode)
     {
-        case System.Net.HttpStatusCode.OK:
-        case System.Net.HttpStatusCode.Created:
-        case System.Net.HttpStatusCode.NoContent:
+        case HttpStatusCode.OK:
+            break;
+        case HttpStatusCode.Created:
+        case HttpStatusCode.NoContent:
             <script>
-                sendMessage("@Model.Message", "success");
+                    sendMessage("@Model.Message", "success");
             </script>
             break;
         default:
             <script>
-                sendMessage("@Model.Message", "error");
+                    sendMessage("@Model.Message", "error");
             </script>
             break;
     }

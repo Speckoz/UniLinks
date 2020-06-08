@@ -120,7 +120,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => new ResultModel<DisciplineVO>
+				HttpStatusCode.OK => new ResultModel<DisciplineVO>
 				{
 					Object = JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "Disciplina atualizada com sucesso!",
@@ -153,7 +153,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.Created => new ResultModel<bool>
+				HttpStatusCode.NoContent => new ResultModel<bool>
 				{
 					Object = true,
 					Message = "Disciplina removida com sucesso!",
