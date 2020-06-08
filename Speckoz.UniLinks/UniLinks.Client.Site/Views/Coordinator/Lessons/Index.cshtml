@@ -32,6 +32,18 @@
 <a asp-action="Add" asp-controller="Lessons" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
+<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+    <input id="lessonsSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+    <label for="lessonsSearch">Pesquisar</label>
+
+    <style>
+        .md-form.md-outline label.active
+        {
+            background: var(--theme-bg);
+            color: var(--theme-text);
+        }
+    </style>
+</div>
 
 @if (Model.Object.Count() == 0)
 {
@@ -39,57 +51,60 @@
 }
 else
 {
-    <section id="students-list-table" class="d-flex justify-content-lg-center nosection-padding">
-        <table class="table table-hover table-students theme-bg theme-text">
+    <ul id="lessonsList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
 
-            <thead>
-                <tr>
-                    <th scope="col">Info</th>
-                    <th class="text-center" scope="col">Assuntos</th>
-                    <th class="text-center" scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var lesson in Model.Object)
-                {
-                    var duration = new DateTime(0001, 01, 01).AddMilliseconds(lesson.Lesson.Duration).ToString(@"HH \h e mm \min");
+        @foreach (var item in Model.Object)
+        {
+            var duration = new DateTime(0001, 01, 01).AddMilliseconds(item.Lesson.Duration).ToString(@"HH \h e mm \min");
 
-                    <tr class="tr-hover">
-                        <td class="text-wrap">
-                            <span>@lesson.Discipline.Name</span><br />
-                            <span style="color: grey; font-size: 13px">@duration (@lesson.Lesson.Date.ToShortDateString())</span>
-                        </td>
-                        @if (!string.IsNullOrEmpty(lesson.Lesson.LessonSubject))
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/lessons.png'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+                                @item.Discipline.Name
+                            </h6>
+                            <p class="card-text" style="color: #e6e6e6; position: absolute; top: 40px;">
+                                @duration (@item.Lesson.Date.ToShortDateString())
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 10px">
+                        @if (!string.IsNullOrEmpty(item.Lesson.LessonSubject))
                         {
-                            <td class="icons-td text-center">
-                                <span style="cursor: pointer" class="blue-text unselectable" onclick="showSubject('@lesson.Lesson.LessonSubject')">Ver</span>
-                            </td>
+                            <div class="icons-td d-inline-flex">
+                                <i style="cursor: pointer" class="blue-text unselectable" onclick="showSubject('@item.Lesson.LessonSubject')">Ver</i>
+                            </div>
                         }
                         else
                         {
-                            <td class="text-center">
-                                <span style="font-size: 10px; color: indianred">Sem</span>
-                                <span style="font-size: 10px; color: indianred">Assuntos</span>
-                            </td>
+                            <span style="font-size: 14px">Sem Assuntos</span>
                         }
-                        <td class="icons-td text-center">
-                            <form method="post" class="d-inline-flex" action="Coordinator/Lessons/Delete/@lesson.Lesson.LessonId">
-                                <button>
-                                    <i class="mdi mdi-delete mdi-24px red-text"></i>
-                                </button>
-                            </form>
-                            <a href="Coordinator/Lessons/Update/@lesson.Lesson.LessonId">
-                                <i class="mdi mdi-account-edit mdi-24px blue-text"></i>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <div class="icons-td d-inline-flex">
+                            <a href="@item.Lesson.URI" target="_blank">
+                                <i class="mdi mdi-share mdi-24px green-text" data-toggle="tooltip" data-placement="top" title="Abrir Aula"></i>
                             </a>
-                            <a href="@lesson.Lesson.URI" target="_blank">
-                                <i class="mdi mdi-share mdi-24px green-text"></i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </section>
+                        </div>
+                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Lessons/Delete/@item.Lesson.LessonId">
+                            <button>
+                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
+                            </button>
+                        </form>
+                        <form method="get" class="icons-td d-inline-flex" action="Coordinator/Lessons/Update/@item.Lesson.LessonId">
+                            <button>
+                                <i class="mdi mdi-comment-edit-outline mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 }
 
 <div class="modal animated bounceInDown" id="modalLessonSubject" tabindex="-1" role="dialog" aria-labelledby="modalLessonSubject"
@@ -97,7 +112,7 @@ else
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content theme-bg theme-text">
             <div class="modal-header border-0 text-center">
-                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Asstuntos</h4>
+                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Assuntos</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span style="font-size: 14px" aria-hidden="true" class="theme-text">&times;</span>
                 </button>
@@ -111,6 +126,15 @@ else
 </div>
 
 <script>
+    $(document).ready(function () {
+        $("#lessonsSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#lessonsList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
     function showSubject(lessonSubject) {
         const subjects = lessonSubject.split(';');
 

@@ -33,6 +33,18 @@
 <a asp-action="Add" asp-controller="Students" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
+<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+    <input id="studentsSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+    <label for="studentsSearch">Pesquisar</label>
+
+    <style>
+        .md-form.md-outline label.active
+        {
+            background: var(--theme-bg);
+            color: var(--theme-text);
+        }
+    </style>
+</div>
 
 @if (Model.Object.Count() == 0)
 {
@@ -40,49 +52,46 @@
 }
 else
 {
-    <section id="students-list-table" class="d-flex justify-content-lg-center nosection-padding">
-        <table class="table table-hover table-students theme-bg theme-text">
-
-            <thead>
-                <tr>
-                    <th scope="col">Info</th>
-                    <th class="text-center" scope="col">Disciplinas</th>
-                    <th class="text-center" scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var student in Model.Object)
-                {
-                    <tr class="tr-hover">
-                        <td class="text-wrap">
-                            <span>@student.Student.Name</span><br />
-                            <span style="color: grey;font-size: 12px">@student.Student.Email</span>
-                        </td>
-                        <td class="icons-td text-center">
-                            @{
-                                string json = JsonSerializer.Serialize(student.Disciplines.Select(x => new
-                                {
-                                    x.Name,
-                                    x.Period
-                                }));
-                            }
-                            <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines(@json)">Ver</span>
-                        </td>
-                        <td class="icons-td text-center">
-                            <form method="post" class="d-inline-flex" action="Coordinator/Students/Delete/@student.Student.StudentId">
-                                <button>
-                                    <span class="mdi mdi-account-remove-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></span>
-                                </button>
-                            </form>
-                            <a href="Coordinator/Students/Update/@student.Student.StudentId">
-                                <span class="mdi mdi-account-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></span>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </section>
+    <ul id="studentsList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
+        @foreach (var item in Model.Object)
+        {
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/students.png'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0;">@item.Student.Name</h6>
+                            <h6 style="color: #e6e6e6; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0; ">@item.Student.Email</h6>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 10px">
+                        @{
+                            string json = JsonSerializer.Serialize(item.Disciplines.Select(x => new
+                            {
+                                x.Name,
+                                x.Period
+                            }));
+                        }
+                        <span style="cursor: pointer" class="blue-text unselectable" onclick="showDisciplines('@item.Student.Name', @json)">Disciplinas</span>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Students/Delete/@item.Student.StudentId.">
+                            <button>
+                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
+                            </button>
+                        </form>
+                        <form method="get" class="icons-td d-inline-flex" action="Coordinator/Students/Update/@item.Student.StudentId">
+                            <button>
+                                <i class="mdi mdi-account-edit-outline mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 }
 
 <div class="modal animated bounceInDown" id="modalStudentDisciplines" tabindex="-1" role="dialog" aria-labelledby="modalStudentDisciplines"
@@ -95,7 +104,13 @@ else
                     <span aria-hidden="true" class="theme-text">&times;</span>
                 </button>
             </div>
+
+            <div class="text-center" style="font-weight: 600; margin-top: -12px; font-size: 13px;">
+                Aluno:
+                <span id="studentNameDiscipline"></span>
+            </div>
             <div id="disciplinesStudent" class="modal-body mx-3"></div>
+
             <div class="modal-footer border-0 d-flex justify-content-center">
                 <button class="btn btn-gradient waves-effect" data-dismiss="modal" aria-label="Close">Fechar</button>
             </div>
@@ -104,7 +119,18 @@ else
 </div>
 
 <script>
-    function showDisciplines(disciplines) {
+
+    $(document).ready(function () {
+        $("#studentsSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#studentsList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    function showDisciplines(studentName, disciplines) {
+        document.getElementById("studentNameDiscipline").innerText = studentName;
         const objDiv = document.getElementById("disciplinesStudent");
 
         let items = ``;

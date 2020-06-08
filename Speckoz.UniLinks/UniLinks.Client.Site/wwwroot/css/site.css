@@ -1,4 +1,14 @@
-.add-button-circle{
+@media (max-width: 768px)
+{
+    ul.card-deck
+    {
+        align-items: center;
+        padding-left: 0;
+    }
+}
+
+.add-button-circle
+{
     z-index: 1;
 }
 
