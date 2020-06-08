@@ -17,23 +17,66 @@ namespace UniLinks.Client.Site.Services.Coordinator
 {
 	public class DisciplineService
 	{
-		public async Task<DisciplineVO> AddDisciplineTaskAsync(DisciplineVO newDiscipline, string token)
+		public async Task<ResultModel<DisciplineVO>> AddDisciplineTaskAsync(DisciplineVO newDiscipline, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(newDiscipline, token);
+			IRestResponse response = await SendRequestTaskAsync();
 
-			if (response.StatusCode == HttpStatusCode.Created)
-				return JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new DisciplineVO();
+			return response.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResultModel<DisciplineVO>
+				{
+					Object = JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Disciplina adicionada com sucesso!",
+					StatusCode = response.StatusCode
+				},
 
-			static async Task<IRestResponse> SendRequestTaskAsync(DisciplineVO discipline, string token)
+				_ => new ResultModel<DisciplineVO>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
 					Method = Method.POST,
 					URL = DataHelper.URLBase,
 					URN = "Disciplines/add",
-					Body = discipline,
+					Body = newDiscipline,
+					Authenticator = new JwtAuthenticator(token)
+				}.ExecuteTaskAsync();
+			}
+		}
+
+		public async Task<ResultModel<DisciplineVO>> GetDisciplineByDisciplineIdTaskAsync(Guid disciplineId, string token)
+		{
+			IRestResponse response = await SendRequestTaskAsync();
+
+			return response.StatusCode switch
+			{
+				HttpStatusCode.OK => new ResultModel<DisciplineVO>
+				{
+					Object = JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Sucesso!",
+					StatusCode = response.StatusCode
+				},
+
+				_ => new ResultModel<DisciplineVO>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync()
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = DataHelper.URLBase,
+					URN = $"Disciplines/{disciplineId}",
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}
@@ -41,7 +84,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 		public async Task<ResultModel<List<DisciplineVO>>> GetDisciplinesByCoordIdTaskAsync(string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(token);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			return response.StatusCode switch
 			{
@@ -59,7 +102,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				}
 			};
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string token)
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
@@ -71,35 +114,60 @@ namespace UniLinks.Client.Site.Services.Coordinator
 			}
 		}
 
-		public async Task<DisciplineVO> UpdateDisciplineTaskAsync(DisciplineVO newDiscipline, string token)
+		public async Task<ResultModel<DisciplineVO>> UpdateDisciplineTaskAsync(DisciplineVO newDiscipline, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(newDiscipline, token);
+			IRestResponse response = await SendRequestTaskAsync();
 
-			if (response.StatusCode == HttpStatusCode.OK)
-				return JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-			else
-				return new DisciplineVO();
+			return response.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResultModel<DisciplineVO>
+				{
+					Object = JsonSerializer.Deserialize<DisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+					Message = "Disciplina atualizada com sucesso!",
+					StatusCode = response.StatusCode
+				},
 
-			static async Task<IRestResponse> SendRequestTaskAsync(DisciplineVO discipline, string token)
+				_ => new ResultModel<DisciplineVO>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
 					Method = Method.PUT,
 					URL = DataHelper.URLBase,
 					URN = "Disciplines",
-					Body = discipline,
+					Body = newDiscipline,
 					Authenticator = new JwtAuthenticator(token)
 				}.ExecuteTaskAsync();
 			}
 		}
 
-		public async Task<bool> DeleteDisciplineTaskAsync(Guid disciplineId, string token)
+		public async Task<ResultModel<bool>> DeleteDisciplineTaskAsync(Guid disciplineId, string token)
 		{
-			IRestResponse response = await SendRequestTaskAsync(disciplineId, token);
+			IRestResponse response = await SendRequestTaskAsync();
 
-			return response.StatusCode == HttpStatusCode.NoContent;
+			return response.StatusCode switch
+			{
+				HttpStatusCode.Created => new ResultModel<bool>
+				{
+					Object = true,
+					Message = "Disciplina removida com sucesso!",
+					StatusCode = response.StatusCode
+				},
 
-			static async Task<IRestResponse> SendRequestTaskAsync(Guid disciplineId, string token)
+				_ => new ResultModel<bool>
+				{
+					Message = response.Content.Replace("\"", string.Empty),
+					StatusCode = response.StatusCode
+				}
+			};
+
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
