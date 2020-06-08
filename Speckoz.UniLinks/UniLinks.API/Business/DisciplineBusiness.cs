@@ -71,10 +71,7 @@ namespace UniLinks.API.Business
 			if (!(await _disciplineRepository.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineModel discipline))
 				return null;
 
-			if (!(await _disciplineRepository.UpdateTaskAsync(discipline, _disciplineConverter.Parse(newDiscipline)) is DisciplineModel updatedDiscipline))
-				return null;
-
-			return _disciplineConverter.Parse(updatedDiscipline);
+			return _disciplineConverter.Parse(await _disciplineRepository.UpdateTaskAsync(discipline, _disciplineConverter.Parse(newDiscipline)));
 		}
 
 		public async Task DeleteTaskAsync(Guid disciplineId)

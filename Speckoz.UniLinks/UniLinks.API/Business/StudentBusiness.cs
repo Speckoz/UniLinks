@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
+using UniLinks.API.Data.Converters;
 using UniLinks.API.Data.Converters.Student;
 using UniLinks.API.Repository.Interfaces;
 using UniLinks.API.Services;
 using UniLinks.API.Services.Email.Interfaces;
 using UniLinks.API.Utils;
+using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models;
@@ -22,16 +24,20 @@ namespace UniLinks.API.Business
 		private readonly GenerateTokenService _tokenService;
 		private readonly StudentConverter _studentConverter;
 		private readonly StudentDisciplineConverter _studentDisciplineConverter;
-		private readonly IDisciplineRepository _disciplineRepository;
+		private readonly IDisciplineBusiness _disciplineBusiness;
+		private readonly DisciplineConverter _disciplineConverter;
+		private readonly AuthStudentConverter _authStudentConverter;
 
-		public StudentBusiness(IStudentRepository studentRepository, ISendEmailService sendEmailService, GenerateTokenService tokenService, IDisciplineRepository disciplineRepository)
+		public StudentBusiness(IStudentRepository studentRepository, ISendEmailService sendEmailService, GenerateTokenService tokenService, IDisciplineBusiness disciplineBusiness)
 		{
 			_studentRepository = studentRepository;
 			_emailSender = sendEmailService;
 			_tokenService = tokenService;
-			_disciplineRepository = disciplineRepository;
+			_disciplineBusiness = disciplineBusiness;
 			_studentConverter = new StudentConverter();
 			_studentDisciplineConverter = new StudentDisciplineConverter();
+			_disciplineConverter = new DisciplineConverter();
+			_authStudentConverter = new AuthStudentConverter();
 		}
 
 		public async Task<StudentDisciplineVO> AddTaskAsync(StudentVO student)
@@ -46,10 +52,7 @@ namespace UniLinks.API.Business
 				if (result.Count(x => x.Equals(disc)) > 1)
 					return null;
 
-			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines))
-				return null;
-
-			if (disciplines.Contains(null))
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(result) is List<DisciplineVO> disciplines))
 				return null;
 
 			if (!(await _studentRepository.AddTaskAsync(studentEntity) is StudentModel addedStudent))
@@ -57,7 +60,7 @@ namespace UniLinks.API.Business
 
 			await _emailSender.SendEmailTaskAsync(addedStudent.Email);
 
-			return _studentDisciplineConverter.Parse((addedStudent, disciplines));
+			return _studentDisciplineConverter.Parse((addedStudent, _disciplineConverter.ParseList(disciplines)));
 		}
 
 		public async Task<AuthStudentVO> AuthUserTaskAsync(string email)
@@ -65,7 +68,7 @@ namespace UniLinks.API.Business
 			if (!(await _studentRepository.FindByEmailTaskAsync(email) is StudentModel user))
 				return null;
 
-			AuthStudentVO userVO = new AuthStudentConverter().Parse(user);
+			AuthStudentVO userVO = _authStudentConverter.Parse(user);
 			userVO.Token = _tokenService.Generate(user.StudentId, UserTypeEnum.Student);
 
 			return userVO;
@@ -82,10 +85,10 @@ namespace UniLinks.API.Business
 			if (!GuidFormat.TryParseList(studentModel.Disciplines, ';', out List<Guid> result))
 				return null;
 
-			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines))
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(result) is List<DisciplineVO> disciplines))
 				return null;
 
-			return _studentDisciplineConverter.Parse((studentModel, disciplines));
+			return _studentDisciplineConverter.Parse((studentModel, _disciplineConverter.ParseList(disciplines)));
 		}
 
 		public async Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId)
@@ -100,10 +103,10 @@ namespace UniLinks.API.Business
 				if (!GuidFormat.TryParseList(student.Disciplines, ';', out List<Guid> result))
 					return null;
 
-				if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(result) is List<DisciplineModel> disciplines)
-					studentDisciplines.Add((student, disciplines));
-				else
+				if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(result) is List<DisciplineVO> disciplines))
 					return null;
+
+				studentDisciplines.Add((student, _disciplineConverter.ParseList(disciplines)));
 			}
 
 			return _studentDisciplineConverter.ParseList(studentDisciplines);
@@ -117,10 +120,13 @@ namespace UniLinks.API.Business
 			if (!(await _studentRepository.UpdateTaskAsync(studentModel, _studentConverter.Parse(newStudent)) is StudentModel newStudentModel))
 				return null;
 
-			if (!GuidFormat.TryParseList(newStudentModel.Disciplines, ';', out List<Guid> disciplines))
+			if (!GuidFormat.TryParseList(newStudentModel.Disciplines, ';', out List<Guid> disciplineIDs))
 				return null;
 
-			return _studentDisciplineConverter.Parse((newStudentModel, await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines)));
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplineIDs) is List<DisciplineVO> disciplines))
+				return null;
+
+			return _studentDisciplineConverter.Parse((newStudentModel, _disciplineConverter.ParseList(disciplines)));
 		}
 
 		public async Task DeleteTaskAsync(Guid id)
