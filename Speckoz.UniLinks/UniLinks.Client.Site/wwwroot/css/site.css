@@ -1,3 +1,7 @@
+.add-button-circle{
+    z-index: 1;
+}
+
 .list-disciplines
 {
     margin-top: 20px;
@@ -267,6 +271,7 @@ a, .btn-link
 .sidebar
 {
     background-image: linear-gradient(150deg, #052767 20%, #F16404 150%);
+    z-index: 2;
 }
 
     .sidebar .top-row

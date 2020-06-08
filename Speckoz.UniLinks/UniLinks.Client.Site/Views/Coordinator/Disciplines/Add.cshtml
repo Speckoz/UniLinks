@@ -55,8 +55,8 @@
                         var courseInfo = await _courseService.GetCourseByCoordIdTaskAsync(token);
                     }
 
-                    <div class="form-group">
-                        <label data-error="wrong" data-success="right">Periodo</label>
+                    <div>
+                        <label style="font-size: 14px; color: #757575;">Sala</label>
                         <select asp-for="Object.Period" id="periodSelector">
                             @{
                                 for (int i = 1; i <= courseInfo.Object.Periods; i++)
@@ -73,22 +73,22 @@
                     }
 
                     <div>
-                        <label style="font-size: 14px; color: #757575;">Sala</label>
+                        <label style="font-size: 14px; color: #757575;">Período</label>
                         <select id="disciplineClass" asp-for="Object.ClassId">
                             @foreach (var @class in classes.Object)
                             {
                                 if ((Model?.Object?.ClassId ?? Guid.Empty) != Guid.Empty)
                                 {
                                     <option selected="@(@class.ClassId == Model.Object.ClassId ? "selected" : null)" value="@(@class.ClassId)">
-                                        @(@class.Period)º Periodo
                                         @(@class.WeekDays.AsString(EnumFormat.DisplayName))
+                                        (@(@class.Period)º)
                                     </option>
                                 }
                                 else
                                 {
                                     <option selected value="@(@class.ClassId)">
-                                        @(@class.Period)º Periodo
                                         @(@class.WeekDays.AsString(EnumFormat.DisplayName))
+                                        (@(@class.Period)º)
                                     </option>
                                 }
                             }

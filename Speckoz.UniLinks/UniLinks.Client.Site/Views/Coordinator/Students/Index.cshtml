@@ -30,7 +30,7 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<a asp-action="Add" asp-controller="Students" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
+<a asp-action="Add" asp-controller="Students" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
 
@@ -71,11 +71,11 @@ else
                         <td class="icons-td text-center">
                             <form method="post" class="d-inline-flex" action="Coordinator/Students/Delete/@student.Student.StudentId">
                                 <button>
-                                    <span class="mdi mdi-delete mdi-24px red-text"></span>
+                                    <span class="mdi mdi-account-remove-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></span>
                                 </button>
                             </form>
                             <a href="Coordinator/Students/Update/@student.Student.StudentId">
-                                <span class="mdi mdi-account-edit mdi-24px blue-text"></span>
+                                <span class="mdi mdi-account-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></span>
                             </a>
                         </td>
                     </tr>

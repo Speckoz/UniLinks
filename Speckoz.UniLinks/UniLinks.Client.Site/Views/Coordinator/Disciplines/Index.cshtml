@@ -29,10 +29,10 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<a asp-action="Add" asp-controller="Disciplines" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight">
+<a asp-action="Add" asp-controller="Disciplines" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
-<div class="md-form md-outline">
+<div class="md-form md-outline animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
     <input id="disciplinesSearch" class="form-control" type="text" style="color: var(--theme-text)" />
     <label for="disciplinesSearch">Pesquisar</label>
 
@@ -51,7 +51,7 @@
 }
 else
 {
-    <ul id="disciplinesList" class="card-deck list-disciplines">
+    <ul id="disciplinesList" class="card-deck list-disciplines animated bounceInUp">
 
         @foreach (DisciplineVO item in Model.Object)
         {
@@ -76,12 +76,14 @@ else
                     <div style="text-align: end; padding: 5px">
                         <form method="post" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Delete/@item.DisciplineId">
                             <button>
-                                <i class="mdi mdi-delete mdi-24px red-text"></i>
+                                <i class="mdi mdi-delete-outline mdi-24px red-text"></i>
                             </button>
                         </form>
-                        <a class="icons-td d-inline-flex" asp-action="UpdateDiscipline" asp-controller="Disciplines">
-                            <i class="mdi mdi-account-edit mdi-24px blue-text"></i>
-                        </a>
+                        <form method="get" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Update/@item.DisciplineId">
+                            <button>
+                                <i class="mdi mdi-calendar-edit mdi-24px blue-text"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </li>
