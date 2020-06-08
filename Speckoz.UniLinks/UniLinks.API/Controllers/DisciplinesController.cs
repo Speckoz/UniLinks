@@ -19,11 +19,13 @@ namespace UniLinks.API.Controllers
 	{
 		private readonly IDisciplineBusiness _disciplineBusiness;
 		private readonly ICourseBusiness _courseBusiness;
+		private readonly IStudentBusiness _studentBusiness;
 
-		public DisciplinesController(IDisciplineBusiness disciplineBusiness, ICourseBusiness courseBusiness)
+		public DisciplinesController(IDisciplineBusiness disciplineBusiness, ICourseBusiness courseBusiness, IStudentBusiness studentBusiness)
 		{
 			_disciplineBusiness = disciplineBusiness;
 			_courseBusiness = courseBusiness;
+			_studentBusiness = studentBusiness;
 		}
 
 		[HttpPost("add")]
@@ -160,10 +162,14 @@ namespace UniLinks.API.Controllers
 				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline))
 					return NotFound("Nao existe uma disciplina com esse Id");
 
-				CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId);
+				if (!(await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId) is CourseVO course))
+					return NotFound("Nao existe nenhum curso com o coordenador informado");
 
 				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 					return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
+
+				if (await _studentBusiness.ExistsStudentWithDisciplineTaskAsync(disciplineId))
+					return BadRequest("Nao é possivel excluir a disciplina, pois existe alunos utilizando-as!");
 
 				await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
 				return NoContent();

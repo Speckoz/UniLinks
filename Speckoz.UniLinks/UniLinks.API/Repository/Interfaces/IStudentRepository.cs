@@ -18,6 +18,8 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<List<StudentModel>> FindAllByCourseIdTaskAsync(Guid courseId);
 
+		Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId);
+
 		Task DeleteAsync(StudentModel student);
 
 		Task<StudentModel> UpdateTaskAsync(StudentModel student, StudentModel newStudent);

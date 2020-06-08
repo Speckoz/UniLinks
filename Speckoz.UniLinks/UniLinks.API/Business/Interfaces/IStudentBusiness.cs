@@ -14,6 +14,8 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<bool> ExistsByEmailTaskAsync(string email);
 
+		Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId);
+
 		Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid id);
 
 		Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId);
