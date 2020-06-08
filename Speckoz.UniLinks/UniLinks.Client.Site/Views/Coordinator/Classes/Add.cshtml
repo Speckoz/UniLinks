@@ -1,3 +1,5 @@
+@inject UniLinks.Client.Site.Services.Coordinator.CourseService _courseService
+
 @model ResultModel<ClassVO>
 
 @{
@@ -36,11 +38,16 @@
                     </div>
                 </div>
                 <div class="col-6">
+                    @{
+                        string token = User.FindFirst("Token").Value;
+                        var courseInfo = await _courseService.GetCourseByCoordIdTaskAsync(token);
+                    }
+
                     <div class="form-group">
                         <label data-error="wrong" data-success="right">Periodo</label>
                         <select asp-for="Object.Period" id="periodSelector">
                             @{
-                                for (int i = 1; i <= ViewBag.periods; i++)
+                                for (int i = 1; i <= courseInfo.Object.Periods; i++)
                                 {
                                     <option value="@i">@(i)º Periodo</option>
                                 }
@@ -52,13 +59,15 @@
                     <div class="form-group">
                         <label>Dias da semana</label>
                         <select id="weekDaysSelector" asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
-                            <option selected="selected" value="">Selecione</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-primary" type="submit">Cadastrar</button>
+            <div class="row justify-content-center" style="margin-top: 35px">
+                <button type="submit" class="btn btn-success waves-effect">Adicionar</button>
+                <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Classes">Voltar</a>
+            </div>
         </form>
     </div>
 </div>

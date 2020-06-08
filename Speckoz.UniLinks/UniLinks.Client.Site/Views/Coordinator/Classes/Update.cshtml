@@ -1,4 +1,7 @@
+@inject UniLinks.Client.Site.Services.Coordinator.CourseService _courseService
+
 @model ResultModel<ClassVO>
+
 @{
     ViewData["Title"] = "Editar Sala";
 }
@@ -44,11 +47,16 @@
                     </div>
                 </div>
                 <div class="col-6">
+                    @{
+                        string token = User.FindFirst("Token").Value;
+                        var courseInfo = await _courseService.GetCourseByCoordIdTaskAsync(token);
+                    }
+
                     <div class="form-group">
                         <label>Periodo</label>
                         <select id="periodSelector" asp-for="Object.Period">
                             @{
-                                for (int i = 1; i <= ViewBag.periods; i++)
+                                for (int i = 1; i <= courseInfo.Object.Periods; i++)
                                 {
                                     <option value="@i">@(i)º Periodo</option>
                                 }
@@ -66,7 +74,10 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary" type="submit">Salvar</button>
+            <div class="row justify-content-center" style="margin-top: 35px">
+                <button type="submit" class="btn btn-success waves-effect">Salvar</button>
+                <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Classes">Voltar</a>
+            </div>
         </form>
     </div>
 </div>

@@ -56,7 +56,7 @@
                     }
 
                     <div>
-                        <label style="font-size: 14px; color: #757575;">Sala</label>
+                        <label style="font-size: 14px; color: #757575;">Período</label>
                         <select asp-for="Object.Period" id="periodSelector">
                             @{
                                 for (int i = 1; i <= courseInfo.Object.Periods; i++)
@@ -73,7 +73,7 @@
                     }
 
                     <div>
-                        <label style="font-size: 14px; color: #757575;">Período</label>
+                        <label style="font-size: 14px; color: #757575;">Sala</label>
                         <select id="disciplineClass" asp-for="Object.ClassId">
                             @foreach (var @class in classes.Object)
                             {

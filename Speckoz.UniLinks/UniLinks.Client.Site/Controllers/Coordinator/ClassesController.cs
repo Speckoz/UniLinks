@@ -68,8 +68,6 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 			{
 				string token = User.FindFirst("Token").Value;
 
-				ViewBag.periods = (await courseService.GetCourseByCoordIdTaskAsync(token)).Object.Periods;
-
 				ResultModel<ClassVO> response = await classService.GetClassTaskAsync(classId, token);
 
 				return View("/Views/Coordinator/Classes/Update.cshtml", response);
