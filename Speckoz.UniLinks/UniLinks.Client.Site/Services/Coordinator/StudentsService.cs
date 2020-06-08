@@ -120,7 +120,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResultModel<StudentDisciplineVO>
+				HttpStatusCode.Created => new ResultModel<StudentDisciplineVO>
 				{
 					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					Message = "As informaçoes foram atualizadas com sucesso!",

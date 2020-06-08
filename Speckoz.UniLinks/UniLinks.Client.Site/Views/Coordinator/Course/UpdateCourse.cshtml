@@ -6,16 +6,24 @@
     ViewData["Title"] = "Modificar Informaçoes do Curso";
 }
 
-@if (Model.StatusCode != HttpStatusCode.OK)
+@if (Model != null)
 {
-    <script>
-        sendMessage("@Model.Message", "error");
-    </script>
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+        case System.Net.HttpStatusCode.Created:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
 }
 
 <div class="row h-100" style="margin-left: 0; margin-right: 0">
     <div class="col-sm-12 my-auto">
-        
+
         <form method="post" asp-controller="Course" asp-action="UpdateCourse">
 
             <div class="container">
@@ -36,5 +44,5 @@
                 </div>
             </div>
         </form>
-    </div>    
+    </div>
 </div>

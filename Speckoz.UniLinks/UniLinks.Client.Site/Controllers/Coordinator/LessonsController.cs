@@ -82,7 +82,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			ResultModel<LessonVO> response = await lessonService.UpdateLessonTaskAsync(request.Object, token);
 
-			if (response.StatusCode != HttpStatusCode.OK)
+			if (response.StatusCode != HttpStatusCode.Created)
 				return View("/Views/Coordinator/Lessons/Update.cshtml", new ResultModel<LessonVO>
 				{
 					Object = request.Object,

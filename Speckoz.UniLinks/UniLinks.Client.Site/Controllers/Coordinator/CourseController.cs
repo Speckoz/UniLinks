@@ -74,19 +74,31 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		}
 
 		[HttpPost("Update")]
-		public async Task<IActionResult> UpdateCourse(ResultModel<CourseVO> newCourse)
+		public async Task<IActionResult> UpdateCourse(ResultModel<CourseVO> request)
 		{
 			string token = User.FindFirst("Token").Value;
-			newCourse.Object.CoordinatorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-			newCourse.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
+			request.Object.CoordinatorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			request.Object.CourseId = Guid.Parse(User.FindFirst("CourseId").Value);
 
-			ResultModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(newCourse.Object, token);
+			ResultModel<CourseVO> response = await _courseService.UpdateCourseTaskAsync(request.Object, token);
 
-			return response.StatusCode switch
+			if (response.StatusCode != HttpStatusCode.Created)
+				return View("/Views/Coordinator/Course/UpdateCourse.cshtml", new ResultModel<CourseVO>
+				{
+					Object = request.Object,
+					Message = response.Message,
+					StatusCode = response.StatusCode
+				});
+
+			ResultModel<CourseVO> courseResponse = await _courseService.GetCourseByCoordIdTaskAsync(token);
+
+			if (courseResponse.StatusCode == HttpStatusCode.OK)
 			{
-				HttpStatusCode.OK => View("/Views/Coordinator/Course/Index.cshtml", response),
-				_ => View("/Views/Coordinator/Course/UpdateCourse.cshtml", response),
-			};
+				courseResponse.Message = response.Message;
+				courseResponse.StatusCode = response.StatusCode;
+			}
+
+			return View("/Views/Coordinator/Course/Index.cshtml", courseResponse);
 		}
 	}
 }

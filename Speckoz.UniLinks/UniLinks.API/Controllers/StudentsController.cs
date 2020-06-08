@@ -133,7 +133,7 @@ namespace UniLinks.API.Controllers
 					return BadRequest("É preciso informar pelo menos uma disciplina!");
 
 				if (await _studentBusiness.UpdateTaskAsync(newStudent) is StudentDisciplineVO student)
-					return Ok(student);
+					return Created($"/Students/{student.Student.StudentId}", student);
 
 				return UnprocessableEntity("Nao foi possivel atualizar os dados, verifique se o estudante realmente existe!");
 			}

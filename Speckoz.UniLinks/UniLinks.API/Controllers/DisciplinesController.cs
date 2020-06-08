@@ -147,7 +147,7 @@ namespace UniLinks.API.Controllers
 					return BadRequest("É necessario informar a sala!");
 
 				if (await _disciplineBusiness.UpdateTaskAync(newDiscipline) is DisciplineVO disciplineUpdated)
-					return Ok(disciplineUpdated);
+					return Created($"/Disciplines/{disciplineUpdated.DisciplineId}", disciplineUpdated);
 			}
 
 			return BadRequest();

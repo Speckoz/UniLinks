@@ -78,7 +78,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 
 			ResultModel<DisciplineVO> response = await disciplineService.UpdateDisciplineTaskAsync(request.Object, token);
 
-			if (response.StatusCode != HttpStatusCode.OK)
+			if (response.StatusCode != HttpStatusCode.Created)
 				return View("/Views/Coordinator/Disciplines/Update.cshtml", new ResultModel<DisciplineVO>
 				{
 					Object = request.Object,

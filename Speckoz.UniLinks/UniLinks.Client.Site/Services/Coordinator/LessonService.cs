@@ -122,7 +122,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 
 			return response.StatusCode switch
 			{
-				HttpStatusCode.OK => new ResultModel<LessonVO>
+				HttpStatusCode.Created => new ResultModel<LessonVO>
 				{
 					Object = JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = response.StatusCode,

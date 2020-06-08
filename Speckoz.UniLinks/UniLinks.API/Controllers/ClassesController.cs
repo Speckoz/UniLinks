@@ -8,7 +8,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
-using UniLinks.API.Utils;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Student;
@@ -145,7 +144,7 @@ namespace UniLinks.API.Controllers
 						return Conflict("Ja existe uma sala com este link");
 
 				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
-					return Ok(updatedClass);
+					return Created($"/Classes/{updatedClass.ClassId}", updatedClass);
 
 				return BadRequest("Nao foi possivel atualizar as informaçoes, verifique se informou os valores corretamente!");
 			}
