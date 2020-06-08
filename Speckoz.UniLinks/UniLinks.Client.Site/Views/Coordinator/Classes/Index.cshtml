@@ -29,9 +29,21 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<a asp-action="Add" asp-controller="Clasees" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
+<a asp-action="Add" asp-controller="Classes" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
+<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+    <input id="classesSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+    <label for="classesSearch">Pesquisar</label>
+
+    <style>
+        .md-form.md-outline label.active
+        {
+            background: var(--theme-bg);
+            color: var(--theme-text);
+        }
+    </style>
+</div>
 
 @if (Model.Object.Count() == 0)
 {
@@ -39,24 +51,53 @@
 }
 else
 {
-    <div class="card-deck" style="margin: 20px">
+    <ul id="classesList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
+
         @foreach (ClassVO item in Model.Object)
         {
-            <div class="card mb-4 theme-bg theme-text" style="max-width: 230px; align-self: center; min-width: 230px; align-items: center;">
-                <div class="card-body">
-                    <h5 class="card-title text-center">@(item.Period)º Período</h5>
-                    <p class="card-text text-center">
-                        @(item.WeekDays.AsString(EnumFormat.DisplayName))
-                    </p>
-                    <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
-                    <a class="btn waves-effect btn-danger btn-md" href="/Coordinator/Classes/Update/@item.ClassId">Editar</a>
-                    <form method="post" class="d-inline-flex" action="/Coordinator/Classes/Delete/@item.ClassId">
-                        <button>
-                            <span class="mdi mdi-delete mdi-24px red-text"></span>
-                        </button>
-                    </form>
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/classes.png'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+                                @(item.WeekDays.AsString(EnumFormat.DisplayName))
+                            </h6>
+                            <p class="card-text" style="color: #c5c5c5; position: absolute; top: 40px;">
+                                @(item.Period)º Período
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 15px">
+                        <a href="@item.URI">Abrir Sala</a>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Classes/Delete/@item.ClassId">
+                            <button>
+                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
+                            </button>
+                        </form>
+                        <form method="get" class="icons-td d-inline-flex" action="Coordinator/Classes/Update/@item.ClassId">
+                            <button>
+                                <i class="mdi mdi-monitor-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </li>
         }
-    </div>
+    </ul>
 }
+
+<script>
+    $(document).ready(function () {
+        $("#classesSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#classesList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

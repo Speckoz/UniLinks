@@ -26,7 +26,7 @@ namespace UniLinks.Client.Site.Controllers.Coordinator
 		}
 
 		[HttpGet("Add")]
-		public async Task<IActionResult> Add([FromServices] ClassService classService, [FromServices] CourseService courseService)
+		public async Task<IActionResult> Add([FromServices] CourseService courseService)
 		{
 			string token = User.FindFirst("Token").Value;
 

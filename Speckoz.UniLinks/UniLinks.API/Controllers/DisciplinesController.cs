@@ -169,7 +169,7 @@ namespace UniLinks.API.Controllers
 					return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
 
 				if (await _studentBusiness.ExistsStudentWithDisciplineTaskAsync(disciplineId))
-					return BadRequest("Nao é possivel excluir a disciplina, pois existe alunos utilizando-as!");
+					return BadRequest("Nao é possivel excluir a disciplina, pois existe alunos utilizando-a!");
 
 				await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
 				return NoContent();

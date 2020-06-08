@@ -32,8 +32,8 @@
 <a asp-action="Add" asp-controller="Disciplines" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
-<div class="md-form md-outline animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
-    <input id="disciplinesSearch" class="form-control" type="text" style="color: var(--theme-text)" />
+<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+    <input id="disciplinesSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
     <label for="disciplinesSearch">Pesquisar</label>
 
     <style>
@@ -51,7 +51,7 @@
 }
 else
 {
-    <ul id="disciplinesList" class="card-deck list-disciplines animated bounceInUp">
+    <ul id="disciplinesList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
 
         @foreach (DisciplineVO item in Model.Object)
         {
@@ -76,12 +76,12 @@ else
                     <div style="text-align: end; padding: 5px">
                         <form method="post" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Delete/@item.DisciplineId">
                             <button>
-                                <i class="mdi mdi-delete-outline mdi-24px red-text"></i>
+                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
                             </button>
                         </form>
                         <form method="get" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Update/@item.DisciplineId">
                             <button>
-                                <i class="mdi mdi-calendar-edit mdi-24px blue-text"></i>
+                                <i class="mdi mdi-calendar-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
                             </button>
                         </form>
                     </div>
