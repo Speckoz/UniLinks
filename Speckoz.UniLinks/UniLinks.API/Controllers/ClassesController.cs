@@ -7,9 +7,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+using UniLinks.API.Business;
 using UniLinks.API.Business.Interfaces;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 
@@ -92,6 +94,7 @@ namespace UniLinks.API.Controllers
 		public async Task<IActionResult> GetClassesByDisciplineIDsTaskAsync([FromServices] IDisciplineBusiness disciplineBusiness, [FromServices] IStudentBusiness studentBusiness)
 		{
 			var studentId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
 			if (!(await studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
 				return NotFound("Nao existe nenhum aluno com Id fornecido!");
 
@@ -154,7 +157,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpDelete("{classId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
+		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId, [FromServices] IDisciplineBusiness disciplineBusiness)
 		{
 			if (ModelState.IsValid)
 			{
@@ -166,6 +169,9 @@ namespace UniLinks.API.Controllers
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != classVO.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+
+				if (await disciplineBusiness.ExistsByClassIdTaskAsync(classId))
+					return BadRequest("Nao é possivel excluir a sala, pois existem disciplinas utilizando-a!");
 
 				await _classBusiness.RemoveAsync(classVO.ClassId);
 				return NoContent();

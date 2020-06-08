@@ -8,7 +8,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 using UniLinks.Dependencies.Helper;
 using UniLinks.Dependencies.Models;
 

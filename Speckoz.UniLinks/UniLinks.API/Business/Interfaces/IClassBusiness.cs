@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Business.Interfaces
 {

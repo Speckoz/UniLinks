@@ -30,6 +30,9 @@ namespace UniLinks.API.Repository
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.AnyAsync(x => x.DisciplineId == disciplineId);
 
+		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) => 
+			await _context.Disciplines.AnyAsync(x => x.ClassId == classId);
+
 		public async Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
 

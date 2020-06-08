@@ -7,12 +7,15 @@ using System.Net;
 using System.Threading.Tasks;
 
 using UniLinks.Client.Site.Services.Coordinator;
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Attributes;
+using UniLinks.Dependencies.Data.VO.Class;
+using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models;
 
 namespace UniLinks.Client.Site.Controllers.Coordinator
 {
 	[Route("Coordinator/[Controller]")]
+	[Authorizes(UserTypeEnum.Coordinator)]
 	public class ClassesController : Controller
 	{
 		[HttpGet]

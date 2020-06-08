@@ -9,17 +9,43 @@
 <h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
 <hr />
 
-<div class="card-deck" style="margin: 20px">
-    @foreach (ClassVO item in Model)
-    {
-        <div class="card mb-4 theme-bg theme-text" style="max-width: 230px; align-self: center; width: 230px; align-items: center;">
-            <div class="card-body">
-                <h5 class="card-title text-center">@(item.Period)º Período</h5>
-                <p class="card-text text-center">
-                    @(item.WeekDays.AsString(EnumFormat.DisplayName))
-                </p>
-                <a class="btn waves-effect btn-success btn-md" href="@item.URI" target="_blank">Abrir Sala</a>
-            </div>
-        </div>
-    }
-</div>
+@if (Model.Count() == 0)
+{
+    <p class="text-center p-4">Ops! Nao existe nenhuma sala para mostrar! 😢</p>
+}
+else
+{
+    <ul id="classesList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
+
+        @foreach (ClassVO item in Model)
+        {
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/classes.png'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+                                @(item.WeekDays.AsString(EnumFormat.DisplayName))
+                            </h6>
+                            <p class="card-text" style="color: #c5c5c5; position: absolute; top: 40px;">
+                                @(item.Period)º Período
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 15px">
+                        <a href="@item.URI">Abrir Sala</a>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <div class="icons-td d-inline-flex">
+                            <a href="@item.URI" target="_blank">
+                                <i class="mdi mdi-share mdi-24px green-text" data-toggle="tooltip" data-placement="top" title="Abrir Aula"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}

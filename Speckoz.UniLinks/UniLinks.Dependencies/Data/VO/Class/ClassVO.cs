@@ -2,7 +2,7 @@
 
 using UniLinks.Dependencies.Enums;
 
-namespace UniLinks.Dependencies.Data.VO
+namespace UniLinks.Dependencies.Data.VO.Class
 {
 	public class ClassVO
 	{

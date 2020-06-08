@@ -3,7 +3,7 @@ using System.Linq;
 
 using UniLinks.API.Data.Converters.Interfaces;
 using UniLinks.API.Models;
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Data.Converters
 {

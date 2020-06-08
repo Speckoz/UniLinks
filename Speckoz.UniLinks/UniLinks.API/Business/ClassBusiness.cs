@@ -6,7 +6,7 @@ using UniLinks.API.Business.Interfaces;
 using UniLinks.API.Data.Converters;
 using UniLinks.API.Models;
 using UniLinks.API.Repository.Interfaces;
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Business
 {

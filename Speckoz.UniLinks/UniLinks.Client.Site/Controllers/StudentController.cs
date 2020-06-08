@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using UniLinks.Client.Site.Services;
 using UniLinks.Client.Site.Services.Student;
 using UniLinks.Dependencies.Attributes;
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 using UniLinks.Dependencies.Data.VO.Lesson;
 using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;

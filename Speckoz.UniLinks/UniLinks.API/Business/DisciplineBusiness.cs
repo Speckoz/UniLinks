@@ -35,6 +35,9 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
 
+		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) =>
+			await _disciplineRepository.ExistsByClassIdTaskAsync(classId);
+
 		public async Task<DisciplineVO> FindByDisciplineIdTaskAsync(Guid disciplineId)
 		{
 			if (!(await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel discipline))
