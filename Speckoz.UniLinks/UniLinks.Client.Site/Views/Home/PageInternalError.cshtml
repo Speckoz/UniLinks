@@ -1,24 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Algo de ruim aconteceu";
-    Layout = "EmptyLayout";
+    Layout = "ErrorsLayout";
 }
 
-<div>
-    <div>
-        <div class="w-100 text-center mt-4 container">
-            <h1 style="">500 Internal error</h1>
-            <p>Ocorreu um erro interno no site que não deveria ter acontecido!</p>
-            <hr>
-            <div>
-                <img width="37%" height="40%" class="mt-2 rounded" src="img/pepe-500.jpeg" alt="Imagem de pagina não encontrada">
-            </div>
-            <br>
-            <hr>
-                <a href="/" class="btn btn-info btn-lg" style="padding: 12px;">
-                    <i class="mdi mdi-home" style="vertical-align: middle; font-size: 1.5em"></i>
-                    Pagina inicial
-                </a>
-            </div>
-        </div>
+<div class="container" style="padding-top: 3em">
+    <div class="row justify-content-center">
+        <h2>500 Internal Error</h2>
+    </div>
+    <div class="row justify-content-center">
+        <p class="text-center">Ocorreu um erro interno no site que não deveria ter acontecido!</p>
+    </div>
+    <div class="row justify-content-center">
+        <p class="text-center red-text">Por favor, entre em contato com os desenvolvedores!</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <img class="img-error" src="img/500_error.jpg" alt="Imagem de pagina não encontrada">
+    </div>
+
+    <div class="row justify-content-center">
+        <a href="/" class="btn btn-outline-info" style="border-radius: 2em">
+            <i class="mdi mdi-home" style="vertical-align: middle; font-size: 1.5em"></i>Pagina inicial
+        </a>
     </div>
 </div>
