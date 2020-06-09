@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.Client.Site.Services;
+using UniLinks.Client.Site.Services.Coordinator;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO.Coordinator;
 using UniLinks.Dependencies.Enums;
@@ -21,7 +22,13 @@ namespace UniLinks.Client.Site.Controllers
 	{
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public IActionResult Index() => View();
+		public async Task<IActionResult> Index([FromServices] StatusService statusService)
+		{
+			string token = User.FindFirst("Token").Value;
+			var status = await statusService.GetStatusDataTaskAsync(token);
+
+			return View(status.Object);
+		}
 
 		[HttpGet]
 		public IActionResult Auth()

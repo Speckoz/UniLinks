@@ -1,21 +1,34 @@
-﻿@{
+﻿@using System.Text.Json
+
+@model StatusVO
+
+@{
     ViewData["Title"] = "Painel";
 }
 
-<ul>
-    <li>
-        <a href="/coordinator/students">
-            Estudantes
-        </a>
-    </li>
-    <li>
-        <a href="/coordinator/disciplines">
-            Disciplinas
-        </a>
-    </li>
-    <li>
-        <a href="/coordinator/lessons">
-            Aulas
-        </a>
-    </li>
-</ul>
+<p>Salas: @Model.ClassesCouunt</p>
+<p>Disicplinas: @Model.DisciplinesCount</p>
+<p>Alunos: @Model.StudentsCount</p>
+<p>Aulas: @Model.LessonsCount</p>
+
+<div class="d-flex justify-content-lg-center">
+    <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
+        <thead>
+            <tr class="collapse">
+                <th scope="col">Disciplina</th>
+                <th scope="col">Data</th>
+            </tr>
+        </thead>
+        <tbody id="studentLessonsTable">
+            @foreach (var lesson in Model.FiveLastLessons)
+            {
+                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy");
+
+                <tr class="tr-hover tr-lesson">
+                    <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
+                    <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em">@created</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
