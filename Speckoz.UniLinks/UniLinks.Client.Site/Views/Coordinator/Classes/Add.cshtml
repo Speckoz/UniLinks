@@ -30,8 +30,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group md-form">
-                        <input type="text" id="classUri" class="form-control theme-text validate" asp-for="Object.URI" required />
+                        <input type="text" id="classUri" class="form-control theme-text validate" asp-for="Object.URI" style="margin-bottom: 0" aria-describedby="classURIHelp" required />
                         <label for="classUri" data-error="wrong" data-success="right">Url da Sala</label>
+                        <small id="classURIHelp" class="form-text text-muted">
+                            Formato: https://us.bbcollab.com/guest/{ID}
+                        </small>
                     </div>
                 </div>
                 <div class="col-6">

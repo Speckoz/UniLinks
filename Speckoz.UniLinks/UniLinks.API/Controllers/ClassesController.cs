@@ -7,8 +7,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-using UniLinks.API.Business;
 using UniLinks.API.Business.Interfaces;
+using UniLinks.API.Services;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Class;
@@ -32,7 +32,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpPost]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO)
+		public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO, [FromServices] CollabAPIService collabAPIService)
 		{
 			if (ModelState.IsValid)
 			{
@@ -44,6 +44,9 @@ namespace UniLinks.API.Controllers
 
 				if (await _classBusiness.FindByURITaskAsync(classVO.URI) is ClassVO)
 					return Conflict("Ja existe uma sala com esse link");
+
+				if (!await collabAPIService.GetClassInfoTaskAsync(classVO))
+					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
 
 				if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
 					return Created($"/Classes/{addedClass.ClassId}", addedClass);
@@ -129,7 +132,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass)
+		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass, [FromServices] CollabAPIService collabAPIService)
 		{
 			if (ModelState.IsValid)
 			{
@@ -145,6 +148,9 @@ namespace UniLinks.API.Controllers
 				if (await _classBusiness.FindByURITaskAsync(newClass.URI) is ClassVO currentCourse)
 					if (currentCourse.ClassId != newClass.ClassId)
 						return Conflict("Ja existe uma sala com este link");
+
+				if (!await collabAPIService.GetClassInfoTaskAsync(newClass))
+					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
 
 				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
 					return Created($"/Classes/{updatedClass.ClassId}", updatedClass);

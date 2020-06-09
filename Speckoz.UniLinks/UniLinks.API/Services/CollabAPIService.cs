@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Services
 {
@@ -18,7 +19,7 @@ namespace UniLinks.API.Services
 			if (parts.Length <= 4)
 				return null;
 
-			IRestResponse response = await SendRequestTaskAsync(parts[4]);
+			IRestResponse response = await SendRequestTaskAsync();
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -33,13 +34,34 @@ namespace UniLinks.API.Services
 
 			return null;
 
-			static async Task<IRestResponse> SendRequestTaskAsync(string id)
+			async Task<IRestResponse> SendRequestTaskAsync()
 			{
 				return await new RequestService()
 				{
 					Method = Method.GET,
 					URL = "https://us.bbcollab.com",
-					URN = $"collab/api/csa/recordings/{id}/data",
+					URN = $"collab/api/csa/recordings/{parts[4]}/data",
+				}.ExecuteTaskAsync();
+			}
+		}
+
+		public async Task<bool> GetClassInfoTaskAsync(ClassVO @class)
+		{
+			string[] parts = @class.URI.Split('/');
+			if (parts.Length <= 4)
+				return false;
+
+			IRestResponse response = await SendRequestTaskAsync();
+
+			return response.StatusCode == HttpStatusCode.Forbidden;
+
+			async Task<IRestResponse> SendRequestTaskAsync()
+			{
+				return await new RequestService()
+				{
+					Method = Method.GET,
+					URL = "https://us.bbcollab.com",
+					URN = $"collab/api/guest/{parts[4]}",
 				}.ExecuteTaskAsync();
 			}
 		}
