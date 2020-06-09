@@ -21,12 +21,9 @@
     }
 }
 
-<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
-<hr />
-
 <div style="padding-top: 20px">
     <div class="text-center">
-        <span class="theme-text">Adicionar nova Sala</span>
+        <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
     </div>
     <div style="padding: 10px">
         <form method="post" asp-controller="Classes" asp-action="AddClass">
@@ -44,7 +41,7 @@
                     }
 
                     <div class="form-group">
-                        <label data-error="wrong" data-success="right">Periodo</label>
+                        <label style="font-size: 14px; color: #757575;">Periodo</label>
                         <select asp-for="Object.Period" id="periodSelector">
                             @{
                                 for (int i = 1; i <= courseInfo.Object.Periods; i++)
@@ -57,7 +54,7 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label>Dias da semana</label>
+                        <label style="font-size: 14px; color: #757575;">Dias da semana</label>
                         <select id="weekDaysSelector" asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
                         </select>
                     </div>

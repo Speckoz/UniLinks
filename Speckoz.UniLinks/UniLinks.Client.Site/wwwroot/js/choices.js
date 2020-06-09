@@ -176,7 +176,7 @@
                 renderSelectedChoices: 'auto',
                 loadingText: 'Carregando...',
                 noResultsText: 'Nada encontrado!',
-                noChoicesText: 'Nao ha mais nada para selecionar',
+                noChoicesText: 'Nao ha nada para selecionar!',
                 itemSelectText: 'Selecionar',
                 uniqueItemText: 'Ja está na lista',
                 customAddItemText: 'Only values matching specific conditions can be added',

@@ -6,9 +6,6 @@
     ViewData["Title"] = "Salas";
 }
 
-<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
-<hr />
-
 @if (Model.Count() == 0)
 {
     <p class="text-center p-4">Ops! Nao existe nenhuma sala para mostrar! 😢</p>
@@ -35,14 +32,6 @@ else
                     <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
                     <div style="padding: 15px">
                         <a href="@item.URI">Abrir Sala</a>
-                    </div>
-                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
-                    <div style="text-align: end; padding: 5px">
-                        <div class="icons-td d-inline-flex">
-                            <a href="@item.URI" target="_blank">
-                                <i class="mdi mdi-share mdi-24px green-text" data-toggle="tooltip" data-placement="top" title="Abrir Aula"></i>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </li>

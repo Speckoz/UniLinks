@@ -26,7 +26,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				HttpStatusCode.Created => new ResultModel<ClassVO>
 				{
 					Object = JsonSerializer.Deserialize<ClassVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "Sala Sucesso!",
+					Message = "Sala adicionada com Sucesso!",
 					StatusCode = resp.StatusCode
 				},
 

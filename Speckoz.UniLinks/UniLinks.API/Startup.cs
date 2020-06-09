@@ -52,7 +52,7 @@ namespace UniLinks.API
 			string host = GetEnvironmentVariable("DBHOST") ?? "localhost";
 			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
 			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
-			string user = GetEnvironmentVariable("DBUSER") ?? "root";			
+			string user = GetEnvironmentVariable("DBUSER") ?? "root";
 			services.AddDbContext<DataContext>
 			(
 				options => options.UseMySql($"server={host};userid={user};pwd={password};port={port};database=unilinks",
@@ -101,12 +101,11 @@ namespace UniLinks.API
 				dbContext.Database.Migrate();
 			}
 
-			dataSeeder.Init();
-
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-			} 
+				dataSeeder.Init();
+			}
 
 			app.UseRouting();
 

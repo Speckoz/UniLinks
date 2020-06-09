@@ -1,48 +1,47 @@
 ﻿@using System.Text.Json;
 @using System.Globalization;
 
+@model List<LessonDisciplineVO>
+
 @{
     ViewData["Title"] = "Aulas";
 }
 
-@model List<LessonDisciplineVO>
-
-<h5 class="text-center theme-text" style="font-weight: 500; margin: 10px">@ViewData["Title"]</h5>
-<hr />
 
 <div class="container">
-    <article class="row justify-content-center" id="card-lesson">
-        <span class="red-text">Selecione uma aula</span>
-    </article>
-
-    <div class="row justify-content-center" >
-        <div class="card theme-card theme-text" style="border-radius: 2em; margin: 10px; margin-top: 20px; width: 800px">
-            <div class="row">
-                <div class="col">
-                    <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
-                        <input type="text" id="studentLessonsSearch" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
-                    </div>
-                </div>
-                <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
-                    <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%">
-                        <option disabled aria-disabled="true">Filtar por</option>
-                        <option value="1">Disciplina</option>
-                        @*<option value="2">Periodo</option>*@
-                        @*<option value="3">Data</option>*@
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @if (Model.Count == 0)
     {
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="margin-top: 5em">
             <span class="text-center">Ops, Nao existe nenhuma aula de suas disciplinas! 🥺</span>
         </div>
     }
     else
     {
+        <article class="row justify-content-center" id="card-lesson">
+            <span class="red-text">Selecione uma aula</span>
+        </article>
+
+        <div class="row justify-content-center">
+            <div class="card theme-card theme-text" style="border-radius: 2em; margin: 10px; margin-top: 20px; width: 800px">
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form" style="margin-bottom: 5px; margin-top: 10px; margin-left: 20px">
+                            <input type="text" id="studentLessonsSearch" style="margin: 0;" class="form-control theme-text" placeholder="Pesquisar">
+                        </div>
+                    </div>
+                    <div class="col" style="max-width: 110px; margin-right: 10px;margin-top: 5px;margin-bottom: 5px; border-radius: 1em; padding-left: 0">
+                        <select class="theme-card theme-text" style="border: 0; padding-top: 15%; padding-bottom: 10%">
+                            <option disabled aria-disabled="true">Filtar por</option>
+                            <option value="1">Disciplina</option>
+                            @*<option value="2">Periodo</option>*@
+                            @*<option value="3">Data</option>*@
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <span style="padding-bottom: 20px">Encontradas: @Model.Count</span>
         </div>
@@ -141,14 +140,14 @@
                         </a>
                     </div>
                     ${
-                        lessonSubject != "" && lessonSubject != null ?
-                        `<div style="position: absolute; bottom: 10%; right: 30%" data-toggle="tooltip" data-placement="right" title="Assuntos">
+            lessonSubject != "" && lessonSubject != null ?
+                `<div style="position: absolute; bottom: 10%; right: 30%" data-toggle="tooltip" data-placement="right" title="Assuntos">
                                 <a class="blue-text" onclick="showLessonDetails('${lessonSubject}')">
                                     <i class="mdi mdi-file-document-edit-outline" style="font-size: 25px"></i>
                                 </a>
                             </div>`
-                        : ``
-                    }
+                : ``
+            }
                 </div>
             </div>
         </div>
