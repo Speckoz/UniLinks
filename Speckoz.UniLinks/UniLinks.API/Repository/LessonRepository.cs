@@ -32,7 +32,7 @@ namespace UniLinks.API.Repository
 			await _context.Lessons.Where(x => x.CourseId == courseId).CountAsync();
 
 		public async Task<List<LessonModel>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId) =>
-			(await _context.Lessons.ToListAsync()).OrderByDescending(x => x.Date).TakeLast(5).ToList();
+			(await _context.Lessons.Where(x => x.CourseId == courseId).ToListAsync()).OrderByDescending(x => x.Date).Take(5).ToList();
 
 		public async Task<List<LessonModel>> FindAllByRangeDisciplineIdsTaskASync(List<Guid> disciplines)
 		{
