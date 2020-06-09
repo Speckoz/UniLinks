@@ -47,7 +47,7 @@ services:
   mvc-1:
     build:
       context: ./Speckoz.UniLinks
-      dockerfile: UniLinks.Client.Web/Dockerfile
+      dockerfile: UniLinks.Client.Site/Dockerfile
     networks:
       - prod
     restart: always
