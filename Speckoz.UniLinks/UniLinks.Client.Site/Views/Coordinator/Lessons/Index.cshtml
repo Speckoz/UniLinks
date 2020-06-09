@@ -29,18 +29,6 @@
 <a asp-action="Add" asp-controller="Lessons" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
-<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
-    <input id="lessonsSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
-    <label for="lessonsSearch">Pesquisar</label>
-
-    <style>
-        .md-form.md-outline label.active
-        {
-            background: var(--theme-bg);
-            color: var(--theme-text);
-        }
-    </style>
-</div>
 
 @if (Model.Object.Count() == 0)
 {
@@ -48,6 +36,19 @@
 }
 else
 {
+    <div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+        <input id="lessonsSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+        <label for="lessonsSearch">Pesquisar</label>
+
+        <style>
+            .md-form.md-outline label.active
+            {
+                background: var(--theme-bg);
+                color: var(--theme-text);
+            }
+        </style>
+    </div>
+
     <ul id="lessonsList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
 
         @foreach (var item in Model.Object)
@@ -87,11 +88,9 @@ else
                                 <i class="mdi mdi-share mdi-24px green-text" data-toggle="tooltip" data-placement="top" title="Abrir Aula"></i>
                             </a>
                         </div>
-                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Lessons/Delete/@item.Lesson.LessonId">
-                            <button>
-                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
-                            </button>
-                        </form>
+                        <div class="icons-td d-inline-flex">
+                            <i class="mdi mdi-delete-outline mdi-24px red-text" onclick="confirmDelete('@item.Discipline.Name','@item.Lesson.Date.ToShortDateString()', '@item.Lesson.LessonId')" data-toggle="tooltip" data-placement="top" title="Remover" style="cursor: pointer"></i>
+                        </div>
                         <form method="get" class="icons-td d-inline-flex" action="Coordinator/Lessons/Update/@item.Lesson.LessonId">
                             <button>
                                 <i class="mdi mdi-comment-edit-outline mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
@@ -103,6 +102,29 @@ else
         }
     </ul>
 }
+
+<div class="modal animated bounceInDown" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content theme-bg theme-text">
+            <div class="modal-header border-0 text-center">
+                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Confirmaçao</h4>
+            </div>
+            <div class="modal-body mx-3">
+                <h6>
+                    Realmente deseja excluir a aula de <span style="font-weight: 600" id="confirmDeleteModalDisciplineName"></span> de <span style="font-weight: 600" id="confirmDeleteModalLessonDate"></span> ?
+                </h6>
+            </div>
+
+            <div class="modal-footer border-0 d-flex justify-content-center">
+                <form method="post" class="icons-td d-inline-flex" id="confirmDeleteModalAction">
+                    <button class="btn btn-outline-danger waves-effect" style="border: 0 !important;">Confirmar</button>
+                </form>
+                <button class="btn btn-danger waves-effect" data-dismiss="modal" aria-label="Close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal animated bounceInDown" id="modalLessonSubject" tabindex="-1" role="dialog" aria-labelledby="modalLessonSubject"
      aria-hidden="true">
@@ -131,6 +153,13 @@ else
             });
         });
     });
+
+    function confirmDelete(disciplineName, date, lessonId) {
+        document.getElementById("confirmDeleteModalDisciplineName").innerText = disciplineName;
+        document.getElementById("confirmDeleteModalLessonDate").innerText = date;
+        document.getElementById("confirmDeleteModalAction").action = `/Coordinator/Lessons/Delete/${lessonId}`;
+        ShowModal("confirmDeleteModal");
+    }
 
     function showSubject(lessonSubject) {
         const subjects = lessonSubject.split(';');

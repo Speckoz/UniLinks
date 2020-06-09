@@ -30,18 +30,6 @@
 <a asp-action="Add" asp-controller="Classes" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
     <i class="mdi mdi-plus mdi-24px"></i>
 </a>
-<div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
-    <input id="classesSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
-    <label for="classesSearch">Pesquisar</label>
-
-    <style>
-        .md-form.md-outline label.active
-        {
-            background: var(--theme-bg);
-            color: var(--theme-text);
-        }
-    </style>
-</div>
 
 @if (Model.Object.Count() == 0)
 {
@@ -49,6 +37,19 @@
 }
 else
 {
+    <div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+        <input id="classesSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+        <label for="classesSearch">Pesquisar</label>
+
+        <style>
+            .md-form.md-outline label.active
+            {
+                background: var(--theme-bg);
+                color: var(--theme-text);
+            }
+        </style>
+    </div>
+
     <ul id="classesList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
 
         @foreach (ClassVO item in Model.Object)
@@ -72,11 +73,9 @@ else
                     </div>
                     <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
                     <div style="text-align: end; padding: 5px">
-                        <form method="post" class="icons-td d-inline-flex" action="Coordinator/Classes/Delete/@item.ClassId">
-                            <button>
-                                <i class="mdi mdi-delete-outline mdi-24px red-text" data-toggle="tooltip" data-placement="top" title="Remover"></i>
-                            </button>
-                        </form>
+                        <div class="icons-td d-inline-flex">
+                            <i class="mdi mdi-delete-outline mdi-24px red-text" onclick="confirmDelete('@item.WeekDays.AsString(EnumFormat.DisplayName)', '@item.Period', '@item.ClassId')" data-toggle="tooltip" data-placement="top" title="Remover" style="cursor: pointer"></i>
+                        </div>
                         <form method="get" class="icons-td d-inline-flex" action="Coordinator/Classes/Update/@item.ClassId">
                             <button>
                                 <i class="mdi mdi-monitor-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
@@ -89,6 +88,29 @@ else
     </ul>
 }
 
+<div class="modal animated bounceInDown" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content theme-bg theme-text">
+            <div class="modal-header border-0 text-center">
+                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Confirmaçao</h4>
+            </div>
+            <div class="modal-body mx-3">
+                <h6>
+                    Realmente deseja excluir a sala de <span style="font-weight: 600" id="confirmDeleteModalWeekDays"></span> do <span style="font-weight: 600" id="confirmDeleteModalClassPeriod"></span><span style="font-weight: 600">º período</span> ?
+                </h6>
+            </div>
+
+            <div class="modal-footer border-0 d-flex justify-content-center">
+                <form method="post" class="icons-td d-inline-flex" id="confirmDeleteModalAction">
+                    <button class="btn btn-outline-danger waves-effect" style="border: 0 !important;">Confirmar</button>
+                </form>
+                <button class="btn btn-danger waves-effect" data-dismiss="modal" aria-label="Close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $("#classesSearch").on("keyup", function () {
@@ -98,4 +120,11 @@ else
             });
         });
     });
+
+    function confirmDelete(weekDays, classPeriod, classId) {
+        document.getElementById("confirmDeleteModalWeekDays").innerText = weekDays;
+        document.getElementById("confirmDeleteModalClassPeriod").innerText = classPeriod;
+        document.getElementById("confirmDeleteModalAction").action = `/Coordinator/Classes/Delete/${classId}`;
+        ShowModal("confirmDeleteModal");
+    }
 </script>
