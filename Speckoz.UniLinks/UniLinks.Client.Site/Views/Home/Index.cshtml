@@ -60,7 +60,7 @@
 
                         @if (User.Claims.Count() > 0)
                         {
-                            <hr class="separator" style="margin-top: 0; margin-bottom: 0"/>
+                            <hr class="separator" style="margin-top: 0; margin-bottom: 0" />
                             <a class="dropdown-item waves-effect" asp-action="Logout" asp-controller="Home">
                                 <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
                             </a>
@@ -101,7 +101,7 @@
                 <p class="text-center">C# the best</p>
             </div>
             <div class="row justify-content-center people">
-                <article class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                <article class="col-md-6 col-lg-4 item">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
                         <h4 class="name" style="color: #808080">Ruan Carlos CS</h4>
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="card col-md-6 col-lg-4 item" style="background-color: #222223">
+                <article class="col-md-6 col-lg-4 item">
                     <div class="box">
                         <img class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
                         <h4 class="name" style="color: #808080">Marco Antonio Pandolfo</h4>
@@ -134,6 +134,20 @@
                         </div>
                     </div>
                 </article>
+            </div>
+            <div class="row justify-content-center">
+                <h3 style="color: #808080">He4rtDevs</h3>
+            </div>
+            <div class="row justify-content-center">
+                <img class="rounded-circle" src="img/he4rtdevs.png">
+            </div>
+            <div class="row justify-content-center">
+                <p class="text-center">Somos membros da comunidade He4rt Developers, que tem como objetivo disponibilizar a troca de conhecimentos entre desenvolvedores, majoritariamente brasileiros, para que possam crescer juntos como profissionais na área.</p>
+                <div class="text-center">
+                    <a href="https://discord.com/invite/7UJDgBG" target="_blank">
+                        <img src="https://discordapp.com/api/guilds/452926217558163456/embed.png" alt="Discord server" />
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -158,7 +172,7 @@
         <div class="row">
             <div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
         </div>
-        @{ 
+        @{
             string version = Environment.GetEnvironmentVariable("LAST_COMMIT")?.Substring(0, 5) ?? "Local";
         }
         <p class="copyright">UniLinks © 2020 - Versão @version</p>
