@@ -33,6 +33,9 @@ namespace UniLinks.API.Repository
 		public async Task<StudentModel> FindByStudentIdTaskAsync(Guid id) =>
 			await _context.Students.Where(x => x.StudentId == id).SingleOrDefaultAsync();
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Students.Where(x => x.CourseId == courseId).CountAsync();
+
 		public async Task<StudentModel> FindByEmailTaskAsync(string email) =>
 			await _context.Students.SingleOrDefaultAsync(x => x.Email.ToLower().Equals(email.ToLower()));
 
@@ -51,8 +54,5 @@ namespace UniLinks.API.Repository
 			_context.Students.Remove(student);
 			await _context.SaveChangesAsync();
 		}
-
-		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
-			await _context.Lessons.Where(x => x.CourseId == courseId).CountAsync();
 	}
 }
