@@ -13,6 +13,8 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<LessonVO> FindByIdTaskAsync(Guid lessonId);
 
+		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
+
 		Task<LessonVO> FindByURITaskAsync(string uri);
 
 		Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson);

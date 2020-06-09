@@ -155,7 +155,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpDelete("{disciplineId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> DeleteTaskAsync([Required] Guid disciplineId)
+		public async Task<IActionResult> DeleteTaskAsync([Required] Guid disciplineId, [FromServices] ILessonBusiness lessonBusiness)
 		{
 			if (ModelState.IsValid)
 			{
@@ -167,6 +167,9 @@ namespace UniLinks.API.Controllers
 
 				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 					return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
+
+				if (await lessonBusiness.ExistsByDisciplineIdTaskAsync(disciplineId))
+					return BadRequest("Nao é possivel excluir a disciplina, pois existem aulas utilizando-a!");
 
 				if (await _studentBusiness.ExistsStudentWithDisciplineTaskAsync(disciplineId))
 					return BadRequest("Nao é possivel excluir a disciplina, pois existem alunos utilizando-a!");

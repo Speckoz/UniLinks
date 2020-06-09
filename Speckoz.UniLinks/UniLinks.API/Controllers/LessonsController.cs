@@ -46,6 +46,9 @@ namespace UniLinks.API.Controllers
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
 
+				if (lesson.DisciplineId == Guid.Empty)
+					return BadRequest("É necessario informar a disciplina!");
+
 				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(lesson.DisciplineId))
 					return NotFound("Nao existe a disciplina com o Id informado");
 

@@ -41,6 +41,9 @@ namespace UniLinks.API.Business
 			return _lessonConverter.Parse(lessonModel);
 		}
 
+		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
+			await _lessonRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
+
 		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) =>
 			await _collabAPIService.GetRecordingInfoTaskAsync(lesson);
 

@@ -12,6 +12,8 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<LessonModel> FindByURITaskAsync(string uri);
 
+		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
+
 		Task<List<LessonModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines);
 
 		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
