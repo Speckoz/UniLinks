@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UniLinks.Client.Site.Services;
 using UniLinks.Client.Site.Services.Coordinator;
 using UniLinks.Dependencies.Attributes;
+using UniLinks.Dependencies.Data.VO;
 using UniLinks.Dependencies.Data.VO.Coordinator;
 using UniLinks.Dependencies.Enums;
 using UniLinks.Dependencies.Models;
@@ -22,10 +23,16 @@ namespace UniLinks.Client.Site.Controllers
 	{
 		[HttpGet]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> Index([FromServices] StatusService statusService)
+		public async Task<IActionResult> Index([FromServices] StatusService statusService, [FromServices] CourseService courseService)
 		{
 			string token = User.FindFirst("Token").Value;
-			var status = await statusService.GetStatusDataTaskAsync(token);
+
+			ResultModel<CourseVO> course = await courseService.GetCourseByCoordIdTaskAsync(token);
+
+			if (course.StatusCode == HttpStatusCode.NotFound)
+				return View("/Views/Coordinator/Course/CourseNotFound.cshtml", course.Object);
+
+			ResultModel<StatusVO> status = await statusService.GetStatusDataTaskAsync(token);
 
 			return View(status.Object);
 		}
@@ -33,16 +40,12 @@ namespace UniLinks.Client.Site.Controllers
 		[HttpGet]
 		public IActionResult Auth()
 		{
-			switch (User.FindFirst(ClaimTypes.Role)?.Value)
+			return (User.FindFirst(ClaimTypes.Role)?.Value) switch
 			{
-				case nameof(UserTypeEnum.Coordinator):
-					return RedirectToAction("Index", "Coordinator");
-
-				case nameof(UserTypeEnum.Student):
-					return RedirectToAction("Index", "Student");
-			}
-
-			return View();
+				nameof(UserTypeEnum.Coordinator) => RedirectToAction("Index", "Coordinator"),
+				nameof(UserTypeEnum.Student) => RedirectToAction("Index", "Student"),
+				_ => View(),
+			};
 		}
 
 		[HttpPost]

@@ -6,29 +6,119 @@
     ViewData["Title"] = "Painel";
 }
 
-<p>Salas: @Model.ClassesCouunt</p>
-<p>Disicplinas: @Model.DisciplinesCount</p>
-<p>Alunos: @Model.StudentsCount</p>
-<p>Aulas: @Model.LessonsCount</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div style="padding-bottom: 2em; padding-top: 1em;">
+            <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+        </div>
+    </div>
 
-<div class="d-flex justify-content-lg-center">
-    <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
-        <thead>
-            <tr class="collapse">
-                <th scope="col">Disciplina</th>
-                <th scope="col">Data</th>
-            </tr>
-        </thead>
-        <tbody id="studentLessonsTable">
-            @foreach (var lesson in Model.FiveLastLessons)
-            {
-                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy");
+    <div class="row" style="padding-left: 3em; padding-right: 3em">
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow py-2 theme-bg theme-text">
+                <div class="card-body" style="padding: .8rem !important;">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-success font-weight-bold text-xs mb-1">
+                                <i class="mdi mdi-record-rec icon-margin-right" style="font-size: 24px;"></i><span>Aulas</span>
+                            </div>
+                            <div class="font-weight-bold h5 mb-0" style="padding-left: 4px"><span>@Model.LessonsCount</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow py-2 theme-bg theme-text">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-secondary font-weight-bold text-xs mb-1">
+                                <i class="mdi mdi-google-lesson icon-margin-right" style="font-size: 20px"></i><span>Salas</span>
+                            </div>
+                            <div class="font-weight-bold h5 mb-0"><span>@Model.ClassesCouunt</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow py-2 theme-bg theme-text">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                <i class="mdi mdi-bookshelf icon-margin-right" style="font-size: 20px"></i><span>Disciplinas</span>
+                            </div>
+                            <div class="font-weight-bold h5 mb-0"><span>@Model.DisciplinesCount</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow py-2 theme-bg theme-text">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-danger font-weight-bold text-xs mb-1">
+                                <i class="mdi mdi-account-multiple icon-margin-right" style="font-size: 20px"></i><span>Alunos</span>
+                            </div>
+                            <div class="font-weight-bold h5 mb-0"><span>@Model.StudentsCount</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center py-4">
+        <div class="card shadow mb-0 theme-bg theme-text">
+            <div class="card-header" style="border: 0; background-color: transparent">
+                <h6 class="font-weight-bold m-0 text-center">Ultimas 5 Aulas Adicionadas</h6>
+            </div>
+            <div class="card-body">
+                @if (Model.FiveLastLessons.Count() == 0)
+                {
+                    <h6 class="text-center">Ainda o courso ainda nao possui nenhuma aula! 😢</h6>
+                }
+                else
+                {
+                    <table class="table table-hover table-students theme-bg theme-text" style="max-width: 600px">
+                        <tbody>
+                            @foreach (var lesson in Model.FiveLastLessons)
+                            {
+                                var created = lesson.Lesson.Date.ToString("dd/MM/yyyy");
 
-                <tr class="tr-hover tr-lesson">
-                    <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
-                    <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: 0.9em">@created</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                <tr class="tr-hover tr-lesson">
+                                    <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
+                                    <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: .9em">@created</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    table.table th, table.table td
+    {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .table td, .table th
+    {
+        border-top: 0 !important;
+    }
+
+    .card-body
+    {
+        padding: 1rem !important;
+    }
+</style>
