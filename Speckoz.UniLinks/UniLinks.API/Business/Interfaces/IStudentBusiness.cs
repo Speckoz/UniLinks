@@ -16,6 +16,8 @@ namespace UniLinks.API.Business.Interfaces
 
 		Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId);
 
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
 		Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid id);
 
 		Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId);

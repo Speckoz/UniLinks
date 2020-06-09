@@ -12,9 +12,13 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<LessonModel> FindByURITaskAsync(string uri);
 
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
+		Task<List<LessonModel>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId);
+
 		Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId);
 
-		Task<List<LessonModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines);
+		Task<List<LessonModel>> FindAllByRangeDisciplineIdsTaskASync(List<Guid> disciplines);
 
 		Task<LessonModel> AddTaskAsync(LessonModel Lesson);
 

@@ -80,6 +80,9 @@ namespace UniLinks.API.Business
 		public Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId) =>
 			_studentRepository.ExistsStudentWithDisciplineTaskAsync(disciplineId);
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _studentRepository.FindCountByCourseIdTaskAsync(courseId);
+
 		public async Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid studentId)
 		{
 			if (!(await _studentRepository.FindByStudentIdTaskAsync(studentId) is StudentModel studentModel))

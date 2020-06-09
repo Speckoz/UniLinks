@@ -30,7 +30,7 @@ namespace UniLinks.API.Repository
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.AnyAsync(x => x.DisciplineId == disciplineId);
 
-		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) => 
+		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) =>
 			await _context.Disciplines.AnyAsync(x => x.ClassId == classId);
 
 		public async Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId) =>
@@ -51,5 +51,8 @@ namespace UniLinks.API.Repository
 			_context.Remove(discipline);
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Lessons.Where(x => x.CourseId == courseId).CountAsync();
 	}
 }

@@ -35,6 +35,9 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _disciplineRepository.FindCountByCourseIdTaskAsync(courseId);
+
 		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) =>
 			await _disciplineRepository.ExistsByClassIdTaskAsync(classId);
 

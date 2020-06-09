@@ -12,6 +12,8 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<bool> ExistsByEmailTaskAsync(string email);
 
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
 		Task<StudentModel> FindByStudentIdTaskAsync(Guid id);
 
 		Task<StudentModel> FindByEmailTaskAsync(string email);

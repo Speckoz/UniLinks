@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using UniLinks.API.Data;
 using UniLinks.API.Models;
 using UniLinks.API.Repository.Interfaces;
+using UniLinks.Dependencies.Models;
 using UniLinks.Dependencies.Models.Auxiliary;
 
 namespace UniLinks.API.Repository

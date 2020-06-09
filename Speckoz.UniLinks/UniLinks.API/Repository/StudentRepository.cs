@@ -51,5 +51,8 @@ namespace UniLinks.API.Repository
 			_context.Students.Remove(student);
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Lessons.Where(x => x.CourseId == courseId).CountAsync();
 	}
 }

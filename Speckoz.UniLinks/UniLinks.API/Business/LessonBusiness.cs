@@ -41,8 +41,29 @@ namespace UniLinks.API.Business
 			return _lessonConverter.Parse(lessonModel);
 		}
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _lessonRepository.FindCountByCourseIdTaskAsync(courseId);
+
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _lessonRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
+
+		public async Task<List<LessonDisciplineVO>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId)
+		{
+			if (!(await _lessonRepository.FindFiveLastLessonsByCourseIdTaskAsync(courseId) is List<LessonModel> listLessons))
+				return null;
+
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(listLessons.Select(x => x.DisciplineId).ToHashSet().ToList()) is List<DisciplineVO> listDisciplines))
+				return null;
+
+			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);
+
+			var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
+
+			foreach (LessonModel l in listLessons)
+				lessonDisciplines.Add((l, disciplineModels.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
+
+			return _lessonDisciplineConverter.ParseList(lessonDisciplines);
+		}
 
 		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) =>
 			await _collabAPIService.GetRecordingInfoTaskAsync(lesson);
@@ -51,7 +72,7 @@ namespace UniLinks.API.Business
 		{
 			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> listDisciplines))
 				return null;
-			if (!(await _lessonRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<LessonModel> listLessons))
+			if (!(await _lessonRepository.FindAllByRangeDisciplineIdsTaskASync(disciplines) is List<LessonModel> listLessons))
 				return null;
 
 			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);

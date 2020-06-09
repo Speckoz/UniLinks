@@ -24,6 +24,9 @@ namespace UniLinks.API.Repository
 			return addedClass;
 		}
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Classes.Where(x => x.CourseId == courseId).CountAsync();
+
 		public async Task<ClassModel> FindByClassIdTaskAsync(Guid classId) =>
 			await _context.Classes.SingleOrDefaultAsync(x => x.ClassId == classId);
 
