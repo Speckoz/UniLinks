@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLinks.API", "UniLinks.API\UniLinks.API.csproj", "{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLinks.Client.Site", "UniLinks.Client.Site\UniLinks.Client.Site.csproj", "{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLinks.Dependencies", "UniLinks.Dependencies\UniLinks.Dependencies.csproj", "{C03798D4-8184-4E8F-904E-C79F00508C4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLinks.Client.Web", "UniLinks.Client.Web\UniLinks.Client.Web.csproj", "{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniLinks.Client.Site", "UniLinks.Client.Site\UniLinks.Client.Site.csproj", "{BBE0B44D-86CF-4C8B-93A6-37CC2D5070B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F489DBF-DA1E-4528-A5D2-E6B058E6BE61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4BC7EE2-3C07-4DC2-946B-F076F29EFE3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03798D4-8184-4E8F-904E-C79F00508C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU

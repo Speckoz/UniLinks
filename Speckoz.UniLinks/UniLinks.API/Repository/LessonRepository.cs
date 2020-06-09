@@ -21,10 +21,20 @@ namespace UniLinks.API.Repository
 		{
 			LessonModel lessonAdded = (await _context.AddAsync(lesson)).Entity;
 			await _context.SaveChangesAsync();
+
 			return lessonAdded;
 		}
 
-		public async Task<List<LessonModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
+		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
+			await _context.Lessons.AnyAsync(x => x.DisciplineId == disciplineId);
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Lessons.Where(x => x.CourseId == courseId).CountAsync();
+
+		public async Task<List<LessonModel>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId) =>
+			(await _context.Lessons.Where(x => x.CourseId == courseId).ToListAsync()).OrderByDescending(x => x.Date).Take(5).ToList();
+
+		public async Task<List<LessonModel>> FindAllByRangeDisciplineIdsTaskASync(List<Guid> disciplines)
 		{
 			var lessons = new List<LessonModel>();
 			foreach (Guid discipline in disciplines)

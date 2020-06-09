@@ -1,0 +1,117 @@
+﻿@using EnumsNET
+
+@inject UniLinks.Client.Site.Services.Coordinator.ClassService _classService
+@inject UniLinks.Client.Site.Services.Coordinator.CourseService _courseService
+
+@model ResultModel<DisciplineVO>
+
+@{
+    ViewData["Title"] = "Atualizar Disciplina";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+        case System.Net.HttpStatusCode.Created:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<div style="padding-top: 20px">
+    <div class="text-center">
+        <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+    </div>
+    <div style="padding: 10px">
+        <form method="post" asp-controller="Disciplines" asp-action="UpdateDiscipline">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group md-form">
+                        <input type="text" id="DisciplineName" class="form-control theme-text validate" style="margin-bottom: 0" asp-for="Object.DisciplineId" readonly />
+                        <label for="DisciplineName" data-error="wrong" data-success="right">Id da Disciplina</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group md-form">
+                        <input type="text" id="DisciplineName" class="form-control theme-text validate" style="margin-bottom: 0" asp-for="Object.Name" required />
+                        <label for="DisciplineName" data-error="wrong" data-success="right">Nome da Disciplina</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group md-form">
+                        <input type="text" id="teacherName" class="form-control theme-text validate" style="margin-bottom: 0" asp-for="Object.Teacher" required />
+                        <label for="teacherName" data-error="wrong" data-success="right">Nome do Professor</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    @{
+                        string token = User.FindFirst("Token").Value;
+                        var courseInfo = await _courseService.GetCourseByCoordIdTaskAsync(token);
+                    }
+
+                    <div>
+                        <label style="font-size: 14px; color: #757575;">Período</label>
+                        <select asp-for="Object.Period" id="periodSelector">
+                            @{
+                                for (int i = 1; i <= courseInfo.Object.Periods; i++)
+                                {
+                                    <option value="@i">@(i)º Periodo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    @{
+                        var classes = await _classService.GetClassesTaskAsync(token);
+                    }
+
+                    <div>
+                        <label style="font-size: 14px; color: #757575;">Sala</label>
+                        <select id="disciplineClass" asp-for="Object.ClassId">
+                            @foreach (var @class in classes.Object)
+                            {
+                                if ((Model?.Object?.ClassId ?? Guid.Empty) != Guid.Empty)
+                                {
+                                    <option selected="@(@class.ClassId == Model.Object.ClassId ? "selected" : null)" value="@(@class.ClassId)">
+                                        @(@class.WeekDays.AsString(EnumFormat.DisplayName))
+                                        (@(@class.Period)º)
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option selected value="@(@class.ClassId)">
+                                        @(@class.WeekDays.AsString(EnumFormat.DisplayName))
+                                        (@(@class.Period)º)
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center" style="margin-top: 35px">
+                <button type="submit" class="btn btn-success waves-effect">Salvar</button>
+                <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Disciplines">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/choices.js"></script>
+<script>
+    new Choices("#periodSelector");
+    new Choices("#disciplineClass");
+</script>

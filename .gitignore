@@ -341,3 +341,4 @@ ASALocalRun/
 healthchecksdb
 /Speckoz.UniLink/.vscode/tasks.json
 /Speckoz.UniLink/.vscode/launch.json
+**/launchSettings.json

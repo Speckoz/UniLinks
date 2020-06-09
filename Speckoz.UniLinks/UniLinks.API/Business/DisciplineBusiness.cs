@@ -23,10 +23,10 @@ namespace UniLinks.API.Business
 
 		public async Task<DisciplineVO> AddTaskAsync(DisciplineVO discipline)
 		{
-			if (await _disciplineRepository.AddTaskAsync(_disciplineConverter.Parse(discipline)) is DisciplineModel addedDisci)
-				return _disciplineConverter.Parse(addedDisci);
+			if (!(await _disciplineRepository.AddTaskAsync(_disciplineConverter.Parse(discipline)) is DisciplineModel addedDisci))
+				return null;
 
-			return null;
+			return _disciplineConverter.Parse(addedDisci);
 		}
 
 		public async Task<bool> ExistsByNameAndCourseIdTaskAsync(string name, Guid courseId) =>
@@ -35,32 +35,49 @@ namespace UniLinks.API.Business
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _disciplineRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
 
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _disciplineRepository.FindCountByCourseIdTaskAsync(courseId);
+
+		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) =>
+			await _disciplineRepository.ExistsByClassIdTaskAsync(classId);
+
 		public async Task<DisciplineVO> FindByDisciplineIdTaskAsync(Guid disciplineId)
 		{
-			if (await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel discipline)
-				return _disciplineConverter.Parse(discipline);
+			if (!(await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel discipline))
+				return null;
 
-			return null;
+			return _disciplineConverter.Parse(discipline);
 		}
 
-		public async Task<List<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId) =>
-			_disciplineConverter.ParseList(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId));
+		public async Task<List<DisciplineVO>> FindByCourseIdTaskAsync(Guid courseId)
+		{
+			if (!(await _disciplineRepository.FindDisciplinesByCourseIdTaskAsync(courseId) is List<DisciplineModel> disciplines))
+				return null;
+
+			return _disciplineConverter.ParseList(disciplines);
+		}
 
 		public async Task<List<DisciplineVO>> FindAllByDisciplineIdsTaskAsync(List<Guid> disciplines)
 		{
-			if (await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<DisciplineModel> disc)
-				if (!disc.Contains(null))
-					return _disciplineConverter.ParseList(disc);
+			var disciplinesModel = new List<DisciplineModel>();
 
-			return null;
+			foreach (Guid disciplineId in disciplines)
+			{
+				if (!(await _disciplineRepository.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineModel disciplineModel))
+					return null;
+
+				disciplinesModel.Add(disciplineModel);
+			}
+
+			return _disciplineConverter.ParseList(disciplinesModel);
 		}
 
 		public async Task<DisciplineVO> UpdateTaskAync(DisciplineVO newDiscipline)
 		{
-			if (await _disciplineRepository.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineModel discipline)
-				return _disciplineConverter.Parse(await _disciplineRepository.UpdateTaskAsync(discipline, _disciplineConverter.Parse(newDiscipline)));
+			if (!(await _disciplineRepository.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineModel discipline))
+				return null;
 
-			return null;
+			return _disciplineConverter.Parse(await _disciplineRepository.UpdateTaskAsync(discipline, _disciplineConverter.Parse(newDiscipline)));
 		}
 
 		public async Task DeleteTaskAsync(Guid disciplineId)

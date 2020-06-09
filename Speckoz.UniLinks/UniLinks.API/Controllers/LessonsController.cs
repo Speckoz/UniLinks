@@ -21,11 +21,13 @@ namespace UniLinks.API.Controllers
 	{
 		private readonly ILessonBusiness _lessonBusiness;
 		private readonly ICourseBusiness _courseBusiness;
+		private readonly IDisciplineBusiness _disciplineBusiness;
 
-		public LessonsController(ILessonBusiness lessonBusiness, ICourseBusiness courseBusiness)
+		public LessonsController(ILessonBusiness lessonBusiness, ICourseBusiness courseBusiness, IDisciplineBusiness disciplineBusiness)
 		{
 			_lessonBusiness = lessonBusiness;
 			_courseBusiness = courseBusiness;
+			_disciplineBusiness = disciplineBusiness;
 		}
 
 		// POST: /Lessons
@@ -43,6 +45,12 @@ namespace UniLinks.API.Controllers
 
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
+
+				if (lesson.DisciplineId == Guid.Empty)
+					return BadRequest("É necessario informar a disciplina!");
+
+				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(lesson.DisciplineId))
+					return NotFound("Nao existe a disciplina com o Id informado");
 
 				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(lesson) is LessonVO lessonCollab))
 					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
@@ -98,11 +106,18 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newLesson.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
 
-				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO)
-					return Conflict("A aula informada ja existe, verifique se o link está correto");
+				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO currentLesson)
+					if (currentLesson.LessonId != newLesson.LessonId)
+						return Conflict("A aula informada ja existe, verifique se o link está correto");
 
-				if (await _lessonBusiness.UpdateTaskAsync(newLesson) is LessonVO lesson)
-					return Ok(lesson);
+				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newLesson.DisciplineId))
+					return NotFound("Nao existe a disciplina com o Id informado");
+
+				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(newLesson) is LessonVO lessonCollab))
+					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
+
+				if (await _lessonBusiness.UpdateTaskAsync(lessonCollab) is LessonVO lesson)
+					return Created($"/Lessons/{lesson.LessonId}", lesson);
 
 				return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
 			}
@@ -117,19 +132,17 @@ namespace UniLinks.API.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson)
-				{
-					var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+				if (!(await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson))
+					return BadRequest("Aula informada nao existe");
 
-					if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-						if (coordId != course.CoordinatorId)
-							return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-					await _lessonBusiness.DeleteAsync(lessonId);
-					return NoContent();
-				}
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (coordId != course.CoordinatorId)
+						return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
 
-				return BadRequest("Aula informada nao existe");
+				await _lessonBusiness.DeleteAsync(lessonId);
+				return NoContent();
 			}
 
 			return BadRequest();

@@ -30,17 +30,14 @@ namespace UniLinks.API.Repository
 		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.AnyAsync(x => x.DisciplineId == disciplineId);
 
+		public async Task<bool> ExistsByClassIdTaskAsync(Guid classId) =>
+			await _context.Disciplines.AnyAsync(x => x.ClassId == classId);
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _context.Disciplines.Where(x => x.CourseId == courseId).CountAsync();
+
 		public async Task<DisciplineModel> FindByDisciplineIdTaskAsync(Guid disciplineId) =>
 			await _context.Disciplines.SingleOrDefaultAsync(d => d.DisciplineId == disciplineId);
-
-		public async Task<List<DisciplineModel>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
-		{
-			List<DisciplineModel> disciplinesAux = new List<DisciplineModel>();
-			foreach (Guid discipline in disciplines)
-				disciplinesAux.Add(await _context.Disciplines.SingleOrDefaultAsync(x => x.DisciplineId == discipline));
-
-			return disciplinesAux;
-		}
 
 		public async Task<List<DisciplineModel>> FindDisciplinesByCourseIdTaskAsync(Guid courseId) =>
 			await _context.Disciplines.Where(x => x.CourseId == courseId).ToListAsync();

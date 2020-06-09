@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Business.Interfaces
 {
@@ -11,6 +11,10 @@ namespace UniLinks.API.Business.Interfaces
 		Task<ClassVO> AddTasAsync(ClassVO @class);
 
 		Task<ClassVO> FindByClassIdTaskAsync(Guid classId);
+
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
+		Task<List<ClassVO>> FindByRangeClassIdTaskAsync(HashSet<Guid> classIds);
 
 		Task<ClassVO> FindByURITaskAsync(string uri);
 

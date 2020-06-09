@@ -10,10 +10,12 @@ namespace UniLinks.API.Data.Converters.Student
 	public class StudentDisciplineConverter : IParser<(StudentModel student, List<DisciplineModel> discipline), StudentDisciplineVO>
 	{
 		private readonly DisciplineConverter _disciplineConverter;
+		private readonly StudentConverter _studentConverter;
 
 		public StudentDisciplineConverter()
 		{
 			_disciplineConverter = new DisciplineConverter();
+			_studentConverter = new StudentConverter();
 		}
 
 		public StudentDisciplineVO Parse((StudentModel student, List<DisciplineModel> discipline) origin)
@@ -23,10 +25,7 @@ namespace UniLinks.API.Data.Converters.Student
 
 			return new StudentDisciplineVO
 			{
-				StudentId = origin.student.StudentId,
-				Name = origin.student.Name,
-				Email = origin.student.Email,
-				CourseId = origin.student.CourseId,
+				Student = _studentConverter.Parse(origin.student),
 				Disciplines = _disciplineConverter.ParseList(origin.discipline)
 			};
 		}

@@ -14,6 +14,7 @@ namespace UniLinks.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorizes(UserTypeEnum.Coordinator)]
 	public class CoursesController : ControllerBase
 	{
 		private readonly ICourseBusiness _courseBusiness;
@@ -26,7 +27,6 @@ namespace UniLinks.API.Controllers
 		}
 
 		[HttpPost]
-		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> AddClassTaskAsync([FromBody] CourseVO newCourse)
 		{
 			if (ModelState.IsValid)
@@ -42,11 +42,11 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
 
-				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
-					return Conflict("Ja existe um curso com esse nome");
-
 				if (newCourse.Periods <= 0)
 					return BadRequest("A quantidade de periodos precisa ser maior que zero");
+
+				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
+					return Conflict("Ja existe um curso com esse nome");
 
 				newCourse.CoordinatorId = coordinator.CoordinatorId;
 				newCourse.CourseId = coordinator.CourseId;
@@ -61,7 +61,6 @@ namespace UniLinks.API.Controllers
 		}
 
 		[HttpGet]
-		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> CourseByCoordIdTaskAsync()
 		{
 			var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -73,7 +72,6 @@ namespace UniLinks.API.Controllers
 		}
 
 		[HttpPut]
-		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> UpdateTaskAsync([FromBody] CourseVO newCourse)
 		{
 			if (ModelState.IsValid)
@@ -89,22 +87,21 @@ namespace UniLinks.API.Controllers
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
 
+				if (newCourse.Periods <= 0)
+					return BadRequest("A quantidade de periodos precisa ser maior que zero");
+
 				if (await _courseBusiness.ExistsWithNameTaskAsync(newCourse.Name))
 					if (newCourse.Name != currentCourse.Name)
 						return Conflict("Ja existe um curso com esse nome!");
 
-				if (newCourse.Periods <= 0)
-					return BadRequest("A quantidade de periodos precisa ser maior que zero");
-
 				if (await _courseBusiness.UpdateTaskAsync(newCourse) is CourseVO updatedCourse)
-					return Ok(updatedCourse);
+					return Created("/Courses", updatedCourse);
 			}
 
 			return BadRequest();
 		}
 
 		[HttpDelete]
-		[Authorizes(UserTypeEnum.Coordinator)]
 		public async Task<IActionResult> DeleteTaskAsync()
 		{
 			if (ModelState.IsValid)

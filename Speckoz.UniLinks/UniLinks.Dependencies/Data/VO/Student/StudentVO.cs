@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace UniLinks.Dependencies.Data.VO.Student
 {
@@ -9,7 +8,6 @@ namespace UniLinks.Dependencies.Data.VO.Student
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public Guid CourseId { get; set; }
-		public List<DisciplineVO> Disciplines { get; set; }
-		public string Token { get; set; }
+		public string Disciplines { get; set; }
 	}
 }

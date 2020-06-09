@@ -1,0 +1,128 @@
+﻿@using System.Net
+
+@model ResultModel<List<DisciplineVO>>
+
+@{
+    ViewData["Title"] = "Disciplinas";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case HttpStatusCode.OK:
+            break;
+        case HttpStatusCode.Created:
+        case HttpStatusCode.NoContent:
+            <script>
+                    sendMessage("@Model.Message", "success");
+            </script>
+            break;
+        default:
+            <script>
+                    sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<a asp-action="Add" asp-controller="Disciplines" class="btn btn-primary rounded-circle button-circle-bottom waves-effect p-2 px-3 waves-float animated bounceInRight add-button-circle">
+    <i class="mdi mdi-plus mdi-24px"></i>
+</a>
+
+@if (Model.Object.Count() == 0)
+{
+    <p class="text-center p-4">Ops! Nao existe nenhuma disciplina para mostrar! 😢</p>
+}
+else
+{
+    <div class="md-form md-outline form-lg animated bounceInDown" style="margin-left: 20px; margin-right: 20px">
+        <input id="disciplinesSearch" class="form-control form-control-lg" type="text" style="color: var(--theme-text); border-radius: 2em" />
+        <label for="disciplinesSearch">Pesquisar</label>
+
+        <style>
+            .md-form.md-outline label.active
+            {
+                background: var(--theme-bg);
+                color: var(--theme-text);
+            }
+        </style>
+    </div>
+
+    <ul id="disciplinesList" class="card-deck list-items animated bounceInUp" style="margin-left: 0; margin-right: 0">
+
+        @foreach (DisciplineVO item in Model.Object)
+        {
+            <li class="card mb-4 theme-bg theme-text" style="max-width: 220px; min-width: 220px;  border-radius: 1.2em">
+                <div>
+                    <div style="position: relative">
+                        <div style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;border-radius: 1.2em 1.2em 0em 0em;background-image: url('img/disciplines.jpg'); background-size: cover; "></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 4.5rem; padding: 1rem 1rem 0.75rem; position: relative;">
+                            <h6 style="font-weight: 600; color: white; width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">@item.Name</h6>
+                            <p class="card-text" style="color: #c5c5c5; position: absolute; top: 40px;">
+                                @item.Teacher
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="padding: 10px">
+                        <p class="card-text">
+                            @(item.Period)º Período
+                        </p>
+                    </div>
+                    <hr class="separator" style=" margin-top: 0; margin-bottom: 0;" />
+                    <div style="text-align: end; padding: 5px">
+                        <div class="icons-td d-inline-flex">
+                            <i class="mdi mdi-delete-outline mdi-24px red-text" onclick="confirmDelete('@item.Name', '@item.DisciplineId')" data-toggle="tooltip" data-placement="top" title="Remover" style="cursor: pointer"></i>
+                        </div>
+                        <form method="get" class="icons-td d-inline-flex" action="Coordinator/Disciplines/Update/@item.DisciplineId">
+                            <button>
+                                <i class="mdi mdi-calendar-edit mdi-24px blue-text" data-toggle="tooltip" data-placement="top" title="Editar"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+<div class="modal animated bounceInDown" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content theme-bg theme-text">
+            <div class="modal-header border-0 text-center">
+                <h4 class="modal-title w-100 font-weight-bold text-center ml-4">Confirmaçao</h4>
+            </div>
+            <div class="modal-body mx-3">
+                <h6>
+                    Realmente deseja excluir a disciplina <span style="font-weight: 600" id="confirmDeleteModalDisciplineName"></span> ?
+                </h6>
+            </div>
+
+            <div class="modal-footer border-0 d-flex justify-content-center">
+                <form method="post" class="icons-td d-inline-flex" id="confirmDeleteModalAction">
+                    <button class="btn btn-outline-danger waves-effect" style="border: 0 !important;">Confirmar</button>
+                </form>
+                <button class="btn btn-danger waves-effect" data-dismiss="modal" aria-label="Close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#disciplinesSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#disciplinesList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    function confirmDelete(disciplineName, disciplineId) {
+        document.getElementById("confirmDeleteModalDisciplineName").innerText = disciplineName;
+        document.getElementById("confirmDeleteModalAction").action = `/Coordinator/Disciplines/Delete/${disciplineId}`;
+        ShowModal("confirmDeleteModal");
+    }
+</script>

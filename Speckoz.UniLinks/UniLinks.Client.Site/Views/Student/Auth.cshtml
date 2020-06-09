@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Autenticação";
+    Layout = "EmptyLayout";
+}
+
+@model ResultModel<LoginStudentRequestModel>
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+<div class="login-dark" style="background-image: url(img/user_login.jpg); height: 100vh">
+    <form asp-action="Auth" asp-controller="Student" method="post" style="opacity: 0.9">
+        <h4 class="text-center" style="color: #adadad">Autenticação</h4>
+        <p class="text-center" style="color: #adadad;font-size: 13px">Informe seu email para continuar</p>
+        <br />
+        <div class="form-group md-form">
+            <input asp-for="Object.Email" class="form-control validate" id="email" type="email" required>
+            <label for="email" data-error="wrong" data-success="right">Email</label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" type="submit">AUTENTICAR</button>
+        </div>
+    </form>
+</div>

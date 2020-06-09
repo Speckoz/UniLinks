@@ -10,6 +10,8 @@ namespace UniLinks.API.Repository.Interfaces
 	{
 		Task<ClassModel> AddTasAsync(ClassModel @class);
 
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
 		Task<ClassModel> FindByClassIdTaskAsync(Guid classId);
 
 		Task<ClassModel> FindByURITaskAsync(string uri);

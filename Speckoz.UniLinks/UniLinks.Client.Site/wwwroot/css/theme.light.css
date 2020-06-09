@@ -1,52 +1,45 @@
-﻿.theme-bg
+﻿:root
+{
+    --theme-bg: white;
+    --theme-bg-plus: #EAEAEA;
+    --theme-card: #fefefe;
+    --theme-select: #B4B4B4;
+    --theme-text-header: #d0d0d0;
+    --theme-text: #2f2c2c;
+}
+
+.theme-bg
 {
     background-color: white;
 }
 
+
+.theme-bg-plus
+{
+    background-color: #E5E5E5;
+}
+
 .theme-card
 {
-    background-color: #fefefe
+    background-color: #fefefe;
+}
+
+.theme-select
+{
+    background-color: #B4B4B4;
+}
+
+.theme-text-header
+{
+    color: #d0d0d0;
 }
 
 .theme-text
 {
-    color: black;
+    color: #2f2c2c;
 }
 
-    .theme-text:focus
-    {
-        color: black;
-    }
-
-.e-multi-select-wrapper .e-delim-values
+.theme-text:focus
 {
-    color: black;
-}
-
-.e-multi-select-wrapper .e-chips-close.e-close-hooker
-{
-    color: black;
-}
-
-.e-input-group .e-input-group-icon,
-.e-input-group.e-control-wrapper .e-input-group-icon
-{
-    background: transparent;
-    border-color: rgba(0, 0, 0, 0.42);
-    color: black;
-}
-
-.e-multi-select-wrapper input[type='text']
-{
-    background: none;
-    border: 0;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 400;
-    height: 28px;
-    min-height: 28px;
-    outline: none;
-    padding: 0;
-    text-indent: 0;
     color: black;
 }

@@ -1,3 +1,48 @@
+.img-error
+{
+    margin: 50px;
+    max-width: 30%;
+    max-height: 50%
+}
+
+@media (max-width: 768px)
+{
+    .img-error
+    {
+        max-width: 50%
+    }
+
+    ul.card-deck
+    {
+        align-items: center;
+        padding-left: 0;
+    }
+}
+
+.add-button-circle
+{
+    z-index: 1;
+}
+
+.list-items
+{
+    margin-top: 20px;
+}
+
+@media (max-width: 400px)
+{
+    .list-disciplines
+    {
+        padding-left: 0;
+        align-items: center;
+    }
+}
+
+li.nav-item
+{
+    padding: 10px;
+}
+
 .nav-panel-margin
 {
     margin-left: 10px
@@ -208,7 +253,7 @@ a, .btn-link
     border-color: #1861ac;
 }
 
-app
+.app
 {
     /*    position: relative;*/
     display: flex;
@@ -248,6 +293,7 @@ app
 .sidebar
 {
     background-image: linear-gradient(150deg, #052767 20%, #F16404 150%);
+    z-index: 2;
 }
 
     .sidebar .top-row
@@ -316,32 +362,6 @@ app
     outline: 1px solid red;
 }
 
-.validation-message
-{
-    color: red;
-}
-
-#blazor-error-ui
-{
-    background-color: white;
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
-
-    #blazor-error-ui .dismiss
-    {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
-
 @media (max-width: 767.98px)
 {
     .main .top-row:not(.auth)
@@ -362,7 +382,7 @@ app
 
 @media (min-width: 768px)
 {
-    app
+    .app
     {
         flex-direction: row;
     }
@@ -390,56 +410,6 @@ app
     {
         display: block;
     }
-}
-
-/* Try reconnect to server */
-.my-reconnect-modal > div
-{
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    overflow: hidden;
-    text-align: center;
-    font-weight: bold;
-    padding-top: 50px;
-}
-
-.components-reconnect-hide > div
-{
-    display: none;
-}
-
-.components-reconnect-show > div
-{
-    display: none;
-}
-
-.components-reconnect-show > .show
-{
-    display: block;
-}
-
-.components-reconnect-failed > div
-{
-    display: none;
-}
-
-.components-reconnect-failed > .failed
-{
-    display: block;
-}
-
-.components-reconnect-refused > div
-{
-    display: none;
-}
-
-.components-reconnect-refused > .refused
-{
-    display: block;
 }
 
 .switch
@@ -518,20 +488,6 @@ input:checked + .slider:before
     margin-top: 30px;
 }
 
-/* LOGIN */
-.form-login
-{
-    width: 25em;
-}
-
-@media(max-width: 768px)
-{
-    .form-login
-    {
-        max-width: 25em;
-    }
-}
-
 /* STUDENTS ADMIN */
 .table-students tbody tr td
 {
@@ -590,8 +546,8 @@ input:checked + .slider:before
     .card-lesson-image
     {
         position: absolute;
-        width: 80px;
-        height: 48px;
+        width: 75px;
+        height: 45px;
         border-radius: 0;
         bottom: 25%;
         padding-left: 10px;
@@ -616,13 +572,13 @@ input:checked + .slider:before
         padding-left: 0;
     }
 
-    .nowrap-row .col-7
+    .nowrap-row .col-8
     {
         padding-right: 0;
         padding-left: 0;
     }
 
-    .nowrap-row .col-2
+    .nowrap-row .col-1
     {
         padding-right: 0;
         padding-left: 0;
@@ -689,7 +645,9 @@ input:checked + .slider:before
     .devs .item .box
     {
         text-align: center;
-        padding: 30px;
+        padding: 10px;
+        padding-bottom: 30px;
+        padding-top: 30px;
     }
 
     .devs .item .name
@@ -827,3 +785,23 @@ input:checked + .slider:before
     {
         transform: translateY(1px)
     }
+
+.home-main-section
+{
+    height: 100vh;
+}
+
+.tr-lesson:hover
+{
+    cursor: pointer;
+}
+
+.main-navbar-aside
+{
+    -webkit-box-shadow: none !important;
+}
+
+.td-students-lesson
+{
+    vertical-align: middle !important;
+}

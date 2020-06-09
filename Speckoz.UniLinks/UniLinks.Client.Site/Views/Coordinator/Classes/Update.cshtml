@@ -1,0 +1,89 @@
+@inject UniLinks.Client.Site.Services.Coordinator.CourseService _courseService
+
+@model ResultModel<ClassVO>
+
+@{
+    ViewData["Title"] = "Editar Sala";
+}
+
+@if (Model != null)
+{
+    switch (Model.StatusCode)
+    {
+        case System.Net.HttpStatusCode.OK:
+        case System.Net.HttpStatusCode.Created:
+            break;
+        default:
+            <script>
+                sendMessage("@Model.Message", "error");
+            </script>
+            break;
+    }
+}
+
+
+<div style="padding-top: 20px; width: 88%; margin: 0 auto;">
+    <div class="text-center">
+        <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+    </div>
+    <div style="padding: 10px">
+        <form method="post" asp-controller="Classes" asp-action="UpdateClass">
+            <div class="row">
+                <div class="col-12">
+                    <div class="md-form">
+                        <input type="text" id="classId" class="form-control theme-text" asp-for="Object.ClassId" readonly />
+                        <label for="classId">Id da Sala</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group md-form">
+                        <input type="text" id="classUri" class="form-control theme-text validate" asp-for="Object.URI" style="margin-bottom: 0" aria-describedby="classURIHelp" required />
+                        <label for="classUri" data-error="wrong" data-success="right">Url da Sala</label>
+                        <small id="classURIHelp" class="form-text text-muted">
+                            Formato: https://us.bbcollab.com/guest/{ID}
+                        </small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    @{
+                        string token = User.FindFirst("Token").Value;
+                        var courseInfo = await _courseService.GetCourseByCoordIdTaskAsync(token);
+                    }
+
+                    <div class="form-group">
+                        <label style="font-size: 14px; color: #757575;">Período</label>
+                        <select id="periodSelector" asp-for="Object.Period">
+                            @{
+                                for (int i = 1; i <= courseInfo.Object.Periods; i++)
+                                {
+                                    <option value="@i">@(i)º Periodo</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label style="font-size: 14px; color: #757575;">Dias da semana</label>
+                        <select id="weekDaysSelector" asp-for="Object.WeekDays" asp-items="Html.GetEnumSelectList<WeekDaysEnum>()">
+                            <option selected="selected" value="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center" style="margin-top: 35px">
+                <button type="submit" class="btn btn-success waves-effect">Salvar</button>
+                <a class="btn btn-outline-grey waves-effect" asp-action="Index" asp-controller="Classes">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/choices.js"></script>
+<script>
+    new Choices("#periodSelector");
+    new Choices("#weekDaysSelector");
+</script>

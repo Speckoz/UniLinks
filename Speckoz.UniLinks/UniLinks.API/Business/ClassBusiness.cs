@@ -6,7 +6,7 @@ using UniLinks.API.Business.Interfaces;
 using UniLinks.API.Data.Converters;
 using UniLinks.API.Models;
 using UniLinks.API.Repository.Interfaces;
-using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
 
 namespace UniLinks.API.Business
 {
@@ -34,6 +34,24 @@ namespace UniLinks.API.Business
 
 		public async Task<ClassVO> FindByClassIdTaskAsync(Guid classId) =>
 			_classConverter.Parse(await _classRepository.FindByClassIdTaskAsync(classId));
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _classRepository.FindCountByCourseIdTaskAsync(courseId);
+
+		public async Task<List<ClassVO>> FindByRangeClassIdTaskAsync(HashSet<Guid> classIds)
+		{
+			var classes = new List<ClassVO>();
+
+			foreach (Guid classId in classIds)
+			{
+				if (await _classRepository.FindByClassIdTaskAsync(classId) is ClassModel classModel)
+					classes.Add(_classConverter.Parse(classModel));
+				else
+					return null;
+			}
+
+			return classes;
+		}
 
 		public async Task<List<ClassVO>> FindAllByCourseIdAndPeriodTaskAsync(Guid courseId, int period) =>
 			_classConverter.ParseList(await _classRepository.FindAllByCourseIdAndPeriodTaskAsync(courseId, period));

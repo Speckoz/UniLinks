@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
+using UniLinks.API.Data.Converters;
 using UniLinks.API.Data.Converters.Lesson;
 using UniLinks.API.Repository.Interfaces;
 using UniLinks.API.Services;
@@ -16,26 +17,52 @@ namespace UniLinks.API.Business
 	public class LessonBusiness : ILessonBusiness
 	{
 		private readonly ILessonRepository _lessonRepository;
-		private readonly IDisciplineRepository _disciplineRepository;
+		private readonly IDisciplineBusiness _disciplineBusiness;
 		private readonly CollabAPIService _collabAPIService;
 		private readonly LessonConverter _lessonConverter;
 		private readonly LessonDisciplineConverter _lessonDisciplineConverter;
+		private readonly DisciplineConverter _disciplineConverter;
 
-		public LessonBusiness(ILessonRepository lessonRepository, IDisciplineRepository disciplineRepository, CollabAPIService collabAPIService)
+		public LessonBusiness(ILessonRepository lessonRepository, IDisciplineBusiness disciplineBusiness, CollabAPIService collabAPIService)
 		{
 			_lessonRepository = lessonRepository;
-			_disciplineRepository = disciplineRepository;
+			_disciplineBusiness = disciplineBusiness;
 			_collabAPIService = collabAPIService;
 			_lessonConverter = new LessonConverter();
 			_lessonDisciplineConverter = new LessonDisciplineConverter();
+			_disciplineConverter = new DisciplineConverter();
 		}
 
 		public async Task<LessonVO> AddTaskAsync(LessonVO lessonCollab)
 		{
-			LessonModel lessonEntity = _lessonConverter.Parse(lessonCollab);
-			lessonEntity = await _lessonRepository.AddTaskAsync(lessonEntity);
+			if (!(await _lessonRepository.AddTaskAsync(_lessonConverter.Parse(lessonCollab)) is LessonModel lessonModel))
+				return null;
 
-			return _lessonConverter.Parse(lessonEntity);
+			return _lessonConverter.Parse(lessonModel);
+		}
+
+		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
+			await _lessonRepository.FindCountByCourseIdTaskAsync(courseId);
+
+		public async Task<bool> ExistsByDisciplineIdTaskAsync(Guid disciplineId) =>
+			await _lessonRepository.ExistsByDisciplineIdTaskAsync(disciplineId);
+
+		public async Task<List<LessonDisciplineVO>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId)
+		{
+			if (!(await _lessonRepository.FindFiveLastLessonsByCourseIdTaskAsync(courseId) is List<LessonModel> listLessons))
+				return null;
+
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(listLessons.Select(x => x.DisciplineId).ToHashSet().ToList()) is List<DisciplineVO> listDisciplines))
+				return null;
+
+			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);
+
+			var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
+
+			foreach (LessonModel l in listLessons)
+				lessonDisciplines.Add((l, disciplineModels.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
+
+			return _lessonDisciplineConverter.ParseList(lessonDisciplines);
 		}
 
 		public async Task<LessonVO> GetRecordingInfoTaskAsync(LessonVO lesson) =>
@@ -43,15 +70,17 @@ namespace UniLinks.API.Business
 
 		public async Task<List<LessonDisciplineVO>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
 		{
-			if (!(await _disciplineRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<DisciplineModel> listDisciplines))
+			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> listDisciplines))
 				return null;
-			if (!(await _lessonRepository.FindAllByRangeDisciplinesIdTaskASync(disciplines) is List<LessonModel> listLessons))
+			if (!(await _lessonRepository.FindAllByRangeDisciplineIdsTaskASync(disciplines) is List<LessonModel> listLessons))
 				return null;
+
+			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);
 
 			var lessonDisciplines = new List<(LessonModel, DisciplineModel)>();
 
 			foreach (LessonModel l in listLessons)
-				lessonDisciplines.Add((l, listDisciplines.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
+				lessonDisciplines.Add((l, disciplineModels.Where(x => x.DisciplineId == l.DisciplineId).SingleOrDefault()));
 
 			return _lessonDisciplineConverter.ParseList(lessonDisciplines);
 		}
@@ -64,20 +93,16 @@ namespace UniLinks.API.Business
 
 		public async Task<LessonVO> UpdateTaskAsync(LessonVO newLesson)
 		{
-			if (await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson)
-			{
-				var lessonEntity = await _lessonRepository.UpdateTaskAsync(oldLesson, _lessonConverter.Parse(newLesson));
-				return _lessonConverter.Parse(lessonEntity);
-			}
-			return default;
+			if (!(await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson))
+				return null;
+
+			return _lessonConverter.Parse(await _lessonRepository.UpdateTaskAsync(oldLesson, _lessonConverter.Parse(newLesson)));
 		}
 
 		public async Task DeleteAsync(Guid lessonId)
 		{
 			if (await _lessonRepository.FindByIdTaskAsync(lessonId) is LessonModel lesson)
-			{
 				await _lessonRepository.DeleteAsync(lesson);
-			}
 		}
 	}
 }

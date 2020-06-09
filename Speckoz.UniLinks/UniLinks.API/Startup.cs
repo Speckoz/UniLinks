@@ -52,9 +52,10 @@ namespace UniLinks.API
 			string host = GetEnvironmentVariable("DBHOST") ?? "localhost";
 			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
 			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
+			string user = GetEnvironmentVariable("DBUSER") ?? "root";
 			services.AddDbContext<DataContext>
 			(
-				options => options.UseMySql($"server={host};userid=root;pwd={password};port={port};database=unilinks",
+				options => options.UseMySql($"server={host};userid={user};pwd={password};port={port};database=unilinks",
 				builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName))
 			);
 
@@ -82,10 +83,10 @@ namespace UniLinks.API
 
 			// Business
 			services.AddScoped<ICoordinatorBusiness, CoordinatorBusiness>();
-			services.AddScoped<ILessonBusiness, LessonBusiness>();
 			services.AddScoped<IStudentBusiness, StudentBusiness>();
 			services.AddScoped<ICourseBusiness, CourseBusiness>();
 			services.AddScoped<IDisciplineBusiness, DisciplineBusiness>();
+			services.AddScoped<ILessonBusiness, LessonBusiness>();
 			services.AddScoped<IClassBusiness, ClassBusiness>();
 
 			// Filter
@@ -100,12 +101,11 @@ namespace UniLinks.API
 				dbContext.Database.Migrate();
 			}
 
-			dataSeeder.Init();
-
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-			} 
+				dataSeeder.Init();
+			}
 
 			app.UseRouting();
 

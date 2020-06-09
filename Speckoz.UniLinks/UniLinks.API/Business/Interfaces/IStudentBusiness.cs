@@ -8,17 +8,21 @@ namespace UniLinks.API.Business.Interfaces
 {
 	public interface IStudentBusiness
 	{
-		Task<StudentVO> AuthUserTaskAsync(string email);
+		Task<AuthStudentVO> AuthUserTaskAsync(string email);
 
 		Task<StudentDisciplineVO> AddTaskAsync(StudentVO student);
 
 		Task<bool> ExistsByEmailTaskAsync(string email);
 
-		Task<StudentVO> FindByIdTaskAsync(Guid id);
+		Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId);
+
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
+		Task<StudentDisciplineVO> FindByStudentIdTaskAsync(Guid id);
 
 		Task<List<StudentDisciplineVO>> FindAllByCourseIdTaskAsync(Guid courseId);
 
-		Task<StudentVO> UpdateTaskAsync(StudentVO student, StudentVO newStudent);
+		Task<StudentDisciplineVO> UpdateTaskAsync(StudentVO newStudent);
 
 		Task DeleteTaskAsync(Guid id);
 	}

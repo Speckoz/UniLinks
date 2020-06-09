@@ -40,14 +40,17 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
+				if (string.IsNullOrEmpty(newStudent.Name))
+					return BadRequest("É necessario informar o nome!");
+
 				if (string.IsNullOrEmpty(newStudent.Email))
 					return BadRequest("É necessario informar o email!");
 
 				if (await _studentBusiness.ExistsByEmailTaskAsync(newStudent.Email))
 					return Conflict("Ja existe um aluno com esse email!");
 
-				if (string.IsNullOrEmpty(newStudent.Name))
-					return BadRequest("É necessario informar o nome!");
+				if (string.IsNullOrEmpty(newStudent.Disciplines))
+					return BadRequest("É preciso informar pelo menos uma disciplina!");
 
 				if (await _studentBusiness.AddTaskAsync(newStudent) is StudentDisciplineVO createdStudent)
 					return Created("/students", createdStudent);
@@ -79,6 +82,27 @@ namespace UniLinks.API.Controllers
 			return BadRequest();
 		}
 
+		[HttpGet("{studentId}")]
+		[Authorizes(UserTypeEnum.Coordinator)]
+		public async Task<IActionResult> FindByStudentIdTaskAsync([Required] Guid studentId)
+		{
+			if (ModelState.IsValid)
+			{
+				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
+					return NotFound("O Id informado nao coincide com nenhum aluno cadastrado!");
+
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
+					if (course.CourseId != student.Student.CourseId)
+						return Unauthorized("Voce nao tem permissao para pegar informaçoes de um aluno de outro curso!");
+
+				return Ok(student);
+			}
+
+			return BadRequest();
+		}
+
 		// PUT: /students
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
@@ -92,11 +116,24 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Voce nao tem permissao para atualizar informaçoes de um aluno de outro curso!");
 
-				if (!(await _studentBusiness.FindByIdTaskAsync(newStudent.StudentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentDisciplineVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
-				if (await _studentBusiness.UpdateTaskAsync(studentVO, newStudent) is StudentVO student)
-					return Ok(student);
+				if (string.IsNullOrEmpty(newStudent.Name))
+					return BadRequest("É necessario informar o nome!");
+
+				if (string.IsNullOrEmpty(newStudent.Email))
+					return BadRequest("É necessario informar o email!");
+
+				if (await _studentBusiness.ExistsByEmailTaskAsync(newStudent.Email))
+					if (studentVO.Student.Email != newStudent.Email)
+						return Conflict("Ja existe um aluno com esse email!");
+
+				if (string.IsNullOrEmpty(newStudent.Disciplines))
+					return BadRequest("É preciso informar pelo menos uma disciplina!");
+
+				if (await _studentBusiness.UpdateTaskAsync(newStudent) is StudentDisciplineVO student)
+					return Created($"/Students/{student.Student.StudentId}", student);
 
 				return UnprocessableEntity("Nao foi possivel atualizar os dados, verifique se o estudante realmente existe!");
 			}
@@ -113,14 +150,14 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByIdTaskAsync(studentId) is StudentVO studentVO))
+				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO studentVO))
 					return NotFound("Nao existe um aluno com esse Id");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
-					if (course.CourseId != studentVO.CourseId)
+					if (course.CourseId != studentVO.Student.CourseId)
 						return Unauthorized("Voce nao tem permissao para deletar um aluno de outro curso!");
 
-				await _studentBusiness.DeleteTaskAsync(studentVO.StudentId);
+				await _studentBusiness.DeleteTaskAsync(studentVO.Student.StudentId);
 				return NoContent();
 			}
 

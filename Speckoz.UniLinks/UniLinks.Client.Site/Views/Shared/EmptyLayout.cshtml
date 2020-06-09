@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UniLinks</title>
+    <base href="~/" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <link href="css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link id="clientThemeLink" href="css/theme.light.css" rel="stylesheet" />
+</head>
+<body id="home" class="theme-bg theme-text">
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/Notifier.js"></script>
+
+    <main class="main">
+        @RenderBody()
+    </main>
+
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/mdb.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

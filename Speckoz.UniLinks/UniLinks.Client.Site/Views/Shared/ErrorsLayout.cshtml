@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UniBugs</title>
+    <base href="~/" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link id="clientThemeLink" href="css/theme.dark.css" rel="stylesheet" />
+</head>
+<body id="home" class="theme-bg theme-text">
+    <main class="main">
+        @RenderBody()
+    </main>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

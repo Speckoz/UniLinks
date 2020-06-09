@@ -1,16 +1,41 @@
-﻿.theme-bg
+﻿:root
+{
+    --theme-bg: #2d2d2d;
+    --theme-bg-plus: #1A1A1A;
+    --theme-card: #242424;
+    --theme-select: #525252;
+    --theme-text-header: #d0d0d0;
+    --theme-text: #a4a4a4;
+}
+
+.theme-bg
 {
     background-color: #2d2d2d;
 }
 
+.theme-bg-plus
+{
+    background-color: #1A1A1A;
+}
+
 .theme-card
 {
-    background-color: #313131
+    background-color: #242424;
+}
+
+.theme-select
+{
+    background-color: #525252;
+}
+
+.theme-text-header
+{
+    color: #d0d0d0;
 }
 
 .theme-text
 {
-    color: white;
+    color: #a4a4a4;
 }
 
     .theme-text:focus
@@ -22,37 +47,4 @@ tr.tr-hover:hover
 {
     background-color: #444444 !important;
     color: white !important;
-}
-
-.e-multi-select-wrapper .e-delim-values
-{
-    color: white;
-}
-
-.e-multi-select-wrapper .e-chips-close.e-close-hooker
-{
-    color: white;
-}
-
-.e-input-group .e-input-group-icon,
-.e-input-group.e-control-wrapper .e-input-group-icon
-{
-    background: transparent;
-    border-color: rgba(0, 0, 0, 0.42);
-    color: white;
-}
-
-.e-multi-select-wrapper input[type='text']
-{
-    background: none;
-    border: 0;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 400;
-    height: 28px;
-    min-height: 28px;
-    outline: none;
-    padding: 0;
-    text-indent: 0;
-    color: white;
 }

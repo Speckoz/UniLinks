@@ -3,12 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 using UniLinks.API.Business.Interfaces;
+using UniLinks.API.Services;
 using UniLinks.Dependencies.Attributes;
 using UniLinks.Dependencies.Data.VO;
+using UniLinks.Dependencies.Data.VO.Class;
+using UniLinks.Dependencies.Data.VO.Student;
 using UniLinks.Dependencies.Enums;
 
 namespace UniLinks.API.Controllers
@@ -28,7 +32,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpPost]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO)
+		public async Task<IActionResult> AddClassTaskAsync([FromBody] ClassVO classVO, [FromServices] CollabAPIService collabAPIService)
 		{
 			if (ModelState.IsValid)
 			{
@@ -40,6 +44,9 @@ namespace UniLinks.API.Controllers
 
 				if (await _classBusiness.FindByURITaskAsync(classVO.URI) is ClassVO)
 					return Conflict("Ja existe uma sala com esse link");
+
+				if (!await collabAPIService.GetClassInfoTaskAsync(classVO))
+					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
 
 				if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
 					return Created($"/Classes/{addedClass.ClassId}", addedClass);
@@ -77,17 +84,30 @@ namespace UniLinks.API.Controllers
 					return NotFound("Nao existe nenhum curso com o coordenador informado!");
 
 				if (await _classBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<ClassVO> classVO)
-				{
-					if (classVO.Count <= 0)
-						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
-
 					return Ok(classVO);
-				}
 
 				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
 			}
 
 			return BadRequest();
+		}
+
+		[HttpGet("all/student")]
+		[Authorizes(UserTypeEnum.Student)]
+		public async Task<IActionResult> GetClassesByDisciplineIDsTaskAsync([FromServices] IDisciplineBusiness disciplineBusiness, [FromServices] IStudentBusiness studentBusiness)
+		{
+			var studentId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+			if (!(await studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
+				return NotFound("Nao existe nenhum aluno com Id fornecido!");
+
+			if (!(await disciplineBusiness.FindAllByDisciplineIdsTaskAsync(student.Disciplines.Select(x => x.DisciplineId).ToList()) is List<DisciplineVO> disciplines))
+				return NotFound("Nao foi possivel encontrar as disciplinas do aluno!");
+
+			if (!(await _classBusiness.FindByRangeClassIdTaskAsync(disciplines.Select(x => x.ClassId).ToHashSet()) is List<ClassVO> classes))
+				return NotFound("Nao foi possivel encontrar as salsas do aluno");
+
+			return Ok(classes);
 		}
 
 		[HttpGet("all/{courseId}")]
@@ -112,7 +132,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpPut]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass)
+		public async Task<IActionResult> UptadeClassTaskAsync([FromBody] ClassVO newClass, [FromServices] CollabAPIService collabAPIService)
 		{
 			if (ModelState.IsValid)
 			{
@@ -129,8 +149,11 @@ namespace UniLinks.API.Controllers
 					if (currentCourse.ClassId != newClass.ClassId)
 						return Conflict("Ja existe uma sala com este link");
 
+				if (!await collabAPIService.GetClassInfoTaskAsync(newClass))
+					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
+
 				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
-					return Ok(updatedClass);
+					return Created($"/Classes/{updatedClass.ClassId}", updatedClass);
 
 				return BadRequest("Nao foi possivel atualizar as informaçoes, verifique se informou os valores corretamente!");
 			}
@@ -140,7 +163,7 @@ namespace UniLinks.API.Controllers
 
 		[HttpDelete("{classId}")]
 		[Authorizes(UserTypeEnum.Coordinator)]
-		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId)
+		public async Task<IActionResult> RemoveClassTaskAsync([Required] Guid classId, [FromServices] IDisciplineBusiness disciplineBusiness)
 		{
 			if (ModelState.IsValid)
 			{
@@ -152,6 +175,9 @@ namespace UniLinks.API.Controllers
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != classVO.CourseId)
 						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+
+				if (await disciplineBusiness.ExistsByClassIdTaskAsync(classId))
+					return BadRequest("Nao é possivel excluir a sala, pois existem disciplinas utilizando-a!");
 
 				await _classBusiness.RemoveAsync(classVO.ClassId);
 				return NoContent();

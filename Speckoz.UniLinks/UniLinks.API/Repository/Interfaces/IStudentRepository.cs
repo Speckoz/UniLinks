@@ -12,11 +12,15 @@ namespace UniLinks.API.Repository.Interfaces
 
 		Task<bool> ExistsByEmailTaskAsync(string email);
 
-		Task<StudentModel> FindByIdTaskAsync(Guid id);
+		Task<int> FindCountByCourseIdTaskAsync(Guid courseId);
+
+		Task<StudentModel> FindByStudentIdTaskAsync(Guid id);
 
 		Task<StudentModel> FindByEmailTaskAsync(string email);
 
 		Task<List<StudentModel>> FindAllByCourseIdTaskAsync(Guid courseId);
+
+		Task<bool> ExistsStudentWithDisciplineTaskAsync(Guid disciplineId);
 
 		Task DeleteAsync(StudentModel student);
 
