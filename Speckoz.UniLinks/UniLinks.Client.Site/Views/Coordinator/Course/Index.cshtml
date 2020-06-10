@@ -1,7 +1,7 @@
 ﻿@model ResultModel<CourseVO>
 
 @{
-    ViewData["Title"] = "Informaçoes do Curso";
+    ViewData["Title"] = "Informações do Curso";
 }
 
 @if (Model != null)
@@ -27,7 +27,7 @@
 <div class="row" style="margin-left: 0; margin-right: 0">
     <div class="col-sm-12 my-auto">
         <div class="text-center" style="padding-bottom: 2em; padding-top: 2em;">
-            <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+            <span class="theme-text">Informações atuais do curso, altere se for preciso!</span>
         </div>
         <div class="container">
             <div class="row justify-content-center">
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <a asp-action="UpdateCourse" asp-controller="Course" class="btn btn-primary waves-effect justify-content-center">Atualizar Informaçoes</a>
+                <a asp-action="UpdateCourse" asp-controller="Course" class="btn btn-success waves-effect justify-content-center" style="border-radius: 2em">Atualizar Informações</a>
             </div>
         </div>
     </div>

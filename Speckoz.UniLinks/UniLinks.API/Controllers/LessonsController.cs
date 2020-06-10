@@ -41,7 +41,7 @@ namespace UniLinks.API.Controllers
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != lesson.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar aulas em outro curso!");
 
 				if (await _lessonBusiness.FindByURITaskAsync(lesson.URI) is LessonVO)
 					return Conflict("A aula informada ja existe, verifique se o link está correto");
@@ -50,10 +50,10 @@ namespace UniLinks.API.Controllers
 					return BadRequest("É necessario informar a disciplina!");
 
 				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(lesson.DisciplineId))
-					return NotFound("Nao existe a disciplina com o Id informado");
+					return NotFound("Não existe a disciplina com o Id informado");
 
 				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(lesson) is LessonVO lessonCollab))
-					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
+					return NotFound("Não foi possivel encontrar as informações da aula informada, verifique se o link está correto!");
 
 				if (await _lessonBusiness.AddTaskAsync(lessonCollab) is LessonVO addedClass)
 					return Created($"/lessons/{addedClass.LessonId}", addedClass);
@@ -72,7 +72,7 @@ namespace UniLinks.API.Controllers
 				if (await _lessonBusiness.FindByIdTaskAsync(id) is LessonVO lesson)
 					return Ok(lesson);
 
-				return NotFound("A aula informada nao existe!");
+				return NotFound("A aula informada não existe!");
 			}
 
 			return BadRequest();
@@ -87,7 +87,7 @@ namespace UniLinks.API.Controllers
 				if ((await _lessonBusiness.FindAllByRangeDisciplinesIdTaskASync(disciplines)) is List<LessonDisciplineVO> lessons)
 					return Ok(lessons);
 
-				return NotFound("Nao foi possivel encontrar as aulas requisitadas.");
+				return NotFound("Não foi possivel encontrar as aulas requisitadas.");
 			}
 
 			return BadRequest();
@@ -104,22 +104,22 @@ namespace UniLinks.API.Controllers
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != newLesson.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar aulas em outro curso!");
 
 				if (await _lessonBusiness.FindByURITaskAsync(newLesson.URI) is LessonVO currentLesson)
 					if (currentLesson.LessonId != newLesson.LessonId)
 						return Conflict("A aula informada ja existe, verifique se o link está correto");
 
 				if (!await _disciplineBusiness.ExistsByDisciplineIdTaskAsync(newLesson.DisciplineId))
-					return NotFound("Nao existe a disciplina com o Id informado");
+					return NotFound("Não existe a disciplina com o Id informado");
 
 				if (!(await _lessonBusiness.GetRecordingInfoTaskAsync(newLesson) is LessonVO lessonCollab))
-					return NotFound("Nao foi possivel encontrar as informaçoes da aula informada, verifique se o link está correto!");
+					return NotFound("Não foi possivel encontrar as informações da aula informada, verifique se o link está correto!");
 
 				if (await _lessonBusiness.UpdateTaskAsync(lessonCollab) is LessonVO lesson)
 					return Created($"/Lessons/{lesson.LessonId}", lesson);
 
-				return NotFound("Nao foi possivel atualizar os dados, verifique se a aula realmente existe!");
+				return NotFound("Não foi possivel atualizar os dados, verifique se a aula realmente existe!");
 			}
 
 			return BadRequest();
@@ -133,13 +133,13 @@ namespace UniLinks.API.Controllers
 			if (ModelState.IsValid)
 			{
 				if (!(await _lessonBusiness.FindByIdTaskAsync(lessonId) is LessonVO lesson))
-					return BadRequest("Aula informada nao existe");
+					return BadRequest("Aula informada não existe");
 
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (coordId != course.CoordinatorId)
-						return Unauthorized("Voce nao tem permissao para remover aulas em outro curso!");
+						return Unauthorized("Você não tem permissão para remover aulas em outro curso!");
 
 				await _lessonBusiness.DeleteAsync(lessonId);
 				return NoContent();

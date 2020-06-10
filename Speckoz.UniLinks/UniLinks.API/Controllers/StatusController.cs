@@ -38,7 +38,7 @@ namespace UniLinks.API.Controllers
 			var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 			if (!(await courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
-				return NotFound("Voce nao possui um curso cadastrado!");
+				return NotFound("Você não possui um curso cadastrado!");
 
 			int lessonCount = await _lessonBusiness.FindCountByCourseIdTaskAsync(course.CourseId);
 			int disciplinesCount = await _disciplineBusiness.FindCountByCourseIdTaskAsync(course.CourseId);

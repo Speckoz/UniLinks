@@ -47,7 +47,7 @@ namespace UniLinks.API.Business
 			if (!(GuidFormat.TryParseList(studentEntity.Disciplines, ';', out List<Guid> result)))
 				return null;
 
-			//checando se nao existe nenhuma disciplina repetida.
+			//checando se não existe nenhuma disciplina repetida.
 			foreach (Guid disc in result)
 				if (result.Count(x => x.Equals(disc)) > 1)
 					return null;
