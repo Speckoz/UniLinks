@@ -40,7 +40,7 @@ O projeto é 100% open source e contribuições são 100% bem-vindas, bastar faz
 <h2>Apresentação completa do projeto</h2>
 <p>
 
-Você pode conferir a apresentação completa do projeto <a href=".github/assets/UniLinks.pdf">aqui</a>
+Você pode conferir a apresentação completa do projeto <a href="https://docs.google.com/presentation/d/1duCzcA3vW1-VhRJummfUcm4Y5fP8Xc5x9KNbO67RqbA/edit?usp=sharing">aqui</a>
 
 </p>
 
