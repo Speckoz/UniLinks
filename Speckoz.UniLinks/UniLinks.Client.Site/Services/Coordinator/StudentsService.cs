@@ -123,7 +123,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				HttpStatusCode.Created => new ResultModel<StudentDisciplineVO>
 				{
 					Object = JsonSerializer.Deserialize<StudentDisciplineVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-					Message = "As informaçoes foram atualizadas com sucesso!",
+					Message = "As informações foram atualizadas com sucesso!",
 					StatusCode = response.StatusCode
 				},
 

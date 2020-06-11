@@ -41,7 +41,7 @@ namespace UniLinks.API.Controllers
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != newDiscipline.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar aulas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar aulas em outro curso!");
 
 				if (string.IsNullOrEmpty(newDiscipline.Name))
 					return BadRequest("É necessario informar o nome da disciplina!");
@@ -73,7 +73,7 @@ namespace UniLinks.API.Controllers
 				if (await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> discs)
 					return Ok(discs);
 
-				return NotFound("Uma ou todas as disciplinas requisitadas nao foram localizadas!");
+				return NotFound("Uma ou todas as disciplinas requisitadas não foram localizadas!");
 			}
 
 			return BadRequest();
@@ -88,7 +88,7 @@ namespace UniLinks.API.Controllers
 				if (await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline)
 					return Ok(discipline);
 
-				return NotFound("Nao existe nenhuma disciplina com o Id informado");
+				return NotFound("Não existe nenhuma disciplina com o Id informado");
 			}
 
 			return BadRequest();
@@ -108,7 +108,7 @@ namespace UniLinks.API.Controllers
 						return Ok(discs);
 				}
 
-				return NotFound("O curso nao possivel nenhuma disciplina!");
+				return NotFound("O curso não possivel nenhuma disciplina!");
 			}
 
 			return BadRequest();
@@ -121,12 +121,12 @@ namespace UniLinks.API.Controllers
 			if (ModelState.IsValid)
 			{
 				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(newDiscipline.DisciplineId) is DisciplineVO currentDiscipline))
-					return NotFound("Nao existe uma disciplina com esse Id");
+					return NotFound("Não existe uma disciplina com esse Id");
 
 				CourseVO course = await _courseBusiness.FindByCourseIdTaskAsync(currentDiscipline.CourseId);
 
 				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-					return Unauthorized("Voce nao tem autorizaçao para alterar uma disciplina de outro curso!");
+					return Unauthorized("Você não tem autorizaçao para alterar uma disciplina de outro curso!");
 
 				newDiscipline.CourseId = course.CourseId;
 
@@ -160,19 +160,19 @@ namespace UniLinks.API.Controllers
 			if (ModelState.IsValid)
 			{
 				if (!(await _disciplineBusiness.FindByDisciplineIdTaskAsync(disciplineId) is DisciplineVO discipline))
-					return NotFound("Nao existe uma disciplina com esse Id");
+					return NotFound("Não existe uma disciplina com esse Id");
 
 				if (!(await _courseBusiness.FindByCourseIdTaskAsync(discipline.CourseId) is CourseVO course))
-					return NotFound("Nao existe nenhum curso com o coordenador informado");
+					return NotFound("Não existe nenhum curso com o coordenador informado");
 
 				if (course.CoordinatorId != Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-					return Unauthorized("Voce nao tem autorizaçao para remover uma disciplina de outro curso!");
+					return Unauthorized("Você não tem autorizaçao para remover uma disciplina de outro curso!");
 
 				if (await lessonBusiness.ExistsByDisciplineIdTaskAsync(disciplineId))
-					return BadRequest("Nao é possivel excluir a disciplina, pois existem aulas utilizando-a!");
+					return BadRequest("Não é possivel excluir a disciplina, pois existem aulas utilizando-a!");
 
 				if (await _studentBusiness.ExistsStudentWithDisciplineTaskAsync(disciplineId))
-					return BadRequest("Nao é possivel excluir a disciplina, pois existem alunos utilizando-a!");
+					return BadRequest("Não é possivel excluir a disciplina, pois existem alunos utilizando-a!");
 
 				await _disciplineBusiness.DeleteTaskAsync(discipline.DisciplineId);
 				return NoContent();

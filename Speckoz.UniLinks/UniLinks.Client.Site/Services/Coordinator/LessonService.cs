@@ -126,7 +126,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				{
 					Object = JsonSerializer.Deserialize<LessonVO>(response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = response.StatusCode,
-					Message = "As informaçoes da aula foram modificadas com Sucessso!"
+					Message = "As informações da aula foram modificadas com Sucessso!"
 				},
 
 				_ => new ResultModel<LessonVO>

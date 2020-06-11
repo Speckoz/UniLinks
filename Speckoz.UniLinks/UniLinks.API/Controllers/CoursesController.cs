@@ -34,7 +34,7 @@ namespace UniLinks.API.Controllers
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (!(await _coordinatorBusiness.FindByCoordIdTaskAsync(coordId) is AuthCoordinatorVO coordinator))
-					return NotFound("Nao existe nenhum coordenador com o Id informado");
+					return NotFound("Não existe nenhum coordenador com o Id informado");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO)
 					return Conflict("Ja existe um curso com o coordenador informado!");
@@ -68,7 +68,7 @@ namespace UniLinks.API.Controllers
 			if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 				return Ok(course);
 
-			return NotFound("Nao existe nenhum curso com este coordenador");
+			return NotFound("Não existe nenhum curso com este coordenador");
 		}
 
 		[HttpPut]
@@ -79,10 +79,10 @@ namespace UniLinks.API.Controllers
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (!(await _courseBusiness.FindByCourseIdTaskAsync(newCourse.CourseId) is CourseVO currentCourse))
-					return NotFound("Nao existe nenhum curso com esse Id");
+					return NotFound("Não existe nenhum curso com esse Id");
 
 				if (currentCourse.CoordinatorId != coordId)
-					return Unauthorized("Voce nao tem permissao para alterar informaçoes do curso onde nao é coordenador!");
+					return Unauthorized("Você não tem permissão para alterar informações do curso onde não é coordenador!");
 
 				if (string.IsNullOrEmpty(newCourse.Name))
 					return BadRequest("É necessario informar o nome do curso!");
@@ -109,7 +109,7 @@ namespace UniLinks.API.Controllers
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO currentCourse))
-					return NotFound("Nao existe nenhum curso com o coordenador informado!");
+					return NotFound("Não existe nenhum curso com o coordenador informado!");
 
 				await _courseBusiness.DeleteAsync(currentCourse.CourseId);
 				return NoContent();
