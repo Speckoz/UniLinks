@@ -8,14 +8,14 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div style="padding-bottom: 2em; padding-top: 1em;">
-            <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+        <div class="theme-text" style="padding-bottom: 2em; padding-top: 1em;">
+            <span>Algumas informações sobre o curso!</span>
         </div>
     </div>
 
-    <div class="row" style="padding-left: 3em; padding-right: 3em">
+    <div class="row cards-coord-info">
         <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow py-2 theme-bg theme-text">
+            <div class="card shadow py-2 theme-bg theme-text cards-coord-border" style=" border-left: 4px solid #00c851 !important;">
                 <div class="card-body" style="padding: .8rem !important;">
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow py-2 theme-bg theme-text">
+            <div class="card shadow py-2 theme-bg theme-text cards-coord-border" style="border-left: 4px solid #a6c  !important;">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow py-2 theme-bg theme-text">
+            <div class="card shadow py-2 theme-bg theme-text cards-coord-border" style="border-left: 4px solid #4285f4 !important;">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card shadow py-2 theme-bg theme-text">
+            <div class="card shadow py-2 theme-bg theme-text cards-coord-border" style="border-left: 4px solid #ff3547 !important;">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
@@ -74,15 +74,15 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center py-4">
-        <div class="card shadow mb-0 theme-bg theme-text">
+    <div class="row justify-content-center py-2 px-3">
+        <div class="card shadow py-2 theme-bg theme-text cards-coord-border">
             <div class="card-header" style="border: 0; background-color: transparent">
                 <h6 class="font-weight-bold m-0 text-center">Ultimas 5 Aulas Adicionadas</h6>
             </div>
             <div class="card-body">
                 @if (Model.FiveLastLessons.Count() == 0)
                 {
-                    <h6 class="text-center">Ainda o courso ainda nao possui nenhuma aula! 😢</h6>
+                    <h6 class="text-center">Ainda o courso ainda não possui nenhuma aula! 😢</h6>
                 }
                 else
                 {
@@ -93,8 +93,8 @@
                                 var created = lesson.Lesson.Date.ToString("dd/MM/yyyy");
 
                                 <tr class="tr-hover tr-lesson">
-                                    <td class="text-wrap col-12 unselectable">@lesson.Discipline.Name</td>
-                                    <td class="text-wrap col unselectable td-students-lesson" style="color: #6b6b6b; font-size: .9em">@created</td>
+                                    <td class="text-wrap col-12 unselectable coord-index-discipline-name">@lesson.Discipline.Name</td>
+                                    <td class="text-wrap col unselectable td-students-lesson coord-index-date" style="color: #6b6b6b; font-size: .9em">@created</td>
                                 </tr>
                             }
                         </tbody>
@@ -104,21 +104,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    table.table th, table.table td
-    {
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
-    }
-
-    .table td, .table th
-    {
-        border-top: 0 !important;
-    }
-
-    .card-body
-    {
-        padding: 1rem !important;
-    }
-</style>

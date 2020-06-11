@@ -40,18 +40,18 @@ namespace UniLinks.API.Controllers
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != classVO.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar salas em outro curso!");
 
 				if (await _classBusiness.FindByURITaskAsync(classVO.URI) is ClassVO)
 					return Conflict("Ja existe uma sala com esse link");
 
 				if (!await collabAPIService.GetClassInfoTaskAsync(classVO))
-					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
+					return NotFound("Não foi possivel encontrar as informações da sala informada, verifique se o link está correto!");
 
 				if (await _classBusiness.AddTasAsync(classVO) is ClassVO addedClass)
 					return Created($"/Classes/{addedClass.ClassId}", addedClass);
 
-				return BadRequest("Nao possivel adicionar a sala, verifique se os campos estao corretos.");
+				return BadRequest("Não possivel adicionar a sala, verifique se os campos estao corretos.");
 			}
 
 			return BadRequest();
@@ -66,7 +66,7 @@ namespace UniLinks.API.Controllers
 				if (await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO @class)
 					return Ok(@class);
 
-				return NotFound("A sala informada nao foi encontrada!");
+				return NotFound("A sala informada não foi encontrada!");
 			}
 
 			return BadRequest();
@@ -81,12 +81,12 @@ namespace UniLinks.API.Controllers
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
-					return NotFound("Nao existe nenhum curso com o coordenador informado!");
+					return NotFound("Não existe nenhum curso com o coordenador informado!");
 
 				if (await _classBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<ClassVO> classVO)
 					return Ok(classVO);
 
-				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+				return NotFound("Não foi possivel encontrar salas com as informações inseridas!");
 			}
 
 			return BadRequest();
@@ -99,13 +99,13 @@ namespace UniLinks.API.Controllers
 			var studentId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 			if (!(await studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
-				return NotFound("Nao existe nenhum aluno com Id fornecido!");
+				return NotFound("Não existe nenhum aluno com Id fornecido!");
 
 			if (!(await disciplineBusiness.FindAllByDisciplineIdsTaskAsync(student.Disciplines.Select(x => x.DisciplineId).ToList()) is List<DisciplineVO> disciplines))
-				return NotFound("Nao foi possivel encontrar as disciplinas do aluno!");
+				return NotFound("Não foi possivel encontrar as disciplinas do aluno!");
 
 			if (!(await _classBusiness.FindByRangeClassIdTaskAsync(disciplines.Select(x => x.ClassId).ToHashSet()) is List<ClassVO> classes))
-				return NotFound("Nao foi possivel encontrar as salsas do aluno");
+				return NotFound("Não foi possivel encontrar as salsas do aluno");
 
 			return Ok(classes);
 		}
@@ -119,12 +119,12 @@ namespace UniLinks.API.Controllers
 				if (await _classBusiness.FindAllByCourseIdAndPeriodTaskAsync(courseId, period) is List<ClassVO> classVO)
 				{
 					if (classVO.Count <= 0)
-						return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+						return NotFound("Não foi possivel encontrar salas com as informações inseridas!");
 
 					return Ok(classVO);
 				}
 
-				return NotFound("Nao foi possivel encontrar salas com as informaçoes inseridas!");
+				return NotFound("Não foi possivel encontrar salas com as informações inseridas!");
 			}
 
 			return BadRequest();
@@ -137,25 +137,25 @@ namespace UniLinks.API.Controllers
 			if (ModelState.IsValid)
 			{
 				if (!(await _classBusiness.FindByClassIdTaskAsync(newClass.ClassId) is ClassVO classVO))
-					return NotFound("Nao existe nenhuma sala com o Id informado");
+					return NotFound("Não existe nenhuma sala com o Id informado");
 
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != newClass.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar salas em outro curso!");
 
 				if (await _classBusiness.FindByURITaskAsync(newClass.URI) is ClassVO currentCourse)
 					if (currentCourse.ClassId != newClass.ClassId)
 						return Conflict("Ja existe uma sala com este link");
 
 				if (!await collabAPIService.GetClassInfoTaskAsync(newClass))
-					return NotFound("Nao foi possivel encontrar as informaçoes da sala informada, verifique se o link está correto!");
+					return NotFound("Não foi possivel encontrar as informações da sala informada, verifique se o link está correto!");
 
 				if (await _classBusiness.UpdateTaskAsync(newClass) is ClassVO updatedClass)
 					return Created($"/Classes/{updatedClass.ClassId}", updatedClass);
 
-				return BadRequest("Nao foi possivel atualizar as informaçoes, verifique se informou os valores corretamente!");
+				return BadRequest("Não foi possivel atualizar as informações, verifique se informou os valores corretamente!");
 			}
 
 			return BadRequest();
@@ -168,16 +168,16 @@ namespace UniLinks.API.Controllers
 			if (ModelState.IsValid)
 			{
 				if (!(await _classBusiness.FindByClassIdTaskAsync(classId) is ClassVO classVO))
-					return NotFound("Nao foi possivel encontrar a sala informada!");
+					return NotFound("Não foi possivel encontrar a sala informada!");
 
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
 					if (course.CourseId != classVO.CourseId)
-						return Unauthorized("Voce nao tem permissao para adicionar salas em outro curso!");
+						return Unauthorized("Você não tem permissão para adicionar salas em outro curso!");
 
 				if (await disciplineBusiness.ExistsByClassIdTaskAsync(classId))
-					return BadRequest("Nao é possivel excluir a sala, pois existem disciplinas utilizando-a!");
+					return BadRequest("Não é possivel excluir a sala, pois existem disciplinas utilizando-a!");
 
 				await _classBusiness.RemoveAsync(classVO.ClassId);
 				return NoContent();

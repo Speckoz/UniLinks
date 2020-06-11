@@ -53,7 +53,7 @@ namespace UniLinks.API.Services
 
 			IRestResponse response = await SendRequestTaskAsync();
 
-			return response.StatusCode == HttpStatusCode.Forbidden;
+			return response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.OK;
 
 			async Task<IRestResponse> SendRequestTaskAsync()
 			{

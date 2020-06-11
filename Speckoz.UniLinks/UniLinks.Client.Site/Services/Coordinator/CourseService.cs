@@ -82,7 +82,7 @@ namespace UniLinks.Client.Site.Services.Coordinator
 				{
 					Object = JsonSerializer.Deserialize<CourseVO>(resp.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
 					StatusCode = resp.StatusCode,
-					Message = "As informaçoes foram atualizadas com sucesso!"
+					Message = "As informações foram atualizadas com sucesso!"
 				},
 
 				_ => new ResultModel<CourseVO>

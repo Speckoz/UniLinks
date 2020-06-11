@@ -10,8 +10,9 @@
 {
     switch (Model.StatusCode)
     {
-        case System.Net.HttpStatusCode.OK:
-        case System.Net.HttpStatusCode.Created:
+        case HttpStatusCode.OK:
+        case HttpStatusCode.Created:
+        case HttpStatusCode.NotFound:
             break;
         default:
             <script>
@@ -24,7 +25,7 @@
 <div class="row" style="margin-left: 0; margin-right: 0">
     <div class="col-sm-12 my-auto">
         <div class="text-center" style="padding-bottom: 2em; padding-top: 2em;">
-            <span class="theme-text">Justo diam vel consetetur amet tempor amet ea quis amet facilisi tempor ut no et</span>
+            <span>Informe os campos abaixo para prosseguir!</span>
         </div>
         <form method="post" asp-controller="Course" asp-action="AddCourse">
 
@@ -42,7 +43,10 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <button class="btn btn-primary waves-effect justify-content-center">Adicionar</button>
+                    <button class="btn btn-success waves-effect justify-content-center" style="border-radius: 2em">Criar</button>
+                </div>
+                <div class="row justify-content-center">
+                    <a asp-controller="Course" asp-action="Index" class="btn btn-outline-dark shadow-none waves-effect" style="border: 0 !important; color: var(--theme-text) !important">Cancelar</a>
                 </div>
             </div>
         </form>
