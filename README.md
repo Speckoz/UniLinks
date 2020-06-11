@@ -23,6 +23,8 @@ Visando a solução desse problema, desenvolvemos uma plataforma moderna, e ráp
 Com a plataforma, fica muito mais fácil e intuitivo para o coordenador gerenciar as aulas gravadas, onde é possível atribuir disciplinas, períodos e assuntos para uma aula, o que torna possível por exemplo pesquisar pelas aulas  de um período em específico. A plataforma também foi desenhada para atender perfeitamente os usuários que acessam pelo celular (o que é uma experiência horrível utilizando excel).
 </p>
 
+<img src="https://user-images.githubusercontent.com/40467826/84331698-44a40a00-ab61-11ea-83cb-8f8c67d92cdd.png" alt="Pagina inicial do site">
+
 <h2>Tecnologias Utilizadas</h2>
 <ul>
     <li>ASP.NET Core 3.1 (API + MVC)</li>
