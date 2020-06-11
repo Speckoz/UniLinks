@@ -25,6 +25,12 @@ Com a plataforma, fica muito mais fácil e intuitivo para o coordenador gerencia
 
 <img src="https://user-images.githubusercontent.com/40467826/84331698-44a40a00-ab61-11ea-83cb-8f8c67d92cdd.png" alt="Pagina inicial do site">
 
+<img src="https://user-images.githubusercontent.com/40467826/84333483-48865b00-ab66-11ea-9e73-8e4472b5127d.png">
+
+<img src="https://user-images.githubusercontent.com/40467826/84333547-72d81880-ab66-11ea-8f40-278336597dc0.png">
+
+<img src="https://user-images.githubusercontent.com/40467826/84333588-8f745080-ab66-11ea-8cc6-71bdbb6927bb.png">
+
 <h2>Tecnologias Utilizadas</h2>
 <ul>
     <li>ASP.NET Core 3.1 (API + MVC)</li>
