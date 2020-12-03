@@ -8,7 +8,7 @@ networks:
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql/mysql-server:latest
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=numsey
