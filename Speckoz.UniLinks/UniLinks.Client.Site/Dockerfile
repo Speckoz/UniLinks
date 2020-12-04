@@ -1,11 +1,11 @@
 # Estagio 1 - base
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 RUN mkdir /app
 WORKDIR /app
 EXPOSE 80
 
 # Estagio 2 - publish
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS publish
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS publish
 WORKDIR /app
 COPY UniLinks.Client.Site/UniLinks.Client.Site.csproj .
 COPY . .

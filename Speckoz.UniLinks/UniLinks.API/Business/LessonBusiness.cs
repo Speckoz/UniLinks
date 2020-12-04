@@ -35,10 +35,7 @@ namespace UniLinks.API.Business
 
 		public async Task<LessonVO> AddTaskAsync(LessonVO lessonCollab)
 		{
-			if (!(await _lessonRepository.AddTaskAsync(_lessonConverter.Parse(lessonCollab)) is LessonModel lessonModel))
-				return null;
-
-			return _lessonConverter.Parse(lessonModel);
+			return _lessonConverter.Parse(await _lessonRepository.AddTaskAsync(_lessonConverter.Parse(lessonCollab)));
 		}
 
 		public async Task<int> FindCountByCourseIdTaskAsync(Guid courseId) =>
@@ -49,10 +46,10 @@ namespace UniLinks.API.Business
 
 		public async Task<List<LessonDisciplineVO>> FindFiveLastLessonsByCourseIdTaskAsync(Guid courseId)
 		{
-			if (!(await _lessonRepository.FindFiveLastLessonsByCourseIdTaskAsync(courseId) is List<LessonModel> listLessons))
+			if (await _lessonRepository.FindFiveLastLessonsByCourseIdTaskAsync(courseId) is not List<LessonModel> listLessons)
 				return null;
 
-			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(listLessons.Select(x => x.DisciplineId).ToHashSet().ToList()) is List<DisciplineVO> listDisciplines))
+			if (await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(listLessons.Select(x => x.DisciplineId).ToHashSet().ToList()) is not List<DisciplineVO> listDisciplines)
 				return null;
 
 			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);
@@ -70,9 +67,10 @@ namespace UniLinks.API.Business
 
 		public async Task<List<LessonDisciplineVO>> FindAllByRangeDisciplinesIdTaskASync(List<Guid> disciplines)
 		{
-			if (!(await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is List<DisciplineVO> listDisciplines))
+			if (await _disciplineBusiness.FindAllByDisciplineIdsTaskAsync(disciplines) is not List<DisciplineVO> listDisciplines)
 				return null;
-			if (!(await _lessonRepository.FindAllByRangeDisciplineIdsTaskASync(disciplines) is List<LessonModel> listLessons))
+
+			if (await _lessonRepository.FindAllByRangeDisciplineIdsTaskASync(disciplines) is not List<LessonModel> listLessons)
 				return null;
 
 			List<DisciplineModel> disciplineModels = _disciplineConverter.ParseList(listDisciplines);
@@ -93,7 +91,7 @@ namespace UniLinks.API.Business
 
 		public async Task<LessonVO> UpdateTaskAsync(LessonVO newLesson)
 		{
-			if (!(await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is LessonModel oldLesson))
+			if (await _lessonRepository.FindByIdTaskAsync(newLesson.LessonId) is not LessonModel oldLesson)
 				return null;
 
 			return _lessonConverter.Parse(await _lessonRepository.UpdateTaskAsync(oldLesson, _lessonConverter.Parse(newLesson)));

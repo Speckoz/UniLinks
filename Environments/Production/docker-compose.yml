@@ -1,0 +1,59 @@
+version: "3.3"
+
+volumes:
+  mysqldata:
+
+networks:
+  prod:
+
+services:
+  mysql:
+    image: mysql/mysql-server:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=KJ2K346LKkl324
+      - MYSQL_DATABASE=unilinks
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - prod
+
+  nginx-frontend:
+    image: nginx-frontend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mvc-1
+    networks:
+      - prod
+    ports:
+      - 80:80
+
+  api-1:
+    build:
+      context: ./../../Speckoz.UniLinks
+      dockerfile: UniLinks.API/Dockerfile
+    networks:
+      - prod
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DBHOST=mysql
+      - DBPASSWORD=KJ2K346LKkl324
+    depends_on:
+      - mysql
+
+  mvc-1:
+    build:
+      context: ./../../Speckoz.UniLinks
+      dockerfile: UniLinks.Client.Site/Dockerfile
+    networks:
+      - prod
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - API_URL=http://api-1/api
+      - LAST_COMMIT=${LAST_COMMIT}
+    depends_on:
+      - api-1

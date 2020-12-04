@@ -60,16 +60,12 @@ namespace UniLinks.Client.Site.Controllers
 		[HttpGet]
 		public IActionResult Auth()
 		{
-			switch (User.FindFirst(ClaimTypes.Role)?.Value)
+			return (User.FindFirst(ClaimTypes.Role)?.Value) switch
 			{
-				case nameof(UserTypeEnum.Coordinator):
-					return RedirectToAction("Index", "Coordinator");
-
-				case nameof(UserTypeEnum.Student):
-					return RedirectToAction("Index", "Student");
-			}
-
-			return View();
+				nameof(UserTypeEnum.Coordinator) => RedirectToAction("Index", "Coordinator"),
+				nameof(UserTypeEnum.Student) => RedirectToAction("Index", "Student"),
+				_ => View(),
+			};
 		}
 
 		[HttpPost]
@@ -78,6 +74,7 @@ namespace UniLinks.Client.Site.Controllers
 			if (ModelState.IsValid)
 			{
 				ResultModel<AuthStudentVO> response = await _authService.AuthAccountTaskAsync(request.Object.Email);
+
 				if (response.StatusCode != HttpStatusCode.OK)
 					return View(new ResultModel<LoginStudentRequestModel>
 					{
@@ -87,6 +84,7 @@ namespace UniLinks.Client.Site.Controllers
 					});
 
 				await GenerateClaims(response.Object);
+
 				return RedirectToAction("Index", "Student");
 			}
 
