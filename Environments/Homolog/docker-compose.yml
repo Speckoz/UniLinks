@@ -17,6 +17,7 @@ services:
       - mysqldata:/var/lib/mysql
     networks:
       - homolog
+    
 
   nginx-frontend:
     image: nginx-frontend

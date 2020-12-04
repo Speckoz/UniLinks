@@ -39,12 +39,13 @@ namespace UniLinks.API.Services.Email
                 Credentials = new NetworkCredential(_configEmail.Email, _configEmail.Password),
                 EnableSsl = true
             };
+
             await smtp.SendMailAsync(mail);
 
             return true;
         }
 
-        public static async void ReadEmailTemplateTaskAsync()
+        public static async Task ReadEmailTemplateTaskAsync()
         {
             //using Task<string> fs = File.ReadAllTextAsync(@"C:\RecoverAccountEmailTemplate.html");
             EmailTemplate = "<html><h1>Conta Ativada</h1></html>";
