@@ -31,8 +31,8 @@ namespace UniLinks.API.Business
 		public StudentBusiness(IStudentRepository studentRepository, ISendEmailService sendEmailService, GenerateTokenService tokenService, IDisciplineBusiness disciplineBusiness)
 		{
 			_studentRepository = studentRepository;
-			_emailSender = sendEmailService;
 			_tokenService = tokenService;
+			_emailSender = sendEmailService;
 			_disciplineBusiness = disciplineBusiness;
 			_studentConverter = new StudentConverter();
 			_studentDisciplineConverter = new StudentDisciplineConverter();

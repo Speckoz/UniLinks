@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+
+using System;
 using System.Text;
 
 using UniLinks.API.Business;
@@ -53,10 +56,17 @@ namespace UniLinks.API
 			string password = GetEnvironmentVariable("DBPASSWORD") ?? "numsey";
 			string port = GetEnvironmentVariable("DBPORT") ?? "3306";
 			string user = GetEnvironmentVariable("DBUSER") ?? "root";
+
 			services.AddDbContext<DataContext>
 			(
-				options => options.UseMySql($"server={host};userid={user};pwd={password};port={port};database=unilinks",
-				builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName))
+				options => options.UseMySql(
+					$"server={host};userid={user};pwd={password};port={port};database=unilinks",
+					new MySqlServerVersion(new Version(8, 0)),
+					mySqlOptions =>
+					{
+						mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend);
+						mySqlOptions.MigrationsAssembly(typeof(DataContext).Assembly.FullName);
+					})
 			);
 
 			// Injecoes do smtp/email
@@ -93,7 +103,7 @@ namespace UniLinks.API
 			services.AddMvc(options => options.Filters.Add(typeof(ErrorResponseFilter)));
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder dataSeeder)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder seeder)
 		{
 			using (IServiceScope scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
 			{
@@ -104,7 +114,7 @@ namespace UniLinks.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				dataSeeder.Init();
+				seeder.Init();
 			}
 
 			app.UseRouting();

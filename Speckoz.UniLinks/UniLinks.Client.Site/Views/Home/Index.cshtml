@@ -1,202 +1,202 @@
 ﻿@using System.Security.Claims
 
 @{
-    ViewData["Title"] = "Inicio";
-    Layout = "EmptyLayout";
+	ViewData["Title"] = "Inicio";
+	Layout = "EmptyLayout";
 }
 
 <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand animated swing slower js-scroll-trigger" href="/#home">
-            <span class="uni-color">Uni</span><span style="color: darkorange;">Links</span>
-        </a>
-        <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right " type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="mdi mdi-menu mdi-36px black-text"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#devs">Desenvolvedores</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @if (User.Claims.Count() > 0)
-                        {
-                            <span>
-                                <i class="mdi mdi-account icon-margin-right"></i> @User.FindFirst(ClaimTypes.Name).Value
-                            </span>
-                        }
-                        else
-                        {
-                            <span>
-                                <i class="mdi mdi-login icon-margin-right"></i> Entrar como
-                            </span>
-                        }
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-                        @if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
-                        {
-                            <a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Coordinator">
-                                <i class="mdi mdi-account-star icon-margin-right"></i> Painel
-                            </a>
-                        }
-                        else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
-                        {
-                            <a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Student">
-                                <i class="mdi mdi-record-rec icon-margin-right"></i> Minhas Aulas
-                            </a>
-                            <a class="dropdown-item waves-effect" asp-action="Classes" asp-controller="Student">
-                                <i class="mdi mdi-google-lesson icon-margin-right"></i> Salas Online
-                            </a>
-                        }
-                        else
-                        {
-                            <a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Student">
-                                <i class="mdi mdi-account-group icon-margin-right"></i> Aluno
-                            </a>
-                            <a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Coordinator">
-                                <i class="mdi mdi-card-account-details-star icon-margin-right"></i> Coordenador
-                            </a>
-                        }
+	<div class="container">
+		<a class="navbar-brand animated swing slower js-scroll-trigger" href="/#home">
+			<span class="uni-color">Uni</span><span style="color: darkorange;">Links</span>
+		</a>
+		<button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right " type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			<i class="mdi mdi-menu mdi-36px black-text"></i>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="nav navbar-nav ml-auto">
+				<li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#devs">Desenvolvedores</a></li>
+				<li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<span>
+								<i class="mdi mdi-account icon-margin-right"></i> @User.FindFirst(ClaimTypes.Name).Value
+							</span>
+						}
+						else
+						{
+							<span>
+								<i class="mdi mdi-login icon-margin-right"></i> Entrar como
+							</span>
+						}
+					</a>
+					<div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+						@if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Coordinator))
+						{
+							<a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Coordinator">
+								<i class="mdi mdi-account-star icon-margin-right"></i> Painel
+							</a>
+						}
+						else if (User.FindFirst(ClaimTypes.Role)?.Value == nameof(UserTypeEnum.Student))
+						{
+							<a class="dropdown-item waves-effect" asp-action="Index" asp-controller="Student">
+								<i class="mdi mdi-record-rec icon-margin-right"></i> Minhas Aulas
+							</a>
+							<a class="dropdown-item waves-effect" asp-action="Classes" asp-controller="Student">
+								<i class="mdi mdi-google-lesson icon-margin-right"></i> Salas Online
+							</a>
+						}
+						else
+						{
+							<a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Student">
+								<i class="mdi mdi-account-group icon-margin-right"></i> Aluno
+							</a>
+							<a class="dropdown-item waves-effect" asp-action="Auth" asp-controller="Coordinator">
+								<i class="mdi mdi-card-account-details-star icon-margin-right"></i> Coordenador
+							</a>
+						}
 
-                        @if (User.Claims.Count() > 0)
-                        {
-                            <hr class="separator" style="margin-top: 0; margin-bottom: 0" />
-                            <a class="dropdown-item waves-effect" asp-action="Logout" asp-controller="Home">
-                                <i class="mdi mdi-logout icon-margin-right"></i> Deslogar
-                            </a>
-                        }
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+						@if (User.Identity.IsAuthenticated)
+						{
+							<hr class="separator" style="margin-top: 0; margin-bottom: 0" />
+							<a class="dropdown-item waves-effect" asp-action="Logout" asp-controller="Home">
+								<i class="mdi mdi-logout icon-margin-right"></i> Deslogar
+							</a>
+						}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>
 
 <section id="main" class="masthead text-center text-white d-flex home-main-section" style="background-image:url('img/header.jpg');">
-    <div class="container my-auto">
-        <div class="row">
-            <div class="col-lg-10 mx-auto">
-                <h2 class="text-uppercase">
-                    <strong>Bem-Vindo ao portal das aulas virtuais</strong>
-                </h2>
-                <br />
-                Ambiente para controle e gerenciamento das gravações de aulas online
-            </div>
-        </div>
-        <div class="col-lg-8 mx-auto">
-            <br /><br />
-            <a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" asp-action="Auth" asp-controller="Student">Ver Aulas</a>
-        </div>
-        <a class="btn btn-link js-scroll-trigger animated pulse slow infinite waves-effect waves-light" role="button" href="#about" style="padding: 0; margin-top: 20px; padding-left: 15px; padding-right: 15px; border-radius: 5em;">
-            <i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
-        </a>
-    </div>
+	<div class="container my-auto">
+		<div class="row">
+			<div class="col-lg-10 mx-auto">
+				<h2 class="text-uppercase">
+					<strong>Bem-Vindo ao portal das aulas virtuais</strong>
+				</h2>
+				<br />
+				Ambiente para controle e gerenciamento das gravações de aulas online
+			</div>
+		</div>
+		<div class="col-lg-8 mx-auto">
+			<br /><br />
+			<a class="btn btn-outline-light waves-effect" style="border-radius: 2em" role="button" asp-action="Auth" asp-controller="Student">Ver Aulas</a>
+		</div>
+		<a class="btn btn-link js-scroll-trigger animated pulse slow infinite waves-effect waves-light" role="button" href="#about" style="padding: 0; margin-top: 20px; padding-left: 15px; padding-right: 15px; border-radius: 5em;">
+			<i class="mdi mdi-chevron-down" style="font-size: 35px; color: white"></i>
+		</a>
+	</div>
 </section>
 
 <section id="desenvolvedores" class="bg-dark" style="padding-top: 6em">
-    <div id="devs" class="devs">
-        <div class="container">
-            <div class="intro">
-                <h2 style="color: #808080" class="text-center">Desenvolvedores</h2>
-                <p class="text-center">C# the best</p>
-            </div>
-            <div class="row justify-content-center people">
-                <article class="col-md-6 col-lg-4 item">
-                    <div class="box">
-                        <img loading="lazy" class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
-                        <h4 class="name" style="color: #808080">Ruan Carlos CS</h4>
-                        <p class="nick">Logikoz</p>
-                        <div class="description">
-                            <p>Estudante de Enganharia Elétrica</p>
-                            <p>.Net Entusiasta</p>
-                        </div>
-                        <div class="social">
-                            <a target="_blank" href="https://logikoz.net"><i class="mdi mdi-web"></i></a>
-                            <a target="_blank" href="https://github.com/logikoz"><i class="mdi mdi-github"></i></a>
-                            <a target="_blank" href="https://facebook.com/ruancarlosc.s"><i class="mdi mdi-facebook"></i></a>
-                            <a target="_blank" href="https://twitter.com/logikoz"><i class="mdi mdi-twitter"></i></a>
-                            <a target="_blank" href="https://instagram.com/logikozrc"><i class="mdi mdi-instagram"></i></a>
-                        </div>
-                    </div>
-                </article>
-                <article class="col-md-6 col-lg-4 item">
-                    <div class="box">
-                        <img loading="lazy" class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
-                        <h4 class="name" style="color: #808080">Marco Antonio Pandolfo</h4>
-                        <p class="nick">Specko</p>
-                        <div class="description">
-                            <p>.Net | JS</p>
-                            <p>Backend Developer</p>
-                        </div>
-                        <div class="social">
-                            <a target="_blank" href="https://github.com/marcopandolfo"><i class="mdi mdi-github"></i></a>
-                            <a target="_blank" href="https://twitter.com/lolgamarco2"><i class="mdi mdi-twitter"></i></a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-            <div class="row justify-content-center">
-                <h3 style="color: #808080">He4rtDevs</h3>
-            </div>
-            <div class="row justify-content-center">
-                <img loading="lazy" class="rounded-circle" src="img/he4rtdevs.png">
-            </div>
-            <div class="row justify-content-center">
-                <p class="text-center">Somos membros da comunidade He4rt Developers, que tem como objetivo disponibilizar a troca de conhecimentos entre desenvolvedores, majoritariamente brasileiros, para que possam crescer juntos como profissionais na área.</p>
-                <div class="text-center">
-                    <a href="https://discord.com/invite/7UJDgBG" target="_blank">
-                        <img loading="lazy" src="https://discordapp.com/api/guilds/452926217558163456/embed.png" alt="Discord server" />
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div id="devs" class="devs">
+		<div class="container">
+			<div class="intro">
+				<h2 style="color: #808080" class="text-center">Desenvolvedores</h2>
+				<p class="text-center">C# the best</p>
+			</div>
+			<div class="row justify-content-center people">
+				<article class="col-md-6 col-lg-4 item">
+					<div class="box">
+						<img loading="lazy" class="rounded-circle" src="https://avatars0.githubusercontent.com/u/37851168">
+						<h4 class="name" style="color: #808080">Ruan Carlos CS</h4>
+						<p class="nick">Logikoz</p>
+						<div class="description">
+							<p>.Net | IoT Entusiasta</p>
+							<p>Backend Developer</p>
+						</div>
+						<div class="social">
+							<a target="_blank" href="https://logikoz.net"><i class="mdi mdi-web"></i></a>
+							<a target="_blank" href="https://github.com/logikoz"><i class="mdi mdi-github"></i></a>
+							<a target="_blank" href="https://facebook.com/ruancarlosc.s"><i class="mdi mdi-facebook"></i></a>
+							<a target="_blank" href="https://twitter.com/logikoz"><i class="mdi mdi-twitter"></i></a>
+							<a target="_blank" href="https://instagram.com/logikozrc"><i class="mdi mdi-instagram"></i></a>
+						</div>
+					</div>
+				</article>
+				<article class="col-md-6 col-lg-4 item">
+					<div class="box">
+						<img loading="lazy" class="rounded-circle" src="https://avatars0.githubusercontent.com/u/40467826">
+						<h4 class="name" style="color: #808080">Marco Antonio Pandolfo</h4>
+						<p class="nick">Specko</p>
+						<div class="description">
+							<p>.Net | JS</p>
+							<p>Backend Developer</p>
+						</div>
+						<div class="social">
+							<a target="_blank" href="https://github.com/marcopandolfo"><i class="mdi mdi-github"></i></a>
+							<a target="_blank" href="https://twitter.com/lolgamarco2"><i class="mdi mdi-twitter"></i></a>
+						</div>
+					</div>
+				</article>
+			</div>
+			<div class="row justify-content-center">
+				<h3 style="color: #808080">He4rtDevs</h3>
+			</div>
+			<div class="row justify-content-center">
+				<img loading="lazy" class="rounded-circle" src="img/he4rtdevs.png">
+			</div>
+			<div class="row justify-content-center">
+				<p class="text-center">Somos membros da comunidade He4rt Developers, que tem como objetivo disponibilizar a troca de conhecimentos entre desenvolvedores, majoritariamente brasileiros, para que possam crescer juntos como profissionais na área.</p>
+				<div class="text-center">
+					<a href="https://discord.com/invite/7UJDgBG" target="_blank">
+						<img loading="lazy" src="https://discordapp.com/api/guilds/452926217558163456/embed.png" alt="Discord server" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <section id="about" style="background-color: white; color: black">
-    <div class="container">
-        <div class="row">
-            <div class="col offset-lg-8 mx-auto text-center">
-                <h2 class="section-heading">Sobre</h2>
-                <hr class="my-4">
-                <p class="mb-4">Plataforma para visualizar os links gravados nas aulas virtuais.</p>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col offset-lg-8 mx-auto text-center">
+				<h2 class="section-heading">Sobre</h2>
+				<hr class="my-4">
+				<p class="mb-4">Plataforma para visualizar os links gravados nas aulas virtuais.</p>
+			</div>
+		</div>
+	</div>
 </section>
 
 <footer class="footer-dark">
-    <div class="container">
-        <div class="row">
-            <div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
-        </div>
-        @{
-            string version = Environment.GetEnvironmentVariable("LAST_COMMIT")?.Substring(0, 5) ?? "Local";
-        }
-        <p class="copyright">Speckoz © 2020 - Versão @version</p>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col item social"><a href="https://github.com/speckoz"><i class="mdi mdi-github"></i></a></div>
+		</div>
+		@{
+			string version = Environment.GetEnvironmentVariable("LAST_COMMIT")?.Substring(0, 5) ?? "Local";
+		}
+		<p class="copyright">Speckoz © 2020 - Versão @version</p>
+	</div>
 </footer>
 
 <!--[if lt IE 3]>
 
-           /                       \
-         /X/                       \X\
-        |XX\         _____         /XX|
-        |XXX\     _/       \_     /XXX|___________
-         \XXXXXXX             XXXXXXX/            \\\
-           \XXXX    /     \    XXXXX/                \\\
-                |   0     0   |                         \
-                 |           |                           \
-                  \         /                            |______//
-                   \       /                             |
-                    | O_O | \                            |
-                     \ _ /   \________________           |
-                                | |  | |      \         /
-          No Bullshit,          / |  / |       \______/
-           Please...            \ |  \ |        \ |  \ |
-                              __| |__| |      __| |__| |
-                              |___||___|      |___||___|
+		   /                       \
+		 /X/                       \X\
+		|XX\         _____         /XX|
+		|XXX\     _/       \_     /XXX|___________
+		 \XXXXXXX             XXXXXXX/            \\\
+		   \XXXX    /     \    XXXXX/                \\\
+				|   0     0   |                         \
+				 |           |                           \
+				  \         /                            |______//
+				   \       /                             |
+					| O_O | \                            |
+					 \ _ /   \________________           |
+								| |  | |      \         /
+		  No Bullshit,          / |  / |       \______/
+		   Please...            \ |  \ |        \ |  \ |
+							  __| |__| |      __| |__| |
+							  |___||___|      |___||___|
 
-        Contribua para o projeto! https://github.com/speckoz
-        Desenvolvido por Specko e Logikoz!
+		Contribua para o projeto! https://github.com/speckoz
+		Desenvolvido por Specko e Logikoz!
 <![endif]-->
