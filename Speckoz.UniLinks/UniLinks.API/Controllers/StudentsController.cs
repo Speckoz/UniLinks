@@ -70,7 +70,7 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course))
+				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is not CourseVO course)
 					return NotFound("Não existe nenhum curso referente ao coordenador!");
 
 				if (await _studentBusiness.FindAllByCourseIdTaskAsync(course.CourseId) is List<StudentDisciplineVO> studentDiscpline)
@@ -90,7 +90,7 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO student))
+				if (await _studentBusiness.FindByStudentIdTaskAsync(studentId) is not StudentDisciplineVO student)
 					return NotFound("O Id informado não coincide com nenhum aluno cadastrado!");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)
@@ -116,7 +116,7 @@ namespace UniLinks.API.Controllers
 					if (course.CourseId != newStudent.CourseId)
 						return Unauthorized("Você não tem permissão para atualizar informações de um aluno de outro curso!");
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is StudentDisciplineVO studentVO))
+				if (await _studentBusiness.FindByStudentIdTaskAsync(newStudent.StudentId) is not StudentDisciplineVO studentVO)
 					return NotFound("Não existe um aluno com esse Id");
 
 				if (string.IsNullOrEmpty(newStudent.Name))
@@ -150,7 +150,7 @@ namespace UniLinks.API.Controllers
 			{
 				var coordId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-				if (!(await _studentBusiness.FindByStudentIdTaskAsync(studentId) is StudentDisciplineVO studentVO))
+				if (await _studentBusiness.FindByStudentIdTaskAsync(studentId) is not StudentDisciplineVO studentVO)
 					return NotFound("Não existe um aluno com esse Id");
 
 				if (await _courseBusiness.FindByCoordIdTaskAsync(coordId) is CourseVO course)

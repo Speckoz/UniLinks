@@ -45,9 +45,8 @@ namespace UniLinks.API.Services.Email
             return true;
         }
 
-        public static async Task ReadEmailTemplateTaskAsync()
+        public static void ReadEmailTemplateTaskAsync()
         {
-            //using Task<string> fs = File.ReadAllTextAsync(@"C:\RecoverAccountEmailTemplate.html");
             EmailTemplate = "<html><h1>Conta Ativada</h1></html>";
         }
     }
