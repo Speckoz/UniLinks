@@ -1,8 +1,7 @@
-name: .NET Build Tests
+name: .NET Build
 
-on:
-  push:
-     branches: [ master ]
+on: 
+  pull_request:
 
 jobs:
   build:
@@ -14,14 +13,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
-    # ============= Dependencies =============
     - name: Build Dependencies
       run: dotnet build ./Speckoz.UniLinks/UniLinks.Dependencies/UniLinks.Dependencies.csproj
 
-    # ================= Site =================
     - name: Build Site
       run: dotnet build ./Speckoz.UniLinks/UniLinks.Client.Site/UniLinks.Client.Site.csproj
 
-    # ================= API ==================
     - name: Build API
       run: dotnet build ./Speckoz.UniLinks/UniLinks.API/UniLinks.API.csproj
