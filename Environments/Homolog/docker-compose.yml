@@ -18,7 +18,8 @@ services:
       - mysqldata:/var/lib/mysql
     networks:
       - homolog
-    
+    ports:
+      - 3306:3306    
 
   nginx-frontend:
     image: nginx-frontend
@@ -30,7 +31,7 @@ services:
     networks:
       - homolog
     ports:
-      - 80:80
+      - 8009:80
 
   api-1:
     build:
@@ -41,7 +42,7 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DBHOST=mysql
+      - DBHOST=192.168.1.9
       - DBPASSWORD=numsey
     depends_on:
       - mysql
